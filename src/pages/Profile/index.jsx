@@ -1,21 +1,21 @@
 import useStore from "../../hooks/useStore";
 
-function Dashboard() {
+function Profile() {
   // Accessing the logOut action from your Zustand store
   const logOut = useStore((state) => state.logOut);
 
   // Fetch user-specific data, like bookings, recent activity, etc.
-  // Display that data in the dashboard
+  // Display that data in the profile page
 
-  
+
 
   return (
-    <div className="min-h-screen bg-gray-800 text-white p-8">
+    <div className="min-h-screen p-8">
       <div className="container mx-auto">
-        <h1 className="text-4xl font-bold mb-4">Dashboard</h1>
+        <h1 className="text-4xl font-bold mb-4">Profile</h1>
         <p>Welcome back, [Username]!</p>
         <div className="mt-8">
-          {/* Example Dashboard Content */}
+          {/* Example Profile Content */}
           <section className="mb-8">
             <h2 className="text-2xl font-semibold">Your Stats</h2>
             <p>Some interesting stats about your usage could go here.</p>
@@ -40,4 +40,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Profile;

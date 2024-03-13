@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { FiMenu, FiX, FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
-import ToggleTheme from "../ToggleTheme"; // Ensure the path is correct
+import ToggleTheme from "../ToggleTheme";
+import SearchBar from "../SearchBar";
+import MenuListComposition from "../MUI/Menu";
 
-const pages = ["Home", "About", "Services", "Blog", "Contact"];
+const pages = ["Home", "Venues", "Profile", "About", "Contact"];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false); // State to control the visibility of the SearchBar
 
   return (
     <header className="bg-gray-800 text-gray-200 p-5 dark:bg-gray-900 dark:text-gray-100">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-xl mr-6 md:hidden">
-            {isOpen ? <FiX /> : <FiMenu />}
-          </button>
+      <div className="container mx-auto md:flex justify-between items-center">
+        <div className="flex items-center w-full justify-between">
           <a href="/" className="font-bold text-xl">
             Holidaze
           </a>
+          <button onClick={() => setIsOpen(!isOpen)} className="text-xl mr-6 md:hidden">
+            {isOpen ? <FiX /> : <FiMenu />}
+          </button>
         </div>
         <nav className={`md:flex items-center ${isOpen ? "block" : "hidden"}`}>
           {pages.map((page) => (
@@ -24,14 +27,18 @@ function Header() {
               {page}
             </a>
           ))}
-          <div className="flex items-center ml-4">
-            <FiSearch className="mr-4" />
-            <FiUser className="mr-4" />
-            <FiShoppingCart className="mr-4" />
-            <ToggleTheme />
-          </div>
         </nav>
       </div>
+      <div className="flex items-center mx-auto justify-between md:justify-end fs-1">
+        <button onClick={() => setIsSearchVisible(!isSearchVisible)}>
+          <FiSearch className="mx-1" />
+        </button>
+        <FiUser className="mx-1" />
+        <FiShoppingCart className="mx-1" />
+        <ToggleTheme />
+        <MenuListComposition className="m-0 p-0" />
+      </div>
+      {isSearchVisible && <SearchBar />}
     </header>
   );
 }
