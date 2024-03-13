@@ -4,6 +4,11 @@ function Dashboard() {
   // Accessing the logOut action from your Zustand store
   const logOut = useStore((state) => state.logOut);
 
+  // Fetch user-specific data, like bookings, recent activity, etc.
+  // Display that data in the dashboard
+
+  
+
   return (
     <div className="min-h-screen bg-gray-800 text-white p-8">
       <div className="container mx-auto">
