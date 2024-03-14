@@ -55,10 +55,13 @@ const StyledInput = styled("input")(({ theme }) => ({
     color: "transparent",
   },
   "&:focus": {
+    border: "2px solid",
     borderColor: theme.palette.mode === "dark" ? grey[300] : blue[500],
+    // outline: "1px solid",
+    // outlineColor: theme.palette.mode === "dark" ? grey[300] : blue[300],
   },
   "&:focus + label": {
-    color: blue[400],
+    color: theme.palette.mode === "dark" ? grey[300] : blue[400],
   },
   "&:not(:focus):placeholder-shown + label": {
     color: theme.palette.mode === "dark" ? grey[500] : grey[700],

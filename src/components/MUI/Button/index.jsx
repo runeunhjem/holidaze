@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 export default function CustomButton() {
   return (
     <Stack spacing={2} direction="row">
-      <Button>Submit</Button>
+      <Button>Search</Button>
     </Stack>
   );
 }
