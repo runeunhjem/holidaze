@@ -11,7 +11,7 @@ function Header() {
   const [isSearchVisible, setIsSearchVisible] = useState(false); // State to control the visibility of the SearchBar
 
   return (
-    <header className="bg-gray-800 text-gray-200 p-5 dark:bg-gray-900 dark:text-gray-100">
+    <header className="text-gray-800 bg-white p-5 dark:bg-gray-900 dark:text-gray-100 border-b ">
       <div className="container mx-auto md:flex justify-between items-center">
         <div className="flex items-center w-full justify-between">
           <a href="/" className="font-bold text-xl">

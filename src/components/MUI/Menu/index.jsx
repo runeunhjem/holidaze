@@ -86,10 +86,10 @@ export default function MenuListComposition() {
         }
         sx={{
           color: theme.palette.mode === "light" ? "#1F2937" : "#F9FAFB", // Dark text in light mode, light text in dark mode
-          backgroundColor: theme.palette.mode === "light" ? "#9CA3AF" : "#6B7280", // bg-gray-400 for light mode, bg-gray-500 for dark
-          "&:hover": {
-            backgroundColor: theme.palette.mode === "light" ? "#B1B5C3" : "#4B5563", // Slightly lighten on hover for light mode, slightly darken for dark mode
-          },
+          // backgroundColor: theme.palette.mode === "light" ? "#9CA3AF" : "#6B7280", // bg-gray-400 for light mode, bg-gray-500 for dark
+          // "&:hover": {
+          //   backgroundColor: theme.palette.mode === "light" ? "#B1B5C3" : "#4B5563", // Slightly lighten on hover for light mode, slightly darken for dark mode
+          // },
           borderRadius: "32px",
           width: "80px",
           py: "6px",
@@ -135,6 +135,7 @@ export default function MenuListComposition() {
                   autoFocusItem={open}
                   id="composition-menu"
                   aria-labelledby="composition-button"
+                  className="dark:bg-gray-800 z-1000000"
                   onKeyDown={handleListKeyDown}>
                   {isAuthenticated
                     ? [

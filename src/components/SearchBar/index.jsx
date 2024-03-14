@@ -1,4 +1,9 @@
 import { useState } from "react";
+import BasicDatePicker from "../MUI/BasicDatePicker";
+import DestinationInput from "../MUI/DestinationInput";
+// import ButtonWithSvg from "../MUI/ButtonWithSvg";
+import GuestsInput from "../MUI/NumberInput";
+import CustomButton from "../MUI/Button";
 
 function SearchBar() {
   const [searchParams, setSearchParams] = useState({
@@ -8,8 +13,10 @@ function SearchBar() {
     guests: "",
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+  // This function is intended to handle changes for all inputs
+  const handleChange = (e, newValue) => {
+    const name = e.target.name || e.target.getAttribute("name");
+    const value = newValue || e.target.value;
     setSearchParams((prevState) => ({
       ...prevState,
       [name]: value,
@@ -18,48 +25,32 @@ function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically handle the API call with the searchParams state
     console.log(searchParams);
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
-      <input
-        type="text"
+      <DestinationInput
         name="destination"
-        placeholder="Destination"
+        label="Destination"
+        onChange={(e) => handleChange(e)}
         value={searchParams.destination}
-        onChange={handleChange}
-        className="input" // Tailwind CSS class for styling
       />
-      <input
-        type="date"
+      <BasicDatePicker
         name="checkIn"
-        placeholder="Check-in"
+        label="Check-in"
         value={searchParams.checkIn}
-        onChange={handleChange}
-        className="input"
+        onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
-      <input
-        type="date"
+      {/* <BasicDatePicker
         name="checkOut"
-        placeholder="Check-out"
+        label="Check-out"
         value={searchParams.checkOut}
-        onChange={handleChange}
-        className="input"
-      />
-      <input
-        type="number"
-        name="guests"
-        placeholder="Guests"
-        value={searchParams.guests}
-        onChange={handleChange}
-        className="input"
-      />
-      <button type="submit" className="btn">
-        Search
-      </button>{" "}
-      {/* Tailwind CSS for button */}
+        onChange={(newValue) => handleChange({ target: { name: "checkOut" } }, newValue)}
+      /> */}
+      <GuestsInput name="guests" onChange={(e) => handleChange(e)} value={searchParams.guests} />
+      {/* <ButtonWithSvg type="submit" /> */ }
+      <CustomButton type="submit" />
     </form>
   );
 }
