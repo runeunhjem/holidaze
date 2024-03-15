@@ -27,6 +27,8 @@ const grey = {
 };
 
 const Container = styled("div")(({ theme }) => ({
+  width: "100%",
+  display: "flex",
   position: "relative",
   borderRadius: "5px",
   border: `1px solid ${theme.palette.mode === "dark" ? grey[700] : "rgba(0,0,0, 0.3)"}`,
@@ -87,8 +89,8 @@ const StyledLabel = styled("label")(({ theme }) => ({
 function DestinationInput({ label, ...props }) {
   return (
     <Container>
-      <StyledInput {...props} placeholder=" " type="text" />
-      <StyledLabel>{label}</StyledLabel>
+      <StyledInput {...props} id="DestinationInputId" placeholder=" " type="text" label="Destination" />
+      <StyledLabel htmlFor="DestinationInputId">{label}</StyledLabel>
     </Container>
   );
 }

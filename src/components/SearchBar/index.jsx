@@ -30,20 +30,29 @@ function SearchBar() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4">
-      <DestinationInput
-        name="destination"
-        label="Destination"
-        onChange={(e) => handleChange(e)}
-        value={searchParams.destination}
-      />
+      <div className="flex flex-col sm:flex-row gap-4 w-full">
+        <DestinationInput
+          className="w-full md:w-1/2"
+          name="destination"
+          label="Destination"
+          onChange={(e) => handleChange(e)}
+          value={searchParams.destination}
+        />
+        <GuestsInput
+          className="w-full md:w-1/2"
+          name="guests"
+          label="Guests"
+          onChange={(e) => handleChange(e)}
+          value={searchParams.guests}
+        />
+      </div>
+
       <BasicDatePicker
         name="checkIn"
         label="Check-in"
         value={searchParams.checkIn}
         onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
-
-      <GuestsInput name="guests" label="Guests" onChange={(e) => handleChange(e)} value={searchParams.guests} />
       <CustomButton type="submit" />
     </form>
   );

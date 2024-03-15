@@ -38,7 +38,7 @@ const Button = styled(BaseButton)(
   font-weight: 600;
   font-size: 0.875rem;
   line-height: 1.5;
-  background-color: ${blue[500]};
+  background-color: ${blue[600]};
   padding: 8px 16px;
   border-radius: 8px;
   color: white;
@@ -50,7 +50,7 @@ const Button = styled(BaseButton)(
   }, inset 0 1.5px 1px ${blue[400]}, inset 0 -2px 1px ${blue[600]};
 
   &:hover {
-    background-color: ${blue[600]};
+    background-color: ${blue[800]};
   }
 
   &.${buttonClasses.active} {

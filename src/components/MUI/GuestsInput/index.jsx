@@ -28,8 +28,9 @@ const grey = {
 };
 
 const Container = styled("div")(({ theme, isFocused, hasValue }) => ({
+  width: "100%",
   position: "relative",
-  display: "inline-flex",
+  display: "flex",
   alignItems: "center",
   borderRadius: "5px",
   border: `1px solid ${
@@ -157,11 +158,13 @@ function GuestsInput({ label, ...props }) {
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         type="text"
+        id="GuestsInputId"
       />
       <StyledLabel
         theme={theme}
         isFocused={isFocused}
-        hasValue={hasValue}
+        hasValue={ hasValue }
+        htmlFor="GuestsInputId"
         style={{
           // color: !isFocused || !value ? "#666" : theme.palette.primary.main,
           backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",

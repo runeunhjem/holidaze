@@ -109,6 +109,7 @@ export default function MenuListComposition() {
               alignItems: "center",
             }}
             src="https://portfolio1-ca.netlify.app/images/rune-profile-pic-medium.png"
+            alt="Profile picture"
           />
         ) : (
           <Avatar
