@@ -10,7 +10,7 @@ const blue = {
   600: "#0072E5",
   700: "#005CBF",
   800: "#004499",
-  900: "#003A75",
+  900: "#111827",
 };
 
 const grey = {
@@ -55,13 +55,13 @@ const StyledInput = styled("input")(({ theme }) => ({
     color: "transparent",
   },
   "&:focus": {
-    border: "2px solid",
+    border: "1px solid",
     borderColor: theme.palette.mode === "dark" ? grey[300] : blue[500],
     // outline: "1px solid",
     // outlineColor: theme.palette.mode === "dark" ? grey[300] : blue[300],
   },
   "&:focus + label": {
-    color: theme.palette.mode === "dark" ? grey[300] : blue[400],
+    color: theme.palette.mode === "dark" ? blue[300] : blue[400],
   },
   "&:not(:focus):placeholder-shown + label": {
     color: theme.palette.mode === "dark" ? grey[500] : grey[700],
@@ -87,7 +87,7 @@ const StyledLabel = styled("label")(({ theme }) => ({
 function DestinationInput({ label, ...props }) {
   return (
     <Container>
-      <StyledInput {...props} placeholder=" " />
+      <StyledInput {...props} placeholder=" " type="text" />
       <StyledLabel>{label}</StyledLabel>
     </Container>
   );

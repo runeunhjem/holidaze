@@ -2,7 +2,7 @@ import { useState } from "react";
 import BasicDatePicker from "../MUI/BasicDatePicker";
 import DestinationInput from "../MUI/DestinationInput";
 // import ButtonWithSvg from "../MUI/ButtonWithSvg";
-import GuestsInput from "../MUI/NumberInput";
+import GuestsInput from "../MUI/GuestsInput";
 import CustomButton from "../MUI/Button";
 
 function SearchBar() {
@@ -42,14 +42,8 @@ function SearchBar() {
         value={searchParams.checkIn}
         onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
-      {/* <BasicDatePicker
-        name="checkOut"
-        label="Check-out"
-        value={searchParams.checkOut}
-        onChange={(newValue) => handleChange({ target: { name: "checkOut" } }, newValue)}
-      /> */}
-      <GuestsInput name="guests" onChange={(e) => handleChange(e)} value={searchParams.guests} />
-      {/* <ButtonWithSvg type="submit" /> */ }
+
+      <GuestsInput name="guests" label="Guests" onChange={(e) => handleChange(e)} value={searchParams.guests} />
       <CustomButton type="submit" />
     </form>
   );
