@@ -32,13 +32,20 @@ const Container = styled("div")(({ theme, isFocused, hasValue }) => ({
   display: "inline-flex",
   alignItems: "center",
   borderRadius: "5px",
-  border: `1px solid ${(!isFocused && hasValue) || (!isFocused && !hasValue) ? "#666" : theme.palette.primary.main}`,
+  border: `1px solid ${
+    (!isFocused && hasValue) || (!isFocused && !hasValue)
+      ? theme.palette.mode === "dark"
+        ? grey[500]
+        : "rgba(0,0,0, 0.3)"
+      : theme.palette.primary.main
+  }`,
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "transparent",
   "&:hover": {
     borderColor: theme.palette.mode === "dark" ? grey[300] : grey[700],
   },
   "&:focus + input": {
     borderColor: theme.palette.mode === "dark" ? blue[300] : blue[700],
+    border: "2px solid",
   },
 }));
 
@@ -88,7 +95,7 @@ const StyledLabel = styled("label")(({ theme, isFocused, hasValue }) => ({
   transformOrigin: "top left",
   transform: "translateY(0px)",
   transition: "transform 0.2s, color 0.2s",
-  color: (!isFocused && hasValue) || (!isFocused && !hasValue) ? "#666" : theme.palette.primary.main,
+  color: (!isFocused && hasValue) || (!isFocused && !hasValue) ? grey[500] : theme.palette.primary.main,
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
   padding: "0 4px",
 }));
@@ -142,20 +149,20 @@ function GuestsInput({ label, ...props }) {
   // };
 
   return (
-   <Container theme={theme} isFocused={isFocused} hasValue={hasValue}>
+    <Container theme={theme} isFocused={isFocused} hasValue={hasValue}>
       <StyledInput
-        { ...props }
-        value={ value }
-        onChange={ (e) => setValue(e.target.value) }
-        onFocus={ () => setIsFocused(true) }
-        onBlur={ () => setIsFocused(false) }
+        {...props}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
         type="text"
       />
       <StyledLabel
-        theme={ theme }
-        isFocused={ isFocused }
-        hasValue={ hasValue }
-        style={ {
+        theme={theme}
+        isFocused={isFocused}
+        hasValue={hasValue}
+        style={{
           // color: !isFocused || !value ? "#666" : theme.palette.primary.main,
           backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
           transform: isFocused || value ? "scale(0.75) translateY(-28px) translateX(-10px)" : "translateY(0px)",
