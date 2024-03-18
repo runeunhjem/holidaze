@@ -10,6 +10,9 @@ module.exports = {
         primary: "##ffd000", // Example primary color
         secondary: "#00aeff", // Example secondary color
       },
+      maxWidth: {
+        '1200': '1200px',
+      }
     },
   },
   darkMode: "selector",

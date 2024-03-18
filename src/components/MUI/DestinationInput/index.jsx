@@ -59,14 +59,12 @@ const StyledInput = styled("input")(({ theme }) => ({
   "&:focus": {
     border: "1px solid",
     borderColor: theme.palette.mode === "dark" ? grey[300] : blue[500],
-    // outline: "1px solid",
-    // outlineColor: theme.palette.mode === "dark" ? grey[300] : blue[300],
   },
   "&:focus + label": {
     color: theme.palette.mode === "dark" ? blue[300] : blue[400],
   },
   "&:not(:focus):placeholder-shown + label": {
-    color: theme.palette.mode === "dark" ? grey[500] : grey[700],
+    color: theme.palette.mode === "dark" ? grey[500] : grey[500],
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
     transform: "scale(0.75) translateY(-10px) translateX(16px)",
