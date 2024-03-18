@@ -11,13 +11,13 @@ function Header() {
   const [isSearchVisible, setIsSearchVisible] = useState(false); // State to control the visibility of the SearchBar
 
   return (
-    <header className="text-gray-800 bg-white p-5 dark:bg-gray-900 dark:text-gray-100 border-b  w-full mx-auto">
+    <header className="text-gray-800 bg-white p-5 pb-2 dark:bg-gray-900 dark:text-gray-100 border-b w-full mx-auto">
       <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
         <div className="flex items-center w-full p-0 m-0 justify-between">
           <a href="/" className="font-bold text-xl">
             Holidaze
           </a>
-          <nav className={`hidden md:flex items-start justify-start text-left ${isOpen ? "flex-col" : "hidden"}`}>
+          <nav className={`hidden md:flex items-start justify-start text-left ${isOpen ? "flex" : "hidden"}`}>
             {pages.map((page) => (
               <a key={page} href={`/${page.toLowerCase()}`} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
                 {page}
@@ -56,8 +56,9 @@ function Header() {
           <FiShoppingCart className="cursor-pointer me-3 my-4 items-center" size={20} />
           <span className="hidden">Cart</span>
         </button>
-        <ToggleTheme />
-        <MenuListComposition />
+        <ToggleTheme className="items-center my-4" />
+
+        <MenuListComposition className="m-0 p-0 justify-end w-full" />
       </div>
       {isSearchVisible && <SearchBar />}
     </header>

@@ -120,12 +120,19 @@ export default function MenuListComposition() {
         )}
       </Button>
 
-      <Popper open={open} anchorEl={anchorRef.current} role={undefined} placement="bottom-start" transition disablePortal>
+      <Popper
+        open={open}
+        anchorEl={anchorRef.current}
+        role={undefined}
+        placement="top-start"
+        transition
+        disablePortal
+        sx={{ zIndex: 10 }}>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin: placement === "bottom-start" ? "left top" : "left bottom",
+              transformOrigin: placement === "top-start" ? "right bottom" : "left top",
             }}>
             <Paper>
               <ClickAwayListener onClickAway={handleClose}>
