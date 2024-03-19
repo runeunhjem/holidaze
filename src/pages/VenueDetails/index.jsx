@@ -10,9 +10,8 @@ function VenueDetails() {
   useEffect(() => {
     const fetchVenueDetails = async () => {
       try {
-        // Ensure the API call is made with the correct endpoint and parameters
-        const response = await fetchApi("venueById", {}, { id: id });
-        setVenue(response.data);
+        const response = await fetchApi("venueById", {}, { id });
+        setVenue(response); // Assuming the API response matches the provided structure
       } catch (error) {
         console.error("Failed to fetch venue details:", error);
       }
@@ -21,19 +20,47 @@ function VenueDetails() {
     fetchVenueDetails();
   }, [id]);
 
-  // Ensure images exist and have a URL before passing to ImageGallery
-  const images =
-    venue?.media
-      ?.filter((img) => img.url)
-      .map((img) => ({
-        url: img.url,
-        alt: img.alt || "Venue image",
-      })) || [];
-  // console.log(venue);
+  if (!venue) {
+    return <div>Loading venue details...</div>;
+  }
+
+  const images = venue.media.map((url) => ({
+    url,
+    alt: `Image of ${venue.name}`,
+  }));
+
   return (
-    <div>
-      <h2>{venue ? venue.name : "Loading venue details..."}</h2>
-      {venue && images.length > 0 && <ImageGallery images={images} />}
+    <div className="max-w-4xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4 text-center">{venue.name}</h1>
+      <ImageGallery images={images} />
+      <div className="mt-6 space-y-2">
+        <p>{venue.description}</p>
+        <p>
+          <strong>Price:</strong> ${venue.price}
+        </p>
+        <p>
+          <strong>Max Guests:</strong> {venue.maxGuests}
+        </p>
+        <p>
+          <strong>Rating:</strong> {venue.rating} stars
+        </p>
+        <div>
+          <strong>Amenities:</strong>
+          <ul>
+            {venue.meta.wifi && <li>Wi-Fi</li>}
+            {venue.meta.parking && <li>Parking</li>}
+            {venue.meta.breakfast && <li>Breakfast</li>}
+            {venue.meta.pets && <li>Pets Allowed</li>}
+          </ul>
+        </div>
+        <div>
+          <strong>Location:</strong>
+          <p>
+            {venue.location.address}, {venue.location.city}, {venue.location.zip}, {venue.location.country}
+          </p>
+          <p>{venue.location.continent}</p>
+        </div>
+      </div>
     </div>
   );
 }

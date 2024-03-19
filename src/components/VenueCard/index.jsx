@@ -1,63 +1,48 @@
-import propTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import propTypes from "prop-types";
+import { Link } from "react-router-dom";
+import CardImageCarousel from "../MUI/CardImageCarousel"; // Adjust the path as necessary
 
 function VenueCard({ venue }) {
+  // Adjust condition to check for at least two images
+  const hasAtLeastTwoImages = venue.media && venue.media.length >= 2;
+  // const placeholderImage = "https://picsum.photos/seed/picsum/200/300"; // Placeholder image URL
+
+  // If the venue doesn't have at least two images, don't render the card
+  if (!hasAtLeastTwoImages) return null;
+
   return (
-    <div className="max-w-sm rounded overflow-hidden shadow-lg my-2">
-      <img
-        className="w-full"
-        src={venue.media[0].url}
-        alt={venue.media[0].alt !== null && venue.media[0].alt !== undefined ? venue.media[0].alt : "Image of venue"}
-      />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2">{venue.name}</div>
-        <p className="text-gray-700 text-base">{venue.description}</p>
+    <div className="rounded overflow-hidden shadow-lg my-2 flex flex-col" style={{ maxWidth: "300px", height: "350px" }}>
+      {/* Image container */}
+      <div className="h-200px w-300px relative">
+        <CardImageCarousel images={venue.media} />
       </div>
-      <div className="px-6 pt-4 pb-2">
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          Price: ${venue.price}
-        </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          Max Guests: {venue.maxGuests}
-        </span>
-        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-          Rating: {venue.rating}
-        </span>
+      {/* Title/Name */}
+      <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
+        <div className="font-bold">{venue.name}</div>
       </div>
-      <div className="px-6 pt-4 pb-2">
-        {venue.meta.wifi && (
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            Wifi
-          </span>
-        )}
-        {venue.meta.parking && (
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            Parking
-          </span>
-        )}
-        {venue.meta.breakfast && (
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            Breakfast
-          </span>
-        )}
-        {venue.meta.pets && (
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            Pets Allowed
-          </span>
-        )}
+      {/* Rating */}
+      <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
+        <span>Rating: {venue.rating}</span>
       </div>
-      <Link
-        to={`/venues/${venue.id}`}
-        className="inline-block bg-blue-500 rounded-full px-3 py-1 text-sm font-semibold text-white mr-2 mb-2">
-        View Details
-      </Link>
+      {/* Price / Night */}
+      <div className="h-50px w-full flex items-center justify-between px-4" style={{ height: "50px" }}>
+        <span>${venue.price} / night</span>
+        <Link to={`/venues/${venue.id}`} className="bg-blue-500 rounded-full px-3 py-1 text-sm font-semibold text-white">
+          View Details
+        </Link>
+      </div>
     </div>
   );
 }
 
 VenueCard.propTypes = {
-  venue: propTypes.object.isRequired,
+  venue: propTypes.shape({
+    media: propTypes.arrayOf(propTypes.string).isRequired,
+    name: propTypes.string.isRequired,
+    rating: propTypes.number.isRequired,
+    price: propTypes.number.isRequired,
+    id: propTypes.string.isRequired,
+  }).isRequired,
 };
-
 
 export default VenueCard;

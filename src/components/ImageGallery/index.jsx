@@ -1,31 +1,33 @@
-import propTypes from "prop-types";
 import { useState } from "react";
-import "./index.css";
+import propTypes from "prop-types";
+import * as S from "./index.styled";
 
 function ImageGallery({ images }) {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
 
   return (
-    <div className="image-gallery">
-      <div className="main-image">
-        <img
-          src={selectedImage.url}
-          alt={selectedImage.alt !== null && selectedImage.alt !== undefined ? selectedImage.alt : "Image of venue"}
-          className="main-pic"
-        />
-      </div>
-      <div className="thumbnail-container">
+    <S.Gallery>
+      <S.StyledImg src={images[selectedImageIndex].url} alt={images[selectedImageIndex].alt || "Venue"} />
+      <S.NavButton
+        direction="left"
+        onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))}>
+        &#10094;
+      </S.NavButton>
+      <S.Thumbnails>
         {images.map((image, index) => (
-          <img
+          <S.ThumbnailImg
             key={index}
             src={image.url}
-            alt={image.alt}
-            className={`thumbnail ${selectedImage.url === image.url ? "selected" : ""}`}
-            onClick={() => setSelectedImage(image)}
+            alt={image.alt || "Thumbnail"}
+            className={selectedImageIndex === index ? "selected" : ""}
+            onClick={() => setSelectedImageIndex(index)}
           />
         ))}
-      </div>
-    </div>
+      </S.Thumbnails>
+      <S.NavButton direction="right" onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex + 1) % images.length)}>
+        &#10095;
+      </S.NavButton>
+    </S.Gallery>
   );
 }
 

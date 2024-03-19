@@ -3,6 +3,7 @@ import { FiMenu, FiX, FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
 import ToggleTheme from "../ToggleTheme";
 import SearchBar from "../SearchBar";
 import MenuListComposition from "../MUI/Menu";
+import { Link } from "react-router-dom";
 
 const pages = ["Home", "Venues", "Profile", "About", "Contact"];
 
@@ -14,14 +15,14 @@ function Header() {
     <header className="text-gray-800 bg-white p-5 pb-2 dark:bg-gray-900 dark:text-gray-100 border-b w-full mx-auto">
       <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
         <div className="flex items-center w-full p-0 m-0 justify-between">
-          <a href="/" className="font-bold text-xl">
+          <Link to="/" className="font-bold text-xl">
             Holidaze
-          </a>
+          </Link>
           <nav className={`hidden md:flex items-start justify-start text-left ${isOpen ? "flex" : "hidden"}`}>
             {pages.map((page) => (
-              <a key={page} href={`/${page.toLowerCase()}`} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
+              <Link to={`/${page.toLowerCase()}`} key={page} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
                 {page}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -34,9 +35,9 @@ function Header() {
           </button>
           <nav className={`flex flex-col md:hidden items-start justify-start text-left ${isOpen ? "flex-col" : "hidden"}`}>
             {pages.map((page) => (
-              <a key={page} href={`/${page.toLowerCase()}`} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
+              <Link to={`/${page.toLowerCase()}`} key={page} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
                 {page}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
