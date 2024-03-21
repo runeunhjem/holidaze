@@ -19,8 +19,9 @@ function ToggleTheme() {
   return (
     <button
       onClick={toggleDarkMode}
-      className="flex items-center justify-center p-2 bg-gray-600 dark:bg-gray-700 rounded-full">
-      {isDarkMode ? <FiMoon className="text-gray-200" /> : <FiSun className="text-yellow-500" />}
+      className="flex items-center justify-center p-1.5 my-3 me-2 bg-gray-100 shadow dark:bg-gray-700 rounded-full hover:bg-gray-300 dark:hover:bg-gray-500">
+      {isDarkMode ? <FiMoon className="text-gray-200" /> : <FiSun className="text-gray-500" />}
+      <span className="hidden">Toggle Theme</span>
     </button>
   );
 }

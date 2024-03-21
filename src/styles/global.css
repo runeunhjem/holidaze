@@ -3,9 +3,19 @@
 @tailwind utilities;
 
 @layer base {
-  /* Global link styles */
-  a {
-    @apply text-primary hover:text-secondary;
+  /* Global reset */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
+
+  /* Global link styles */
+  /* a {
+    @apply bg-primary hover:bg-hoverPrimary text-buttonText hover:text-hoverButtonText;
+  }
+  button {
+    @apply bg-primary hover:bg-hoverPrimary text-buttonText hover:text-hoverButtonText;
+  } */
   /* Other global styles */
 }
