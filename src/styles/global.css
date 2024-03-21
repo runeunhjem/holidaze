@@ -3,11 +3,35 @@
 @tailwind utilities;
 
 @layer base {
+  /* Global variables */
+  :root {
+    --bg-image-light: url("../assets/images/bg-light.jpg");
+    --bg-image-dark: url("../assets/images/bg-dark.jpg");
+
+    --button-bg-color: rgba(113, 126, 148, 0.5);
+    --button-hover-bg-color: rgba(0, 0, 0, 0.8);
+    --button-color: white;
+    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
+  }
+
   /* Global reset */
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+  }
+
+  [data-theme="light"] {
+    --background-image: var(--bg-image-light);
+  }
+
+  [data-theme="dark"] {
+    --background-image: var(--bg-image-dark);
+
+    --button-bg-color: rgba(113, 126, 148, 0.5); /* Dark theme background color */
+    --button-hover-bg-color: rgba(255, 255, 255, 0.8); /* Dark theme hover color */
+    --button-color: #ddd; /* Dark theme text color */
+    --button-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.7); /* Dark theme shadow */
   }
 
   /* Global link styles */

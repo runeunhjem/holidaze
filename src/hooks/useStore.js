@@ -1,13 +1,21 @@
-// src/stores/useVenueStore.js
 import { create } from "zustand";
 import { save, load } from "../utils/StorageUtils"; // Adjust the path as needed
 
-const useVenueStore = create((set) => ({
+const useStore = create((set) => ({
   isAuthenticated: load("isAuthenticated") || false,
-  isDarkMode: false,
-  venues: [], // Add a new state for storing fetched venues
+  isDarkMode: load("isDarkMode") || false, // Load initial dark mode value from storage or default to false
+  venues: [],
 
-  toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
+  toggleDarkMode: () => set((state) => {
+    const newIsDarkMode = !state.isDarkMode;
+    save("isDarkMode", newIsDarkMode); // Save the new dark mode state
+
+    // Update the body's data-theme attribute
+    document.body.setAttribute('data-theme', newIsDarkMode ? 'dark' : 'light');
+
+    return { isDarkMode: newIsDarkMode };
+  }),
+
   logIn: () => {
     save("isAuthenticated", true);
     set({ isAuthenticated: true });
@@ -17,7 +25,6 @@ const useVenueStore = create((set) => ({
     set({ isAuthenticated: false });
   },
 
-  // Async action to fetch venues
   fetchVenues: async () => {
     try {
       const response = await fetch("https://v2.api.noroff.dev/holidaze/venues?_owner=true&_bookings=true", {
@@ -34,4 +41,4 @@ const useVenueStore = create((set) => ({
   },
 }));
 
-export default useVenueStore;
+export default useStore;
