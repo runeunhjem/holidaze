@@ -1,5 +1,4 @@
-// Home.jsx
-function Home() {
+function HomePage() {
   return (
     <div className="home">
       <h1>Welcome to Holidaze</h1>
@@ -10,4 +9,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomePage;

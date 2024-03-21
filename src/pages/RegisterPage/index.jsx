@@ -1,5 +1,4 @@
-// Register.jsx
-function Register() {
+function RegisterPage() {
   // Handle registration logic
 
   return (
@@ -11,4 +10,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default RegisterPage;
