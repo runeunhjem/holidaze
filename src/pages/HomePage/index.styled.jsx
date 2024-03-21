@@ -1,37 +1,49 @@
 import styled from "styled-components";
 
+export const HomeContainer = styled.div`
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  min-height: 100vh;
+  background-image: var(--background-image);
+  background-size: cover;
+  background-position: bottom;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+`;
+
 export const BackgroundFader = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--overlay-color); // Use the CSS variable directly from useStore
+  background: var(--overlay-color);
   z-index: 1;
 `;
 
-export const HomeContainer = styled.div`
-  width: 100%;
-  min-height: 100vh; /* Ensure it covers the whole viewport height */
-  background-image: var(--background-image);
-  background-size: cover; /* Cover the container area */
-  background-position: bottom; /* Center the background image */
+export const HomeContentWrapper = styled.div`
   position: relative;
-  overflow: hidden;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 `;
-
 
 export const Title = styled.h1`
   position: relative;
-  z-index: 2; /* Ensure the text appears above the overlay */
+  z-index: 2;
 `;
 
 export const Subtitle = styled.h2`
   position: relative;
-  z-index: 2; /* Ensure the text appears above the overlay */
+  z-index: 2;
 `;
 
 export const Description = styled.p`
   position: relative;
-  z-index: 2; /* Ensure the text appears above the overlay */
+  z-index: 2;
 `;

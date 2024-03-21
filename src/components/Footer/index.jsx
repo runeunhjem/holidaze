@@ -1,20 +1,20 @@
-import { StyledFooter } from "./index.styled";
+// Footer component
+import * as S from "./index.styled";
 import useStore from "../../hooks/useStore";
 
 function Footer() {
   const { isDarkMode } = useStore(); // Access the dark mode state
 
   return (
-    <StyledFooter theme={isDarkMode ? "dark" : "light"}>
-      <p className="copyright">&copy; {new Date().getFullYear()} Holidaze. All rights reserved.</p>
-      <p className="credits">
+    <S.StyledFooter theme={isDarkMode ? "dark" : "light"}>
+      <S.FooterText>&copy; {new Date().getFullYear()} Holidaze. All rights reserved.</S.FooterText>
+      <S.FooterText className="credits">
         Design and development by{" "}
-        <a href="https://runeunhjem.no" target="_new">
-          {" "}
+        <S.FooterLink href="https://runeunhjem.no" target="_new">
           Rune Unhjem
-        </a>
-      </p>
-    </StyledFooter>
+        </S.FooterLink>
+      </S.FooterText>
+    </S.StyledFooter>
   );
 }
 

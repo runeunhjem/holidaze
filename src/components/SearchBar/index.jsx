@@ -54,6 +54,7 @@ function SearchBar() {
         onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
       <CustomButton type="submit" sx={{ width: "200px" }} />
+      
     </form>
   );
 }
