@@ -3,14 +3,14 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import Layout from "../Layout";
-import Home from "../../pages/Home";
-import VenueList from "../../pages/VenueList";
-import VenueDetails from "../../pages/VenueDetails";
-import Profile from "../../pages/Profile";
-import LogIn from "../../pages/LogIn";
-import Register from "../../pages/Register";
-import Contact from "../../pages/Contact";
-import About from "../../pages/About";
+import HomePage from "../../pages/HomePage";
+import VenueListPage from "../../pages/VenueListPage";
+import VenueDetailsPage from "../../pages/VenueDetailsPage";
+import ProfilePage from "../../pages/ProfilePage";
+import LogInPage from "../../pages/LogInPage";
+import RegisterPage from "../../pages/RegisterPage";
+import ContactPage from "../../pages/ContactPage";
+import AboutPage from "../../pages/AboutPage";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../../theme";
@@ -31,15 +31,15 @@ function App({ children }) {
         <CssBaseline />
         <Layout>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/venues" element={<VenueList />} />
-            <Route path="/venues/:id" element={<VenueDetails />} />
-            <Route path="/profile" element={isAuthenticated ? <Profile /> : <Navigate to="/login" replace />} />
-            <Route path="/login" element={!isAuthenticated ? <LogIn /> : <Navigate to="/profile" replace />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/venues" element={<VenueListPage />} />
+            <Route path="/venues/:id" element={<VenueDetailsPage />} />
+            <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
+            <Route path="/login" element={!isAuthenticated ? <LogInPage /> : <Navigate to="/profile" replace />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
         </Layout>
       </ThemeProvider>

@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-function VenueList() {
+function VenueListPage() {
   const [venues, setVenues] = useState([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -57,4 +57,4 @@ function VenueList() {
   );
 }
 
-export default VenueList;
+export default VenueListPage;

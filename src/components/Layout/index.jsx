@@ -35,10 +35,12 @@ export default Layout;
 //       - index.jsx
 //   > hooks;
 //   > pages;
-//       - LogIn;
-//       - Register
+//       - LogInPage;
+//       - RegisterPage;
 //   > styles;
+//       - global.css;
 // - index.css
 // - main.jsx
+// - theme.jsx
 
 // Path: src/components/App/index.jsx

@@ -1,13 +1,11 @@
 import useStore from "../../hooks/useStore";
 
-function Profile() {
+function ProfilePage() {
   // Accessing the logOut action from your Zustand store
   const logOut = useStore((state) => state.logOut);
 
   // Fetch user-specific data, like bookings, recent activity, etc.
   // Display that data in the profile page
-
-
 
   return (
     <div className="min-h-screen p-8">
@@ -40,4 +38,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default ProfilePage;

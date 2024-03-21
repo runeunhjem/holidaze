@@ -1,6 +1,6 @@
 import useStore from "../../hooks/useStore";
 
-function LogIn() {
+function LogInPage() {
   const logIn = useStore((state) => state.logIn);
 
   return (
@@ -14,4 +14,4 @@ function LogIn() {
   );
 }
 
-export default LogIn;
+export default LogInPage;

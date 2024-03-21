@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import ImageGallery from "../../components/ImageGallery";
 import { fetchApi } from "../../utils/fetchApi";
 
-function VenueDetails() {
+function VenueDetailsPage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
 
@@ -65,4 +65,4 @@ function VenueDetails() {
   );
 }
 
-export default VenueDetails;
+export default VenueDetailsPage;
