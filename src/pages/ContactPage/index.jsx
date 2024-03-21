@@ -7,6 +7,7 @@ function ContactPage() {
     document.title = "Contact Page";
   }, []);
   const theme = useContext(ThemeContext);
+  
   const [formData, setFormData] = useState({
     fullName: "",
     subject: "",

@@ -1,14 +1,15 @@
 import PropTypes from "prop-types";
 import Header from "../Header";
 import Footer from "../Footer";
+import * as S from "./index.styled";
 
 function Layout({ children }) {
   return (
-    <div className="flex flex-col min-h-screen justify-between">
+    <S.LayoutContainer>
       <Header />
-      <main className="flex-grow container mx-auto p-4">{children}</main>
+      <S.MainContent>{children}</S.MainContent>
       <Footer />
-    </div>
+    </S.LayoutContainer>
   );
 }
 
@@ -17,30 +18,3 @@ Layout.propTypes = {
 };
 
 export default Layout;
-
-// My File/folder structure
-// > public
-// > src
-//   > assets;
-//     > images;
-//     > logo;
-//   > components;
-//     > App;
-//       - index.jsx
-//     > Footer;
-//       - index.jsx
-//     > Header;
-//       - index.jsx
-//     > Layout;
-//       - index.jsx
-//   > hooks;
-//   > pages;
-//       - LogInPage;
-//       - RegisterPage;
-//   > styles;
-//       - global.css;
-// - index.css
-// - main.jsx
-// - theme.jsx
-
-// Path: src/components/App/index.jsx

@@ -5,13 +5,32 @@
 @layer base {
   /* Global variables */
   :root {
+    --overlay-color-light: rgba(255, 255, 255, 0.5); /* Lighter overlay for light theme */
+    --overlay-color-dark: rgba(44, 40, 40, 0.8); /* Darker overlay for dark theme */
+
+    --text-color-light: #111827; /* text-black */
+    --text-color-dark: #ffffff; /* text-white */
+
+    --link-color-light: #3b82f6; /* text-blue-500 */
+    --link-color-dark: #60a5fa; /* text-blue-400 */
+    --link-color-light-hover: #2563eb; /* text-blue-600 */
+    --link-color-dark-hover: #93c5fd; /* text-blue-300 */
+
     --bg-image-light: url("../assets/images/bg-light.jpg");
     --bg-image-dark: url("../assets/images/bg-dark.jpg");
 
-    --button-bg-color: rgba(113, 126, 148, 0.5);
+    --bg-header-light: #ffffff; /* bg-white */
+    --bg-header-dark: rgba(17, 24, 39, 1); /* bg-blue-900 */
+    --bg-footer-light: #ffffff; /* bg-white */
+    --bg-footer-dark: rgba(17, 24, 39, 1); /* bg-blue-900 */
+
+    --border-color-light: #9ca3af /* border-grey-400 */;
+    --border-color-dark: #1e40af /* border-blue-800 */;
+
+    /* --button-bg-color: rgba(113, 126, 148, 0.5);
     --button-hover-bg-color: rgba(0, 0, 0, 0.8);
     --button-color: white;
-    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
+    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7); */
   }
 
   /* Global reset */
@@ -28,10 +47,10 @@
   [data-theme="dark"] {
     --background-image: var(--bg-image-dark);
 
-    --button-bg-color: rgba(113, 126, 148, 0.5); /* Dark theme background color */
-    --button-hover-bg-color: rgba(255, 255, 255, 0.8); /* Dark theme hover color */
-    --button-color: #ddd; /* Dark theme text color */
-    --button-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.7); /* Dark theme shadow */
+    --button-bg-color: rgba(113, 126, 148, 0.5);
+    --button-hover-bg-color: rgba(255, 255, 255, 0.8);
+    --button-color: #ddd;
+    --button-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.7);
   }
 
   /* Global link styles */

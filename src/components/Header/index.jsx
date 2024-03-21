@@ -4,15 +4,19 @@ import ToggleTheme from "../ToggleTheme";
 import SearchBar from "../SearchBar";
 import MenuListComposition from "../MUI/Menu";
 import { Link } from "react-router-dom";
+import { StyledHeader } from "./index.styled";
+import useStore from "../../hooks/useStore";
 
 const pages = ["Home", "Venues", "Profile", "About", "Contact"];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false); // State to control the visibility of the SearchBar
+  const { isDarkMode } = useStore();
 
   return (
-    <header className="text-gray-800 bg-white p-5 pb-2 dark:bg-gray-900 dark:text-gray-100 border-b w-full mx-auto">
+    
+    <StyledHeader theme={isDarkMode ? "dark" : "light"}>
       <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
         <div className="flex items-center w-full p-0 m-0 justify-between">
           <Link to="/" className="font-bold text-xl">
@@ -62,7 +66,7 @@ function Header() {
         <MenuListComposition className="m-0 p-0 justify-end w-full" />
       </div>
       {isSearchVisible && <SearchBar />}
-    </header>
+    </StyledHeader>
   );
 }
 
