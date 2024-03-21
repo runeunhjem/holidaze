@@ -1,17 +1,58 @@
-// VenueList.jsx
+import { useEffect, useState } from "react";
+import { fetchApi } from "../../utils/fetchApi";
+import VenueCard from "../../components/VenueCard";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+
 function VenueList() {
-  // Simulating fetching data
-  const venues = [{ id: 1, name: "Venue 1", description: "Description here" }];
+  const [venues, setVenues] = useState([]);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchVenues = async () => {
+      try {
+        const data = await fetchApi("venues");
+        if (Array.isArray(data)) {
+          setVenues(data);
+        } else if (Array.isArray(data.data)) {
+          setVenues(data.data);
+        } else {
+          setVenues([]);
+        }
+        setError(""); // Reset error state in case of successful fetch
+      } catch (error) {
+        console.error("Failed to fetch venues:", error);
+        setError("Failed to fetch venues. Please try again later."); // Set error message
+        setVenues([]);
+      }
+    };
+
+    fetchVenues();
+  }, []);
+
+  // Handler for the "Back to Venues" button
+  const handleBackClick = () => {
+    navigate("/"); // Navigate back to the root or wherever your venues list is
+  };
 
   return (
-    <div className="venue-list">
-      <h2>Venues</h2>
-      {venues.map((venue) => (
-        <div key={venue.id}>
-          <h3>{venue.name}</h3>
-          <p>{venue.description}</p>
-        </div>
-      ))}
+    <div className="venue-list-container mx-auto flex flex-col items-center gap-4">
+      {error && (
+        <>
+          <Stack sx={{ width: "100%" }} spacing={2}>
+            <Alert severity="error">{error}</Alert>
+          </Stack>
+          <Button variant="contained" onClick={handleBackClick} style={{ marginBottom: "20px" }}>
+            Back Home
+          </Button>
+        </>
+      )}
+      <div className="flex flex-wrap justify-center gap-4 px-5">
+        {Array.isArray(venues) && venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
+      </div>
     </div>
   );
 }

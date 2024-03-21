@@ -1,37 +1,67 @@
 import { useState } from "react";
 import { FiMenu, FiX, FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
-import ToggleTheme from "../ToggleTheme"; // Ensure the path is correct
+import ToggleTheme from "../ToggleTheme";
+import SearchBar from "../SearchBar";
+import MenuListComposition from "../MUI/Menu";
+import { Link } from "react-router-dom";
 
-const pages = ["Home", "About", "Services", "Blog", "Contact"];
+const pages = ["Home", "Venues", "Profile", "About", "Contact"];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSearchVisible, setIsSearchVisible] = useState(false); // State to control the visibility of the SearchBar
 
   return (
-    <header className="bg-gray-800 text-gray-200 p-5 dark:bg-gray-900 dark:text-gray-100">
-      <div className="container mx-auto flex justify-between items-center">
-        <div className="flex items-center">
-          <button onClick={() => setIsOpen(!isOpen)} className="text-xl mr-6 md:hidden">
-            {isOpen ? <FiX /> : <FiMenu />}
-          </button>
-          <a href="/" className="font-bold text-xl">
+    <header className="text-gray-800 bg-white p-5 pb-2 dark:bg-gray-900 dark:text-gray-100 border-b w-full mx-auto">
+      <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
+        <div className="flex items-center w-full p-0 m-0 justify-between">
+          <Link to="/" className="font-bold text-xl">
             Holidaze
-          </a>
+          </Link>
+          <nav className={`hidden md:flex items-start justify-start text-left ${isOpen ? "flex" : "hidden"}`}>
+            {pages.map((page) => (
+              <Link to={`/${page.toLowerCase()}`} key={page} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
+                {page}
+              </Link>
+            ))}
+          </nav>
         </div>
-        <nav className={`md:flex items-center ${isOpen ? "block" : "hidden"}`}>
-          {pages.map((page) => (
-            <a key={page} href={`/${page.toLowerCase()}`} className="text-lg mx-2 my-2 md:my-0">
-              {page}
-            </a>
-          ))}
-          <div className="flex items-center ml-4">
-            <FiSearch className="mr-4" />
-            <FiUser className="mr-4" />
-            <FiShoppingCart className="mr-4" />
-            <ToggleTheme />
-          </div>
-        </nav>
       </div>
+      <div className="flex items-start mx-auto justify-between md:justify-end max-w-1200">
+        <div className="text-left w-full p-0 m-0">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-xl my-4 md:hidden">
+            {isOpen ? <FiX /> : <FiMenu />}
+            <span className="hidden">Menu</span>
+          </button>
+          <nav className={`flex flex-col md:hidden items-start justify-start text-left ${isOpen ? "flex-col" : "hidden"}`}>
+            {pages.map((page) => (
+              <Link to={`/${page.toLowerCase()}`} key={page} className="text-left md:flex text-lg mx-2 my-1 md:my-0">
+                {page}
+              </Link>
+            ))}
+          </nav>
+        </div>
+        <button onClick={() => setIsSearchVisible(!isSearchVisible)}>
+          <FiSearch
+            onClick={() => setIsSearchVisible(!isSearchVisible)}
+            className="cursor-pointer me-3 my-4 items-center"
+            size={20}
+          />
+          <span className="hidden">Search</span>
+        </button>
+        <button>
+          <FiUser className="cursor-pointer me-3 my-4 items-center" size={20} />
+          <span className="hidden">Profile</span>
+        </button>
+        <button>
+          <FiShoppingCart className="cursor-pointer me-3 my-4 items-center" size={20} />
+          <span className="hidden">Cart</span>
+        </button>
+        <ToggleTheme className="items-center my-4" />
+
+        <MenuListComposition className="m-0 p-0 justify-end w-full" />
+      </div>
+      {isSearchVisible && <SearchBar />}
     </header>
   );
 }
