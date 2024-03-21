@@ -33,7 +33,7 @@ function App({ children }) {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/venues" element={<VenueListPage />} />
+            <Route path="/destinations" element={<VenueListPage />} />
             <Route path="/venues/:id" element={<VenueDetailsPage />} />
             <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
             <Route path="/login" element={!isAuthenticated ? <LogInPage /> : <Navigate to="/profile" replace />} />
@@ -52,5 +52,3 @@ App.propTypes = {
 };
 
 export default App;
-
-

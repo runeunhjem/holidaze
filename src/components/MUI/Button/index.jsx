@@ -4,8 +4,43 @@ import Stack from "@mui/material/Stack";
 
 export default function CustomButton() {
   return (
-    <Stack spacing={2} direction="row" className="mx-auto">
-      <Button sx={{ width: "50vw" }}>Search</Button>
+    <Stack
+      spacing={2}
+      direction="row"
+      sx={{
+        width: "100%",
+        justifyContent: "center",
+      }}>
+      <Button
+        type="submit"
+        sx={{
+          width: "50%",
+          borderRadius: "5px",
+          backgroundColor: "##60a5fa",
+          ":hover": {
+            backgroundColor: "#2563eb",
+          },
+          outline: "none",
+          border: "none",
+          boxShadow: "none",
+        }}>
+        Search
+      </Button>
+      <Button
+        type="button"
+        sx={{
+          width: "50%",
+          borderRadius: "5px",
+          backgroundColor: "#f87171",
+          ":hover": {
+            backgroundColor: "#e11d48",
+          },
+          outline: "none",
+          border: "none",
+          boxShadow: "none",
+        }}>
+        Cancel
+      </Button>
     </Stack>
   );
 }
