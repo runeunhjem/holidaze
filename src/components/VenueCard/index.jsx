@@ -1,6 +1,7 @@
 import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 import CardImageCarousel from "../MUI/CardImageCarousel"; // Adjust the path as necessary
+import RatingStar from "../RatingStar";
 
 function VenueCard({ venue }) {
   // Adjust condition to check for at least two images
@@ -11,23 +12,35 @@ function VenueCard({ venue }) {
   if (!hasAtLeastTwoImages) return null;
 
   return (
-    <div className="rounded overflow-hidden shadow-lg my-2 flex flex-col" style={{ maxWidth: "300px", height: "350px" }}>
+    <div
+      className="rounded overflow-hidden shadow-lg my-2 flex flex-col pb-4 dark:outline dark:outline-1 dark:outline-blue-800"
+      style={{ maxWidth: "300px", height: "370px" }}>
       {/* Image container */}
-      <div className="h-200px w-300px relative">
-        <CardImageCarousel images={venue.media} />
+      <div>
+        <Link to={`/venues/${venue.id}`}>
+          <CardImageCarousel images={venue.media} />
+        </Link>
       </div>
       {/* Title/Name */}
-      <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
+      <div
+        className="w-full flex items-center px-4"
+        style={{
+          height: "70px",
+          alignItems: "flex-start",
+        }}>
         <div className="font-bold">{venue.name}</div>
       </div>
       {/* Rating */}
       <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
-        <span>Rating: {venue.rating}</span>
+        <span className="me-1">{venue.rating.toFixed(2)}</span>
+        <RatingStar rating={venue.rating} />
       </div>
       {/* Price / Night */}
       <div className="h-50px w-full flex items-center justify-between px-4" style={{ height: "50px" }}>
         <span>${venue.price} / night</span>
-        <Link to={`/venues/${venue.id}`} className="bg-blue-500 rounded-full px-3 py-1 text-sm font-semibold text-white">
+        <Link
+          to={`/venues/${venue.id}`}
+          className="bg-secondary hover:bg-hoverPrimary rounded-full px-3 py-1 text-sm font-semibold text-primary shadow">
           View Details
         </Link>
       </div>

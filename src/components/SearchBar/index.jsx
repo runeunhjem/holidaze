@@ -29,7 +29,7 @@ function SearchBar() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-0 py-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-0 py-4 max-w-1200 mx-auto">
       <div className="flex flex-col sm:flex-row gap-4 w-full">
         <DestinationInput
           className="w-full md:w-1/2"
@@ -53,7 +53,7 @@ function SearchBar() {
         value={searchParams.checkIn}
         onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
-      <CustomButton type="submit" />
+      <CustomButton type="submit" sx={{ width: "200px" }} />
     </form>
   );
 }

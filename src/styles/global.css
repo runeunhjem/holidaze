@@ -11,9 +11,11 @@
   }
 
   /* Global link styles */
-  a {
-    @apply text-primary hover:text-secondary;
-    /* @apply text-primary hover:text-yellow-300; */
+  /* a {
+    @apply bg-primary hover:bg-hoverPrimary text-buttonText hover:text-hoverButtonText;
   }
+  button {
+    @apply bg-primary hover:bg-hoverPrimary text-buttonText hover:text-hoverButtonText;
+  } */
   /* Other global styles */
 }

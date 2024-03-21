@@ -36,7 +36,7 @@ export const NavButton = styled.button`
   transform: translateY(-100%);
   background-color: rgba(113, 126, 148, 0.5);
   color: white;
-  border: none;
+  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
   border-radius: 40%;
   font-size: 24px;
   padding: 4px 8px;

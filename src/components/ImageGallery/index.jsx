@@ -7,7 +7,11 @@ function ImageGallery({ images }) {
 
   return (
     <S.Gallery>
-      <S.StyledImg src={images[selectedImageIndex].url} alt={images[selectedImageIndex].alt || "Venue"} />
+      <S.StyledImg
+        src={images[selectedImageIndex].url}
+        alt={images[selectedImageIndex].alt || images[selectedImageIndex].alt}
+        className="dark:outline dark:outline-1 dark:outline-blue-900"
+      />
       <S.NavButton
         direction="left"
         onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))}>

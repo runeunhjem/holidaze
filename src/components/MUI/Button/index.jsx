@@ -4,8 +4,8 @@ import Stack from "@mui/material/Stack";
 
 export default function CustomButton() {
   return (
-    <Stack spacing={2} direction="row">
-      <Button>Search</Button>
+    <Stack spacing={2} direction="row" className="mx-auto">
+      <Button sx={{ width: "50vw" }}>Search</Button>
     </Stack>
   );
 }

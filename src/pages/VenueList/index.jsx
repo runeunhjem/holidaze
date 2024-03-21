@@ -50,7 +50,7 @@ function VenueList() {
           </Button>
         </>
       )}
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-4 px-5">
         {Array.isArray(venues) && venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
       </div>
     </div>
@@ -58,4 +58,3 @@ function VenueList() {
 }
 
 export default VenueList;
-
