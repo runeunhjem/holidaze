@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./components/App";
 import useStore from "./hooks/useStore"; // Adjust the path as needed
@@ -9,7 +9,7 @@ const isDarkMode = useStore.getState().isDarkMode;
 document.body.setAttribute("data-theme", isDarkMode ? "dark" : "light");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <App />
-  </React.StrictMode>
+  // </React.StrictMode>
 );

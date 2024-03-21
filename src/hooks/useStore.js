@@ -7,11 +7,16 @@ const useStore = create((set) => ({
   venues: [],
 
   toggleDarkMode: () => set((state) => {
+    const isDarkMode = !state.isDarkMode;
     const newIsDarkMode = !state.isDarkMode;
     save("isDarkMode", newIsDarkMode); // Save the new dark mode state
 
     // Update the body's data-theme attribute
     document.body.setAttribute('data-theme', newIsDarkMode ? 'dark' : 'light');
+    document.documentElement.style.setProperty(
+      "--overlay-color",
+      isDarkMode ? "var(--overlay-color-dark)" : "var(--overlay-color-light)"
+    );
 
     return { isDarkMode: newIsDarkMode };
   }),
