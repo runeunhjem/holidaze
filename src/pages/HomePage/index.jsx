@@ -1,6 +1,13 @@
 import * as S from "./index.styled";
 import useStore, { isAuthenticatedSelector } from "../../hooks/useStore";
 
+document.addEventListener("DOMContentLoaded", function () {
+  var content = document.querySelector(".content");
+  if (content) {
+    content.style.height = window.innerHeight + "px";
+  }
+});
+
 function HomePage() {
   const isAuthenticated = useStore(isAuthenticatedSelector);
   return (

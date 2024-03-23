@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+//about-section p-4 md:p-8
 export const HomeContainer = styled.div`
   width: 100%;
   margin: 0 auto;
