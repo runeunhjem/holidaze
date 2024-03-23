@@ -7,9 +7,7 @@
 [https://rundev-holidaze.netlify.app/](https://rundev-holidaze.netlify.app/)
 
 ## Deploy instructions
-### Neither of the following commands worked for me, so I had to deploy the project manually on Netlify.
-  * Add build command: npm install --legacy-peer-deps && npm run build
-  * Add build command: npm install --force && npm run build
+
 
 ##### Add environment variable: VITE_API_KEY with the value of the API key
 
