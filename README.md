@@ -1,11 +1,15 @@
-# React + Vite
+## Holidaze
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/735d7f81-7243-4854-8ea3-30d4db3d3822/deploy-status)](https://app.netlify.com/sites/rundev-holidaze/deploys)
 
-Currently, two official plugins are available:
+## Deployment on Netlify
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+[https://rundev-holidaze.netlify.app/](https://rundev-holidaze.netlify.app/)
 
+## Deploy instructions
+  * Add build command: npm install --legacy-peer-deps && npm run build
+  * Add environment variable: VITE_API_KEY with the value of the API key
 
-[VectorStock](https://www.vectorstock.com/royalty-free-vector/sea-travel-cruise-icon-vector-34040182) - Royaltyfree Vector Stock
+## Description
+
+Holidaze is a project that was created as a part of the final exam in the course Frontend Development 2 at Noroff. The project is a fictional venue booking site where users can book hotels, send inquiries, and read more about the venues or add their own venues for other users to look at or book. The project is built with Vite, React and MUI, and the data is fetched from Noroff's Holidaze API. The project is responsive and works on all devices.
