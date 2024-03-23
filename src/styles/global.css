@@ -55,6 +55,20 @@
   }
 
   /* Global link styles */
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    flex: 1; /* Expands to take up any available space */
+  }
   /* a {
     @apply bg-primary hover:bg-hoverPrimary text-buttonText hover:text-hoverButtonText;
   }
