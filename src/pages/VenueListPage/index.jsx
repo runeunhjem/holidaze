@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { fetchApi } from "../../utils/fetchApi";
+import { getVenues } from "../../utils/getVenues";
 import VenueCard from "../../components/VenueCard";
+// import VenueCard from "../../components/VenueCardV2";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
@@ -13,21 +14,9 @@ function VenueListPage() {
 
   useEffect(() => {
     const fetchVenues = async () => {
-      try {
-        const data = await fetchApi("venues");
-        if (Array.isArray(data)) {
-          setVenues(data);
-        } else if (Array.isArray(data.data)) {
-          setVenues(data.data);
-        } else {
-          setVenues([]);
-        }
-        setError(""); // Reset error state in case of successful fetch
-      } catch (error) {
-        console.error("Failed to fetch venues:", error);
-        setError("Failed to fetch venues. Please try again later."); // Set error message
-        setVenues([]);
-      }
+      const { data, error } = await getVenues();
+      setVenues(data);
+      setError(error);
     };
 
     fetchVenues();

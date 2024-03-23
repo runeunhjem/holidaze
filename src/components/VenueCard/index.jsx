@@ -32,7 +32,7 @@ function VenueCard({ venue }) {
       </div>
       {/* Rating */}
       <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
-        <span className="me-1">{venue.rating.toFixed(2)}</span>
+        <span className="me-1">{venue.rating.toFixed(1)}</span>
         <RatingStar rating={venue.rating} />
       </div>
       {/* Price / Night */}
