@@ -1,25 +1,36 @@
 // src/utils/fetchApi.js
-import { API_BASE_URL, ENDPOINTS } from "../constants/api.js";
+import { API_BASE_URL_V1, ENDPOINTS } from "../constants/api.js";
+// import { API_BASE_URL_V2, ENDPOINTS } from "../constants/api.js";
 
-/**
- * Fetch data from a specified API endpoint.
- * @param {string} endpointKey - The key from ENDPOINTS corresponding to the API endpoint.
- * @param {Object} options - Additional fetch options (method, headers, body, etc.).
- * @param {Object} params - Parameters to replace in the endpoint URL.
- * @returns {Promise<any>} - The response data from the fetch request.
- */
-export const fetchApi = async (endpointKey, options = {}, params = {}) => {
+export const fetchApi = async (endpointKey, options = {}, params = {}, accessToken) => {
   let endpoint = ENDPOINTS[endpointKey];
 
-  // Replace URL placeholders with actual values from params
   Object.keys(params).forEach((key) => {
-    endpoint = endpoint.replace(`{${key}}`, params[key]);
+    endpoint = endpoint.replace(`{${key}}`, encodeURIComponent(params[key]));
   });
 
-  const url = `${API_BASE_URL}${endpoint}`;
-  const response = await fetch(url, options);
+  const url = `${API_BASE_URL_V1}${endpoint}`;
+  // const url = `${API_BASE_URL_V2}${endpoint}`;
+
+  // Ensure headers object exists in options and automatically include API key and Authorization header
+  const headers = {
+    "Content-Type": "application/json",
+    // "X-Noroff-API-Key": "c075c601-8a18-47c6-832d-1fcf1c464946",
+    // "X-Noroff-API-Key": process.env.REACT_APP_API_KEY,
+    "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
+    ...options.headers,
+    ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
+  };
+  const fetchOptions = {
+    ...options,
+    headers,
+  };
+
+  const response = await fetch(url, fetchOptions);
   if (!response.ok) {
-    throw new Error(`API request failed: ${response.statusText}`);
+    const error = new Error(`API request failed with status: ${response.status} and text: ${response.statusText}`);
+    error.status = response.status; // Add status property to the error
+    throw error;
   }
   return response.json();
 };
