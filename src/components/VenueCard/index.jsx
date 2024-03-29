@@ -13,7 +13,7 @@ function VenueCard({ venue }) {
   if (!hasAtLeastOneImage || !hasValidTitle || !countryCode || countryCode === "Unknown") return null;
   // if (!hasAtLeastOneImage || !countryCode || countryCode === "Unknown") return null;
 
-  console.log(venue);
+  // console.log(venue);
   return (
     <div
       className="rounded overflow-hidden shadow-lg my-2 flex flex-col pb-4 dark:outline dark:outline-1 dark:outline-blue-800"

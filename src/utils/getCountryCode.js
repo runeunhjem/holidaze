@@ -1,9 +1,12 @@
+// getCountryCode.js
 import { getCode } from "country-list";
 
 function getCountryCode(countryName) {
-  return getCode(countryName) || "Unknown";
+  // Ensure countryName is a string and not empty
+  if (typeof countryName === "string" && countryName.trim() !== "") {
+    return getCode(countryName) || "Unknown";
+  }
+  return "Unknown";
 }
 
 export default getCountryCode;
-
-{/* <CountryFlag countryCode={getCountryCode(venue.location.country)} />; */}

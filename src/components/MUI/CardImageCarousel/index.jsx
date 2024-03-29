@@ -61,7 +61,6 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
             }}>
             {continent === "Unknown" || continent === "" ? "Unspecified" : continent}
           </div>
-
           {countryCode && countryCode !== "Unknown" && (
             <div style={{ position: "absolute", top: "10px", right: "10px" }}>
               <CountryFlag countryCode={countryCode} />
