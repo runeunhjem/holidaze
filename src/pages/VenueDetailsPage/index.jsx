@@ -25,6 +25,13 @@ function VenueDetailsPage() {
     fetchVenueDetails();
   }, [id]);
 
+  useEffect(() => {
+    // Only attempt to set the title if venue is not null
+    if (venue) {
+      document.title = `${venue.name} - Venue Details`;
+    }
+  }, [venue]);
+
   if (!venue) {
     return <div>Loading venue details...</div>;
   }

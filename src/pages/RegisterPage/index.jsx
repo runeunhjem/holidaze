@@ -1,4 +1,11 @@
+import { useEffect } from "react";
+
 function RegisterPage() {
+
+  useEffect(() => {
+    document.title = "Holidaze - Register";
+  }, []);
+
   // Handle registration logic
 
   return (

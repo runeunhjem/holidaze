@@ -4,10 +4,11 @@ import * as S from "./index.styled";
 
 function ContactPage() {
   useEffect(() => {
-    document.title = "Contact Page";
+    document.title = "Holidaze - Contact";
   }, []);
+
   const theme = useContext(ThemeContext);
-  
+
   const [formData, setFormData] = useState({
     fullName: "",
     subject: "",

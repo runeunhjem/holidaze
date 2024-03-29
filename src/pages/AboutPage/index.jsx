@@ -1,4 +1,9 @@
+import { useEffect } from "react";
+
 function AboutPage() {
+  useEffect(() => {
+    document.title = "Holidaze - About";
+  }, []);
   return (
     <div className="about-section p-4 md:p-8">
       <h1 className="text-2xl md:text-4xl font-bold mb-4">About Holidaze</h1>

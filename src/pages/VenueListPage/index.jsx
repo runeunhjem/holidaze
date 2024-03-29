@@ -9,6 +9,11 @@ import { Button } from "@mui/material";
 import PaginationButtons from "../../components/MUI/Pagination";
 
 function VenueListPage() {
+
+  useEffect(() => {
+    document.title = "Holidaze - Destinations";
+  }, []);
+
   const [venues, setVenues] = useState([]);
   const [error, setError] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
