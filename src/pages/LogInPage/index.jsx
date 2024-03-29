@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import useStore from "../../hooks/useStore";
 
 function LogInPage() {
+  useEffect(() => {
+    document.title = "Holidaze - Login";
+  }, []);
+
+
   const logIn = useStore((state) => state.logIn);
 
   return (

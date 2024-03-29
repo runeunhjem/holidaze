@@ -1,5 +1,6 @@
 import * as S from "./index.styled";
 import useStore, { isAuthenticatedSelector } from "../../hooks/useStore";
+import { useEffect } from "react";
 
 document.addEventListener("DOMContentLoaded", function () {
   var content = document.querySelector(".content");
@@ -9,6 +10,10 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function HomePage() {
+  useEffect(() => {
+    document.title = "Holidaze - Home";
+  }, []);
+
   const isAuthenticated = useStore(isAuthenticatedSelector);
   return (
     <S.HomeContainer>

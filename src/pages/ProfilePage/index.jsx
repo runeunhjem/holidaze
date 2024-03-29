@@ -1,6 +1,12 @@
+import { useEffect } from "react";
 import useStore from "../../hooks/useStore";
 
 function ProfilePage() {
+
+  useEffect(() => {
+    document.title = "Holidaze - Your Profile";
+  }, []);
+
   // Accessing the logOut action from your Zustand store
   const logOut = useStore((state) => state.logOut);
 
