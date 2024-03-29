@@ -18,7 +18,7 @@ function VenueCard({ venue }) {
       {/* Image container */}
       <div>
         <Link to={`/venues/${venue.id}`}>
-          <CardImageCarousel images={venue.media} />
+          <CardImageCarousel images={ venue.media } countryCode={ venue.location.country } />
         </Link>
       </div>
       {/* Title/Name */}
@@ -55,6 +55,9 @@ VenueCard.propTypes = {
     rating: propTypes.number.isRequired,
     price: propTypes.number.isRequired,
     id: propTypes.string.isRequired,
+    location: propTypes.shape({
+      country: propTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

@@ -23,6 +23,8 @@ export const StyledImg = styled.img`
   height: 400px; // Keeps the image aspect ratio
   object-fit: cover;
   border-radius: 10px;
+  transition: opacity 1.6s ease;
+  opacity: 1;
   @media (max-width: 468px) {
     /* max-width: 300px; // Half size on smaller screens */
     height: 200px;
