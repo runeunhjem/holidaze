@@ -6,8 +6,10 @@ import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import CountryFlag from "../../CountryFlag";
+import getCountryCode from "../../../utils/getCountryCode.js";
+import { Link } from "react-router-dom";
 
-function CardImageCarousel({ images, countryCode }) {
+function CardImageCarousel({ images, countryName, venueId }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
@@ -24,27 +26,31 @@ function CardImageCarousel({ images, countryCode }) {
     setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
   };
 
-  console.log("CountryFlag -> countryCode", countryCode);
+  const countryCode = getCountryCode(countryName);
   return (
     <>
       {images.map((img, index) => (
         <div key={index} style={{ display: index === activeStep ? "block" : "none", position: "relative" }}>
-          <Box
-            component="img"
-            sx={{
-              height: 200, // Adjust height as needed
-              display: "block",
-              maxWidth: "100%",
-              overflow: "hidden",
-              width: 300, // Adjust width as needed
-              objectFit: "cover",
-            }}
-            src={img}
-            alt={`Slide ${index + 1}`}
-          />
-          <div style={{ position: "absolute", top: "10px", right: "10px" }}>
-            <CountryFlag countryCode={countryCode} />
-          </div>
+          <Link to={`/venues/${venueId}`}>
+            <Box
+              component="img"
+              sx={{
+                height: 200, // Adjust height as needed
+                display: "block",
+                maxWidth: "100%",
+                overflow: "hidden",
+                width: 300, // Adjust width as needed
+                objectFit: "cover",
+              }}
+              src={img}
+              alt={`Slide ${index + 1}`}
+            />
+          </Link>
+          {countryCode && countryCode !== "Unknown" && (
+            <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+              <CountryFlag countryCode={countryCode} />
+            </div>
+          )}
         </div>
       ))}
       <MobileStepper
@@ -70,7 +76,8 @@ function CardImageCarousel({ images, countryCode }) {
 
 CardImageCarousel.propTypes = {
   images: propTypes.arrayOf(propTypes.string).isRequired,
-  countryCode: propTypes.string,
+  countryName: propTypes.string,
+  venueId: propTypes.string.isRequired,
 };
 
 export default CardImageCarousel;

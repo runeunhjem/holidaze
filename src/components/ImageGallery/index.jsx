@@ -22,13 +22,18 @@ function ImageGallery({ images }) {
     return () => clearTimeout(timer);
   }, [selectedImageIndex, images.length]);
 
+  const placeholderImage = "https://picsum.photos/400/600";
 
   return (
     <S.Gallery>
       <S.StyledImg
-        src={images[selectedImageIndex].url}
-        alt={images[selectedImageIndex].alt || images[selectedImageIndex].alt}
-        className={`dark:outline dark:outline-1 dark:outline-blue-900 ${isImageVisible ? "visible" : "hidden"}`}
+        src={images.length > 0 && images[selectedImageIndex] ? images[selectedImageIndex].url : placeholderImage}
+        alt={
+          images.length > 0 && images[selectedImageIndex] && images[selectedImageIndex].alt
+            ? images[selectedImageIndex].alt
+            : "Placeholder image"
+        }
+        className={`fade-effect ${isImageVisible ? "visible" : "hidden"}`} // Use fade-effect class for transitions
       />
       <S.NavButton
         direction="left"

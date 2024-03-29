@@ -5,21 +5,23 @@ import RatingStar from "../RatingStar";
 
 function VenueCard({ venue }) {
   // Adjust condition to check for at least two images
-  const hasAtLeastTwoImages = venue.media && venue.media.length >= 2;
+  // const hasAtLeastTwoImages = venue.media && venue.media.length >= 2;
+  const hasCountry = venue.location && venue.location.country;
   // const placeholderImage = "https://picsum.photos/seed/picsum/200/300"; // Placeholder image URL
 
   // If the venue doesn't have at least two images, don't render the card
-  if (!hasAtLeastTwoImages) return null;
+  // if (!hasAtLeastTwoImages) return null;
+  if (!hasCountry) return null;
 
   return (
     <div
       className="rounded overflow-hidden shadow-lg my-2 flex flex-col pb-4 dark:outline dark:outline-1 dark:outline-blue-800"
-      style={{ maxWidth: "300px", height: "370px" }}>
+      style={{ width: "300px", maxWidth: "300px", height: "370px" }}>
       {/* Image container */}
       <div>
-        <Link to={`/venues/${venue.id}`}>
-          <CardImageCarousel images={ venue.media } countryCode={ venue.location.country } />
-        </Link>
+        {/* <Link to={`/venues/${venue.id}`}> */}
+        <CardImageCarousel images={venue.media} countryName={venue.location.country} venueId={venue.id} />
+        {/* </Link> */}
       </div>
       {/* Title/Name */}
       <div
