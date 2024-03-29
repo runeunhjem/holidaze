@@ -1,6 +1,6 @@
 // src/constants/api.js
 export const API_BASE_URL_V1 = "https://api.noroff.dev/api/v1";
-export const API_BASE_URL_V2 = "https://v2.api.noroff.dev";
+// export const API_BASE_URL_V2 = "https://v2.api.noroff.dev";
 
 // V2 API endpoints
 export const ENDPOINTS = {
@@ -16,4 +16,14 @@ export const ENDPOINTS = {
   searchVenues: "/holidaze/venues/search", // GET - query
   bookings: "/holidaze/bookings", // GET - API_KEY is required
   bookingById: "/holidaze/bookings/{id}", // GET - id - API_KEY is required
+
+  // Parameters
+  // V1: (.../venues?sort=country&sortOrder=desc&limit=100&offset=1&_owner=true&_bookings=true)
+  // V2: (.../venues?sort=country&sortOrder=desc&limit=100&page=1&_owner=true&_bookings=true)
+  limit: "&limit={limit}",
+  offset: "&offset={offset}",
+  sortBy: "&sort={sortBy}",
+  sortOrder: "&sortOrder={sortOrder}",
+  query: "?query={query}",
+  page: "?page={page}",
 };
