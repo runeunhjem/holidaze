@@ -1,26 +1,33 @@
 // src/utils/fetchApi.js
 import { API_BASE_URL_V1, ENDPOINTS } from "../constants/api.js";
-// import { API_BASE_URL_V2, ENDPOINTS } from "../constants/api.js";
 
 export const fetchApi = async (endpointKey, options = {}, params = {}, accessToken) => {
   let endpoint = ENDPOINTS[endpointKey];
 
+  // Replace direct parameters in the endpoint URL (e.g., {id})
   Object.keys(params).forEach((key) => {
-    endpoint = endpoint.replace(`{${key}}`, encodeURIComponent(params[key]));
+    if (endpoint.includes(`{${key}}`)) {
+      endpoint = endpoint.replace(`{${key}}`, encodeURIComponent(params[key]));
+      delete params[key]; // Remove the parameter from params as it's already used
+    }
   });
 
-  const url = `${API_BASE_URL_V1}${endpoint}`;
-  // const url = `${API_BASE_URL_V2}${endpoint}`;
+  // Building query string from the remaining params
+  const queryString = Object.entries(params).reduce((acc, [key, value], index) => {
+    const prefix = index === 0 ? "?" : "&";
+    return `${acc}${prefix}${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
+  }, "");
+
+  const url = `${API_BASE_URL_V1}${endpoint}${queryString}`;
 
   // Ensure headers object exists in options and automatically include API key and Authorization header
   const headers = {
     "Content-Type": "application/json",
-    // "X-Noroff-API-Key": "c075c601-8a18-47c6-832d-1fcf1c464946",
-    // "X-Noroff-API-Key": process.env.REACT_APP_API_KEY,
     "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
     ...options.headers,
     ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
   };
+
   const fetchOptions = {
     ...options,
     headers,
