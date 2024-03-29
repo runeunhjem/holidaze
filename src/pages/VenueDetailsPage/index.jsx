@@ -32,7 +32,7 @@ function VenueDetailsPage() {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">{venue.name}</h1>
-      <ImageGallery images={images} />
+      <ImageGallery images={images} countryName={venue.location.country} continent={venue.location.continent} />
       <div className="mt-6 space-y-2">
         <p>{venue.description}</p>
         <p>
