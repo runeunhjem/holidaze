@@ -10,7 +10,7 @@ import "./index.css";
 function VenueDetailsPage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
-  console.log("venue", venue);
+  // console.log("venue", venue);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -114,7 +114,7 @@ function VenueDetailsPage() {
           </ul>
         </div>
         {/* Date Picker with highlighted dates */}
-        <div className="mt-6">
+        <div className="mt-6" style={{ height: "350px" }}>
           <h2 className="text-2xl font-bold">Check Availability</h2>
           <DatePicker
             inline

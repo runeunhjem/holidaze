@@ -7,6 +7,7 @@
   :root {
     --overlay-color-light: rgba(255, 255, 255, 0.5); /* Lighter overlay for light theme */
     --overlay-color-dark: rgba(44, 40, 40, 0.8); /* Darker overlay for dark theme */
+    --highlight-booked-red: #f87171; /* bg-red-400 */
 
     --text-color-light: #111827; /* text-black */
     --text-color-dark: #ffffff; /* text-white */

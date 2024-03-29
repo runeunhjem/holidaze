@@ -9,7 +9,7 @@ export const getVenues = async () => {
   while (allVenues.length < totalVenues) {
     const params = {
       sort: "updated",
-      sortOrder: "desc",
+      sortOrder: "asc",
       limit,
       offset,
       _owner: true,
@@ -38,9 +38,6 @@ export const getVenues = async () => {
       return { data: [], error: "Failed to fetch venues. Please try again later." };
     }
   }
-
-  // Sort venues by the number of bookings in descending order after fetching
-  allVenues.sort((a, b) => b.bookings.length - a.bookings.length);
 
   // If we fetched more than the desired total, truncate the array
   if (allVenues.length > totalVenues) {
