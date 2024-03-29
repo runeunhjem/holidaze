@@ -1,16 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import propTypes from "prop-types";
 import * as S from "./index.styled";
 
 function ImageGallery({ images }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [isImageVisible, setImageVisible] = useState(true);
+
+  useEffect(() => {
+    // Start the fade-out effect
+    setImageVisible(true);
+
+    // Wait for the fade-out effect to complete, then change the image and fade it in
+    const timer = setTimeout(() => {
+      setSelectedImageIndex((prevIndex) => {
+        const nextIndex = (prevIndex + 1) % images.length;
+        return nextIndex;
+      });
+      setImageVisible(true); // Now fade in the new image
+    }, 1600); // This timeout should match your CSS transition duration
+
+    return () => clearTimeout(timer);
+  }, [selectedImageIndex, images.length]);
+
 
   return (
     <S.Gallery>
       <S.StyledImg
         src={images[selectedImageIndex].url}
         alt={images[selectedImageIndex].alt || images[selectedImageIndex].alt}
-        className="dark:outline dark:outline-1 dark:outline-blue-900"
+        className={`dark:outline dark:outline-1 dark:outline-blue-900 ${isImageVisible ? "visible" : "hidden"}`}
       />
       <S.NavButton
         direction="left"

@@ -5,29 +5,30 @@ import MobileStepper from "@mui/material/MobileStepper";
 import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import CountryFlag from "../../CountryFlag";
 
-function CardImageCarousel({ images }) {
+function CardImageCarousel({ images, countryCode }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
 
- const handleNext = (event) => {
-   event.preventDefault();
-   event.stopPropagation();
-   setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
- };
+  const handleNext = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+  };
 
- const handleBack = (event) => {
-   event.preventDefault();
-   event.stopPropagation();
-   setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
- };
+  const handleBack = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setActiveStep((prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps);
+  };
 
-
+  console.log("CountryFlag -> countryCode", countryCode);
   return (
     <>
       {images.map((img, index) => (
-        <div key={index} style={{ display: index === activeStep ? "block" : "none" }}>
+        <div key={index} style={{ display: index === activeStep ? "block" : "none", position: "relative" }}>
           <Box
             component="img"
             sx={{
@@ -41,6 +42,9 @@ function CardImageCarousel({ images }) {
             src={img}
             alt={`Slide ${index + 1}`}
           />
+          <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+            <CountryFlag countryCode={countryCode} />
+          </div>
         </div>
       ))}
       <MobileStepper
@@ -66,6 +70,7 @@ function CardImageCarousel({ images }) {
 
 CardImageCarousel.propTypes = {
   images: propTypes.arrayOf(propTypes.string).isRequired,
+  countryCode: propTypes.string,
 };
 
 export default CardImageCarousel;
