@@ -26,7 +26,7 @@ function VenueDetailsPage() {
 
   const images = venue.media.map((url) => ({
     url,
-    alt: `Image of ${venue.name}`,
+    alt: `Illustration of ${venue.name}`,
   }));
 
   return (

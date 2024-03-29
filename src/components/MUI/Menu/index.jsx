@@ -118,6 +118,7 @@ export default function MenuListComposition() {
             <FiUser />
           </Avatar>
         )}
+      <span className="hidden">User menu</span>
       </Button>
 
       <Popper
