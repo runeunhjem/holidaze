@@ -38,6 +38,14 @@ function VenueDetailsPage() {
     minute: "2-digit",
     hour12: true,
   });
+  const formattedUpdatedDate = new Date(venue.updated).toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   const images = venue.media.map((url) => ({
     url,
@@ -74,6 +82,9 @@ function VenueDetailsPage() {
         </p>
         <p>
           <strong>Venue added:</strong> {formattedCreatedDate} by {venue.owner.name}
+        </p>
+        <p>
+          <strong>Venue updated:</strong> {formattedUpdatedDate} by {venue.owner.name}
         </p>
         <div>
           <strong>Amenities:</strong>
