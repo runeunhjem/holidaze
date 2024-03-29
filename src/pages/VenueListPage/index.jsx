@@ -26,6 +26,7 @@ function VenueListPage() {
           throw new Error(error);
         }
         setVenues(data);
+        console.log("Fetched venues:", data.length);
       } catch (error) {
         setError(error.toString());
       }
