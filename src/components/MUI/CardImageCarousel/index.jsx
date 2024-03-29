@@ -9,7 +9,7 @@ import CountryFlag from "../../CountryFlag";
 import getCountryCode from "../../../utils/getCountryCode.js";
 import { Link } from "react-router-dom";
 
-function CardImageCarousel({ images, countryName, venueId }) {
+function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
@@ -27,6 +27,8 @@ function CardImageCarousel({ images, countryName, venueId }) {
   };
 
   const countryCode = getCountryCode(countryName);
+  const placeholderImage = "https://picsum.photos/300/200";
+
   return (
     <>
       {images.map((img, index) => (
@@ -42,10 +44,24 @@ function CardImageCarousel({ images, countryName, venueId }) {
                 width: 300, // Adjust width as needed
                 objectFit: "cover",
               }}
-              src={img}
+              src={img ? img : placeholderImage}
               alt={`Slide ${index + 1}`}
+              loading="lazy"
             />
           </Link>
+          <div
+            style={{
+              position: "absolute",
+              top: "10px",
+              left: "10px",
+              color: "white",
+              backgroundColor: "rgba(0,0,0,0.5)",
+              padding: "2px 5px",
+              borderRadius: "5px",
+            }}>
+            {continent === "Unknown" || continent === "" ? "Unspecified" : continent}
+          </div>
+
           {countryCode && countryCode !== "Unknown" && (
             <div style={{ position: "absolute", top: "10px", right: "10px" }}>
               <CountryFlag countryCode={countryCode} />
@@ -78,6 +94,7 @@ CardImageCarousel.propTypes = {
   images: propTypes.arrayOf(propTypes.string).isRequired,
   countryName: propTypes.string,
   venueId: propTypes.string.isRequired,
+  continent: propTypes.string,
 };
 
 export default CardImageCarousel;
