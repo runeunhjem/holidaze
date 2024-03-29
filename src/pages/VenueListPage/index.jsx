@@ -6,25 +6,40 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import PaginationButtons from "../../components/MUI/Pagination";
 
 function VenueListPage() {
   const [venues, setVenues] = useState([]);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0); // Set to 10 as given
   const navigate = useNavigate();
+  const limit = 100; // Number of venues per page
+  const totalVenues = 600; // Total number of venues
 
   useEffect(() => {
     const fetchVenues = async () => {
-      const { data, error } = await getVenues();
-      setVenues(data);
-      setError(error);
+      try {
+        const { data, error } = await getVenues(currentPage, limit);
+        setTotalPages(Math.ceil(totalVenues / limit));
+        if (error) {
+          throw new Error(error);
+        }
+        setVenues(data);
+      } catch (error) {
+        setError(error.toString());
+      }
     };
 
     fetchVenues();
-  }, []);
+  }, [currentPage]);
 
-  // Handler for the "Back to Venues" button
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   const handleBackClick = () => {
-    navigate("/"); // Navigate back to the root or wherever your venues list is
+    navigate("/"); // Adjust as needed
   };
 
   return (
@@ -39,8 +54,11 @@ function VenueListPage() {
           </Button>
         </>
       )}
+       <PaginationButtons count={totalPages} page={currentPage} onChange={handlePageChange} />
       <div className="flex flex-wrap justify-center gap-4 px-5">
-        {Array.isArray(venues) && venues.map((venue) => <VenueCard key={venue.id} venue={venue} />)}
+        {venues.map((venue) => (
+          <VenueCard key={venue.id} venue={venue} />
+        ))}
       </div>
     </div>
   );
