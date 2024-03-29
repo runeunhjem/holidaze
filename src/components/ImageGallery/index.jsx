@@ -9,11 +9,11 @@ function ImageGallery({ images, countryName, continent }) {
   const [isImageVisible, setImageVisible] = useState(true);
   const [overlayData, setOverlayData] = useState({ countryCode: "", continentText: "" });
 
-
   useEffect(() => {
     // Fetch country code and continent text once on component mount
     const fetchedCountryCode = getCountryCode(countryName);
-    const continentText = continent !== "Unknown" ? continent : "";
+    const continentText = continent === "Unknown" || continent === "" ? "Unspecified" : continent;
+
     setOverlayData({ countryCode: fetchedCountryCode, continentText });
   }, [countryName, continent]);
 
@@ -100,4 +100,3 @@ ImageGallery.propTypes = {
 };
 
 export default ImageGallery;
-
