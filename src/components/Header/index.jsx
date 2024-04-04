@@ -54,9 +54,9 @@ function Header() {
               e.stopPropagation(); // Prevent click from propagating to the document
               setIsOpen(!isOpen);
             }}
-            className="text-xl my-4 md:hidden">
+            className="text-xl my-4 md:hidden"
+            aria-label={isOpen ? "Close menu" : "Open menu"}>
             {isOpen ? <FiX /> : <FiMenu />}
-            <span className="hidden">Menu</span>
           </button>
           <nav className={`flex flex-col md:hidden items-start justify-start text-left ${isOpen ? "flex-col" : "hidden"}`}>
             {pages.map((page) => (
@@ -66,7 +66,7 @@ function Header() {
             ))}
           </nav>
         </div>
-        <button onClick={() => setIsSearchVisible(!isSearchVisible)}>
+        <button onClick={() => setIsSearchVisible(!isSearchVisible)} aria-label="Search">
           <FiSearch
             onClick={() => setIsSearchVisible(!isSearchVisible)}
             className="cursor-pointer me-3 my-4 items-center"
@@ -74,7 +74,7 @@ function Header() {
           />
           <span className="hidden">Search</span>
         </button>
-        <button>
+        <button aria-label="Shopping cart">
           <FiShoppingCart className="cursor-pointer me-3 my-4 items-center" size={20} />
           <span className="hidden">Cart</span>
         </button>

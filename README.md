@@ -199,15 +199,15 @@ Don't forget to give the project a star! Thanks again!
 Project Link: [https://github.com/runeunhjem/javascript-frameworks-ca-react](https://github.com/runeunhjem/javascript-frameworks-ca-react)
 
 Call me - [+47 93 26 76 11](tel:+4793267611)
+
 Email - [runeunhjem@gmail.com](mailto:runeunhjem@gmail.com)
+
 Web (Portfolio) - [Rune Unhjem](https://runeunhjem.com)
 
-##### Social media
+GitHub - [runeunhjem](https://github.com/runeunhjem)
 
 LinkedIn - [Rune Unhjem](https://www.linkedin.com/in/runeunhjem/)
-Facebook - [Rune Unhjem](https://www.facebook.com/runeunhjem/)
-Instagram - [@runeunhjem](https://www.instagram.com/runeunhjem/)
-GitHub - [runeunhjem](https://github.com/runeunhjem)
+
 
 ##### Other projects
 
@@ -221,9 +221,12 @@ My music project on Spotify - [Rune Unhjem | -=ThE rUnIcOrN=-](https://open.spot
 
 - [Unsplash.com](https://unsplash.com/)
 - [Iconfinder.com](https://www.iconfinder.com/)
-- [Othneil Drew | README.md template](https://github.com/othneildrew)
-- [Bootstrap Icons](https://icons.getbootstrap.com/)
+- [Othneil Drew | README.md template](https://github.com/othneildrew/)
+- [Tailwind](https://tailwindcss.com/)
 - [Lorem Picsum](https://picsum.photos/)
+- [React](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [Styled Components](https://styled-components.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

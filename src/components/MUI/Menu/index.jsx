@@ -77,6 +77,7 @@ export default function MenuListComposition() {
         aria-controls={open ? "composition-menu" : undefined}
         aria-expanded={open ? "true" : undefined}
         aria-haspopup="true"
+        aria-label="Profile menu"
         onClick={handleToggle}
         startIcon={
           open ? (
@@ -118,7 +119,7 @@ export default function MenuListComposition() {
             <FiUser />
           </Avatar>
         )}
-      <span className="hidden">User menu</span>
+        <span className="hidden">User menu</span>
       </Button>
 
       <Popper

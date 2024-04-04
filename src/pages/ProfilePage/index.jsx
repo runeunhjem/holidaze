@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import useStore from "../../hooks/useStore";
 
 function ProfilePage() {
-
   useEffect(() => {
     document.title = "Holidaze - Your Profile";
   }, []);
@@ -35,7 +34,10 @@ function ProfilePage() {
             <p>Place some quick action buttons here, for easy access to common tasks.</p>
           </section>
           {/* Logout Button */}
-          <button onClick={logOut} className="mt-8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button
+            onClick={logOut}
+            aria-label="Log Out"
+            className="mt-8 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
             Log Out
           </button>
         </div>

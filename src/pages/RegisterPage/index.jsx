@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 function RegisterPage() {
-
   useEffect(() => {
     document.title = "Holidaze - Register";
   }, []);
@@ -12,7 +11,9 @@ function RegisterPage() {
     <form className="register">
       <h2>Register</h2>
       {/* Registration form fields */}
-      <button type="submit">Register</button>
+      <button aria-label="Submit registration form" type="submit">
+        Register
+      </button>
     </form>
   );
 }
