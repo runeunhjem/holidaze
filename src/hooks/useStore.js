@@ -37,20 +37,6 @@ const useStore = create((set) => ({
     set({ accessToken: null });
   },
 
-  // fetchVenues: async () => {
-  //   try {
-  //     const response = await fetch("https://v2.api.noroff.dev/holidaze/venues?_owner=true&_bookings=true", {
-  //       method: "GET",
-  //       headers: {
-  //         accept: "application/json",
-  //       },
-  //     });
-  //     const data = await response.json();
-  //     set({ venues: data.data }); // Update the venues state with the fetched data
-  //   } catch (error) {
-  //     console.error("Failed to fetch venues:", error);
-  //   }
-  // },
 }));
 
 export const isAuthenticatedSelector = (state) => !!load("isAuthenticated") || !!state.accessToken;
