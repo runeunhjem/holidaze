@@ -55,7 +55,10 @@ function VenueListPage() {
           <Stack sx={{ width: "100%" }} spacing={2}>
             <Alert severity="error">{error}</Alert>
           </Stack>
-          <Button variant="contained" onClick={handleBackClick} style={{ marginBottom: "20px" }}>
+          <Button variant="contained"
+            aria-label="Back to homepage"
+            onClick={ handleBackClick }
+            style={ { marginBottom: "20px" } }>
             Back Home
           </Button>
         </>

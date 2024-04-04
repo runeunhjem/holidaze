@@ -13,6 +13,7 @@ export default function CustomButton() {
       }}>
       <Button
         type="submit"
+        aria-label="Submit search form"
         sx={{
           width: "50%",
           borderRadius: "5px",
@@ -28,6 +29,7 @@ export default function CustomButton() {
       </Button>
       <Button
         type="button"
+        aria-label="Cancel search form"
         sx={{
           width: "50%",
           borderRadius: "5px",
