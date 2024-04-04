@@ -5,17 +5,17 @@
 @layer base {
   /* Global variables */
   :root {
-    --overlay-color-light: rgba(255, 255, 255, 0.5); /* Lighter overlay for light theme */
-    --overlay-color-dark: rgba(44, 40, 40, 0.8); /* Darker overlay for dark theme */
+    --overlay-color-light: #ffffff80; /* Lighter overlay for light theme */
+    --overlay-color-dark: #2c2828cc; /* Darker overlay for dark theme */
     --highlight-booked-red: #f87171; /* bg-red-400 */
 
     --text-color-light: #111827; /* text-black */
     --text-color-dark: #ffffff; /* text-white */
 
-    --link-color-light: #1d4ed8; /* text-blue-700 */
+    --link-color-light: #3b82f6; /* text-blue-500 */
     --link-color-dark: #60a5fa; /* text-blue-400 */
-    --link-color-light-hover: #2563eb; /* text-blue-600 */
-    --link-color-dark-hover: #93c5fd; /* text-blue-300 */
+    --link-color-light-hover: #facc15; /* text-yellow-400 */
+    --link-color-dark-hover: #facc15; /* text-yellow-400 */
 
     --bg-image-light: url("../assets/images/bg-light.jpg");
     --bg-image-dark: url("../assets/images/bg-dark.jpg");
@@ -26,12 +26,14 @@
     --bg-footer-dark: rgba(17, 24, 39, 1); /* bg-blue-900 */
 
     --border-color-light: #9ca3af /* border-grey-400 */;
-    --border-color-dark: #1e40af /* border-blue-800 */;
+    --border-color-dark: #eab308; /* text-yellow-400 */
 
-    /* --button-bg-color: rgba(113, 126, 148, 0.5);
-    --button-hover-bg-color: rgba(0, 0, 0, 0.8);
-    --button-color: white;
-    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7); */
+    --button-bg-color-dark: #eab308; /* text-yellow-400 */
+    --button-bg-color-light: #2c2828cc; /* text-yellow-400 */
+    --button-bg-color-hover: #ca8a04; /* text-yellow-500 */
+    --button-text-color: #000000; /* text-yellow-400 */
+
+    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
   }
 
   /* Global reset */
@@ -44,18 +46,24 @@
 
   [data-theme="light"] {
     --background-image: var(--bg-image-light);
+    --overlay-color: var(--overlay-color-light);
+    --button-bg-color-hover: #eab308; /* text-yellow-400 */
+    --button-bg-color: #ca8a04; /* text-yellow-500 */
   }
 
   [data-theme="dark"] {
     --background-image: var(--bg-image-dark);
+    --overlay-color: var(--overlay-color-dark);
+    --button-bg-color: #eab308; /* text-yellow-400 */
+    --button-bg-color-hover: #ca8a04; /* text-yellow-500 */
 
-    --button-bg-color: rgba(113, 126, 148, 0.5);
+    /* --button-bg-color: rgba(113, 126, 148, 0.5);
     --button-hover-bg-color: rgba(255, 255, 255, 0.8);
     --button-color: #ddd;
-    --button-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.7);
+    --button-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.7); */
   }
 
-  /* Global link styles */
+  /* Global styles */
   html,
   body {
     height: 100%;

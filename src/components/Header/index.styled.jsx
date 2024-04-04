@@ -19,11 +19,14 @@ export const StyledHeader = styled.header`
   a {
     color: inherit;
     transition: all 0.3s ease;
+    padding: 2px 4px;
+    border-radius: 4px;
     /* color: var(${({ theme }) => (theme === "dark" ? "--link-color-dark" : "--link-color-light")}); */
     &:hover {
       color: var(${({ theme }) => (theme === "dark" ? "--link-color-dark-hover" : "--link-color-light-hover")});
       transform: translateY(-2px) scale(1.01);
       transition: all 0.3s ease;
+      background-color: var(${({ theme }) => (theme === "dark" ? "--overlay-color-dark" : "--overlay-color-dark")});
     }
   }
 

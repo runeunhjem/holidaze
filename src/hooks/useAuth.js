@@ -1,29 +1,29 @@
-// hooks/useAuth.js
-import { useStore } from "./useStore";
+import useStore from "./useStore";
 import { fetchApi } from "../utils/fetchApi";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
+  const navigate = useNavigate();
   const setAccessToken = useStore((state) => state.setAccessToken);
   const clearAccessToken = useStore((state) => state.clearAccessToken);
 
   const logIn = async (credentials) => {
     try {
-      const data = await fetchApi("loginEndpoint", {
+      const data = await fetchApi("v1Login", {
         method: "POST",
         body: JSON.stringify(credentials),
       });
       setAccessToken(data.accessToken);
-      // Further actions on successful login
-      Navigate("/profile");
+      navigate("/profile");
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error(error);
+      throw error; // Let the calling function handle the error
     }
   };
 
   const logOut = () => {
     clearAccessToken();
-    Navigate("/");
+    navigate("/");
   };
 
   return { logIn, logOut };

@@ -34,10 +34,22 @@ export const fetchApi = async (endpointKey, options = {}, params = {}, accessTok
   };
 
   const response = await fetch(url, fetchOptions);
+  // Check if the response was not ok (i.e., status code outside of 2xx)
   if (!response.ok) {
-    const error = new Error(`API request failed with status: ${response.status} and text: ${response.statusText}`);
-    error.status = response.status; // Add status property to the error
-    throw error;
+    // Try to parse the response body to get detailed error messages
+    let errorMessage = `API request failed with status: ${response.status}`;
+    try {
+      const errorBody = await response.json(); // Parse the JSON body of the response
+      if (errorBody.errors && errorBody.errors.length > 0) {
+        // Assuming the first error in the array contains the relevant message
+        errorMessage += ` and message: ${errorBody.errors[0].message}`;
+      }
+    } catch (parseError) {
+      console.error("Error parsing the error response:", parseError);
+      // Optionally handle JSON parse error, if the response is not in JSON format
+      errorMessage += `. Unable to parse error response body.`;
+    }
+    throw new Error(errorMessage);
   }
   return response.json();
 };
