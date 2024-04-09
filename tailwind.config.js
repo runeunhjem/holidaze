@@ -7,12 +7,11 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: "#1e3a8a", // blue-900
-        // hoverPrimary: "###bfdbfe", // blue-200
-        secondary: "#bfdbfe", // grey-200
-        buttonBg: "#3d363b", //
-        buttonText: "#cebec9", //
-        hoverButtonText: "#c759a4", //
+        primary: "#1e3a8a",
+        secondary: "#bfdbfe",
+        buttonBg: "#3d363b",
+        buttonText: "#cebec9",
+        hoverButtonText: "#c759a4",
       },
       maxWidth: {
         200: "200px",
@@ -33,7 +32,7 @@ module.exports = {
       },
     },
   },
-  darkMode: "class",
+  darkMode: "selector",
   plugins: [],
 };
 

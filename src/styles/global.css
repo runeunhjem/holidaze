@@ -14,14 +14,16 @@
 
     --link-color-light: #3b82f6; /* text-blue-500 */
     --link-color-dark: #60a5fa; /* text-blue-400 */
-    --link-color-light-hover: #facc15; /* text-yellow-400 */
+    --link-color-light-hover: #3b82f6; /* text-blue-500 */
     --link-color-dark-hover: #facc15; /* text-yellow-400 */
 
     --bg-image-light: url("../assets/images/bg-light.jpg");
     --bg-image-dark: url("../assets/images/bg-dark.jpg");
 
-    --bg-header-light: #ffffff; /* bg-white */
-    --bg-header-dark: rgba(17, 24, 39, 1); /* bg-blue-900 */
+    --bg-header-light: #e0f2fe; /* bg-sky-100 */
+    /* --bg-header-light: #ffedd5; bg-orange-100 */
+    /* --bg-header-light: #ffffff; bg-white */
+    --bg-header-dark: #111827; /* bg-blue-900 */
     --bg-footer-light: #ffffff; /* bg-white */
     --bg-footer-dark: rgba(17, 24, 39, 1); /* bg-blue-900 */
 

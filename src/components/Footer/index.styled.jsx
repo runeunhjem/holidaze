@@ -3,7 +3,8 @@ import styled from "styled-components";
 
 export const StyledFooter = styled.footer`
   padding: 20px 0;
-  background-color: ${({ theme }) => (theme === "dark" ? "var(--bg-footer-dark)" : "var(--bg-footer-light)")};
+  /* background-color: ${({ theme }) => (theme === "dark" ? "var(--bg-footer-dark)" : "var(--bg-footer-light)")}; */
+  background-color: var(${({ theme }) => (theme === "dark" ? "--bg-header-dark" : "--bg-header-light")});
   color: ${({ theme }) => (theme === "dark" ? "var(--text-color-dark)" : "var(--text-color-light)")};
   border-top: 1px solid ${({ theme }) => (theme === "dark" ? "var(--border-color-dark)" : "var(--border-color-light)")};
   text-align: center;

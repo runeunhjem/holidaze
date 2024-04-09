@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CardImageCarousel from "../MUI/CardImageCarousel"; // Adjust the path as necessary
 import RatingStar from "../RatingStar";
 import getCountryCode from "../../utils/getCountryCode";
+import { TbHeartPlus } from "react-icons/tb";
 
 function VenueCard({ venue }) {
   const countryCode = getCountryCode(venue.location.country);
@@ -37,9 +38,12 @@ function VenueCard({ venue }) {
         <div className="font-bold">{venue.name}</div>
       </div>
       {/* Rating */}
-      <div className="h-50px w-full flex items-center px-4" style={{ height: "50px" }}>
-        <span className="me-1">{venue.rating.toFixed(1)}</span>
+      <div className="h-50px w-full flex items-center px-4 justify-between" style={{ height: "50px" }}>
+        <div className="flex items-center justify-start">
+        <span className="me-1">{ venue.rating.toFixed(1) }</span>
         <RatingStar rating={venue.rating} />
+        </div>
+        <TbHeartPlus className="text-red-500 text-lg" />
       </div>
       {/* Price / Night */}
       <div className="h-50px w-full flex items-center justify-between px-4" style={{ height: "50px" }}>
