@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 const useAuth = () => {
   const navigate = useNavigate();
+  const setIsAuthenticated = useStore((state) => state.isAuthenticated);
+
   const setAccessToken = useStore((state) => state.setAccessToken);
   const clearAccessToken = useStore((state) => state.clearAccessToken);
 
@@ -14,6 +16,7 @@ const useAuth = () => {
         body: JSON.stringify(credentials),
       });
       setAccessToken(data.accessToken);
+      setIsAuthenticated(true);
       navigate("/profile");
     } catch (error) {
       console.error(error);

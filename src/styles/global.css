@@ -100,25 +100,32 @@
 
   }
 
-  /* Global styles */
-  html,
-  body {
-    height: 100%;
-    margin: 0;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: var(--body-text-color);
+  background-color: var(--body-bg-color);
+}
 
-  body {
-    display: flex;
-    flex-direction: column;
-    color: var(--body-text-color);
-    background-color: var(--body-bg-color);
-  }
+#root, .App { 
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Allows this element to expand and contract as needed */
+}
+
+main {
+  flex-grow: 1; /* Ensures that the main content area can expand to fill available space pushing the footer down */
+}
+
   header {
     background-color: var(--header-bg-color);
     border-bottom: 1px solid var(--border-color);
   }
 
+
   footer {
+    flex-shrink: 0; /* Optional: Prevents the footer from shrinking if the content area is too large */
     background-color: var(--footer-bg-color);
     border-top: 1px solid var(--border-color);
   }
