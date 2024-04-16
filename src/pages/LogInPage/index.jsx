@@ -87,11 +87,7 @@ function LogInPage() {
             sx={{
               mt: 3,
               mb: 2,
-              // backgroundColor: "var(--button-bg-color)", // Default to light theme
-              // ":hover": {
-              //   backgroundColor: "var(--button-bg-color-hover)", // Hover state for light theme
-              // },
-              // Use MUI's theme to conditionally apply dark theme variables
+
               ...(theme) => ({
                 ...(theme.palette.mode === "dark" && {
                   backgroundColor: "var(--button-bg-color)", // Dark theme
@@ -102,6 +98,9 @@ function LogInPage() {
               }),
             }}>
             Log In
+          </Button>
+          <Button fullWidth variant="outlined" sx={ { mb: 2 } }>
+            Cheat login
           </Button>
           {error && (
             <Stack sx={{ width: "100%" }} spacing={2}>
