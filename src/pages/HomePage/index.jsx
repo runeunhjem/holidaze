@@ -17,7 +17,7 @@ function HomePage() {
   const isAuthenticated = useStore(isAuthenticatedSelector);
   return (
     <S.HomeContainer>
-      <S.BackgroundFader />
+      {/* <S.BackgroundFader /> */}
       <S.HomeContentWrapper>
         <S.Title>
           {/* Username should be shown behind Holidaze if user is authenticated */}

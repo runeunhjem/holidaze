@@ -31,7 +31,7 @@ export default function BasicDatePicker() {
               className="w-1/2"
               sx={{
                 ".MuiInputLabel-root": {
-                  color: "#6b7280",
+                  color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
                 },
               }}
             />
@@ -40,7 +40,7 @@ export default function BasicDatePicker() {
               className="w-1/2"
               sx={{
                 ".MuiInputLabel-root": {
-                  color: "#6b7280",
+                  color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
                 },
               }}
             />

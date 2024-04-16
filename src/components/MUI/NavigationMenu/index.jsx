@@ -118,7 +118,7 @@ export default function NavigationMenu() {
                     sx={{
                       "&:hover": {
                         backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
                       },
                     }}
                     onClick={() => handleNavigate("/")}>
@@ -128,7 +128,7 @@ export default function NavigationMenu() {
                     sx={{
                       "&:hover": {
                         backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
                       },
                     }}
                     onClick={() => handleNavigate("/destinations")}>
@@ -138,7 +138,7 @@ export default function NavigationMenu() {
                     sx={{
                       "&:hover": {
                         backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
                       },
                     }}
                     onClick={() => handleNavigate("/about")}>
@@ -148,7 +148,7 @@ export default function NavigationMenu() {
                     sx={{
                       "&:hover": {
                         backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
                       },
                     }}
                     onClick={() => handleNavigate("/contact")}>
