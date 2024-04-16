@@ -9,6 +9,8 @@
     --overlay-color-dark: #384252cc; /* Darker overlay for dark theme */
 
     /* Tailwind colors */
+    --white: #ffffff;
+    --black: #000000;
     --red-500: #ef4444;
     --red-700: #b91c1c;
     --orange-200: #fed7aa;
@@ -16,8 +18,10 @@
     --green-800: #166534;
     --yellow-200: #fef08a;
     --yellow-400: #facc15;
+    --yellow-500: #eab308;
     --sky-50: #f0f9ff;
     --sky-100: #e0f2fe;
+    --sky-200: #bae6fd;
     --sky-300: #7dd3fc;
     --sky-500: #0ea5e9;
     --blue-300: #93c5fd;
@@ -30,7 +34,7 @@
     --gray-100: #f3f4f6;
     --gray-300: #d1d5db;
     --gray-400: #9ca3af;
-    --gray:500: #6b7280;
+    --gray-500: #6b7280;
     --gray-700: #374151;
     --gray-800: #1f2937;
     --gray-900: #111827;
@@ -83,7 +87,7 @@
     --header-bg-color: var(--sky-100);
     --footer-bg-color: var(--sky-100);
     --border-color: var(--sky-300);
-    
+
   }
 
   [data-theme="dark"] {

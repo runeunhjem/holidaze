@@ -21,7 +21,7 @@ function ToggleTheme() {
       onClick={toggleDarkMode}
       aria-label="Toggle Theme"
       style={{ transition: "all 0.3s ease", backgroundColor: "var(--overlay-color-dark)" }}
-      className="flex items-center justify-center p-1.5 my-3 me-2 rounded-full">
+      className="flex items-center justify-center p-1.5 my-3 me-3 rounded-full">
       {isDarkMode ? <FiMoon className="hover:text-yellow-400" /> : <FiSun className="hover:text-yellow-400 text-sky-300" />}
       <span className="hidden">Toggle Theme</span>
     </button>

@@ -96,8 +96,13 @@ const StyledLabel = styled("label")(({ theme, isFocused, hasValue }) => ({
   transformOrigin: "top left",
   transform: "translateY(0px)",
   transition: "transform 0.2s, color 0.2s",
-  color: (!isFocused && hasValue) || (!isFocused && !hasValue) ? grey[500] : theme.palette.primary.main,
-  backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
+  color:
+    (!isFocused && hasValue) || (!isFocused && !hasValue)
+      ? theme.palette.mode === "light"
+        ? "var(--gray-700)"
+        : "var(--gray-400)"
+      : theme.palette.primary.main,
+  // backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
   padding: "0 4px",
 }));
 
@@ -141,6 +146,16 @@ function GuestsInput({ label, ...props }) {
   const theme = useTheme();
   const hasValue = Boolean(value.length);
 
+  const handleChange = (e) => {
+    const val = e.target.value;
+    // Check if the input is a number and greater than or equal to 1
+    if (val === "" || (/^\d+$/.test(val) && Number(val) >= 1)) {
+      setValue(val);
+    } else {
+      setValue(""); // Reset to empty if input is invalid
+    }
+  };
+
   // const handleIncrement = () => {
   //   setValue((prevValue) => String(Number(prevValue) + 1));
   // };
@@ -154,7 +169,7 @@ function GuestsInput({ label, ...props }) {
       <StyledInput
         {...props}
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handleChange}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         type="text"
@@ -172,8 +187,30 @@ function GuestsInput({ label, ...props }) {
         {label}
       </StyledLabel>
       <div className="flex-col">
-        <IncrementButton onClick={() => setValue(String(Number(value) + 1))}>+</IncrementButton>
-        <DecrementButton onClick={() => setValue(String(Math.max(Number(value) - 1, 0)))}>-</DecrementButton>
+        <IncrementButton
+          sx={{
+            borderRadius: "5px 5px 0 0",
+            backgroundColor: theme.palette.mode === "dark" ? "var(--gray-800)" : "var(--sky-50)",
+            "&:hover": {
+              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--blue-300)",
+              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+            },
+          }}
+          onClick={() => setValue(String(Number(value) + 1))}>
+          +
+        </IncrementButton>
+        <DecrementButton
+          sx={{
+            borderRadius: "0 0 5px 5px",
+            backgroundColor: theme.palette.mode === "dark" ? "var(--gray-800)" : "var(--sky-50)",
+            "&:hover": {
+              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--blue-300)",
+              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+            },
+          }}
+          onClick={() => setValue(String(Math.max(Number(value) - 1, 0)))}>
+          -
+        </DecrementButton>
       </div>
     </Container>
   );

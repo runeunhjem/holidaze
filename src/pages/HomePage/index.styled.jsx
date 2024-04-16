@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 //about-section p-4 md:p-8
-export const HomeContainer = styled.div`
+export const HomeContainer = styled.main`
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
-  min-height: 100vh;
+  /* min-height: 100vh; */
+  flex-grow: 1;
   background-image: var(--background-image);
   background-size: cover;
   background-position: bottom;
@@ -14,16 +15,17 @@ export const HomeContainer = styled.div`
   transition: all 0.3s ease-in-out;
 `;
 
-export const BackgroundFader = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--body-bg-color);
-  color: var(--body-text-color);
-  z-index: 1;
-`;
+// export const BackgroundFader = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: var(--body-bg-color);
+//   color: var(--body-text-color);
+//   z-index: 1;
+//   flex-grow: 1;
+// `;
 
 export const HomeContentWrapper = styled.div`
   position: relative;
@@ -33,6 +35,7 @@ export const HomeContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-grow: 1;
 `;
 
 export const Title = styled.h1`

@@ -1,25 +1,36 @@
 import { Button as BaseButton, buttonClasses } from "@mui/base/Button";
 import { styled } from "@mui/system";
 import Stack from "@mui/material/Stack";
+import { useTheme } from "@emotion/react";
 
 export default function CustomButton() {
+
+  const theme = useTheme();
+
   return (
     <Stack
       spacing={2}
       direction="row"
       sx={{
         width: "100%",
+        height: "40px",
         justifyContent: "center",
       }}>
       <Button
         type="submit"
         aria-label="Submit search form"
         sx={{
+          boxSizing: "border-box",
           width: "50%",
           borderRadius: "5px",
-          backgroundColor: "##60a5fa",
+          fontSize: "1rem",
+          backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+          color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
           ":hover": {
-            backgroundColor: "#2563eb",
+            backgroundColor: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--sky-200)",
+            color: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--gray-900)",
+            border: "1px solid",
+            borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
           },
           outline: "none",
           border: "none",
@@ -33,9 +44,11 @@ export default function CustomButton() {
         sx={{
           width: "50%",
           borderRadius: "5px",
-          backgroundColor: "#f87171",
+          fontSize: "1rem",
+          backgroundColor: theme.palette.mode === "dark" ? "var(--red-700)" : "var(--red-500)",
+          color: theme.palette.mode === "dark" ? "var(--gray-100)" : "var(--gray-900)",
           ":hover": {
-            backgroundColor: "#e11d48",
+            backgroundColor: theme.palette.mode === "dark" ? "var(--red-500)" : "var(--red-700)",
           },
           outline: "none",
           border: "none",
