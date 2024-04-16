@@ -8,10 +8,14 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import { Navigate, useNavigate } from "react-router-dom";
+import { save } from "../../utils/storage"; // Make sure the path is correct
 
 function LogInPage() {
   const { logIn } = useAuth();
   const [error, setError] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -21,23 +25,20 @@ function LogInPage() {
   const onSubmit = async (data) => {
     try {
       await logIn(data);
-      // Assuming logIn navigates on success, so no further action needed here
     } catch (error) {
-      // Assuming the error object from your API might have a message property
-      // This can be customized based on how your API returns errors
       setError(error.message || "Login failed. Please check your credentials.");
     }
   };
 
+  const handleCheatLogin = () => {
+    setIsAuthenticated(true); // Set Authenticated to true when "Cheat Login" is clicked
+    save("isAuthenticated", true); // Save the authentication status in localStorage
+    navigate("/"); // Navigate to the homepage
+  };
+
   return (
     <Container maxWidth="sm">
-      <Box
-        sx={{
-          marginTop: 8,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}>
+      <Box sx={{ marginTop: 8, display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Typography component="h1" variant="h5">
           Log In
         </Typography>
@@ -80,26 +81,10 @@ function LogInPage() {
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{
-              mt: 3,
-              mb: 2,
-
-              ...(theme) => ({
-                ...(theme.palette.mode === "dark" && {
-                  backgroundColor: "var(--button-bg-color)", // Dark theme
-                  ":hover": {
-                    backgroundColor: "var(--button-bg-color-hover)", // Hover state for dark theme
-                  },
-                }),
-              }),
-            }}>
+          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Log In
           </Button>
-          <Button fullWidth variant="outlined" sx={ { mb: 2 } }>
+          <Button onClick={handleCheatLogin} fullWidth variant="outlined" sx={{ mb: 2 }}>
             Cheat login
           </Button>
           {error && (
@@ -107,6 +92,7 @@ function LogInPage() {
               <Alert severity="error">{error}</Alert>
             </Stack>
           )}
+          {isAuthenticated && <Navigate to="/" />} {/* Redirect to home if Authenticated */}
         </Box>
       </Box>
     </Container>

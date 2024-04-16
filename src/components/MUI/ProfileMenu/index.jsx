@@ -23,7 +23,7 @@ export default function MenuListComposition() {
     isAuthenticated: state.isAuthenticated,
     logOut: state.logOut,
   }));
-
+  
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -52,6 +52,10 @@ export default function MenuListComposition() {
     navigate("/");
     setOpen(false);
   };
+
+  React.useEffect(() => {
+    console.log("Authentication status changed:", isAuthenticated);
+  }, [isAuthenticated]); // Correct dependency
 
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {

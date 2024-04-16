@@ -13,7 +13,7 @@ function ProfilePage() {
   // Display that data in the profile page
 
   return (
-    <div className="min-h-screen p-8">
+    <main className="min-h-screen p-8">
       <div className="container mx-auto">
         <h1 className="text-4xl font-bold mb-4">Profile</h1>
         <p>Welcome back, [Username]!</p>
@@ -42,7 +42,7 @@ function ProfilePage() {
           </button>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

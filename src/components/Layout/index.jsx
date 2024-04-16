@@ -5,7 +5,7 @@ import * as S from "./index.styled";
 
 function Layout({ children }) {
   return (
-    <S.LayoutContainer>
+    <S.LayoutContainer className="App">
       <Header />
       <S.MainContent>{children}</S.MainContent>
       <Footer />

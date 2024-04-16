@@ -7,6 +7,7 @@ export const HomeContainer = styled.main`
   padding: 1rem;
   /* min-height: 100vh; */
   flex-grow: 1;
+  flex: 1;
   background-image: var(--background-image);
   background-size: cover;
   background-position: bottom;
@@ -34,8 +35,8 @@ export const HomeContentWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
-  flex-grow: 1;
+  /* height: 100%;
+  flex-grow: 1; */
 `;
 
 export const Title = styled.h1`
