@@ -136,9 +136,9 @@ export default function MenuListComposition() {
         disablePortal
         modifiers={[
           {
-            name: 'offset',
+            name: "offset",
             options: {
-              offset: [0, 10], // Moves the menu 16px to the left; adjust as needed
+              offset: [-14, 12], // Moves the menu 16px to the left; adjust as needed
             },
           },
         ]}
@@ -149,37 +149,100 @@ export default function MenuListComposition() {
             style={{
               transformOrigin: placement === "top-start" ? "right bottom" : "left top",
             }}>
-            <Paper>
+            <Paper
+              sx={{
+                borderRadius: "5px",
+                borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+                borderWidth: 1,
+                borderStyle: "solid",
+              }}>
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
                   id="composition-menu"
                   aria-labelledby="composition-button"
                   className="dark:bg-gray-800"
+                  sx={{ borderRadius: "5px" }}
                   onKeyDown={handleListKeyDown}>
                   {isAuthenticated
                     ? [
-                        <MenuItem key="profile" onClick={() => handleNavigate("/profile")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="profile"
+                          onClick={() => handleNavigate("/profile")}>
                           Profile
                         </MenuItem>,
-                        <MenuItem key="myFavorites" onClick={() => handleNavigate("/myFavorites")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="myFavorites"
+                          onClick={() => handleNavigate("/myFavorites")}>
                           My favorites
                         </MenuItem>,
-                        <MenuItem key="myBookings" onClick={() => handleNavigate("/myBookings")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="myBookings"
+                          onClick={() => handleNavigate("/myBookings")}>
                           My bookings
                         </MenuItem>,
-                        <MenuItem key="myVenues" onClick={() => handleNavigate("/myVenues")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="myVenues"
+                          onClick={() => handleNavigate("/myVenues")}>
                           My venues
                         </MenuItem>,
-                        <MenuItem key="logout" onClick={handleLogOut}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="logout"
+                          onClick={handleLogOut}>
                           Logout
                         </MenuItem>,
                       ]
                     : [
-                        <MenuItem key="login" onClick={() => handleNavigate("/login")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="login"
+                          onClick={() => handleNavigate("/login")}>
                           Log In
                         </MenuItem>,
-                        <MenuItem key="register" onClick={() => handleNavigate("/register")}>
+                        <MenuItem
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
+                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                            },
+                          }}
+                          key="register"
+                          onClick={() => handleNavigate("/register")}>
                           Register
                         </MenuItem>,
                       ]}

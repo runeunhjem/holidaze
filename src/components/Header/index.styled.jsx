@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledHeader = styled.header`
-  padding: 10px 0;
+  padding: 10px 10px 10px 0;
   transition: all 0.1s ease-in-out;
   .container {
     position: relative;

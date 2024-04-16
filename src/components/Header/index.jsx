@@ -47,7 +47,7 @@ function Header() {
           />
         </Link>
         <div className="flex items-center w-full p-0 m-0 justify-between">
-          <>
+          <div>
             <Link to="/" className="font-bold text-xl flex ms-20 logo">
               Holidaze
             </Link>
@@ -61,24 +61,24 @@ function Header() {
               aria-label={isOpen ? "Close menu" : "Open menu"}>
               {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
             </button> */}
-          </>
-            <NavigationMenu className="flex md:hidden"/>
+          </div>
+          <NavigationMenu className="flex md:hidden" />
           <nav className={`hidden md:flex items-start justify-start me-1 text-left ${isOpen ? "flex" : "hidden"}`}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <Link
                 to={`/${page.toLowerCase()}`}
                 key={page}
-                className="text-left md-flex md:text-md mx-2 my-1 md:my-0 z-1000 ">
+                className={`text-left md:flex md:text-md mx-2 my-1 z-1000 ${
+                  index === pages.length - 1 ? "md:mr-0" : "md:mx-2"
+                }`}>
                 {page}
               </Link>
             ))}
           </nav>
         </div>
       </div>
-      <div className="flex items-start mx-auto me-3 justify-between md:justify-end max-w-1200">
-        <div className="text-left w-full p-0 m-0">
-
-        </div>
+      <div className="flex items-start md:mx-auto me-3 justify-between md:justify-end max-w-1200">
+        <div className="text-left w-full p-0 m-0"></div>
         <button onClick={() => setIsSearchVisible(!isSearchVisible)} aria-label="Search">
           <FiSearch
             onClick={() => setIsSearchVisible(!isSearchVisible)}
@@ -105,8 +105,13 @@ function Header() {
         className={`flex md:hidden items-Start bg-white dark:bg-gray-900 justify-start text-left ${
           isOpen ? "flex-col" : "hidden"
         }`}>
-        {pages.map((page) => (
-          <Link to={`/${page.toLowerCase()}`} key={page} className="w-full text-left md:flex text-sm mx-auto my-1 md:my-0">
+        {pages.map((page, index) => (
+          <Link
+            to={`/${page.toLowerCase()}`}
+            key={page}
+            className={`text-left md:flex md:text-md mx-2 my-1 z-1000 ${
+              index === pages.length - 1 ? "md:mr-0" : "md:mx-2"
+            }`}>
             {page}
           </Link>
         ))}
