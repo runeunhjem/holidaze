@@ -68,7 +68,7 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
     transform: "scale(0.75) translateY(-10px) translateX(16px)",
-    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
+    backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-dark)" : "var(--bg-header-light)",
     padding: "0 6px",
   },
 }));

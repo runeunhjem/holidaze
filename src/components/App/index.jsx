@@ -16,6 +16,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../../theme";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import MyVenuesPage from "../../pages/MyVenuesPage";
+import MyBookingsPage from "../../pages/MyBookingsPage";
+import MyFavoritesPage from "../../pages/MyFavoritesPage";
 
 function App() {
 // function App({ children }) {
@@ -46,6 +49,9 @@ function App() {
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/about" element={<AboutPage />} />
+              <Route path="/myFavorites" element={<MyFavoritesPage />} />
+              <Route path="/myBookings" element={<MyBookingsPage />} />
+              <Route path="/myVenues" element={<MyVenuesPage />} />
             </Routes>
           </Layout>
         </ThemeProvider>

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
-import { FiMenu, FiX, FiSearch, FiShoppingCart } from "react-icons/fi";
+import { FiSearch } from "react-icons/fi";
 import ToggleTheme from "../ToggleTheme";
 import SearchBar from "../SearchBar";
-import MenuListComposition from "../MUI/Menu";
+import MenuListComposition from "../MUI/ProfileMenu";
 import { Link } from "react-router-dom";
 import { StyledHeader } from "./index.styled";
 import useStore from "../../hooks/useStore";
-import logoLight from "../../assets/logo/holidaze.png"; // Path to your light mode logo
+import logoLight from "../../assets/logo/holidaze-dark.png";
 import logoDark from "../../assets/logo/holidaze-yellow.png";
+import NavigationMenu from "../MUI/NavigationMenu";
 
 const pages = ["Home", "Destinations", "About", "Contact"];
 
@@ -50,7 +51,7 @@ function Header() {
             <Link to="/" className="font-bold text-xl flex ms-20 logo">
               Holidaze
             </Link>
-            <button
+            {/* <button
               onClick={(e) => {
                 e.stopPropagation(); // Prevent click from propagating to the document
                 setIsOpen(!isOpen);
@@ -59,32 +60,24 @@ function Header() {
               style={{ zIndex: 1000 }}
               aria-label={isOpen ? "Close menu" : "Open menu"}>
               {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
-            </button>
+            </button> */}
           </>
-          <nav className={`hidden md:flex items-start justify-start text-left ${isOpen ? "flex" : "hidden"}`}>
+            <NavigationMenu className="flex md:hidden"/>
+          <nav className={`hidden md:flex items-start justify-start me-1 text-left ${isOpen ? "flex" : "hidden"}`}>
             {pages.map((page) => (
               <Link
                 to={`/${page.toLowerCase()}`}
                 key={page}
-                className="text-left md:flex md:text-md mx-2 my-1 md:my-0 z-1000 ">
+                className="text-left md-flex md:text-md mx-2 my-1 md:my-0 z-1000 ">
                 {page}
               </Link>
             ))}
           </nav>
         </div>
       </div>
-      <div className="flex items-start mx-auto justify-between md:justify-end max-w-1200">
+      <div className="flex items-start mx-auto me-3 justify-between md:justify-end max-w-1200">
         <div className="text-left w-full p-0 m-0">
-          {/* <button
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent click from propagating to the document
-              setIsOpen(!isOpen);
-            }}
-            className="text-xl my-4 md:hidden z-1000"
-            style={{ zIndex: 1000 }}
-            aria-label={isOpen ? "Close menu" : "Open menu"}>
-            {isOpen ? <FiX /> : <FiMenu />}
-          </button> */}
+
         </div>
         <button onClick={() => setIsSearchVisible(!isSearchVisible)} aria-label="Search">
           <FiSearch
@@ -93,10 +86,6 @@ function Header() {
             size={20}
           />
           <span className="hidden">Search</span>
-        </button>
-        <button aria-label="Shopping cart">
-          <FiShoppingCart className="cursor-pointer me-3 my-4 items-center" size={20} />
-          <span className="hidden">Cart</span>
         </button>
         <ToggleTheme className="items-center my-4" />
 
@@ -127,3 +116,4 @@ function Header() {
 }
 
 export default Header;
+

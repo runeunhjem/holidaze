@@ -20,7 +20,8 @@ export const BackgroundFader = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--overlay-color);
+  background-color: var(--body-bg-color);
+  color: var(--body-text-color);
   z-index: 1;
 `;
 
