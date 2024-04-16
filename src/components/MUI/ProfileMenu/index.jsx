@@ -88,6 +88,7 @@ export default function MenuListComposition() {
         }
         sx={{
           color: theme.palette.mode === "light" ? "#1F2937" : "#F9FAFB",
+          backgroundColor: theme.palette.mode === "light" ? "var(--sky-50)" : "var(--gray-700)",
           borderRadius: "32px",
           width: "80px",
           py: "6px",
@@ -115,6 +116,10 @@ export default function MenuListComposition() {
               width: 24,
               height: 24,
               fontSize: 12,
+              backgroundColor: theme.palette.mode === "light" ? "var(--sky-100)" : "var(--gray-100)",
+              color: theme.palette.mode === "light" ? "var(--gray-900)" : "var(--gray-900)",
+              border: "1px solid",
+              borderColor: theme.palette.mode === "light" ? "var(--gray-300)" : "var(--sky-100)",
             }}>
             <FiUser />
           </Avatar>
@@ -129,6 +134,14 @@ export default function MenuListComposition() {
         placement="top-start"
         transition
         disablePortal
+        modifiers={[
+          {
+            name: 'offset',
+            options: {
+              offset: [0, 10], // Moves the menu 16px to the left; adjust as needed
+            },
+          },
+        ]}
         sx={{ zIndex: 10 }}>
         {({ TransitionProps, placement }) => (
           <Grow
@@ -149,8 +162,14 @@ export default function MenuListComposition() {
                         <MenuItem key="profile" onClick={() => handleNavigate("/profile")}>
                           Profile
                         </MenuItem>,
-                        <MenuItem key="dashboard" onClick={() => handleNavigate("/dashboard")}>
-                          My account
+                        <MenuItem key="myFavorites" onClick={() => handleNavigate("/myFavorites")}>
+                          My favorites
+                        </MenuItem>,
+                        <MenuItem key="myBookings" onClick={() => handleNavigate("/myBookings")}>
+                          My bookings
+                        </MenuItem>,
+                        <MenuItem key="myVenues" onClick={() => handleNavigate("/myVenues")}>
+                          My venues
                         </MenuItem>,
                         <MenuItem key="logout" onClick={handleLogOut}>
                           Logout

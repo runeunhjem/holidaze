@@ -4,39 +4,14 @@ import { Unstable_NumberInput as BaseNumberInput, numberInputClasses } from "@mu
 import { styled } from "@mui/system";
 import { useTheme } from "@mui/material/styles";
 
-const blue = {
-  100: "#DAECFF",
-  200: "#b6daff",
-  300: "#80BFFF",
-  400: "#3399FF",
-  500: "#007FFF",
-  600: "#0072E5",
-  700: "#005CBF",
-  800: "#004499",
-  900: "#111827",
-};
-
-const grey = {
-  50: "#F3F6F9",
-  100: "#E5EAF2",
-  200: "#DAE2ED",
-  300: "#C7D0DD",
-  400: "#B0B8C4",
-  500: "#6b7280",
-  600: "#6B7A90",
-  700: "#434D5B",
-  800: "#303740",
-  900: "#111827",
-};
-
 const Container = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: "5px",
-  border: `1px solid ${theme.palette.mode === "dark" ? grey[700] : "rgba(0,0,0, 0.3)"}`,
+  border: `1px solid ${theme.palette.mode === "dark" ? "var(--border-color)" : "var(--border-color)"}`,
   "&:hover": {
-    borderColor: theme.palette.mode === "dark" ? grey[300] : grey[700],
+    borderColor: `var(--border-color)`,
   },
-  backgroundColor: theme.palette.mode === "dark" ? grey[900] : "transparent",
+  backgroundColor: `var(--bg-header-${theme.palette.mode})`,
 }));
 
 const Label = styled("label")(({ theme, hasValueOrFocused }) => ({
@@ -45,31 +20,22 @@ const Label = styled("label")(({ theme, hasValueOrFocused }) => ({
   top: "3px",
   transition: "all 0.2s ease",
   pointerEvents: "none",
-  // color: hasValueOrFocused ? (theme.palette.mode === "dark" ? blue[300] : blue[400]) : "#666",
-  color: hasValueOrFocused ? theme.palette.primary.main : "#666",
+  color: hasValueOrFocused ? `var(--link-color-${theme.palette.mode})` : "#666",
   transform: hasValueOrFocused ? "translateY(-13px)" : "translateY(10px)",
   fontSize: hasValueOrFocused ? "0.75em" : "1em",
-  backgroundColor: hasValueOrFocused ? (theme.palette.mode === "dark" ? blue[900] : "#FFF") : "transparent",
+  backgroundColor: hasValueOrFocused ? `var(--bg-footer-${theme.palette.mode})` : "transparent",
   padding: hasValueOrFocused ? "0 3px" : "0",
-  "&:not(:focus):placeholder-shown + label": {
-    color: "theme.palette.mode === 'dark' ? grey[500] : grey[700]",
-  },
 }));
 
 const StyledInputRoot = styled("div")(
   ({ theme }) => `
   width: 100%;
   height: 50px;
-  font-family: 'Roboto', 'Helvetica', 'IBM Plex Sans', sans-serif;
-  font-size: 0.975rem;
-  font-weight: 400;
-  line-height: 1.5;
   padding: 12px;
   border-radius: 5px;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[500]};
-  background: ${theme.palette.mode === "dark" ? grey[900] : "transparent"};
-  border: 1px solid ${theme.palette.mode === "dark" ? grey[700] : grey[100]};
-  box-shadow: 0px 2px 4px ${theme.palette.mode === "dark" ? "rgba(0,0,0, 0.5)" : "rgba(0,0,0, 0.05)"};
+  color: var(--text-color-${theme.palette.mode});
+  background: var(--bg-header-${theme.palette.mode});
+  border: 1px solid var(--border-color-${theme.palette.mode});
   display: grid;
   grid-template-columns: 1fr 19px;
   grid-template-rows: 1fr 1fr;
@@ -79,16 +45,10 @@ const StyledInputRoot = styled("div")(
   box-sizing: border-box;
   outline: none;
 
-  &.${numberInputClasses.focused} {
-    outline: 1px solid ${theme.palette.mode === "dark" ? blue[300] : blue[700]};
+  &.${numberInputClasses.focused}, &:focus {
+    outline: 1px solid var(--link-color-${theme.palette.mode}-hover);
   }
 
-  &:focus {
-    // border: 2px solid ${theme.palette.mode === "dark" ? blue[300] : blue[700]};
-    outline: 1px solid ${theme.palette.mode === "dark" ? blue[300] : blue[700]};
-  }
-
-  // firefox
   &:focus-visible {
     outline: 0;
   }
@@ -97,108 +57,33 @@ const StyledInputRoot = styled("div")(
 
 const StyledInputElement = styled("input")(
   ({ theme }) => `
-  font-size: 0.975rem;
-  font-family: inherit;
-  font-weight: 400;
-  line-height: 1.5;
   grid-column: 1/2;
   grid-row: 1/3;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
+  color: var(--text-color-${theme.palette.mode});
   background: inherit;
   border: none;
   border-radius: inherit;
   padding: 8px 12px;
   outline: 0;
   &::placeholder {
-    // color: ${theme.palette.mode === "dark" ? grey[100] : grey[900]};
-    // opacity: 0.7;
     color: transparent;
   }
-  &:focus + label: {
-    color: theme.palette.mode === "dark" ? blue[300] : blue[400];
-  }
-  &:not(:focus):placeholder-shown + label: {
-    color: theme.palette.mode === "dark" ? grey[500] : grey[700];
-  }
-  &:focus + label, &:not(:placeholder-shown) + label: {
+  &:focus + label, &:not(:placeholder-shown) + label {
     transform: scale(0.75) translateY(-2px) translateX(16px);
-    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff";
-    padding: 0 6px;
+    backgroundColor: var(--bg-footer-${theme.palette.mode});
   }
 `
 );
 
 const StyledButton = styled("button")(
   ({ theme }) => `
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
-  align-items: center;
-  appearance: none;
-  padding: 0;
-  width: 19px;
-  height: 19px;
-  font-family: system-ui, sans-serif;
-  font-size: 0.875rem;
-  line-height: 1;
-  box-sizing: border-box;
-  background: ${theme.palette.mode === "dark" ? grey[900] : "#fff"};
-  border: 0;
-  color: ${theme.palette.mode === "dark" ? grey[300] : grey[900]};
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 120ms;
-
-  &:hover {
-    background: ${theme.palette.mode === "dark" ? grey[800] : grey[50]};
-    border-color: ${theme.palette.mode === "dark" ? grey[600] : grey[300]};
-    cursor: pointer;
-  }
-
-  &.${numberInputClasses.incrementButton} {
-    grid-column: 2/3;
-    grid-row: 1/2;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-    border: 1px solid;
-    border-bottom: 0;
-    border-color: ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-    background: ${theme.palette.mode === "dark" ? grey[900] : grey[50]};
-    color: ${theme.palette.mode === "dark" ? grey[200] : grey[900]};
-
-    &:hover {
-      cursor: pointer;
-      color: #FFF;
-      background: ${theme.palette.mode === "dark" ? blue[600] : blue[500]};
-      border-color: ${theme.palette.mode === "dark" ? blue[400] : blue[600]};
-    }
-  }
-
-  &.${numberInputClasses.decrementButton} {
-    grid-column: 2/3;
-    grid-row: 2/3;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border: 1px solid;
-    border-color: ${theme.palette.mode === "dark" ? grey[700] : grey[200]};
-    background: ${theme.palette.mode === "dark" ? grey[900] : grey[50]};
-    color: ${theme.palette.mode === "dark" ? grey[200] : grey[900]};
-  }
-
-  &:hover {
-    cursor: pointer;
-    color: #FFF;
-    background: ${theme.palette.mode === "dark" ? blue[600] : blue[500]};
-    border-color: ${theme.palette.mode === "dark" ? blue[400] : blue[600]};
-  }
-
-  & .arrow {
-    transform: translateY(-1px);
-  }
-
-  & .arrow {
-    transform: translateY(-1px);
-  }
+  // background: var(--bg-header-${theme.palette.mode});
+  // color: var(--text-color-${theme.palette.mode});
+  // &:hover {
+  //   background: var(--link-color-${theme.palette.mode}-hover);
+  //   border-color: var(--border-color-${theme.palette.mode});
+  //   color: #FFF;
+  // }
 `
 );
 

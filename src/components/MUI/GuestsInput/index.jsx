@@ -163,11 +163,10 @@ function GuestsInput({ label, ...props }) {
       <StyledLabel
         theme={theme}
         isFocused={isFocused}
-        hasValue={ hasValue }
+        hasValue={hasValue}
         htmlFor="GuestsInputId"
         style={{
-          // color: !isFocused || !value ? "#666" : theme.palette.primary.main,
-          backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
+          backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-color)" : "var(--bg-header-color)",
           transform: isFocused || value ? "scale(0.75) translateY(-28px) translateX(-10px)" : "translateY(0px)",
         }}>
         {label}
