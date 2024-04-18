@@ -6,7 +6,7 @@ export const StyledHeader = styled.header`
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 10000;
+  z-index: 999;
   padding: 10px 10px 10px 10px;
   transition: all 0.1s ease-in-out;
   .container {

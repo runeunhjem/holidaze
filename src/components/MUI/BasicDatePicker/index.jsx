@@ -28,20 +28,32 @@ export default function BasicDatePicker() {
           <div className="w-full flex justify-around gap-2">
             <DatePicker
               label="Check-in"
-              className="w-1/2 z-10000"
+              className="w-1/2"
+              PopperProps={{
+                style: { zIndex: 1300 },
+              }}
               sx={{
                 ".MuiInputLabel-root": {
-                  color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
+                  color: "var(--input-text-color)",
+                  zIndex: 1200,
                 },
+                "MuiPickersPopper-root": { style: "z-index: 1300;" },
+                ".MuiIconButton-root .MuiSvgIcon-root": { color: "var(--input-text-color)" },
               }}
             />
             <DatePicker
               label="Check-out"
-              className="w-1/2 z-10000"
+              className="w-1/2"
+              PopperProps={{
+                style: { zIndex: 1300 },
+              }}
               sx={{
                 ".MuiInputLabel-root": {
-                  color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
+                  color: "var(--input-text-color)",
+                  zIndex: 1200,
                 },
+                "MuiPickersPopper-root": { style: "z-index: 1300;" },
+                ".MuiIconButton-root .MuiSvgIcon-root": { color: "var(--input-text-color)" },
               }}
             />
           </div>
