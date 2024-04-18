@@ -6,7 +6,9 @@
   /* Global variables */
   :root {
     --overlay-color-light: #E0F2FEcc; /* Lighter overlay for light theme */
+    --overlay-color-carousel-light: #E0F2FE99; /* Lighter overlay for light theme */
     --overlay-color-dark: #384252cc; /* Darker overlay for dark theme */
+    --overlay-color-carousel-dark: #38425299; /* Darker overlay for dark theme */
 
     /* Tailwind colors */
     --white: #ffffff;
@@ -41,35 +43,6 @@
 
 
 
-
-    --highlight-booked-red: #f87171; /* bg-red-400 */
-
-    --text-color-light: #111827; /* text-black */
-    --text-color-dark: #ffffff; /* text-white */
-
-    --link-color-light: #3b82f6; /* text-blue-500 */
-    --link-color-dark: #60a5fa; /* text-blue-400 */
-    --link-color-light-hover: #3b82f6; /* text-blue-500 */
-    --link-color-dark-hover: #facc15; /* text-yellow-400 */
-
-    --bg-image-light: url("../assets/images/bg-light.jpg");
-    --bg-image-dark: url("../assets/images/bg-dark.jpg");
-
-    --bg-header-light: #e0f2fe; /* bg-sky-100 */
-
-    --bg-header-dark: #111827; /* bg-blue-900 */
-    --bg-footer-light: #e0f2fe; /* bg-sky-100 */
-    --bg-footer-dark: #111827; /* bg-blue-900 */
-
-    --border-color-light: #9ca3af /* bordergray-400 */;
-    --border-color-dark: #eab308; /* text-yellow-400 */
-
-    --button-bg-color-dark: #eab308; /* text-yellow-400 */
-    --button-bg-color-light: #2c2828cc; /* text-yellow-400 */
-    --button-bg-color-hover: #ca8a04; /* text-yellow-500 */
-    --button-text-color: #000000; /* text-yellow-400 */
-
-    --button-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
   }
 
   /* Global reset */
@@ -82,30 +55,39 @@
 
   [data-theme="light"] {
     --overlay-color: var(--overlay-color-light);
+    --overlay-color-carousel: var(--overlay-color-carousel-light);
     --body-bg-color: var(--sky-50);
     --body-text-color: var(--gray-900);
     --header-bg-color: var(--sky-100);
     --footer-bg-color: var(--sky-100);
     --border-color: var(--sky-300);
-
+    --button-bg-color-hover: var(--sky-300);
+    --link-color: var(--blue-500);
+    --link-color-hover: var(--blue-800);
+    --link-color-carousel-hover: var(--blue-500);
   }
 
   [data-theme="dark"] {
     --overlay-color: var(--overlay-color-dark);
+    --overlay-color-carousel: var(--overlay-color-carousel-dark);
     --body-bg-color: var(--gray-800);
     --body-text-color: var(--gray-100);
     --header-bg-color: var(--gray-900);
     --footer-bg-color: var(--gray-900);
     --border-color: var(--yellow-400);
-
+    --button-bg-color-hover: var(--yellow-400);
+    --link-color: var(--yellow-400);
+    --link-color-hover: var(--yellow-500);
+    --link-color-carousel-hover: var(--gray-800);
   }
 
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  color: var(--body-text-color);
-  background-color: var(--body-bg-color);
+  color: var(--body-text-color) !important;
+  background-color: var(--body-bg-color) !important;
+  padding-top: 9rem;
 }
 
 #root, .App { /* Assuming your root or top-level React component has class 'App' */

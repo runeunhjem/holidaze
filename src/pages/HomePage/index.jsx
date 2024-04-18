@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import useStore, { isAuthenticatedSelector } from "../../hooks/useStore";
 import * as S from "./index.styled";
-import "./index.css";
+
+import TrendingCarousel from "../../components/TrendingCarousel";
+// import SingleButton from "../../components/MUI/SingleButton";
+// import { Link } from "react-router-dom";
 
 function HomePage() {
-
   const isAuthenticated = useStore(isAuthenticatedSelector);
 
   useEffect(() => {
@@ -13,14 +15,8 @@ function HomePage() {
 
   return (
     <S.HomeContainer>
-      <S.HomeContentWrapper>
-        <S.Title>
-          <span>{isAuthenticated ? "Welcome back Username" : "Welcome to Holidaze"}</span>
-        </S.Title>
-        <S.Subtitle>Homepage</S.Subtitle>
-        <S.Description>Discover and book your perfect stay at our curated venues.</S.Description>
+      <TrendingCarousel />
 
-      </S.HomeContentWrapper>
     </S.HomeContainer>
   );
 }
