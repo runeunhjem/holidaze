@@ -66,7 +66,7 @@ const StyledInput = styled("input")(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-dark)" : "var(--bg-header-light)",
   },
   "&:not(:focus):placeholder-shown + label": {
-    color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
+    color: "var(--input-text-color)",
     // color: theme.palette.mode === "dark" ? grey[500] : grey[500],
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
@@ -76,15 +76,17 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
 }));
 
-const StyledLabel = styled("label")(({ theme }) => ({
+const StyledLabel = styled("label")(() => ({
   position: "absolute",
   top: 0,
   left: 0,
   padding: "12px",
   pointerEvents: "none",
   transformOrigin: "top left",
+  borderRadius: "5px 0 0 0",
+  borderTop: "none",
   transition: "transform 0.2s, color 0.2s",
-  color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
+  color: "var(--input-text-color)",
   backgroundColor: "var(--header-bg-color)",
 }));
 

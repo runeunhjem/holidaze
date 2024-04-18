@@ -181,6 +181,7 @@ function GuestsInput({ label, ...props }) {
         hasValue={hasValue}
         htmlFor="GuestsInputId"
         style={{
+          color: "var(--input-text-color)",
           backgroundColor: theme.palette.mode === "dark" ? "var(--header-bg-color)" : "var(--header-bg-color)",
           transform: isFocused || value ? "scale(0.75) translateY(-28px) translateX(-10px)" : "translateY(0px)",
         }}>
