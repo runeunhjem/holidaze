@@ -2,6 +2,11 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledHeader = styled.header`
+position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10000;
   padding: 10px 10px 10px 10px;
   transition: all 0.1s ease-in-out;
   .container {
