@@ -63,6 +63,7 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
   "&:focus + label": {
     color: theme.palette.mode === "dark" ? blue[300] : blue[400],
+    backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-dark)" : "var(--bg-header-light)",
   },
   "&:not(:focus):placeholder-shown + label": {
     color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
@@ -70,7 +71,7 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
     transform: "scale(0.75) translateY(-10px) translateX(16px)",
-    backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-dark)" : "var(--bg-header-light)",
+    backgroundColor: "var(--header-bg-color)",
     padding: "0 6px",
   },
 }));
@@ -84,6 +85,7 @@ const StyledLabel = styled("label")(({ theme }) => ({
   transformOrigin: "top left",
   transition: "transform 0.2s, color 0.2s",
   color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
+  backgroundColor: "var(--header-bg-color)",
 }));
 
 function DestinationInput({ label, ...props }) {
