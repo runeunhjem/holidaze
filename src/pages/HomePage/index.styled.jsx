@@ -1,32 +1,13 @@
 import styled from "styled-components";
 
-//about-section p-4 md:p-8
 export const HomeContainer = styled.main`
   width: 100%;
   margin: 0 auto;
   padding: 1rem;
-  /* min-height: 100vh; */
-  flex-grow: 1;
-  flex: 1;
-  background-image: var(--background-image);
-  background-size: cover;
-  background-position: bottom;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 `;
-
-// export const BackgroundFader = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-//   bottom: 0;
-//   background-color: var(--body-bg-color);
-//   color: var(--body-text-color);
-//   z-index: 1;
-//   flex-grow: 1;
-// `;
 
 export const HomeContentWrapper = styled.div`
   position: relative;

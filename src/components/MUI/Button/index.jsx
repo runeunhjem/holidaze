@@ -22,15 +22,17 @@ export default function CustomButton() {
         sx={{
           boxSizing: "border-box",
           width: "50%",
+          height: "40px",
           borderRadius: "5px",
           fontSize: "1rem",
           backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
           color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
           ":hover": {
             backgroundColor: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--sky-200)",
+            borderColor: theme.palette.mode === "dark" ? "var(--yellow-400, #f0b429)" : "var(--sky-300, #77c9d4) !important",
+            padding: "7px 16px 8px 16px",
             color: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--gray-900)",
             border: "1px solid",
-            borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
           },
           outline: "none",
           border: "none",
@@ -48,6 +50,7 @@ export default function CustomButton() {
           backgroundColor: theme.palette.mode === "dark" ? "var(--red-700)" : "var(--red-500)",
           color: theme.palette.mode === "dark" ? "var(--gray-100)" : "var(--gray-900)",
           ":hover": {
+            color: theme.palette.mode === "dark" ? "var(--gray-900) !important" : "var(--gray-100)",
             backgroundColor: theme.palette.mode === "dark" ? "var(--red-500)" : "var(--red-700)",
           },
           outline: "none",

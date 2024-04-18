@@ -61,7 +61,7 @@
     --bg-footer-light: #e0f2fe; /* bg-sky-100 */
     --bg-footer-dark: #111827; /* bg-blue-900 */
 
-    --border-color-light: #9ca3af /* border-grey-400 */;
+    --border-color-light: #9ca3af /* bordergray-400 */;
     --border-color-dark: #eab308; /* text-yellow-400 */
 
     --button-bg-color-dark: #eab308; /* text-yellow-400 */
@@ -108,7 +108,7 @@ body {
   background-color: var(--body-bg-color);
 }
 
-#root, .App { 
+#root, .App { /* Assuming your root or top-level React component has class 'App' */
   display: flex;
   flex-direction: column;
   flex: 1; /* Allows this element to expand and contract as needed */
