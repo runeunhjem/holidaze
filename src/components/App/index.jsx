@@ -1,4 +1,4 @@
-// import PropTypes from "prop-types";
+import propTypes from "prop-types";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import useStore from "../../hooks/useStore";
@@ -21,7 +21,6 @@ import MyBookingsPage from "../../pages/MyBookingsPage";
 import MyFavoritesPage from "../../pages/MyFavoritesPage";
 
 function App() {
-// function App({ children }) {
   const { isAuthenticated, isDarkMode } = useStore((state) => ({
     isAuthenticated: state.isAuthenticated,
     isDarkMode: state.isDarkMode,
@@ -60,8 +59,8 @@ function App() {
   );
 }
 
-// App.propTypes = {
-//   children: PropTypes.node, // 'node' covers anything that can be rendered: numbers, strings, elements, or an array (or fragment) containing these types.
-// };
+App.propTypes = {
+  children: propTypes.node, // 'node' covers anything that can be rendered: numbers, strings, elements, or an array (or fragment) containing these types.
+};
 
 export default App;

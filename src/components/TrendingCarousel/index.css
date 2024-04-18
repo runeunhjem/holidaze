@@ -1,0 +1,109 @@
+.slick-slider .slick-prev,
+.slick-slider .slick-next {
+  z-index: 100;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 29px;
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding-top: 2px;
+  background-color: var(--border-color);
+}
+
+.slick-slider .slick-prev {
+  left: 10px;
+}
+
+.slick-slider .slick-next {
+  right: 10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 28px;
+  color: var(--body-bg-color);
+  /* color: var(--white); */
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: var(--link-color-carousel-hover);
+}
+
+@media (max-width: 468px) {
+  .slider-container .slick-slide > div,
+  .slider-container .slick-slide img {
+    padding: 0;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+.slick-slide > div {
+  margin: 0 5px;
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+
+.slick-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+.image-slide-container {
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 3px;
+  left: 3px;
+  background: var(--overlay-color);
+  color: var(--body-text-color);
+  padding: 2px 4px; /* Padding for text */
+  font-size: 12px; /* Text size */
+  border-radius: 5px;
+}
+.image-overlay-top {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--overlay-color);
+  color: var(--body-text-color);
+  padding: 2px 4px; /* Padding for text */
+  font-size: 14px; /* Text size */
+  font-weight: 700;
+  border-radius: 0 0 5px 5px;
+  border-bottom: 1px solid var(--border-color);
+  margin: 0 auto;
+}
+
+.slider-container .slick-slide img {
+  width: 100%;
+  height: auto; /* Ensure images fit to container maintaining aspect ratio */
+}
+
+@media (min-width: 469px) {
+  .slider-container {
+    padding: 0 1rem;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 5px;
+  }
+  .slick-slide > div,
+  .slick-slide img,
+  .image-overlay-top {
+    border-radius: 5px;
+  }
+}
