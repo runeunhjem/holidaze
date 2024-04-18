@@ -9,6 +9,7 @@ import useStore from "../../hooks/useStore";
 import logoLight from "../../assets/logo/holidaze-dark.png";
 import logoDark from "../../assets/logo/holidaze-yellow.png";
 import NavigationMenu from "../MUI/NavigationMenu";
+import FilterButton from "../MUI/FilterButton";
 
 const pages = ["Home", "Destinations", "About", "Contact"];
 
@@ -116,6 +117,7 @@ function Header() {
           </Link>
         ))}
       </nav>
+      <FilterButton />
     </StyledHeader>
   );
 }
