@@ -28,7 +28,7 @@ export default function BasicDatePicker() {
           <div className="w-full flex justify-around gap-2">
             <DatePicker
               label="Check-in"
-              className="w-1/2"
+              className="w-1/2 z-10000"
               sx={{
                 ".MuiInputLabel-root": {
                   color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
@@ -37,7 +37,7 @@ export default function BasicDatePicker() {
             />
             <DatePicker
               label="Check-out"
-              className="w-1/2"
+              className="w-1/2 z-10000"
               sx={{
                 ".MuiInputLabel-root": {
                   color: (theme) => (theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)"),
