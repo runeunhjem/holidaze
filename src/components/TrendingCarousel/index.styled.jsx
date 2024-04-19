@@ -5,6 +5,6 @@ export const Link = styled.span`
   text-decoration: underline;
   font-weight: 700;
   &:hover {
-    color: var(--link-hover-color);
+    color: var(--link-color-hover);
   }
 `;
