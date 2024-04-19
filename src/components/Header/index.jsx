@@ -22,7 +22,7 @@ function Header() {
   useEffect(() => {
     // This function handles closing the menu when clicking outside of the header container
     const handleDocumentClick = (event) => {
-      if (!event.target.closest(".header-container")) {
+      if (!event.target.closest(".header-container, .MuiDayCalendar-weekContainer")) {
         if (isOpen) {
           setIsOpen(false);
         }

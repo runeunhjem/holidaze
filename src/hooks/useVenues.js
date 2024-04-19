@@ -21,7 +21,7 @@ const useVenues = () => {
           },
         };
         const data = await fetchApi("venues", options);
-        setVenues(data.data); // Assuming the API response format
+        setVenues(data); // Assuming the API response format
       } catch (error) {
         console.error("Failed to fetch venues:", error);
         setError(error);

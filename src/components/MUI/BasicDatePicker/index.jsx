@@ -10,20 +10,21 @@ import dayjs from "dayjs";
 const theme = createTheme();
 
 export default function DatePickers() {
-  const [checkInDate, setCheckInDate] = useState(null);
-  const [checkOutDate, setCheckOutDate] = useState(null);
+  const [dateFromDate, setDateFromDate] = useState(null);
+  const [dateToDate, setDateToDate] = useState(null);
   const today = dayjs();
 
-  const handleCheckInDateChange = (date) => {
-    setCheckInDate(date);
+  const handleDateFromDateChange = (date) => {
+    setDateFromDate(date);
     // Reset check-out date if it is before the new check-in date
-    if (date && checkOutDate && date.isAfter(checkOutDate, "day")) {
-      setCheckOutDate(null);
+    if (date && dateToDate && date.isAfter(dateToDate, "day")) {
+      setDateToDate(null);
     }
   };
 
-  const handleCheckOutDateChange = (date) => {
-    setCheckOutDate(date);
+  const handleDateToDateChange = (date) => {
+    setDateToDate(date);
+
   };
 
   return (
@@ -32,16 +33,16 @@ export default function DatePickers() {
         <div className="w-full flex justify-around gap-2">
           <DatePicker
             label="Check-in"
-            value={checkInDate}
-            onChange={handleCheckInDateChange}
+            value={dateFromDate}
+            onChange={handleDateFromDateChange}
             minDate={today}
             TextField={(params) => <TextField {...params} fullWidth />}
           />
           <DatePicker
             label="Check-out"
-            value={checkOutDate}
-            onChange={handleCheckOutDateChange}
-            minDate={checkInDate ? checkInDate.add(1, "day") : today}
+            value={dateToDate}
+            onChange={handleDateToDateChange}
+            minDate={dateFromDate ? dateFromDate.add(1, "day") : today}
             TextField={(params) => <TextField {...params} fullWidth />}
           />
         </div>
