@@ -64,6 +64,7 @@
     --link-color-carousel-hover: var(--blue-500);
     --input-text-color: var(--gray-500);
     --input-border-color: var(--gray-400);
+    --input-border-color-focus: var(--blue-500);
   }
 
   [data-theme="dark"] {
@@ -78,8 +79,9 @@
     --link-color: var(--yellow-400);
     --link-color-hover: var(--yellow-500);
     --link-color-carousel-hover: var(--gray-800);
-    --input-text-color: var(--gray-400);
+    --input-text-color: var(--gray-300);
     --input-border-color: var(--gray-700);
+    --input-border-color-focus: var(--blue-400);
   }
 
   body {
@@ -109,15 +111,30 @@
   }
 
   footer {
-    flex-shrink: 0; /* Optional: Prevents the footer from shrinking if the content area is too large */
     background-color: var(--footer-bg-color);
     border-top: 1px solid var(--border-color);
   }
 
   .content {
-    flex: 1; /* Expands to take up any available space */
+    flex: 1;
   }
-  .MuiPickersPopper-root {
-    z-index: 1300; /* Make sure this value is higher than the z-index of your search bar */
-  }
+
+  /* Styling for when the input is autofilled */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s; /* Transition time might need adjustment */
+    -webkit-text-fill-color: var(--input-text-color) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--header-bg-color) inset;
+}
+
+/* Normal state of the input for hover and focus that does not involve autofill */
+input:hover,
+input:focus {
+    background-color: var(--input-bg-color-hover);
+    border-color: var(--input-border-color-focus);
+}
+
+
 }

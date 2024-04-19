@@ -87,7 +87,7 @@ const StyledLabel = styled("label")(() => ({
   borderTop: "none",
   transition: "transform 0.2s, color 0.2s",
   color: "var(--input-text-color)",
-  backgroundColor: "var(--header-bg-color)",
+  backgroundColor: "transparent",
 }));
 
 function DestinationInput({ label, ...props }) {
