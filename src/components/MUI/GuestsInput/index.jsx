@@ -62,64 +62,21 @@ const StyledInput = styled("input")(({ theme }) => ({
   lineHeight: 1.5,
   color: theme.palette.mode === "dark" ? grey[300] : grey[500],
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "transparent",
-  // border: "1px solid",
-  // borderColor: theme.palette.mode === "dark" ? grey[700] : grey[100],
   outline: "none",
   "&::placeholder": {
     color: "transparent",
   },
-  // "&:focus": {
-  //   // border: "1px solid",
-  //   borderColor: theme.palette.mode === "dark" ? grey[300] : blue[500],
-  //   // outline: "1px solid",
-  //   // outlineColor: theme.palette.mode === "dark" ? grey[300] : blue[300],
-  // },
-  // "&:focus + label": {
-  //   color: theme.palette.mode === "dark" ? blue[300] : blue[400],
-  // },
-  // "&:not(:focus):placeholder-shown + label": {
-  //   color: theme.palette.mode === "dark" ? grey[500] : grey[700],
-  // },
-  // "&:focus + label, &:not(:placeholder-shown) + label": {
-  //   transform: "scale(0.75) translateY(-10px) translateX(16px)",
-  //   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
-  //   padding: "0 6px",
-  // },
 }));
 
-const StyledLabel = styled("label")(({ theme, isFocused, hasValue }) => ({
+const StyledLabel = styled("label")(({theme}) => ({
   position: "absolute",
   top: 12,
   left: 12,
-  // padding: "12px",
   pointerEvents: "none",
-  transformOrigin: "top left",
-  transform: "translateY(0px)",
   transition: "transform 0.2s, color 0.2s",
-  color:
-    (!isFocused && hasValue) || (!isFocused && !hasValue)
-      ? theme.palette.mode === "light"
-        ? "var(--gray-700)"
-        : "var(--gray-400)"
-      : theme.palette.primary.main,
-  // backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
+  color: theme.palette.mode === "dark" ? grey[300] : grey[500],
   padding: "0 4px",
 }));
-
-// function GuestsInput({ label, ...props }) {
-//   return (
-//     <Container>
-//       <StyledInput {...props} placeholder="Guests" type="number" />
-//       <StyledLabel>{label}</StyledLabel>
-//     </Container>
-//   );
-// }
-
-// GuestsInput.propTypes = {
-//   label: propTypes.string.isRequired,
-// };
-
-// export default GuestsInput;
 
 const IncrementButton = styled("button")(({ theme }) => ({
   width: "24px",
@@ -152,17 +109,9 @@ function GuestsInput({ label, ...props }) {
     if (val === "" || (/^\d+$/.test(val) && Number(val) >= 1)) {
       setValue(val);
     } else {
-      setValue(""); // Reset to empty if input is invalid
+      setValue("");
     }
   };
-
-  // const handleIncrement = () => {
-  //   setValue((prevValue) => String(Number(prevValue) + 1));
-  // };
-
-  // const handleDecrement = () => {
-  //   setValue((prevValue) => String(Number(prevValue) - 1));
-  // };
 
   return (
     <Container theme={theme} isFocused={isFocused} hasValue={hasValue}>
@@ -181,9 +130,12 @@ function GuestsInput({ label, ...props }) {
         hasValue={hasValue}
         htmlFor="GuestsInputId"
         style={{
-          color: "var(--input-text-color)",
+          color: isFocused ? "var(--blue-400)" : "var(--input-text-color)",
           backgroundColor: theme.palette.mode === "dark" ? "var(--header-bg-color)" : "var(--header-bg-color)",
           transform: isFocused || value ? "scale(0.75) translateY(-28px) translateX(-10px)" : "translateY(0px)",
+          "&:focused": {
+            color: theme.palette.mode === "dark" ? blue[300] : blue[400],
+          },
         }}>
         {label}
       </StyledLabel>
