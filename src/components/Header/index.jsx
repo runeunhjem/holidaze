@@ -17,28 +17,30 @@ function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const { isDarkMode } = useStore();
-
   const logo = isDarkMode ? logoDark : logoLight;
 
-  // Effect for closing the menu when clicking anywhere on the page
   useEffect(() => {
-    const handleDocumentClick = () => {
-      // Close the menu if it's open
-      if (isOpen) {
-        setIsOpen(false);
+    // This function handles closing the menu when clicking outside of the header container
+    const handleDocumentClick = (event) => {
+      if (!event.target.closest(".header-container")) {
+        if (isOpen) {
+          setIsOpen(false);
+        }
+        setIsSearchVisible(false);
       }
     };
 
-    // Add event listener when the menu is open
-    if (isOpen) {
-      document.addEventListener("click", handleDocumentClick);
-    }
+    // Add the event listener when the component mounts
+    document.addEventListener("click", handleDocumentClick);
 
-    // Cleanup the event listener when the component unmounts or isOpen changes
-    return () => document.removeEventListener("click", handleDocumentClick);
-  }, [isOpen]);
+    // Clean up the event listener when the component unmounts or the dependency changes
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [isOpen]); // Only re-run the effect if isOpen changes
+
   return (
-    <StyledHeader theme={isDarkMode ? "dark" : "light"}>
+    <StyledHeader theme={isDarkMode ? "dark" : "light"} className="header-container">
       <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
         <Link to="/" className="font-bold text-xl flex">
           <img
@@ -52,16 +54,6 @@ function Header() {
             <Link to="/" className="font-bold text-xl flex ms-20 logo">
               Holidaze
             </Link>
-            {/* <button
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent click from propagating to the document
-                setIsOpen(!isOpen);
-              }}
-              className="text-xl md:hidden me-3"
-              style={{ zIndex: 1000 }}
-              aria-label={isOpen ? "Close menu" : "Open menu"}>
-              {isOpen ? <FiX size={20} /> : <FiMenu size={20} />}
-            </button> */}
           </div>
           <NavigationMenu className="flex md:hidden" />
           <nav className={`hidden md:flex items-start justify-start me-1 text-left ${isOpen ? "flex" : "hidden"}`}>
@@ -92,7 +84,7 @@ function Header() {
 
         <MenuListComposition className="m-0 p-0 justify-end w-full" />
       </div>
-      {isSearchVisible && <SearchBar />}
+      {isSearchVisible && <SearchBar onClose={() => setIsSearchVisible(false)} />}
       <nav
         style={{
           zIndex: 1000,
@@ -117,6 +109,7 @@ function Header() {
           </Link>
         ))}
       </nav>
+
       <FilterButton />
     </StyledHeader>
   );

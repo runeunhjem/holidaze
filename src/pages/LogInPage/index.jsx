@@ -92,7 +92,7 @@ function LogInPage() {
               <Alert severity="error">{error}</Alert>
             </Stack>
           )}
-          {isAuthenticated && <Navigate to="/" />} {/* Redirect to home if Authenticated */}
+          {isAuthenticated && <Navigate to="/" />}
         </Box>
       </Box>
     </Container>

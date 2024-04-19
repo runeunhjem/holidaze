@@ -1,11 +1,14 @@
+import propTypes from "prop-types";
 import { useState } from "react";
 import BasicDatePicker from "../MUI/BasicDatePicker";
 import DestinationInput from "../MUI/DestinationInput";
-// import ButtonWithSvg from "../MUI/ButtonWithSvg";
 import GuestsInput from "../MUI/GuestsInput";
-import CustomButton from "../MUI/Button";
+import Stack from "@mui/material/Stack";
+import Button from "../MUI/Button";
+import CancelButton from "../MUI/CancelButton";
 
-function SearchBar() {
+function SearchBar({ onClose }) {
+  // Accepting onClose prop
   const [searchParams, setSearchParams] = useState({
     destination: "",
     checkIn: "",
@@ -13,7 +16,6 @@ function SearchBar() {
     guests: "",
   });
 
-  // This function is intended to handle changes for all inputs
   const handleChange = (e, newValue) => {
     const name = e.target.name || e.target.getAttribute("name");
     const value = newValue || e.target.value;
@@ -35,28 +37,42 @@ function SearchBar() {
           className="w-full md:w-1/2"
           name="destination"
           label="Destination"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           value={searchParams.destination}
         />
         <GuestsInput
           className="w-full md:w-1/2"
           name="guests"
           label="Guests"
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
           value={searchParams.guests}
         />
       </div>
-
       <BasicDatePicker
         name="checkIn"
         label="Check-in"
         value={searchParams.checkIn}
         onChange={(newValue) => handleChange({ target: { name: "checkIn" } }, newValue)}
       />
-      <CustomButton type="submit" sx={{ width: "200px" }} />
-
+      <Stack
+        spacing={2}
+        direction="row"
+        sx={{
+          width: "100%",
+          height: "40px",
+          justifyContent: "center",
+        }}>
+        <Button type="submit">Search</Button>
+        <CancelButton type="button" onClick={onClose}>
+          Cancel
+        </CancelButton>
+      </Stack>
     </form>
   );
 }
+
+SearchBar.propTypes = {
+  onClose: propTypes.func.isRequired,
+};
 
 export default SearchBar;

@@ -26,6 +26,8 @@ function App() {
     isDarkMode: state.isDarkMode,
   }));
 
+  
+
   useEffect(() => {
     document.body.setAttribute("data-theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
