@@ -2,9 +2,21 @@ import { useEffect } from "react";
 import useStore from "../../hooks/useStore";
 
 function ProfilePage() {
+
   useEffect(() => {
     document.title = "Holidaze - Your Profile";
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.getElementsByTagName("head")[0].appendChild(metaDescription);
+    }
+    metaDescription.setAttribute(
+      "content",
+      "Explore our wide range of destinations from around the world to find your special place."
+    );
   }, []);
+
 
   // Accessing the logOut action from your Zustand store
   const logOut = useStore((state) => state.logOut);

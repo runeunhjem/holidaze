@@ -1,7 +1,8 @@
+// src/utils/getVenues.js
 import { fetchApi } from "./fetchApi";
 
 export const getVenues = async (page, limit = 100) => {
-  let offset = (page - 1) * limit; // Calculate offset based on page number
+  const offset = (page - 1) * limit;
   const params = {
     sort: "name",
     sortOrder: "asc",
@@ -13,15 +14,9 @@ export const getVenues = async (page, limit = 100) => {
 
   try {
     const response = await fetchApi("venues", { method: "GET" }, params);
-    // console.log("Fetched venues:", response);
-    // Directly access the data field within the response object
-    const newVenues = response.data && Array.isArray(response.data) ? response.data : [];
-    console.log("Meta:", response.meta, "Data:", newVenues, "Error:", response.error);
-    // console.log("Fetched venues length:", newVenues.length); // Make sure to log the length of the array
-    return { data: newVenues, error: null };
+    return { data: response.data, meta: response.meta };
   } catch (error) {
     console.error("Failed to fetch venues:", error);
-    return { data: [], error: "Failed to fetch venues. Please try again later." };
+    return { data: [], meta: {}, error: error.message };
   }
-
 };

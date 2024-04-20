@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import { useForm } from "react-hook-form";
 import Alert from "@mui/material/Alert";
@@ -12,6 +12,21 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { save } from "../../utils/storage"; // Make sure the path is correct
 
 function LogInPage() {
+
+  useEffect(() => {
+    document.title = "Holidaze - Log In";
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.getElementsByTagName("head")[0].appendChild(metaDescription);
+    }
+    metaDescription.setAttribute(
+      "content",
+      "Explore our wide range of destinations from around the world to find your special place."
+    );
+  }, []);
+
   const { logIn } = useAuth();
   const [error, setError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);

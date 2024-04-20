@@ -1,17 +1,22 @@
 import { useEffect } from "react";
-import useStore, { isAuthenticatedSelector } from "../../hooks/useStore";
 import * as S from "./index.styled";
-
 import TrendingCarousel from "../../components/TrendingCarousel";
-// import SingleButton from "../../components/MUI/SingleButton";
-// import { Link } from "react-router-dom";
 
 function HomePage() {
-  const isAuthenticated = useStore(isAuthenticatedSelector);
 
-  useEffect(() => {
-    document.title = "Holidaze - Home";
-  }, [isAuthenticated]); // Depend on isAuthenticated to re-run the animation when it changes
+useEffect(() => {
+  document.title = "Holidaze - Home";
+  let metaDescription = document.querySelector("meta[name='description']");
+  if (!metaDescription) {
+    metaDescription = document.createElement("meta");
+    metaDescription.setAttribute("name", "description");
+    document.getElementsByTagName("head")[0].appendChild(metaDescription);
+  }
+  metaDescription.setAttribute(
+    "content",
+    "Explore our wide range of destinations from around the world to find your special place."
+  );
+}, []);
 
   return (
     <S.HomeContainer>
