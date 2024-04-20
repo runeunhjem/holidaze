@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchApi } from "../../utils/fetchApi";
 import Alert from "@mui/material/Alert";
@@ -13,6 +13,21 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { Navigate } from "react-router-dom";
 
 function RegisterPage() {
+
+  useEffect(() => {
+    document.title = "Holidaze - Register for an account";
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.getElementsByTagName("head")[0].appendChild(metaDescription);
+    }
+    metaDescription.setAttribute(
+      "content",
+      "Explore our wide range of destinations from around the world to find your special place."
+    );
+  }, []);
+
   const {
     register,
     handleSubmit,

@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ImageGallery from "../../components/ImageGallery";
 import { getVenueById } from "../../utils/getVenueById";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import { subDays, addDays } from "date-fns";
 import "./index.css";
 
 function VenueDetailsPage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
-  // console.log("venue", venue);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -18,7 +16,7 @@ function VenueDetailsPage() {
       if (error) {
         console.error("Failed to fetch venue details:", error);
       } else {
-        setVenue(data);
+        setVenue(data.data);
       }
     };
 
@@ -26,56 +24,52 @@ function VenueDetailsPage() {
   }, [id]);
 
   useEffect(() => {
-    // Only attempt to set the title if venue is not null
     if (venue) {
       document.title = `${venue.name} - Venue Details`;
+      let metaDescription = document.querySelector("meta[name='description']");
+      if (!metaDescription) {
+        metaDescription = document.createElement("meta");
+        metaDescription.setAttribute("name", "description");
+        document.getElementsByTagName("head")[0].appendChild(metaDescription);
+      }
+      metaDescription.setAttribute(
+        "content",
+        `${venue.name} offers a unique experience with its amenities. Located in ${venue.location.city}, it provides a perfect getaway with a rating of ${venue.rating}.`
+      );
     }
   }, [venue]);
 
   if (!venue) {
     return <div>Loading venue details...</div>;
   }
+  console.log("venue", venue);
+  console.log("venue.media", venue.media);
+  // const media =
+  //   venue.media.length >= 0
+  //     ? venue.media.map((media) => ({
+  //         original: media.url,
+  //         thumbnail: media.url,
+  //         description: media.alt || `Illustration of ${venue.name}`,
+  //       }))
+  //     : [
+  //         {
+  //           original: venue.media.url,
+  //           thumbnail: venue.media.url,
+  //           description: venue.media.alt || `Illustration of ${venue.name}`,
+  //         },
+  //       ];
 
-  // Format the created date to a more readable format
-  const formattedCreatedDate = new Date(venue.created).toLocaleString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-  const formattedUpdatedDate = new Date(venue.updated).toLocaleString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-
-  const images = venue.media.map((url) => ({
-    url,
-    alt: `Illustration of ${venue.name}`,
-  }));
-
-  // Convert booking dates to a readable format
-  const formattedBookings = venue.bookings.map((booking) => {
-    const dateFrom = new Date(booking.dateFrom).toLocaleDateString();
-    const dateTo = new Date(booking.dateTo).toLocaleDateString();
-    return `${dateFrom} to ${dateTo}`;
-  });
-
-  // Prepare booked dates for highlighting
   const highlightWithRanges = venue.bookings.map((booking) => ({
     start: new Date(booking.dateFrom),
     end: new Date(booking.dateTo),
   }));
+  console.log("Venue Data:", venue);
+
 
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-center">{venue.name}</h1>
-      <ImageGallery images={images} countryName={venue.location.country} continent={venue.location.continent} />
+      <ImageGallery media={venue.media} countryName={venue.location.country} continent={venue.location.continent} />
       <div className="mt-6 space-y-2">
         <p>{venue.description}</p>
         <p>
@@ -88,11 +82,14 @@ function VenueDetailsPage() {
           <strong>Rating:</strong> {venue.rating} stars
         </p>
         <p>
-          <strong>Venue added:</strong> {formattedCreatedDate} by {venue.owner.name}
+          <strong>Venue added:</strong> {new Date(venue.created).toLocaleDateString()} by
+          <Link to={`/profile/${encodeURIComponent(venue.owner.name)}`}> {venue.owner.name}</Link>
         </p>
         <p>
-          <strong>Venue updated:</strong> {formattedUpdatedDate} by {venue.owner.name}
+          <strong>Venue updated:</strong> {new Date(venue.updated).toLocaleDateString()} by
+          <Link to={`/profile/${encodeURIComponent(venue.owner.name)}`}> {venue.owner.name}</Link>
         </p>
+
         <div>
           <strong>Amenities:</strong>
           <ul>
@@ -107,35 +104,27 @@ function VenueDetailsPage() {
           <p>
             {venue.location.address}, {venue.location.city}, {venue.location.zip}, {venue.location.country}
           </p>
-          <p>{venue.location.continent}</p>
         </div>
-        {/* Display bookings */}
         <div className="mt-6">
           <h2 className="text-2xl font-bold">Booked Dates</h2>
           <ul>
-            {formattedBookings.length > 0 ? (
-              formattedBookings.map((booking, index) => <li key={index}>{booking}</li>)
-            ) : (
-              <li>No bookings yet.</li>
-            )}
+            {venue.bookings.map((booking, index) => (
+              <li key={index}>
+                {new Date(booking.dateFrom).toLocaleDateString()} to {new Date(booking.dateTo).toLocaleDateString()}
+              </li>
+            ))}
           </ul>
         </div>
-        {/* Date Picker with highlighted dates */}
         <div className="mt-6" style={{ height: "350px" }}>
           <h2 className="text-2xl font-bold">Check Availability</h2>
           <DatePicker
             inline
             monthsShown={2}
             highlightDates={highlightWithRanges}
-            // Custom day className to handle highlighting
             dayClassName={(date) => {
-              let highlight = false;
-              for (const range of highlightWithRanges) {
-                if (date >= range.start && date <= range.end) {
-                  highlight = true;
-                }
-              }
-              return highlight ? "react-datepicker__day--highlighted" : "";
+              return highlightWithRanges.some((range) => date >= range.start && date <= range.end)
+                ? "react-datepicker__day--highlighted"
+                : "";
             }}
           />
         </div>

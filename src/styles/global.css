@@ -58,7 +58,10 @@
     --header-bg-color: var(--sky-100);
     --footer-bg-color: var(--sky-100);
     --border-color: var(--sky-300);
-    --button-bg-color-hover: var(--sky-300);
+    --button-bg-color: var(--sky-300);
+    --button-bg-color-hover: var(--sky-100);
+    --button-text-color: var(--gray-900);
+    --button-text-color-hover: var(--gray-900);
     --link-color: var(--blue-500);
     --link-color-hover: var(--blue-800);
     --link-color-carousel-hover: var(--blue-500);
@@ -75,7 +78,10 @@
     --header-bg-color: var(--gray-900);
     --footer-bg-color: var(--gray-900);
     --border-color: var(--yellow-400);
-    --button-bg-color-hover: var(--yellow-400);
+    --button-bg-color: var(--yellow-400);
+    --button-bg-color-hover: var(--gray-800);
+    --button-text-color: var(--gray-900);
+    --button-text-color-hover: var(--yellow-400);
     --link-color: var(--yellow-400);
     --link-color-hover: var(--yellow-500);
     --link-color-carousel-hover: var(--gray-800);

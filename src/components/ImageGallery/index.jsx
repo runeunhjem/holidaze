@@ -4,75 +4,95 @@ import * as S from "./index.styled";
 import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
 
-function ImageGallery({ images, countryName, continent }) {
+function ImageGallery({ media, countryName, continent }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const [overlayData, setOverlayData] = useState({ countryCode: "", continentText: "" });
 
   useEffect(() => {
-    // Fetch country code and continent text once on component mount
     const fetchedCountryCode = getCountryCode(countryName);
     const continentText = continent === "Unknown" || continent === "" ? "Unspecified" : continent;
-
     setOverlayData({ countryCode: fetchedCountryCode, continentText });
   }, [countryName, continent]);
 
   useEffect(() => {
     setImageVisible(true);
-    const timer = setTimeout(() => {
-      setSelectedImageIndex((prevIndex) => {
-        const nextIndex = (prevIndex + 1) % images.length;
-        return nextIndex;
-      });
-      setImageVisible(true);
-    }, 1600);
-    return () => clearTimeout(timer);
-  }, [selectedImageIndex, images.length]);
+    if (media.length > 1) {
+      const timer = setTimeout(() => {
+        setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length);
+        setImageVisible(true);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [selectedImageIndex, media.length]);
 
-  // const countryCode = getCountryCode(countryName);
   const placeholderImage = "https://picsum.photos/400/600";
+
+  if (media.length === 0) {
+    return <div>No images available.</div>;
+  }
+
+  const images = media.map((img) => ({
+    url: img.url || placeholderImage, // Fallback to a placeholder if no URL
+    alt: img.alt || `Illustration from ${countryName}`,
+  }));
 
   return (
     <S.Gallery>
-      {images.length > 0 ? (
-        images.map((img, index) => (
+      {images.map((img, index) => (
+        <div
+          key={index}
+          className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
+          style={{ position: "relative" }}>
+          <S.StyledImg src={img.url} alt={img.alt} />
           <div
-            key={index}
-            className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
-            style={{ position: "relative" }}>
-            <S.StyledImg src={img.url ? img.url : placeholderImage} alt={img.alt || "Placeholder image"} />
-            {overlayData.countryCode && overlayData.countryCode !== "Unknown" && (
-              <div style={{ position: "absolute", top: "10px", right: "10px" }}>
-                <CountryFlag countryCode={overlayData.countryCode} />
-              </div>
-            )}
-            {overlayData.continentText && (
-              <div
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  left: "10px",
-                  color: "white",
-                  backgroundColor: "rgba(0,0,0,0.5)",
-                  padding: "2px 5px",
-                  borderRadius: "5px",
-                }}>
-                {overlayData.continentText}
-              </div>
-            )}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              textAlign: "center",
+              borderRadius: "0 0 10px 10px",
+              color: "var(--body-text-color)",
+              backgroundColor: "var(--overlay-color)",
+              padding: "10px 0",
+            }}>
+            {img.alt}
           </div>
-        ))
-      ) : (
-        <S.StyledImg src={placeholderImage} alt="Placeholder image" className="fade-effect visible" />
+          {overlayData.countryCode && overlayData.countryCode !== "Unknown" && (
+            <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+              <CountryFlag countryCode={overlayData.countryCode} />
+            </div>
+          )}
+          {overlayData.continentText && (
+            <div
+              style={{
+                position: "absolute",
+                top: "10px",
+                left: "10px",
+                color: "var(--body-text-color)",
+                backgroundColor: "var(--overlay-color)",
+                padding: "2px 5px",
+                borderRadius: "5px",
+              }}>
+              {overlayData.continentText}
+            </div>
+          )}
+        </div>
+      ))}
+      {images.length > 1 && (
+        <>
+          <S.NavButton
+            direction="left"
+            onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))}>
+            &#10094;
+          </S.NavButton>
+          <S.NavButton
+            direction="right"
+            onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex + 1) % images.length)}>
+            &#10095;
+          </S.NavButton>
+        </>
       )}
-      <S.NavButton
-        direction="left"
-        onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))}>
-        &#10094;
-      </S.NavButton>
-      <S.NavButton direction="right" onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex + 1) % images.length)}>
-        &#10095;
-      </S.NavButton>
       <S.Thumbnails>
         {images.map((image, index) => (
           <S.ThumbnailImg
@@ -89,14 +109,14 @@ function ImageGallery({ images, countryName, continent }) {
 }
 
 ImageGallery.propTypes = {
-  images: propTypes.arrayOf(
+  media: propTypes.arrayOf(
     propTypes.shape({
       url: propTypes.string.isRequired,
       alt: propTypes.string,
     })
   ).isRequired,
-  countryName: propTypes.string,
-  continent: propTypes.string,
+  countryName: propTypes.string.isRequired,
+  continent: propTypes.string.isRequired,
 };
 
 export default ImageGallery;

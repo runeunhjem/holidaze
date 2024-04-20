@@ -1,5 +1,5 @@
 // src/constants/api.js
-export const API_BASE_URL_V1 = "https://api.noroff.dev/api/v1";
+// export const API_BASE_URL_V1 = "https://api.noroff.dev/api/v1";
 export const API_BASE_URL_V2 = "https://v2.api.noroff.dev";
 
 // V2 API endpoints

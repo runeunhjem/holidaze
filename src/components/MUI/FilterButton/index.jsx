@@ -1,17 +1,15 @@
 // import PropTypes from "prop-types"; // Import PropTypes
 import { FilterButtonStyled } from "./index.styled";
+import { OptionsButtonStyled } from "./index.styled";
 
-function FilterButton({  ...props }) {
-  return <FilterButtonStyled { ...props }>
-    Filters
-    {/* { children } */}
-
-  </FilterButtonStyled>;
+function FilterButton() {
+  return (
+    // <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+    <div>
+      <FilterButtonStyled> Filters </FilterButtonStyled>
+      <OptionsButtonStyled>Options</OptionsButtonStyled>
+    </div>
+  );
 }
-
-// Define prop types for FilterButton component
-// FilterButton.propTypes = {
-//   children: PropTypes.node.isRequired, // Define children as a required prop
-// };
 
 export default FilterButton;
