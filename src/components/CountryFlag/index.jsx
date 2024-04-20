@@ -7,11 +7,12 @@ function CountryFlag({ countryCode }) {
       countryCode={countryCode}
       svg
       style={{
-        width: "2em",
+        width: "2rem",
         height: "auto",
-        borderRadius: "50%",
+        borderRadius: "5px",
       }}
-      title={countryCode}
+      title={ countryCode }
+      alt={ countryCode }
     />
   );
 }

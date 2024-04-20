@@ -13,7 +13,7 @@ function VenueCard({ venue }) {
   }
 
   const hasAtLeastOneImage = venue.media && venue.media.length > 0;
-  const hasValidTitle = venue.name && !venue.name.includes("zz");
+  const hasValidTitle = venue.name && !venue.name.includes("aaa");
   // Apply validation to country and continent
   const validCountry = validateField(venue.location.country);
   const validContinent = validateField(venue.location.continent);

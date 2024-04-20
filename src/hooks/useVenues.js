@@ -14,7 +14,7 @@ const useVenues = (page, limit = 100) => {
         const params = {
           sort: "name",
           sortOrder: "asc",
-          limit,
+          limit: limit,
           offset: (page - 1) * limit,
           _owner: true,
           _bookings: true,
@@ -22,7 +22,9 @@ const useVenues = (page, limit = 100) => {
         const response = await fetchApi("venues", { method: "GET" }, params);
         if (response && response.data && response.meta) {
           setVenues(response.data);
+          console.log("response.meta.totalCount", response.meta.totalCount);
           setTotalPages(Math.ceil(response.meta.totalCount / limit));
+          console.log("totalPages", totalPages);
         }
       } catch (error) {
         console.error("Failed to fetch venues:", error);
@@ -33,7 +35,7 @@ const useVenues = (page, limit = 100) => {
     };
 
     fetchVenues();
-  }, [page, limit]);
+  }, [page, limit, totalPages]);
 
   return { venues, loading, error, totalPages };
 };

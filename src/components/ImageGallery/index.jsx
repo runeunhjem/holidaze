@@ -3,6 +3,7 @@ import propTypes from "prop-types";
 import * as S from "./index.styled";
 import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
+import { BsStars } from "react-icons/bs";
 
 function ImageGallery({ media, countryName, continent }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -17,13 +18,11 @@ function ImageGallery({ media, countryName, continent }) {
 
   useEffect(() => {
     setImageVisible(true);
-    if (media.length > 1) {
-      const timer = setTimeout(() => {
-        setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length);
-        setImageVisible(true);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length);
+      setImageVisible(true);
+    }, 5000);
+    return () => clearTimeout(timer);
   }, [selectedImageIndex, media.length]);
 
   const placeholderImage = "https://picsum.photos/400/600";
@@ -32,69 +31,42 @@ function ImageGallery({ media, countryName, continent }) {
     return <div>No images available.</div>;
   }
 
-  const images = media.map((img) => ({
-    url: img.url || placeholderImage, // Fallback to a placeholder if no URL
-    alt: img.alt || `Illustration from ${countryName}`,
-  }));
-
   return (
     <S.Gallery>
-      {images.map((img, index) => (
+      {media.map((img, index) => (
         <div
           key={index}
           className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
           style={{ position: "relative" }}>
-          <S.StyledImg src={img.url} alt={img.alt} />
-          <div
-            style={{
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              textAlign: "center",
-              borderRadius: "0 0 10px 10px",
-              color: "var(--body-text-color)",
-              backgroundColor: "var(--overlay-color)",
-              padding: "10px 0",
-            }}>
-            {img.alt}
-          </div>
-          {overlayData.countryCode && overlayData.countryCode !== "Unknown" && (
-            <div style={{ position: "absolute", top: "10px", right: "10px" }}>
+          <S.StyledImg src={img.url || placeholderImage} alt={img.alt} />
+          <S.ImageOverlay>{img.alt}</S.ImageOverlay>
+          <S.TopOverlay>
+            <S.OverlaySection>
               <CountryFlag countryCode={overlayData.countryCode} />
-            </div>
-          )}
-          {overlayData.continentText && (
-            <div
-              style={{
-                position: "absolute",
-                top: "10px",
-                left: "10px",
-                color: "var(--body-text-color)",
-                backgroundColor: "var(--overlay-color)",
-                padding: "2px 5px",
-                borderRadius: "5px",
-              }}>
               {overlayData.continentText}
-            </div>
-          )}
+            </S.OverlaySection>
+            <S.OverlaySection
+              className="top-rated dark:text-yellow-400 text-yellow-700 w-full flex justify-end items-center me-3"
+              sx={{
+                color: "var(--yellow-500)",
+              }}>
+              <BsStars />
+              Top Rated
+            </S.OverlaySection>
+            <S.OptionsIcon className="flex justify-end items-center" />
+          </S.TopOverlay>
         </div>
       ))}
-      {images.length > 1 && (
-        <>
-          <S.NavButton
-            direction="left"
-            onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : images.length - 1))}>
-            &#10094;
-          </S.NavButton>
-          <S.NavButton
-            direction="right"
-            onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex + 1) % images.length)}>
-            &#10095;
-          </S.NavButton>
-        </>
-      )}
+      <S.NavButton
+        direction="left"
+        onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : media.length - 1))}>
+        &#10094;
+      </S.NavButton>
+      <S.NavButton direction="right" onClick={() => setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length)}>
+        &#10095;
+      </S.NavButton>
       <S.Thumbnails>
-        {images.map((image, index) => (
+        {media.map((image, index) => (
           <S.ThumbnailImg
             key={index}
             src={image.url}
