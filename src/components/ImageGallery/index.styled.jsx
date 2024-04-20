@@ -35,7 +35,7 @@ export const ImageOverlay = styled.div`
   background-color: var(--overlay-color);
   color: var(--body-text-color);
   text-align: center;
-  padding: 10px;
+  padding: 2px 10px;
 `;
 
 export const TopOverlay = styled.div`
@@ -47,7 +47,7 @@ export const TopOverlay = styled.div`
   width: 100%;
   background-color: var(--overlay-color);
   color: var(--body-text-color);
-  padding: 10px;
+  padding: 5px 10px;
 `;
 
 export const OverlaySection = styled.div`
@@ -60,13 +60,13 @@ export const NavButton = styled.button`
   cursor: pointer;
   position: absolute;
   top: 50%;
-  transform: translateY(-100%);
+  transform: translateY(-50%);
   background-color: var(--overlay-color);
   color: var(--gray-400);
   box-shadow: 0 0 8px 1px var(--overlay-color);
   border-radius: 50%;
-  font-size: 24px;
-  padding: 4px 14px;
+  font-size: 24px; // Default size for large screens
+  padding: 4px 14px; // Default padding for large screens
   z-index: 2; // Ensure it's above the image
 
   // Left or right positioning
@@ -76,6 +76,19 @@ export const NavButton = styled.button`
   &:hover {
     color: var(--overlay-color-hover);
     background-color: var(--header-bg-color);
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    // Tablets and below
+    font-size: 20px; // Smaller font size for smaller screens
+    padding: 4px 10px; // Adjust padding for size
+  }
+
+  @media (max-width: 480px) {
+    // Mobile devices
+    font-size: 16px; // Even smaller font size for very small screens
+    padding: 3px 8px; // Reduce padding to fit small screens
   }
 `;
 
@@ -88,6 +101,7 @@ export const Thumbnails = styled.div`
 `;
 
 export const ThumbnailImg = styled.img`
+  border-radius: 16px;
   width: 60px;
   height: 60px;
   object-fit: cover;
@@ -98,7 +112,8 @@ export const ThumbnailImg = styled.img`
   &.selected,
   &:hover {
     opacity: 1;
-    border: 2px solid #06f;
+    /* border: 2px solid #06f; */
+    border: 2px solid var(--border-color);
   }
 `;
 

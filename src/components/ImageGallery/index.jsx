@@ -5,7 +5,7 @@ import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 
-function ImageGallery({ media, countryName, continent }) {
+function ImageGallery({ media, countryName, continent, venue }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const [overlayData, setOverlayData] = useState({ countryCode: "", continentText: "" });
@@ -45,14 +45,12 @@ function ImageGallery({ media, countryName, continent }) {
               <CountryFlag countryCode={overlayData.countryCode} />
               {overlayData.continentText}
             </S.OverlaySection>
-            <S.OverlaySection
-              className="top-rated dark:text-yellow-400 text-yellow-700 w-full flex justify-end items-center me-3"
-              sx={{
-                color: "var(--yellow-500)",
-              }}>
-              <BsStars />
-              Top Rated
-            </S.OverlaySection>
+            {venue.rating > 4 && (
+              <S.OverlaySection className="top-rated dark:text-yellow-400 text-yellow-700 w-full flex justify-end items-center me-3">
+                <BsStars />
+                Top Rated
+              </S.OverlaySection>
+            )}
             <S.OptionsIcon className="flex justify-end items-center" />
           </S.TopOverlay>
         </div>
@@ -87,6 +85,7 @@ ImageGallery.propTypes = {
       alt: propTypes.string,
     })
   ).isRequired,
+  venue: propTypes.object.isRequired,
   countryName: propTypes.string.isRequired,
   continent: propTypes.string.isRequired,
 };
