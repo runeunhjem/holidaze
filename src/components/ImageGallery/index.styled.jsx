@@ -4,7 +4,6 @@ import { CgMoreVertical } from "react-icons/cg";
 export const Gallery = styled.div`
   position: relative;
   width: 600px;
-  /* height: 600px; // Adjust if you want a fixed height */
   max-width: 100%; // Adjust as needed
   margin: 0 auto;
   overflow: hidden;
@@ -48,6 +47,7 @@ export const TopOverlay = styled.div`
   background-color: var(--overlay-color);
   color: var(--body-text-color);
   padding: 5px 10px;
+transition: all 0.3s ease-in-out;
 `;
 
 export const OverlaySection = styled.div`
@@ -112,14 +112,16 @@ export const ThumbnailImg = styled.img`
   &.selected,
   &:hover {
     opacity: 1;
-    /* border: 2px solid #06f; */
     border: 2px solid var(--border-color);
   }
 `;
 
 export const OptionsIcon = styled(CgMoreVertical)`
   cursor: pointer;
+  font-size: 24px;
   &:hover {
-    color: lightgray; // Change color on hover
+    color: var(--link-color);
+    transform: scale(1.5);
+    transition: all 0.3s ease-in-out;
   }
 `;
