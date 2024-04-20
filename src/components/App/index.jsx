@@ -26,7 +26,7 @@ function App() {
     isDarkMode: state.isDarkMode,
   }));
 
-  
+
 
   useEffect(() => {
     document.body.setAttribute("data-theme", isDarkMode ? "dark" : "light");
@@ -45,7 +45,10 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/destinations" element={<VenueListPage />} />
               <Route path="/venues/:id" element={<VenueDetailsPage />} />
-              <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
+              <Route
+                path="/profile/:username"
+                element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />}
+              />
               <Route path="/login" element={!isAuthenticated ? <LogInPage /> : <Navigate to="/profile" replace />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/contact" element={<ContactPage />} />

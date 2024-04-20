@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { CgMoreVertical } from "react-icons/cg";
 
 export const Gallery = styled.div`
   position: relative;
@@ -8,22 +9,18 @@ export const Gallery = styled.div`
   margin: 0 auto;
   overflow: hidden;
   padding: 10px;
-
-  @media (max-width: 468px) {
-    /* max-width: 300px; // Half size on smaller screens */
-    /* height: 300px; */
-  }
 `;
 
 export const StyledImg = styled.img`
   width: 600px;
-  box-shadow: 1px 1px 6px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 1px 6px 2px var(--overlay-color-hover);
   /* height: 600px; // Adjust if you want a fixed height */
   max-width: 100%; // Adjust as needed
   height: 400px; // Keeps the image aspect ratio
   object-fit: cover;
   border-radius: 10px;
-  transition: opacity 1.6s ease;
+  /* transition: opacity 1.6s ease; */
+  transition: opacity 2s ease-in-out; // Smooth transition for opacity change
   opacity: 1;
   @media (max-width: 468px) {
     /* max-width: 300px; // Half size on smaller screens */
@@ -31,17 +28,45 @@ export const StyledImg = styled.img`
   }
 `;
 
+export const ImageOverlay = styled.div`
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--overlay-color);
+  color: var(--body-text-color);
+  text-align: center;
+  padding: 10px;
+`;
+
+export const TopOverlay = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: var(--overlay-color);
+  color: var(--body-text-color);
+  padding: 10px;
+`;
+
+export const OverlaySection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
 export const NavButton = styled.button`
   cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-100%);
-  background-color: rgba(113, 126, 148, 0.5);
-  color: white;
-  box-shadow: 0 0 8px 1px rgba(255, 255, 255, 0.7);
-  border-radius: 40%;
+  background-color: var(--overlay-color);
+  color: var(--gray-400);
+  box-shadow: 0 0 8px 1px var(--overlay-color);
+  border-radius: 50%;
   font-size: 24px;
-  padding: 4px 8px;
+  padding: 4px 14px;
   z-index: 2; // Ensure it's above the image
 
   // Left or right positioning
@@ -49,7 +74,8 @@ export const NavButton = styled.button`
   ${(props) => props.direction === "right" && `right: 20px;`}
 
   &:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+    color: var(--overlay-color-hover);
+    background-color: var(--header-bg-color);
   }
 `;
 
@@ -73,5 +99,12 @@ export const ThumbnailImg = styled.img`
   &:hover {
     opacity: 1;
     border: 2px solid #06f;
+  }
+`;
+
+export const OptionsIcon = styled(CgMoreVertical)`
+  cursor: pointer;
+  &:hover {
+    color: lightgray; // Change color on hover
   }
 `;
