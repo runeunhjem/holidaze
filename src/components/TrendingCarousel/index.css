@@ -84,7 +84,7 @@
   background: var(--overlay-color);
   color: var(--body-text-color);
   padding: 2px 4px; /* Padding for text */
-  font-size: 12px; /* Text size */
+  font-size: calc(0.9rem + 0.1vw);
   border-radius: 5px;
 }
 .image-overlay-top {
@@ -96,8 +96,8 @@
   width: 100%;
   background: var(--overlay-color);
   color: var(--body-text-color);
-  padding: 2px 4px; /* Padding for text */
-  font-size: 14px; /* Text size */
+  padding: 2px 4px;
+  font-size: calc(1rem + 0.3vw);
   font-weight: 700;
   border-radius: 0 0 5px 5px;
   border-bottom: 1px solid var(--border-color);
