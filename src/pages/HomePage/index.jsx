@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import * as S from "./index.styled";
 import TrendingCarousel from "../../components/TrendingCarousel";
+import VerticalSlider from "../../components/VerticalSlider";
+import VisitNorway from "../../components/VisitNorway";
 
 function HomePage() {
 
@@ -21,7 +23,8 @@ useEffect(() => {
   return (
     <S.HomeContainer>
       <TrendingCarousel />
-
+      <VerticalSlider />
+      <VisitNorway />
     </S.HomeContainer>
   );
 }

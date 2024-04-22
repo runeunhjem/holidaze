@@ -13,7 +13,7 @@ function TrendingCarousel() {
   const sliderContainerRef = useRef();
 
   const settings = {
-    dots: false,
+    dots: true,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -51,7 +51,7 @@ function TrendingCarousel() {
   };
 
   return (
-    <div className="slider-container w-full mt-3 sm:max-w-600 md:max-w-800 overflow-hidden mx-auto" ref={sliderContainerRef}>
+    <div className="slider-container justify-center w-full mt-3 sm:max-w-600 md:max-w-800 overflow-hidden mx-auto" ref={sliderContainerRef}>
       <Slider {...settings}>
         <div className="p-0 image-slide-container">
           <div className="image-overlay-top">Trending Locations</div>
@@ -69,7 +69,7 @@ function TrendingCarousel() {
           <div className="image-overlay">Pet Favorites</div>
         </div>
       </Slider>
-      <Link to="/destinations" className="ps-2 sm:ps-0">
+      <Link to="/destinations" className="ps-1">
         <S.Link>Check out all our destinations</S.Link>
       </Link>
     </div>

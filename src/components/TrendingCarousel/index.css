@@ -3,8 +3,8 @@
   z-index: 100;
   top: 50%;
   transform: translateY(-50%);
-  width: 29px;
-  height: 29px;
+  width: calc(19px + 1vw);
+  height: calc(19px + 1vw);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -23,9 +23,22 @@
 
 .slick-prev:before,
 .slick-next:before {
-  font-size: 28px;
+  align-items: center;
+  font-size: calc(18px + 1vw);
   color: var(--body-bg-color);
-  /* color: var(--white); */
+}
+
+@media (min-width: 769px) {
+  .slick-slider .slick-prev,
+  .slick-slider .slick-next {
+    width: 29px;
+    height: 29px;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 28px;
+  }
 }
 
 .slick-prev:hover:before,
@@ -55,6 +68,9 @@
   max-height: 200px;
   object-fit: cover;
   display: block;
+  @media (min-width: 469px) {
+    max-height: 360px;
+  }
 }
 
 .image-slide-container {
@@ -106,4 +122,17 @@
   .image-overlay-top {
     border-radius: 5px;
   }
+}
+
+.slick-slider {
+  margin-bottom: 2rem;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--border-color); /* Change the dot color for active slides */
+}
+
+.slick-dots li button:before {
+  opacity: .25; /* You may want to adjust the opacity for inactive dots */
+  color: var(--border-color); /* Applies the color to all dots, active state overrides this if needed */
 }
