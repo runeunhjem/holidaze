@@ -70,7 +70,7 @@ function TrendingCarousel() {
         </div>
       </Slider>
       <Link to="/destinations" className="ps-1">
-        <S.Link>Check out all our destinations</S.Link>
+        <S.Link>All our destinations</S.Link>
       </Link>
     </div>
   );
