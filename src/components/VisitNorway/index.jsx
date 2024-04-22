@@ -7,22 +7,26 @@ import norwayImage5 from "../../assets/images/norway-image-5.png";
 
 function ImageGallery() {
   return (
-    <div className="flex flex-wrap gap-3 max-w-800">
-      <div>
-        <S.StyledImage src={norwayImage1} alt="Norwegian fjords" />
+    <div className="flex flex-wrap w-full gap-3 max-w-800">
+      {/* <div className="w-full"> */}
+      <div className="w-full">
+        <S.StyledImage className="w-full"  src={norwayImage1} alt="Norwegian fjords" />
       </div>
-      <div>
-        <div>
-          <S.StyledImage src={norwayImage2} alt="Breathtaking aurora" />
+      <div className="w-full flex flex-nowrap gap-3">
+        <div className="w-1/2">
+          <S.StyledImage className="w-full" src={norwayImage2} alt="Breathtaking aurora" />
         </div>
-        <div>
-          <S.StyledImage src={norwayImage3} alt="Visit Trolltunga" />
+        <div className="w-1/2 flex flex-wrap">
           <div>
-            <S.StyledImage src={norwayImage4} alt="Magical evenings" />
-            <S.StyledImage src={norwayImage5} alt="Drive the infamous Trollstigen" />
+            <S.StyledImage src={norwayImage3} alt="Visit Trolltunga" />
+          </div>
+          <div className="flex flex-nowrap gap-1 w-full">
+            <S.StyledImage className="p-1 w-2/3" src={norwayImage4} alt="Magical evenings" />
+            <S.StyledImage className="p-1 w-1/3" src={norwayImage5} alt="Drive the infamous Trollstigen" />
           </div>
         </div>
       </div>
+      {/* </div> */}
     </div>
   );
 }
