@@ -14,6 +14,7 @@ function TrendingCarousel() {
 
   const settings = {
     dots: true,
+    arrows: false,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
