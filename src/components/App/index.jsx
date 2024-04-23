@@ -1,6 +1,11 @@
 import propTypes from "prop-types";
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import Layout from "../Layout";
 import HomePage from "../../pages/HomePage";
@@ -34,6 +39,7 @@ function App() {
 
   const theme = React.useMemo(() => getTheme(isDarkMode), [isDarkMode]);
 
+  console.log("Is Authenticated in App:", isAuthenticated);
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -46,10 +52,30 @@ function App() {
               <Route path="/destinations" element={<VenueListPage />} />
               <Route path="/venues/:id" element={<VenueDetailsPage />} />
               <Route
-                path="/profile/:username"
-                element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />}
+                path="/profile"
+                element={<div>Profile without username</div>}
               />
-              <Route path="/login" element={!isAuthenticated ? <LogInPage /> : <Navigate to="/profile" replace />} />
+              <Route
+                path="/profile/:username"
+                element={
+                  isAuthenticated ? (
+                    <ProfilePage />
+                  ) : (
+                    <Navigate to="/login" replace />
+                  )
+                }
+              />
+
+              <Route
+                path="/login"
+                element={
+                  !isAuthenticated ? (
+                    <LogInPage />
+                  ) : (
+                    <Navigate to="/profile" replace />
+                  )
+                }
+              />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/about" element={<AboutPage />} />

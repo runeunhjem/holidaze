@@ -1,3 +1,4 @@
+import propTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchApi } from "../../utils/fetchApi";
@@ -10,9 +11,30 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+function RequiredLabel({ label, required }) {
+return (
+  <>
+    {label}
+    {required && <span style={{ color: 'red' }}> *</span>}
+  </>
+);
+}
 
 function RegisterPage() {
+
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setError: setFormError,
+  } = useForm();
+  const navigate = useNavigate();
+  const password = watch("password");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     document.title = "Holidaze - Register for an account";
@@ -24,29 +46,41 @@ function RegisterPage() {
     }
     metaDescription.setAttribute(
       "content",
-      "Explore our wide range of destinations from around the world to find your special place."
+      "Explore our wide range of destinations from around the world to find your special place.",
     );
   }, []);
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm(); // Correctly include watch here
-  const watchVenueManager = watch("venueManager", false); // Default value as false
-
-  const [error, setError] = useState("");
   const onSubmit = async (data) => {
-    try {
-      await fetchApi("v1Register", {
-        method: "POST",
-        body: JSON.stringify(data),
+    if (data.password !== data.retypePassword) {
+      setFormError("retypePassword", {
+        type: "manual",
+        message: "Passwords do not match",
       });
-      // Handle successful registration (e.g., redirect to login page)
-      Navigate("/login");
+      return;
+    }
+    const requestData = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      bio: data.bio,
+      avatar: {
+        url: data.avatarUrl,
+        alt: data.avatarAlt,
+      },
+      banner: {
+        url: data.bannerUrl,
+        alt: data.bannerAlt,
+      },
+      venueManager: data.venueManager || false,
+    };
+    try {
+      await fetchApi("register", {
+        method: "POST",
+        body: JSON.stringify(requestData),
+      });
+      navigate("/login");
     } catch (error) {
-      setError("Registration failed. Please check your information."); // Customize based on actual error response
+      setError("Registration failed. Please check your information.");
     }
   };
 
@@ -58,25 +92,33 @@ function RegisterPage() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-        }}>
+        }}
+      >
         <Typography component="h1" variant="h5">
           Register
         </Typography>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{ mt: 1 }}
+        >
           <TextField
             margin="normal"
             fullWidth
-            label="Name"
+            label={<RequiredLabel label="Name" required />}
             autoComplete="name"
             autoFocus
-            {...register("name", { required: "Name is required", pattern: /^[a-zA-Z0-9_]+$/ })}
+            {...register("name", {
+              required: "Name is required",
+            })}
             error={!!errors.name}
             helperText={errors.name?.message}
           />
           <TextField
             margin="normal"
             fullWidth
-            label="Email Address"
+            label={<RequiredLabel label="Email Address" required />}
             autoComplete="email"
             {...register("email", {
               required: "Email is required",
@@ -88,20 +130,78 @@ function RegisterPage() {
           <TextField
             margin="normal"
             fullWidth
-            label="Password"
+            label={<RequiredLabel label="Password" required />}
             type="password"
             autoComplete="new-password"
-            {...register("password", { required: "Password is required", minLength: 8 })}
+            {...register("password", {
+              required: "Password is required",
+              minLength: 8,
+            })}
             error={!!errors.password}
             helperText={errors.password?.message}
           />
-          <TextField margin="normal" fullWidth label="Avatar URL (Optional)" autoComplete="off" {...register("avatar")} />
-          <FormControlLabel control={<Checkbox {...register("venueManager")} />} label="Venue Manager" />
-          {watchVenueManager && (
-            <div>Additional fields for Venue Managers</div> // This will show up if the 'Venue Manager' checkbox is checked
-          )}
+          <TextField
+            margin="normal"
+            fullWidth
+            label={<RequiredLabel label="Retype Password" required />}
+            type="password"
+            {...register("retypePassword", {
+              validate: (value) => value === password || "Passwords must match",
+            })}
+            error={!!errors.retypePassword}
+            helperText={errors.retypePassword?.message}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Bio (Optional)"
+            {...register("bio")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Avatar URL (Optional)"
+            {...register("avatarUrl")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Avatar Alt Text (Optional)"
+            {...register("avatarAlt")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Banner URL (Optional)"
+            {...register("bannerUrl")}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Banner Alt Text (Optional)"
+            {...register("bannerAlt")}
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("venueManager")} />}
+            label="Venue Manager (Do you want to add your own venues for rent?)"
+          />
 
-          <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              color: "var(--button-text-color)",
+              backgroundColor: "var(--button-bg-color)",
+              mt: 3,
+              mb: 2,
+              "&:hover": {
+                color: "var(--button-text-color-hover)",
+                backgroundColor: "var(--button-bg-color-hover)",
+                outline: "1px solid var(--border-color)",
+              },
+            }}
+          >
             Register
           </Button>
           {error && (
@@ -114,5 +214,10 @@ function RegisterPage() {
     </Container>
   );
 }
+
+RequiredLabel.propTypes = {
+  label: propTypes.string.isRequired,
+  required: propTypes.bool,
+};
 
 export default RegisterPage;
