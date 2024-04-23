@@ -8,42 +8,25 @@ function TravelTipsImageGallery() {
   return (
     <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-4">
       <div className="flex w-full flex-nowrap gap-6">
-        <div className="image-container relative w-1/2 overflow-hidden">
-          <S.StyledImage
-            className="w-full overflow-hidden"
-            src={travelTipsImage1}
-            alt="Sunny Favorites"
-          />
+        <S.ImageContainer className="w-1/2 relative">
+          <S.StyledImage src={travelTipsImage1} alt="Sunny Favorites" />
           <S.ImageOverlay>Sunny Favorites</S.ImageOverlay>
-        </div>
-        <div className="image-container relative w-1/2 overflow-hidden">
-          <S.StyledImage
-            className="w-full"
-            src={travelTipsImage2}
-            alt="Pet Favorites"
-          />
+        </S.ImageContainer>
+        <S.ImageContainer className="w-1/2 relative">
+          <S.StyledImage src={travelTipsImage2} alt="Pet Favorites" />
           <S.ImageOverlay>Pet Favorites</S.ImageOverlay>
-        </div>
+        </S.ImageContainer>
       </div>
       <div className="flex w-full flex-nowrap gap-6">
-        {/* <div className="flex w-1/2 flex-wrap gap-5"> */}
-        <div className="image-container relative w-1/2 overflow-hidden">
+        <S.ImageContainer className="w-1/2 relative">
           <S.StyledImage src={travelTipsImage3} alt="Kid Friendly" />
           <S.ImageOverlay>Kid Friendly</S.ImageOverlay>
-        </div>
-        <div className="image-container relative w-1/2 overflow-hidden">
-          {/* <S.ImageContainer className="image4 p-0"> */}
-          <S.StyledImage
-            // className="w-2/3 p-0"
-            src={travelTipsImage4}
-            alt="Adventure"
-          />
+        </S.ImageContainer>
+        <S.ImageContainer className="w-1/2 relative">
+          <S.StyledImage src={travelTipsImage4} alt="Adventure" />
           <S.ImageOverlay>Adventure</S.ImageOverlay>
-          {/* </S.ImageContainer> */}
-        </div>
-        {/* </div> */}
+        </S.ImageContainer>
       </div>
-      {/* </div> */}
     </S.StyledContainer>
   );
 }
