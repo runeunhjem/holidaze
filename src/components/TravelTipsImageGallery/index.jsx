@@ -26,15 +26,24 @@ function TravelTipsImageGallery() {
         </div>
       </div>
       <div className="flex w-full flex-nowrap gap-6">
+        {/* <div className="flex w-1/2 flex-wrap gap-5"> */}
         <div className="image-container relative w-1/2 overflow-hidden">
           <S.StyledImage src={travelTipsImage3} alt="Kid Friendly" />
           <S.ImageOverlay>Kid Friendly</S.ImageOverlay>
         </div>
         <div className="image-container relative w-1/2 overflow-hidden">
-          <S.StyledImage src={travelTipsImage4} alt="Adventure" />
+          {/* <S.ImageContainer className="image4 p-0"> */}
+          <S.StyledImage
+            // className="w-2/3 p-0"
+            src={travelTipsImage4}
+            alt="Adventure"
+          />
           <S.ImageOverlay>Adventure</S.ImageOverlay>
+          {/* </S.ImageContainer> */}
         </div>
+        {/* </div> */}
       </div>
+      {/* </div> */}
     </S.StyledContainer>
   );
 }

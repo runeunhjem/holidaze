@@ -28,16 +28,16 @@ export const Link = styled.span`
   color: var(--link-color);
   text-decoration: underline;
   font-weight: 700;
-  transition: color 0.5s ease-in-out; // Smooth transition for color change
+  transition: color 0.5s ease-in-out;
   &:hover {
     color: var(--link-color-hover);
   }
 `;
 
 export const ImageContainer = styled.div`
-  overflow: hidden; // Ensures content doesn't spill out
-  border-radius: 15px; // Optional: if you want rounded corners
-  width: 100%; // Ensures the container takes the necessary width
+  overflow: hidden;
+  border-radius: 15px;
+  width: 100%;
 `;
 
 export const ImageOverlay = styled.div`
@@ -47,7 +47,7 @@ export const ImageOverlay = styled.div`
   text-align: center;
   background: var(--overlay-color);
   color: var(--body-text-color);
-  padding: 2px 4px; /* Padding for text */
+  padding: 2px 4px;
   font-size: calc(0.9rem + 0.1vw);
   border-radius: 0 0 5px 5px;
   width: 100%;

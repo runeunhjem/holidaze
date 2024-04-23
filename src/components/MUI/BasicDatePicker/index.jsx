@@ -32,6 +32,7 @@ export default function DatePickers() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className="w-full flex justify-around gap-2">
           <DatePicker
+          className="w-full md:w-1/2"
             label="Check-in"
             value={dateFromDate}
             onChange={handleDateFromDateChange}
@@ -39,6 +40,7 @@ export default function DatePickers() {
             TextField={(params) => <TextField {...params} fullWidth />}
           />
           <DatePicker
+          className="w-full md:w-1/2"
             label="Check-out"
             value={dateToDate}
             onChange={handleDateToDateChange}

@@ -23,6 +23,8 @@
 
 .slick-prev:before,
 .slick-next:before {
+  display: flex;
+  justify-content: center;
   align-items: center;
   font-size: calc(18px + 1vw);
   color: var(--body-bg-color);
@@ -79,8 +81,8 @@
 
 .image-overlay {
   position: absolute;
-  bottom: 5px;
-  left: 12px;
+  bottom: 10px;
+  left: 10px;
   background: var(--overlay-color);
   color: var(--body-text-color);
   padding: 2px 4px; /* Padding for text */
@@ -110,12 +112,16 @@
 }
 
 @media (min-width: 469px) {
+  .image-slide-container {
+    border-radius: 15px;
+    overflow: hidden;
+  }
   .slider-container {
     padding: 0 1rem;
+    border-radius: 15px;
     width: 100%;
     height: auto;
     margin: 0 auto;
-    border-radius: 15px;
   }
   .slick-slide > div,
   .slick-slide img,

@@ -52,7 +52,7 @@ function SearchBar({ onClose }) {
 
     try {
       const url = `https://v2.api.noroff.dev/holidaze/venues/search?_owner=true&_bookings=true&q=a`;
-      
+
       console.log("Fetching URL:", url); // Log the full URL being fetched
       const response = await fetch(url);
       const data = await response.json();
