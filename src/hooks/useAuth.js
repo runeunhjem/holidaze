@@ -1,35 +1,45 @@
-import useStore from "./useStore";
-import { fetchApi } from "../utils/fetchApi";
 import { useNavigate } from "react-router-dom";
+import { fetchApi } from "../utils/fetchApi";
+import useStore from "./useStore";
 
 const useAuth = () => {
   const navigate = useNavigate();
-  const setIsAuthenticated = useStore((state) => state.isAuthenticated);
+  const { logIn, clearUser } = useStore();
 
-  const setAccessToken = useStore((state) => state.setAccessToken);
-  const clearAccessToken = useStore((state) => state.clearAccessToken);
-
-  const logIn = async (credentials) => {
+  const logInAsync = async (credentials) => {
     try {
-      const data = await fetchApi("v1Login", {
+      const response = await fetchApi("login", {
         method: "POST",
         body: JSON.stringify(credentials),
       });
-      setAccessToken(data.accessToken);
-      setIsAuthenticated(true);
-      navigate("/profile");
+
+      const data = await response.data; // Assuming your fetchApi handles the JSON parsing
+      if (data.accessToken && data.name) {
+        // Use the logIn function from useStore to manage all state updates
+        logIn({
+          username: data.name,
+          name: data.name,
+          email: data.email,
+          bio: data.bio,
+          avatar: data.avatar,
+          banner: data.banner,
+        });
+      } else {
+        console.error("Login failed: No access token or username received");
+        throw new Error("Login failed: No access token or username received");
+      }
     } catch (error) {
-      console.error(error);
-      throw error; // Let the calling function handle the error
+      console.error("Error during login:", error);
+      throw error;
     }
   };
 
   const logOut = () => {
-    clearAccessToken();
+    clearUser();
     navigate("/");
   };
 
-  return { logIn, logOut };
+  return { logIn: logInAsync, logOut };
 };
 
-export default useAuth;
+export { useAuth };

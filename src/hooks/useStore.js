@@ -2,44 +2,74 @@ import { create } from "zustand";
 import { save, load } from "../utils/storage.js";
 
 const useStore = create((set) => ({
-  // Initial state setup
   isAuthenticated: load("isAuthenticated") || false,
   isDarkMode: load("isDarkMode") || false,
   accessToken: load("accessToken"),
+  userDetails: load("userDetails") || {},
   venues: [],
+  justLoggedIn: false, // New state to control navigation after login
 
-  // Actions
   toggleDarkMode: () =>
     set((state) => {
       const newIsDarkMode = !state.isDarkMode;
       save("isDarkMode", newIsDarkMode);
-      document.body.setAttribute("data-theme", newIsDarkMode ? "dark" : "light");
+      document.body.setAttribute(
+        "data-theme",
+        newIsDarkMode ? "dark" : "light",
+      );
       return { isDarkMode: newIsDarkMode };
     }),
 
-  logIn: () => {
-    save("isAuthenticated", true);
-    set({ isAuthenticated: true });
-  },
-
-  logOut: () => {
-    save("isAuthenticated", false);
-    localStorage.removeItem("accessToken"); // Clear access token on logout
-    set({ isAuthenticated: false, accessToken: null });
+  setIsAuthenticated: (isAuthenticated) => {
+    save("isAuthenticated", isAuthenticated);
+    set({ isAuthenticated });
   },
 
   setAccessToken: (accessToken) => {
     save("accessToken", accessToken);
-    set({ accessToken, isAuthenticated: true }); // Set isAuthenticated when token is set
+    set({ accessToken, isAuthenticated: true });
   },
 
-  clearAccessToken: () => {
+  setUserDetails: (details) => {
+    save("userDetails", details);
+    set({ userDetails: details });
+  },
+
+  clearUser: () => {
     save("accessToken", null);
-    localStorage.removeItem("accessToken"); // Clear access token on logout
-    set({ accessToken: null, isAuthenticated: false }); // Also update isAuthenticated
+    save("isAuthenticated", false);
+    save("userDetails", {});
+    localStorage.removeItem("accessToken");
+    set({
+      accessToken: null,
+      isAuthenticated: false,
+      userDetails: {},
+      justLoggedIn: false,
+    });
+    document.body.setAttribute("data-theme", "light"); // Optionally reset to default theme
   },
-}));
 
-export const isAuthenticatedSelector = (state) => !!load("isAuthenticated") || !!state.accessToken;
+  logIn: (userDetails) => {
+    save("isAuthenticated", true);
+    save("userDetails", userDetails);
+    set({ isAuthenticated: true, userDetails, justLoggedIn: true });
+  },
+
+  logOut: () => {
+    save("accessToken", null);
+    save("isAuthenticated", false);
+    save("userDetails", {});
+    localStorage.removeItem("accessToken");
+    set({
+      accessToken: null,
+      isAuthenticated: false,
+      userDetails: {},
+      justLoggedIn: false,
+    });
+    document.body.setAttribute("data-theme", "light"); // Optionally reset to default theme
+  },
+
+  resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
+}));
 
 export default useStore;

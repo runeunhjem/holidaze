@@ -16,7 +16,7 @@ const pages = ["Home", "Destinations", "About", "Contact"];
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const { isDarkMode } = useStore();
+  const { isDarkMode, userDetails } = useStore();
   const logo = isDarkMode ? logoDark : logoLight;
 
   useEffect(() => {
@@ -40,77 +40,113 @@ function Header() {
   }, [isOpen]); // Only re-run the effect if isOpen changes
 
   return (
-    <StyledHeader theme={isDarkMode ? "dark" : "light"} className="header-container">
-      <div className="container mx-auto md:flex justify-between items-center max-w-6xl">
-        <Link to="/" className="font-bold text-xl flex">
+    <StyledHeader
+      theme={isDarkMode ? "dark" : "light"}
+      className="header-container"
+    >
+      <div className="container mx-auto max-w-6xl items-center justify-between md:flex">
+        <Link to="/" className="flex text-xl font-bold">
           <img
             src={logo}
             alt="Illustration of the Holidaze logo"
-            style={{ height: "70px", width: "100px", position: "absolute", top: "6px", left: "-2px" }}
+            style={{
+              height: "70px",
+              width: "100px",
+              position: "absolute",
+              top: "6px",
+              left: "-2px",
+            }}
           />
         </Link>
-        <div className="flex items-center w-full p-0 m-0 justify-between">
+        <div className="m-0 flex w-full items-center justify-between p-0">
           <div>
-            <Link to="/" className="font-bold text-xl flex ms-20 logo">
+            <Link to="/" className="logo ms-20 flex text-xl font-bold">
               Holidaze
             </Link>
           </div>
           <NavigationMenu className="flex md:hidden" />
-          <nav className={`hidden md:flex items-start justify-start me-1 text-left ${isOpen ? "flex" : "hidden"}`}>
+          <nav
+            className={`me-1 hidden items-start justify-start text-left md:flex ${isOpen ? "flex" : "hidden"}`}
+          >
             {pages.map((page, index) => (
               <Link
                 to={`/${page.toLowerCase()}`}
                 key={page}
-                className={`text-left md:flex md:text-md mx-2 my-1 z-1000 ${
+                className={`md:text-md z-1000 mx-2 my-1 text-left md:flex ${
                   index === pages.length - 1 ? "md:mr-0" : "md:mx-2"
-                }`}>
+                }`}
+              >
                 {page}
               </Link>
             ))}
           </nav>
         </div>
       </div>
-      <div className="flex items-start md:mx-auto me-3 justify-between md:justify-end max-w-1200">
-        <div className="text-left w-full p-0 m-0"></div>
-        <button onClick={() => setIsSearchVisible(!isSearchVisible)} aria-label="Search">
+      <div className="me-3 flex max-w-1200 items-start justify-between md:mx-auto md:justify-end">
+        <div className="m-0 w-full p-0 text-left"></div>
+        <button
+          onClick={() => setIsSearchVisible(!isSearchVisible)}
+          aria-label="Search"
+        >
           <FiSearch
             onClick={() => setIsSearchVisible(!isSearchVisible)}
-            className="cursor-pointer me-3 my-4 items-center"
+            className="my-4 me-3 cursor-pointer items-center"
             size={20}
           />
           <span className="hidden">Search</span>
         </button>
-        <ToggleTheme className="items-center my-4" />
+        <ToggleTheme className="my-4 items-center" />
 
-        <MenuListComposition className="m-0 p-0 justify-end w-full" />
+        <MenuListComposition className="m-0 w-full justify-end p-0" />
       </div>
-      {isSearchVisible && <SearchBar onClose={() => setIsSearchVisible(false)} />}
+      {isSearchVisible && (
+        <SearchBar onClose={() => setIsSearchVisible(false)} />
+      )}
       <nav
         style={{
           zIndex: 1000,
           width: "120px",
-          border: "1px solid #fbbf24",
+          border: "1px solid var(--border-color)",
           borderRadius: "5px",
           position: "absolute",
           top: "50px",
           right: "10px",
         }}
-        className={`flex md:hidden items-Start bg-white dark:bg-gray-900 justify-start text-left ${
+        className={`items-Start flex justify-start bg-white text-left md:hidden dark:bg-gray-900 ${
           isOpen ? "flex-col" : "hidden"
-        }`}>
+        }`}
+      >
         {pages.map((page, index) => (
           <Link
             to={`/${page.toLowerCase()}`}
             key={page}
-            className={`text-left md:flex md:text-md mx-2 my-1 z-1000 ${
+            className={`md:text-md z-1000 mx-2 my-1 text-left md:flex ${
               index === pages.length - 1 ? "md:mr-0" : "md:mx-2"
-            }`}>
+            }`}
+          >
             {page}
           </Link>
         ))}
       </nav>
 
       <FilterButton />
+      <div className="flex w-full justify-end text-right">
+        {userDetails.username ? (
+          `Welcome back, ${userDetails.username}`
+        ) : (
+          <div>
+            Welcome, please{" "}
+            <Link
+              to="/login"
+              style={{
+                color: "var(--link-color)",
+              }}
+            >
+              log in
+            </Link>
+          </div>
+        )}
+      </div>
     </StyledHeader>
   );
 }

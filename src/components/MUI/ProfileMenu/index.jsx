@@ -14,6 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import { useTheme } from "@emotion/react";
 
 export default function MenuListComposition() {
+  const userDetails = useStore((state) => state.userDetails);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
@@ -23,7 +24,7 @@ export default function MenuListComposition() {
     isAuthenticated: state.isAuthenticated,
     logOut: state.logOut,
   }));
-  
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -74,7 +75,8 @@ export default function MenuListComposition() {
         my: 1,
         py: 0,
         justifyContent: "flex-end",
-      }}>
+      }}
+    >
       <Button
         ref={anchorRef}
         id="composition-button"
@@ -85,14 +87,17 @@ export default function MenuListComposition() {
         onClick={handleToggle}
         startIcon={
           open ? (
-            <FiChevronUp className="dark:text-gray-200 w-6 h-6" />
+            <FiChevronUp className="h-6 w-6 dark:text-gray-200" />
           ) : (
-            <FiChevronDown className="dark:text-gray-200 w-6 h-6" />
+            <FiChevronDown className="h-6 w-6 dark:text-gray-200" />
           )
         }
         sx={{
           color: theme.palette.mode === "light" ? "#1F2937" : "#F9FAFB",
-          backgroundColor: theme.palette.mode === "light" ? "var(--sky-50)" : "var(--gray-700)",
+          backgroundColor:
+            theme.palette.mode === "light"
+              ? "var(--sky-50)"
+              : "var(--gray-700)",
           borderRadius: "32px",
           width: "80px",
           py: "6px",
@@ -100,7 +105,8 @@ export default function MenuListComposition() {
           justifyContent: "center",
           mx: 0,
           px: 0,
-        }}>
+        }}
+      >
         {isAuthenticated ? (
           <Avatar
             sx={{
@@ -111,7 +117,7 @@ export default function MenuListComposition() {
               fontSize: 12,
               alignItems: "center",
             }}
-            src="https://portfolio1-ca.netlify.app/images/rune-profile-pic-medium.png"
+            src={userDetails.avatar.url}
             alt="Profile picture"
           />
         ) : (
@@ -120,11 +126,21 @@ export default function MenuListComposition() {
               width: 24,
               height: 24,
               fontSize: 12,
-              backgroundColor: theme.palette.mode === "light" ? "var(--sky-100)" : "var(--gray-100)",
-              color: theme.palette.mode === "light" ? "var(--gray-900)" : "var(--gray-900)",
+              backgroundColor:
+                theme.palette.mode === "light"
+                  ? "var(--sky-100)"
+                  : "var(--gray-100)",
+              color:
+                theme.palette.mode === "light"
+                  ? "var(--gray-900)"
+                  : "var(--gray-900)",
               border: "1px solid",
-              borderColor: theme.palette.mode === "light" ? "var(--gray-300)" : "var(--sky-100)",
-            }}>
+              borderColor:
+                theme.palette.mode === "light"
+                  ? "var(--gray-300)"
+                  : "var(--sky-100)",
+            }}
+          >
             <FiUser />
           </Avatar>
         )}
@@ -146,20 +162,27 @@ export default function MenuListComposition() {
             },
           },
         ]}
-        sx={{ zIndex: 10 }}>
+        sx={{ zIndex: 10 }}
+      >
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}
             style={{
-              transformOrigin: placement === "top-start" ? "right bottom" : "left top",
-            }}>
+              transformOrigin:
+                placement === "top-start" ? "right bottom" : "left top",
+            }}
+          >
             <Paper
               sx={{
                 borderRadius: "5px",
-                borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+                borderColor:
+                  theme.palette.mode === "dark"
+                    ? "var(--yellow-400)"
+                    : "var(--sky-300)",
                 borderWidth: 1,
                 borderStyle: "solid",
-              }}>
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   autoFocusItem={open}
@@ -167,62 +190,102 @@ export default function MenuListComposition() {
                   aria-labelledby="composition-button"
                   className="dark:bg-gray-800"
                   sx={{ borderRadius: "5px" }}
-                  onKeyDown={handleListKeyDown}>
+                  onKeyDown={handleListKeyDown}
+                >
                   {isAuthenticated
                     ? [
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="profile"
-                          onClick={() => handleNavigate("/profile")}>
+                          onClick={() =>
+                            handleNavigate(
+                              `/profile/${encodeURIComponent(userDetails.username)}`,
+                            )
+                          }
+                        >
                           Profile
                         </MenuItem>,
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="myFavorites"
-                          onClick={() => handleNavigate("/myFavorites")}>
+                          onClick={() => handleNavigate("/myFavorites")}
+                        >
                           My favorites
                         </MenuItem>,
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="myBookings"
-                          onClick={() => handleNavigate("/myBookings")}>
+                          onClick={() => handleNavigate("/myBookings")}
+                        >
                           My bookings
                         </MenuItem>,
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="myVenues"
-                          onClick={() => handleNavigate("/myVenues")}>
+                          onClick={() => handleNavigate("/myVenues")}
+                        >
                           My venues
                         </MenuItem>,
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="logout"
-                          onClick={handleLogOut}>
+                          onClick={handleLogOut}
+                        >
                           Logout
                         </MenuItem>,
                       ]
@@ -230,23 +293,37 @@ export default function MenuListComposition() {
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="login"
-                          onClick={() => handleNavigate("/login")}>
+                          onClick={() => handleNavigate("/login")}
+                        >
                           Log In
                         </MenuItem>,
                         <MenuItem
                           sx={{
                             "&:hover": {
-                              backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                              color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                              backgroundColor:
+                                theme.palette.mode === "dark"
+                                  ? "var(--yellow-200)"
+                                  : "var(--sky-100)",
+                              color:
+                                theme.palette.mode === "dark"
+                                  ? "var(--gray-900)"
+                                  : "var(--gray-900)",
                             },
                           }}
                           key="register"
-                          onClick={() => handleNavigate("/register")}>
+                          onClick={() => handleNavigate("/register")}
+                        >
                           Register
                         </MenuItem>,
                       ]}
