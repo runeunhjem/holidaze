@@ -2,12 +2,12 @@ import { useRef } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import "./index.css";
 import image1 from "../../assets/images/hero-image-top-asian-pearl.png";
 import image2 from "../../assets/images/hero-image-top-norwegian-summer.png";
 import image3 from "../../assets/images/hero-image-top-pet-favorites.png";
 import { Link } from "react-router-dom";
 import * as S from "./index.styled";
+import "./index.css";
 
 function TrendingCarousel() {
   const sliderContainerRef = useRef();
@@ -51,25 +51,28 @@ function TrendingCarousel() {
   };
 
   return (
-    <div className="slider-container justify-center w-full mt-3 sm:max-w-600 md:max-w-800 overflow-hidden mx-auto" ref={sliderContainerRef}>
+    <div
+      className="slider-container mx-auto mt-3 w-full justify-center overflow-hidden sm:max-w-600 md:max-w-800"
+      ref={sliderContainerRef}
+    >
       <Slider {...settings}>
-        <div className="p-0 image-slide-container">
+        <div className="image-slide-container p-0">
           <div className="image-overlay-top">Trending Locations</div>
           <img src={image1} alt="Asian Pearls" />
           <div className="image-overlay">Asian Pearls</div>
         </div>
-        <div className="p-0 image-slide-container">
+        <div className="image-slide-container p-0">
           <div className="image-overlay-top">Nature Fans</div>
           <img src={image2} alt="Norwegian Summer" />
           <div className="image-overlay">Norwegian Summer</div>
         </div>
-        <div className="p-0 image-slide-container">
+        <div className="image-slide-container p-0">
           <div className="image-overlay-top">Animal Lovers</div>
           <img src={image3} alt="Pet Favorites" />
           <div className="image-overlay">Pet Favorites</div>
         </div>
       </Slider>
-      <Link to="/destinations" className="ps-1">
+      <Link to="/destinations" className="ps-4 underline-offset-4">
         <S.Link>All our destinations</S.Link>
       </Link>
     </div>

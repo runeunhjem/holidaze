@@ -3,6 +3,7 @@ import * as S from "./index.styled";
 import TrendingCarousel from "../../components/TrendingCarousel";
 import VerticalSlider from "../../components/VerticalSlider";
 import VisitNorway from "../../components/VisitNorway";
+import TravelTips from "../../components/TravelTips";
 
 function HomePage() {
 
@@ -25,6 +26,8 @@ useEffect(() => {
       <TrendingCarousel />
       <VerticalSlider />
       <VisitNorway />
+      <VerticalSlider />
+      <TravelTips />
     </S.HomeContainer>
   );
 }
