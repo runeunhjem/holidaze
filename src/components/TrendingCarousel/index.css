@@ -59,7 +59,7 @@
 .slick-slide > div {
   margin: 0 5px;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 15px;
 }
 
 .slick-slide img {
@@ -79,8 +79,8 @@
 
 .image-overlay {
   position: absolute;
-  bottom: 3px;
-  left: 3px;
+  bottom: 5px;
+  left: 12px;
   background: var(--overlay-color);
   color: var(--body-text-color);
   padding: 2px 4px; /* Padding for text */
@@ -99,7 +99,7 @@
   padding: 2px 4px;
   font-size: calc(1rem + 0.3vw);
   font-weight: 700;
-  border-radius: 0 0 5px 5px;
+  border-radius: 0;
   border-bottom: 1px solid var(--border-color);
   margin: 0 auto;
 }
@@ -115,12 +115,12 @@
     width: 100%;
     height: auto;
     margin: 0 auto;
-    border-radius: 5px;
+    border-radius: 15px;
   }
   .slick-slide > div,
   .slick-slide img,
   .image-overlay-top {
-    border-radius: 5px;
+    border-radius: 15px 15px 0 0;
   }
 }
 
