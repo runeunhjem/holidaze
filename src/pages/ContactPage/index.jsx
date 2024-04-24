@@ -60,38 +60,23 @@ function ContactPage() {
           <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
             Opening Hours:
           </Typography>
-          <Typography>
-            <p>Monday-Saturday</p>
-            (08.00 / 8am - 17.00 / 5pm)
-          </Typography>
+          <Typography>Monday-Saturday (08.00 / 8am - 17.00 / 5pm)</Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
           <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
             Phone Number:
           </Typography>
-          <a
-            href="tel:+6312345678"
-            style={{
-              marginLeft: "5px",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            +63 12 345678
-          </a>
+          <Typography>
+            <a href="tel:+6312345678">+63 12 345678</a>
+          </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
           <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
             Email:
           </Typography>
-          <a
-            href="mailto:customerservice@holidaze.com"
-            style={{
-              marginLeft: "5px",
-              textDecoration: "none",
-              color: "inherit",
-            }}
-          >
-            customerservice@holidaze.com
-          </a>
+          <Typography>
+            <a href="mailto:customerservice@holidaze.com">
+              customerservice@holidaze.com
+            </a>
+          </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
           <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
             Visiting Address:
@@ -101,8 +86,8 @@ function ContactPage() {
               href="https://goo.gl/maps/7Z3QpQf7JZzhttps://maps.app.goo.gl/GGUVBCuSC4YS6GcP6"
               target="_blank"
             >
-              <p>Batangas Provincial Rd, Barangay Sta.Rita,</p>
-              4200 Batangas, Philippines
+              Batangas Provincial Rd, Barangay Sta.Rita, 4200 Batangas,
+              Philippines
             </a>
           </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
@@ -182,14 +167,7 @@ function ContactPage() {
             label="I am a Venue Manager."
           />
           {submitSuccess && (
-            <Stack
-              sx={{
-                width: "100%",
-                mt: 4,
-                border: "1px solid var(--border-color)",
-              }}
-              spacing={2}
-            >
+            <Stack sx={{ width: "100%", mt: 4 }} spacing={2}>
               <Alert severity="success">Message sent successfully!</Alert>
             </Stack>
           )}
@@ -203,15 +181,8 @@ function ContactPage() {
             fullWidth
             variant="contained"
             sx={{
-              color: "var(--button-text-color)",
-              backgroundColor: "var(--button-bg-color)",
               mt: 3,
-              mb: 4,
-              "&:hover": {
-                color: "var(--button-text-color-hover)",
-                backgroundColor: "var(--button-bg-color-hover)",
-                outline: "1px solid var(--border-color)",
-              },
+              mb: 2,
             }}
           >
             Send Message

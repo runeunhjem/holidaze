@@ -17,17 +17,20 @@ import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 
 function RequiredLabel({ label, required }) {
-return (
-  <>
-    {label}
-    {required && <span style={{ color: 'red', backgroundColor: 'var(--body-bg-color)' }}> *</span>}
-  </>
-);
+  return (
+    <>
+      {label}
+      {required && (
+        <span style={{ color: "red", backgroundColor: "var(--body-bg-color)" }}>
+          {" "}
+          *
+        </span>
+      )}
+    </>
+  );
 }
 
 function RegisterPage() {
-
-
   const {
     register,
     handleSubmit,
@@ -101,7 +104,8 @@ function RegisterPage() {
           Register
         </Typography>
         <Typography variant="body2" color="textSecondary" align="center">
-          <p>Already have an account?</p>
+          <span>Already have an account?</span>
+          <br />
           <Link
             to="/login"
             className="link"
@@ -163,6 +167,7 @@ function RegisterPage() {
             fullWidth
             label={<RequiredLabel label="Retype Password" required />}
             type="password"
+            autoComplete="new-password"
             {...register("retypePassword", {
               validate: (value) => value === password || "Passwords must match",
             })}

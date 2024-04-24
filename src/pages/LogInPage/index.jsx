@@ -110,7 +110,8 @@ function LoginPage() {
       </Box>
       {/* <Box sx={ { mt: 8 } }> */}
       <Typography variant="body2" color="textSecondary" align="center">
-        <p>Don&apos;t have an account yet?</p>
+        <span>Don&apos;t have an account yet?</span>
+        <br />
         <Link
           to="/register"
           className="link"
