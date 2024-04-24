@@ -1,0 +1,4 @@
+.left-half {
+  clip-path: inset(0 50% 0 0); /* Only show the left half of the icon */
+}
+
