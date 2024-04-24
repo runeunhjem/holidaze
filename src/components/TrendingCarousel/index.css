@@ -1,0 +1,144 @@
+.slick-slider .slick-prev,
+.slick-slider .slick-next {
+  z-index: 100;
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(19px + 1vw);
+  height: calc(19px + 1vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  padding-top: 2px;
+  background-color: var(--border-color);
+}
+
+.slick-slider .slick-prev {
+  left: 10px;
+}
+
+.slick-slider .slick-next {
+  right: 10px;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(18px + 1vw);
+  color: var(--body-bg-color);
+}
+
+@media (min-width: 769px) {
+  .slick-slider .slick-prev,
+  .slick-slider .slick-next {
+    width: 29px;
+    height: 29px;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 28px;
+  }
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+  color: var(--link-color-carousel-hover);
+}
+
+@media (max-width: 468px) {
+  .slider-container .slick-slide > div,
+  .slider-container .slick-slide img {
+    padding: 0;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+}
+
+.slick-slide > div {
+  margin: 0 5px;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
+
+.slick-slide img {
+  width: 100%;
+  height: auto;
+  max-height: 200px;
+  object-fit: cover;
+  display: block;
+  @media (min-width: 469px) {
+    max-height: 360px;
+  }
+}
+
+.image-slide-container {
+  position: relative;
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: var(--overlay-color);
+  color: var(--body-text-color);
+  padding: 2px 4px; /* Padding for text */
+  font-size: calc(0.9rem + 0.1vw);
+  border-radius: 5px;
+}
+.image-overlay-top {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--overlay-color);
+  color: var(--body-text-color);
+  padding: 2px 4px;
+  font-size: calc(1rem + 0.3vw);
+  font-weight: 700;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-color);
+  margin: 0 auto;
+}
+
+.slider-container .slick-slide img {
+  width: 100%;
+  height: auto; /* Ensure images fit to container maintaining aspect ratio */
+}
+
+@media (min-width: 469px) {
+  .image-slide-container {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .slider-container {
+    padding: 0 1rem;
+    border-radius: 15px;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+  .slick-slide > div,
+  .slick-slide img,
+  .image-overlay-top {
+    border-radius: 15px 15px 0 0;
+  }
+}
+
+.slick-slider {
+  margin-bottom: 2rem;
+}
+
+.slick-dots li.slick-active button:before {
+  color: var(--border-color); /* Change the dot color for active slides */
+}
+
+.slick-dots li button:before {
+  opacity: .25; /* You may want to adjust the opacity for inactive dots */
+  color: var(--border-color); /* Applies the color to all dots, active state overrides this if needed */
+}

@@ -1,32 +1,17 @@
-import propTypes from "prop-types";
-// import { FaStar } from "react-icons/fa";
-
-// function RatingStar({ rating }) {
-//   return (
-//     <div className="flex gap-0.5">
-//       {Array.from({ length: rating }, (_, index) => (
-//         <FaStar key={index} />
-//       ))}
-//     </div>
-//   );
-// }
-
-import { AiFillStar } from "react-icons/ai";
+import PropTypes from "prop-types";
+import Rating from "@mui/material/Rating";
+import Stack from "@mui/material/Stack";
 
 function RatingStar({ rating }) {
   return (
-    <div className="flex">
-      {rating > 0 ? (
-        Array.from({ length: rating }, (_, i) => <AiFillStar key={i} className="text-yellow-500" />)
-      ) : (
-        <span>reviews yet</span>
-      )}
-    </div>
+    <Stack spacing={1}>
+      <Rating name="half-rating-read" value={rating} precision={0.5} readOnly />
+    </Stack>
   );
 }
 
 RatingStar.propTypes = {
-  rating: propTypes.number.isRequired,
+  rating: PropTypes.number.isRequired,
 };
 
 export default RatingStar;

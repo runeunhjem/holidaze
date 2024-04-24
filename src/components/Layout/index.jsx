@@ -1,14 +1,26 @@
 import PropTypes from "prop-types";
 import Header from "../Header";
 import Footer from "../Footer";
+import * as S from "./index.styled";
+import { useState } from "react";
+import SearchBar from "../SearchBar";
+import NavigationManager from "../NavigationManager";
 
 function Layout({ children }) {
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const toggleSearch = () => {
+    setIsSearchVisible(!isSearchVisible);
+  };
+
   return (
-    <div className="flex flex-col min-h-screen justify-between">
-      <Header />
-      <main className="flex-grow container mx-auto p-4">{children}</main>
+    <S.LayoutContainer className="App">
+      <Header onSearchClick={toggleSearch} />
+      {isSearchVisible && <SearchBar onClose={toggleSearch} />}
+      <S.MainContent>{children}</S.MainContent>
       <Footer />
-    </div>
+      <NavigationManager />
+    </S.LayoutContainer>
   );
 }
 
@@ -17,28 +29,3 @@ Layout.propTypes = {
 };
 
 export default Layout;
-
-// My File/folder structure
-// > public
-// > src
-//   > assets;
-//     > images;
-//     > logo;
-//   > components;
-//     > App;
-//       - index.jsx
-//     > Footer;
-//       - index.jsx
-//     > Header;
-//       - index.jsx
-//     > Layout;
-//       - index.jsx
-//   > hooks;
-//   > pages;
-//       - LogIn;
-//       - Register
-//   > styles;
-// - index.css
-// - main.jsx
-
-// Path: src/components/App/index.jsx
