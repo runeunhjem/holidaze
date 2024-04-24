@@ -5,6 +5,7 @@ import {
   Routes,
   Route,
   Navigate,
+  Link,
 } from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import Layout from "../Layout";
@@ -31,8 +32,6 @@ function App() {
     isDarkMode: state.isDarkMode,
   }));
 
-
-
   useEffect(() => {
     document.body.setAttribute("data-theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
@@ -53,7 +52,21 @@ function App() {
               <Route path="/venues/:id" element={<VenueDetailsPage />} />
               <Route
                 path="/profile"
-                element={<div>Profile without username</div>}
+                element={
+                  <div className="mx-auto flex flex-col items-center">
+                    <h1 className="text-xl">Profile without username</h1>
+                    <span>
+                      Please
+                      <Link
+                        to="/login"
+                        className="text-blue-800 dark:text-yellow-500"
+                      >
+                        {" "}
+                        login
+                      </Link>
+                    </span>
+                  </div>
+                }
               />
               <Route
                 path="/profile/:username"

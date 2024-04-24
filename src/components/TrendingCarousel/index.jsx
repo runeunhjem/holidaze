@@ -53,7 +53,7 @@ function TrendingCarousel() {
 
   return (
     <div
-      className="slider-container mx-auto mt-3 w-full justify-center overflow-hidden sm:max-w-600 md:max-w-800"
+      className="slider-container mx-auto mt-3 w-full justify-center overflow-hidden sm:max-w-800 md:max-w-800"
       ref={sliderContainerRef}
     >
       <Slider {...settings}>
@@ -73,7 +73,7 @@ function TrendingCarousel() {
           <div className="image-overlay">Pet Favorites</div>
         </div>
       </Slider>
-      <Link to="/destinations" className="ps-4 underline-offset-4">
+      <Link to="/destinations" className="ps-1 underline-offset-4">
         <S.Link>All our destinations</S.Link>
       </Link>
     </div>

@@ -12,12 +12,13 @@ import Typography from "@mui/material/Typography";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
+import "./index.css";
 
 function RequiredLabel({ label, required }) {
 return (
   <>
     {label}
-    {required && <span style={{ color: 'red' }}> *</span>}
+    {required && <span style={{ color: 'red', backgroundColor: 'var(--body-bg-color)' }}> *</span>}
   </>
 );
 }

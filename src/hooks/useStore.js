@@ -47,7 +47,7 @@ const useStore = create((set) => ({
       userDetails: {},
       justLoggedIn: false,
     });
-    document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
+    // document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
   },
 
   logIn: (userDetails) => {
