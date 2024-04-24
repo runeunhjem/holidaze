@@ -22,7 +22,7 @@ function VerticalSlider() {
   return (
     <StyledSlider
       {...settings}
-      className="vertical-slider w-full mt-6 px-0 sm:px-4 mb-3 sm:max-w-600 md:max-w-800 overflow-hidden mx-auto">
+      className="vertical-slider w-full mt-6 px-0 sm:px-4 mb-3 sm:max-w-800 md:max-w-800 overflow-hidden mx-auto">
       <div className="slide-item">
         <FaCalendarAlt className="text-2xl" />
         <span className="vertical-text">Always free cancellation up until 4pm the day of arrival.</span>

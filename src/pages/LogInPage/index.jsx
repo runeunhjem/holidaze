@@ -8,6 +8,7 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAuth } from "../../hooks/useAuth";
+import "./index.css";
 
 function LoginPage() {
   const {
@@ -65,6 +66,7 @@ function LoginPage() {
             fullWidth
             label="Email Address"
             autoComplete="email"
+            variant="outlined"
             autoFocus
             {...register("email", { required: "Email is required" })}
             error={!!errors.email}
@@ -76,6 +78,7 @@ function LoginPage() {
             label="Password"
             type="password"
             autoComplete="current-password"
+            variant="outlined"
             {...register("password", { required: "Password is required" })}
             error={!!errors.password}
             helperText={errors.password?.message}
@@ -84,7 +87,17 @@ function LoginPage() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={ {
+              mt: 3,
+              mb: 2,
+              color: "var(--button-text-color)",
+              backgroundColor: "var(--button-bg-color)",
+              "&:hover": {
+                backgroundColor: "var(--button-bg-color-hover)",
+                color: "var(--button-text-color-hover)",
+                outline: "1px solid var(--border-color)",
+              },
+            } }
           >
             Login
           </Button>

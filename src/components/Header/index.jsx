@@ -130,21 +130,29 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="flex w-full justify-end text-right">
+      <div className="flex max-w-1200 me-4 md:mx-auto justify-end text-right">
         {userDetails.username ? (
-          `Welcome back, ${userDetails.username}`
-        ) : (
-          <div>
-            Welcome, please{" "}
-            <Link
-              to="/login"
-              style={{
-                color: "var(--link-color)",
-              }}
-            >
-              log in
+          <span>
+            Welcome back
+            <Link to={ `/profile/${userDetails.username}` } style={ {
+              color: "var(--username-color)",
+
+            }}>
+              {userDetails.username}
             </Link>
-          </div>
+          </span>
+        ) : (
+        <div>
+          Welcome, please{" "}
+          <Link
+            to="/login"
+            style={{
+              color: "var(--link-color)",
+            }}
+          >
+            log in
+          </Link>
+        </div>
         )}
       </div>
     </StyledHeader>
