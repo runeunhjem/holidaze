@@ -20,9 +20,10 @@ export default function MenuListComposition() {
   const anchorRef = React.useRef(null);
   const prevOpen = React.useRef(open);
   const navigate = useNavigate();
-  const { isAuthenticated, logOut } = useStore((state) => ({
+  const { isAuthenticated, clearUser } = useStore((state) => ({
     isAuthenticated: state.isAuthenticated,
-    logOut: state.logOut,
+    // logOut: state.logOut,
+    clearUser: state.clearUser,
   }));
 
   const handleToggle = () => {
@@ -49,7 +50,7 @@ export default function MenuListComposition() {
   };
 
   const handleLogOut = () => {
-    logOut();
+    clearUser();
     navigate("/");
     setOpen(false);
   };

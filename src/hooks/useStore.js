@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import { save, load } from "../utils/storage.js";
+// import { save, load } from "../utils/storage.js";
+import { load } from "../utils/storage.js";
 
 const useStore = create((set) => ({
   isAuthenticated: load("isAuthenticated") || false,
-  isDarkMode: load("isDarkMode") || false,
+  isDarkMode: load("isDarkMode") || true,
   accessToken: load("accessToken"),
   userDetails: load("userDetails") || {},
   venues: [],
@@ -12,7 +13,7 @@ const useStore = create((set) => ({
   toggleDarkMode: () =>
     set((state) => {
       const newIsDarkMode = !state.isDarkMode;
-      save("isDarkMode", newIsDarkMode);
+      // save("isDarkMode", newIsDarkMode);
       document.body.setAttribute(
         "data-theme",
         newIsDarkMode ? "dark" : "light",
@@ -21,53 +22,53 @@ const useStore = create((set) => ({
     }),
 
   setIsAuthenticated: (isAuthenticated) => {
-    save("isAuthenticated", isAuthenticated);
+    // save("isAuthenticated", isAuthenticated);
     set({ isAuthenticated });
   },
 
   setAccessToken: (accessToken) => {
-    save("accessToken", accessToken);
+    // save("accessToken", accessToken);
     set({ accessToken, isAuthenticated: true });
   },
 
   setUserDetails: (details) => {
-    save("userDetails", details);
+    // save("userDetails", details);
     set({ userDetails: details });
   },
 
   clearUser: () => {
-    save("accessToken", null);
-    save("isAuthenticated", false);
-    save("userDetails", {});
-    localStorage.removeItem("accessToken");
+    // save("accessToken", null);
+    // save("isAuthenticated", false);
+    // save("userDetails", {});
+    // localStorage.removeItem("accessToken");
     set({
       accessToken: null,
       isAuthenticated: false,
       userDetails: {},
       justLoggedIn: false,
     });
-    document.body.setAttribute("data-theme", "light"); // Optionally reset to default theme
+    document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
   },
 
   logIn: (userDetails) => {
-    save("isAuthenticated", true);
-    save("userDetails", userDetails);
+    // save("isAuthenticated", true);
+    // save("userDetails", userDetails);
     set({ isAuthenticated: true, userDetails, justLoggedIn: true });
   },
 
-  logOut: () => {
-    save("accessToken", null);
-    save("isAuthenticated", false);
-    save("userDetails", {});
-    localStorage.removeItem("accessToken");
-    set({
-      accessToken: null,
-      isAuthenticated: false,
-      userDetails: {},
-      justLoggedIn: false,
-    });
-    document.body.setAttribute("data-theme", "light"); // Optionally reset to default theme
-  },
+  // logOut: () => {
+  //   // save("accessToken", null);
+  //   // save("isAuthenticated", false);
+  //   // save("userDetails", {});
+  //   // localStorage.removeItem("accessToken");
+  //   set({
+  //     accessToken: null,
+  //     isAuthenticated: false,
+  //     userDetails: {},
+  //     justLoggedIn: false,
+  //   });
+  //   document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
+  // },
 
   resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
 }));

@@ -20,6 +20,16 @@ function LoginPage() {
 
   useEffect(() => {
     document.title = "Holidaze - Login";
+    let metaDescription = document.querySelector("meta[name='description']");
+    if (!metaDescription) {
+      metaDescription = document.createElement("meta");
+      metaDescription.setAttribute("name", "description");
+      document.getElementsByTagName("head")[0].appendChild(metaDescription);
+    }
+    metaDescription.setAttribute(
+      "content",
+      "Explore our wide range of destinations from around the world to find your special place.",
+    );
   }, []);
 
   const onSubmit = async (data) => {
