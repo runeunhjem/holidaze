@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import bannerImage1 from "../../assets/images/about-banner-3.png";
+import bannerImage1 from "../../assets/images/about-banner-1.png";
 import bannerImage2 from "../../assets/images/about-banner-2.png";
-import bannerImage3 from "../../assets/images/about-banner-1.png";
+import bannerImage3 from "../../assets/images/about-banner-3.png";
 import "./index.css";
 
 function AboutPage() {
@@ -38,7 +38,7 @@ function AboutPage() {
               textAlign: "center",
               fontSize: "calc(5vw + 14px)",
               fontWeight: "bold",
-              textShadow: "3px 3px 3px var(--about-title-shadow-color)",
+              textShadow: "3px 3px 8px var(--about-title-shadow-color)",
             }}
           >
             Holidaze

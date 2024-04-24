@@ -93,7 +93,7 @@
     --input-border-color-focus: var(--blue-400);
     --username-color: var(--gray-400);
     --about-title-shadow-color: var(--gray-800);
-    --about-title-color: var(--yellow-500);
+    --about-title-color: var(--yellow-400);
   }
 
   body {
