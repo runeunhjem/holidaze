@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./index.css";
 
 function RequiredLabel({ label, required }) {
@@ -99,6 +99,21 @@ function RegisterPage() {
       >
         <Typography component="h1" variant="h5">
           Register
+        </Typography>
+        <Typography variant="body2" color="textSecondary" align="center">
+          <p>Already have an account?</p>
+          <Link
+            to="/login"
+            className="link"
+            style={{
+              color: "var(--link-color)",
+              "&:hover": {
+                color: "var(--link-color-hover)",
+              },
+            }}
+          >
+            Log in
+          </Link>
         </Typography>
         <Box
           component="form"
