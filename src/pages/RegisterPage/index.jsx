@@ -2,13 +2,15 @@ import propTypes from "prop-types";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { fetchApi } from "../../utils/fetchApi";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Stack,
+} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useNavigate } from "react-router-dom";
@@ -195,7 +197,7 @@ function RegisterPage() {
               color: "var(--button-text-color)",
               backgroundColor: "var(--button-bg-color)",
               mt: 3,
-              mb: 2,
+              mb: 8,
               "&:hover": {
                 color: "var(--button-text-color-hover)",
                 backgroundColor: "var(--button-bg-color-hover)",
