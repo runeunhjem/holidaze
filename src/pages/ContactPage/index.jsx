@@ -8,6 +8,7 @@ import {
   Typography,
   Alert,
   Stack,
+  Divider,
 } from "@mui/material";
 
 function ContactPage() {
@@ -15,8 +16,10 @@ function ContactPage() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
   const [submitError, setSubmitError] = React.useState("");
+  const [submitSuccess, setSubmitSuccess] = React.useState(false);
 
   useEffect(() => {
     document.title = "Holidaze - Contact";
@@ -26,10 +29,15 @@ function ContactPage() {
     try {
       // Simulate API call
       console.log("Form Data Submitted:", data);
-      // Simulate a successful submission
-      alert("Message sent!");
+      setSubmitSuccess(true);
+      setSubmitError("");
+      setTimeout(() => {
+        setSubmitSuccess(false);
+        reset();
+      }, 4000); // Dismiss success message after 4 seconds
     } catch (error) {
       setSubmitError("Failed to send message. Please try again.");
+      setSubmitSuccess(false);
     }
   };
 
@@ -37,21 +45,74 @@ function ContactPage() {
     <Container maxWidth="sm">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 4,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h4">
           Contact Us
         </Typography>
+        <Box sx={{ mt: 4, textAlign: "center", width: "100%" }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Opening Hours:
+          </Typography>
+          <Typography>
+            <p>Monday-Saturday</p>
+            (08.00 / 8am - 17.00 / 5pm)
+          </Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Phone Number:
+          </Typography>
+          <a
+            href="tel:+6312345678"
+            style={{
+              marginLeft: "5px",
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            +63 12 345678
+          </a>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Email:
+          </Typography>
+          <a
+            href="mailto:customerservice@holidaze.com"
+            style={{
+              marginLeft: "5px",
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
+            customerservice@holidaze.com
+          </a>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Visiting Address:
+          </Typography>
+          <Typography>
+            <a
+              href="https://goo.gl/maps/7Z3QpQf7JZzhttps://maps.app.goo.gl/GGUVBCuSC4YS6GcP6"
+              target="_blank"
+            >
+              <p>Batangas Provincial Rd, Barangay Sta.Rita,</p>
+              4200 Batangas, Philippines
+            </a>
+          </Typography>
+        </Box>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          sx={{ mt: 1 }}
+          sx={{ mt: 8 }}
         >
+          <Typography component="h2" variant="h5" className="text-center">
+            Send us a message
+          </Typography>
           <TextField
             margin="normal"
             fullWidth
@@ -113,6 +174,16 @@ function ContactPage() {
             error={!!errors.message}
             helperText={errors.message?.message}
           />
+            {submitSuccess && (
+              <Stack sx={{ width: "100%", mt: 4}} spacing={2}>
+                <Alert severity="success">Message sent successfully!</Alert>
+              </Stack>
+            )}
+            {submitError && (
+              <Stack sx={{ width: "100%" }} spacing={2}>
+                <Alert severity="error">{submitError}</Alert>
+              </Stack>
+            )}
           <Button
             type="submit"
             fullWidth
@@ -121,7 +192,7 @@ function ContactPage() {
               color: "var(--button-text-color)",
               backgroundColor: "var(--button-bg-color)",
               mt: 3,
-              mb: 8,
+              mb: 4,
               "&:hover": {
                 color: "var(--button-text-color-hover)",
                 backgroundColor: "var(--button-bg-color-hover)",
@@ -131,11 +202,6 @@ function ContactPage() {
           >
             Send Message
           </Button>
-          {submitError && (
-            <Stack sx={{ width: "100%" }} spacing={2}>
-              <Alert severity="error">{submitError}</Alert>
-            </Stack>
-          )}
         </Box>
       </Box>
     </Container>
