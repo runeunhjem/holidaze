@@ -9,6 +9,8 @@ import {
   Alert,
   Stack,
   Divider,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 
 function ContactPage() {
@@ -103,6 +105,7 @@ function ContactPage() {
               4200 Batangas, Philippines
             </a>
           </Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
         </Box>
         <Box
           component="form"
@@ -174,16 +177,27 @@ function ContactPage() {
             error={!!errors.message}
             helperText={errors.message?.message}
           />
-            {submitSuccess && (
-              <Stack sx={{ width: "100%", mt: 4}} spacing={2}>
-                <Alert severity="success">Message sent successfully!</Alert>
-              </Stack>
-            )}
-            {submitError && (
-              <Stack sx={{ width: "100%" }} spacing={2}>
-                <Alert severity="error">{submitError}</Alert>
-              </Stack>
-            )}
+          <FormControlLabel
+            control={<Checkbox {...register("venueManager")} />}
+            label="I am a Venue Manager."
+          />
+          {submitSuccess && (
+            <Stack
+              sx={{
+                width: "100%",
+                mt: 4,
+                border: "1px solid var(--border-color)",
+              }}
+              spacing={2}
+            >
+              <Alert severity="success">Message sent successfully!</Alert>
+            </Stack>
+          )}
+          {submitError && (
+            <Stack sx={{ width: "100%" }} spacing={2}>
+              <Alert severity="error">{submitError}</Alert>
+            </Stack>
+          )}
           <Button
             type="submit"
             fullWidth
