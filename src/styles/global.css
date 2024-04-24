@@ -69,6 +69,8 @@
     --input-border-color: var(--gray-400);
     --input-border-color-focus: var(--blue-500);
     --username-color: var(--sky-500);
+    --about-title-shadow-color: var(--blue-800);
+    --about-title-color: var(--sky-300);
   }
 
   [data-theme="dark"] {
@@ -90,6 +92,8 @@
     --input-border-color: var(--gray-700);
     --input-border-color-focus: var(--blue-400);
     --username-color: var(--gray-400);
+    --about-title-shadow-color: var(--gray-800);
+    --about-title-color: var(--yellow-500);
   }
 
   body {
