@@ -48,7 +48,8 @@ const StyledInput = styled("input")(({ theme }) => ({
   fontWeight: 400,
   borderRadius: "5px",
   lineHeight: 1.5,
-  color: theme.palette.mode === "dark" ? grey[300] : grey[500],
+  color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
+  // color: theme.palette.mode === "dark" ? grey[300] : grey[500],
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "transparent",
   border: "1px solid",
   borderColor: theme.palette.mode === "dark" ? grey[700] : grey[100],
@@ -62,26 +63,31 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
   "&:focus + label": {
     color: theme.palette.mode === "dark" ? blue[300] : blue[400],
+    backgroundColor: theme.palette.mode === "dark" ? "var(--bg-header-dark)" : "var(--bg-header-light)",
   },
   "&:not(:focus):placeholder-shown + label": {
-    color: theme.palette.mode === "dark" ? grey[500] : grey[500],
+    color: "var(--input-text-color)",
+    // color: theme.palette.mode === "dark" ? grey[500] : grey[500],
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
     transform: "scale(0.75) translateY(-10px) translateX(16px)",
-    backgroundColor: theme.palette.mode === "dark" ? grey[900] : "#fff",
+    backgroundColor: "var(--header-bg-color)",
     padding: "0 6px",
   },
 }));
 
-const StyledLabel = styled("label")(({ theme }) => ({
+const StyledLabel = styled("label")(() => ({
   position: "absolute",
   top: 0,
   left: 0,
   padding: "12px",
   pointerEvents: "none",
   transformOrigin: "top left",
+  borderRadius: "5px 0 0 0",
+  borderTop: "none",
   transition: "transform 0.2s, color 0.2s",
-  color: theme.palette.mode === "dark" ? grey[100] : grey[500],
+  color: "var(--input-text-color)",
+  backgroundColor: "transparent",
 }));
 
 function DestinationInput({ label, ...props }) {

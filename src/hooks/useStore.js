@@ -1,37 +1,76 @@
-// src/stores/useVenueStore.js
 import { create } from "zustand";
-import { save, load } from "../utils/StorageUtils"; // Adjust the path as needed
+// import { save, load } from "../utils/storage.js";
+import { load } from "../utils/storage.js";
 
-const useVenueStore = create((set) => ({
+const useStore = create((set) => ({
   isAuthenticated: load("isAuthenticated") || false,
-  isDarkMode: false,
-  venues: [], // Add a new state for storing fetched venues
+  isDarkMode: load("isDarkMode") || true,
+  accessToken: load("accessToken"),
+  userDetails: load("userDetails") || {},
+  venues: [],
+  justLoggedIn: false, // New state to control navigation after login
 
-  toggleDarkMode: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
-  logIn: () => {
-    save("isAuthenticated", true);
-    set({ isAuthenticated: true });
-  },
-  logOut: () => {
-    save("isAuthenticated", false);
-    set({ isAuthenticated: false });
+  toggleDarkMode: () =>
+    set((state) => {
+      const newIsDarkMode = !state.isDarkMode;
+      // save("isDarkMode", newIsDarkMode);
+      document.body.setAttribute(
+        "data-theme",
+        newIsDarkMode ? "dark" : "light",
+      );
+      return { isDarkMode: newIsDarkMode };
+    }),
+
+  setIsAuthenticated: (isAuthenticated) => {
+    // save("isAuthenticated", isAuthenticated);
+    set({ isAuthenticated });
   },
 
-  // Async action to fetch venues
-  fetchVenues: async () => {
-    try {
-      const response = await fetch("https://v2.api.noroff.dev/holidaze/venues?_owner=true&_bookings=true", {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-        },
-      });
-      const data = await response.json();
-      set({ venues: data.data }); // Update the venues state with the fetched data
-    } catch (error) {
-      console.error("Failed to fetch venues:", error);
-    }
+  setAccessToken: (accessToken) => {
+    // save("accessToken", accessToken);
+    set({ accessToken, isAuthenticated: true });
   },
+
+  setUserDetails: (details) => {
+    // save("userDetails", details);
+    set({ userDetails: details });
+  },
+
+  clearUser: () => {
+    // save("accessToken", null);
+    // save("isAuthenticated", false);
+    // save("userDetails", {});
+    // localStorage.removeItem("accessToken");
+    set({
+      accessToken: null,
+      isAuthenticated: false,
+      userDetails: {},
+      justLoggedIn: false,
+    });
+    // document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
+  },
+
+  logIn: (userDetails) => {
+    // save("isAuthenticated", true);
+    // save("userDetails", userDetails);
+    set({ isAuthenticated: true, userDetails, justLoggedIn: true });
+  },
+
+  // logOut: () => {
+  //   // save("accessToken", null);
+  //   // save("isAuthenticated", false);
+  //   // save("userDetails", {});
+  //   // localStorage.removeItem("accessToken");
+  //   set({
+  //     accessToken: null,
+  //     isAuthenticated: false,
+  //     userDetails: {},
+  //     justLoggedIn: false,
+  //   });
+  //   document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
+  // },
+
+  resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
 }));
 
-export default useVenueStore;
+export default useStore;
