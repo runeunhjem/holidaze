@@ -6,7 +6,7 @@ import travelTipsImage4 from "../../assets/images/travel-tip-image-4.png";
 
 function TravelTipsImageGallery() {
   return (
-    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-4">
+    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-0">
       <div className="flex w-full flex-nowrap gap-6">
         <S.ImageContainer className="w-1/2 relative">
           <S.StyledImage src={travelTipsImage1} alt="Sunny Favorites" />

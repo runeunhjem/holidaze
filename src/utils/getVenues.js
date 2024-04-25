@@ -4,8 +4,8 @@ import { fetchApi } from "./fetchApi";
 export const getVenues = async (page, limit = 100) => {
   const offset = (page - 1) * limit;
   const params = {
-    sort: "name",
-    sortOrder: "asc",
+    // sort: "createdAt",
+    // sortOrder: "desc",
     limit,
     offset,
     _owner: true,

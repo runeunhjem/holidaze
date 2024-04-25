@@ -7,7 +7,7 @@ import norwayImage5 from "../../assets/images/norway-image-5.png";
 
 function NorwayImageGallery() {
   return (
-    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-4">
+    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-0">
       <div className="image-container w-full overflow-hidden">
         <S.StyledImage
           className="w-full overflow-hidden"

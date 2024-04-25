@@ -1,6 +1,5 @@
 import { create } from "zustand";
-// import { save, load } from "../utils/storage.js";
-import { load } from "../utils/storage.js";
+import { load, save } from "../utils/storage.js";
 
 const useStore = create((set) => ({
   isAuthenticated: load("isAuthenticated") || false,
@@ -22,25 +21,27 @@ const useStore = create((set) => ({
     }),
 
   setIsAuthenticated: (isAuthenticated) => {
-    // save("isAuthenticated", isAuthenticated);
+    save("isAuthenticated", isAuthenticated);
     set({ isAuthenticated });
   },
 
   setAccessToken: (accessToken) => {
-    // save("accessToken", accessToken);
+    save("accessToken", accessToken);
     set({ accessToken, isAuthenticated: true });
   },
 
   setUserDetails: (details) => {
-    // save("userDetails", details);
+    save("userDetails", details);
     set({ userDetails: details });
   },
 
   clearUser: () => {
-    // save("accessToken", null);
-    // save("isAuthenticated", false);
-    // save("userDetails", {});
-    // localStorage.removeItem("accessToken");
+    save("accessToken", null);
+    save("isAuthenticated", false);
+    save("userDetails", {});
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("isAuthenticated");
+    localStorage.removeItem("userDetails");
     set({
       accessToken: null,
       isAuthenticated: false,
@@ -51,24 +52,17 @@ const useStore = create((set) => ({
   },
 
   logIn: (userDetails) => {
-    // save("isAuthenticated", true);
-    // save("userDetails", userDetails);
-    set({ isAuthenticated: true, userDetails, justLoggedIn: true });
+    const { accessToken, ...restDetails } = userDetails;
+    save("isAuthenticated", true);
+    save("userDetails", restDetails);
+    save("accessToken", accessToken);
+    set({
+      isAuthenticated: true,
+      userDetails: restDetails,
+      justLoggedIn: true,
+      accessToken: accessToken,
+    });
   },
-
-  // logOut: () => {
-  //   // save("accessToken", null);
-  //   // save("isAuthenticated", false);
-  //   // save("userDetails", {});
-  //   // localStorage.removeItem("accessToken");
-  //   set({
-  //     accessToken: null,
-  //     isAuthenticated: false,
-  //     userDetails: {},
-  //     justLoggedIn: false,
-  //   });
-  //   document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
-  // },
 
   resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
 }));

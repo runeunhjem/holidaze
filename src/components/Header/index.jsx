@@ -22,7 +22,11 @@ function Header() {
   useEffect(() => {
     // This function handles closing the menu when clicking outside of the header container
     const handleDocumentClick = (event) => {
-      if (!event.target.closest(".header-container, .MuiDayCalendar-weekContainer")) {
+      if (
+        !event.target.closest(
+          ".header-container, .MuiDayCalendar-weekContainer",
+        )
+      ) {
         if (isOpen) {
           setIsOpen(false);
         }
@@ -45,7 +49,15 @@ function Header() {
       className="header-container"
     >
       <div className="container mx-auto max-w-6xl items-center justify-between md:flex">
-        <Link to="/" className="flex text-xl font-bold">
+        <Link
+          to="/"
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            "&:hover": {
+              backgroundColor: "var(--header-bg-color)",
+            },
+          }}
+        >
           <img
             src={logo}
             alt="Illustration of the Holidaze logo"
@@ -130,29 +142,31 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="flex max-w-1200 me-4 md:mx-auto justify-end text-right">
-        {userDetails.username ? (
+      <div className="me-4 flex max-w-1200 justify-end text-right md:mx-auto">
+        {userDetails.name ? (
           <span>
             Welcome back
-            <Link to={ `/profile/${userDetails.username}` } style={ {
-              color: "var(--username-color)",
-
-            }}>
-              {userDetails.username}
+            <Link
+              to={`/profile/${userDetails.name}`}
+              style={{
+                color: "var(--username-color)",
+              }}
+            >
+              {userDetails.name}
             </Link>
           </span>
         ) : (
-        <div>
-          Welcome, please{" "}
-          <Link
-            to="/login"
-            style={{
-              color: "var(--link-color)",
-            }}
-          >
-            log in
-          </Link>
-        </div>
+          <div>
+            Welcome, please{" "}
+            <Link
+              to="/login"
+              style={{
+                color: "var(--link-color)",
+              }}
+            >
+              log in
+            </Link>
+          </div>
         )}
       </div>
     </StyledHeader>
@@ -160,4 +174,3 @@ function Header() {
 }
 
 export default Header;
-

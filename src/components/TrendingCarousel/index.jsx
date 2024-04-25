@@ -74,7 +74,7 @@ function TrendingCarousel() {
         </div>
       </Slider>
       <Link to="/destinations" className="ps-1 underline-offset-4">
-        <S.Link>All our destinations</S.Link>
+        <S.Link className="w-full max-w-800 px-2">All our destinations</S.Link>
       </Link>
     </div>
   );
