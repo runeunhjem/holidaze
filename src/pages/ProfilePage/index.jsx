@@ -64,7 +64,7 @@ function ProfilePage() {
       }}
       className="min-h-screen"
     >
-      <div className="relative -mt-9 w-full">
+      <div className="relative -mt-9 w-full max-w-1200 mx-auto">
         <img
           src={viewedProfile.banner ? viewedProfile.banner.url : ""}
           alt={

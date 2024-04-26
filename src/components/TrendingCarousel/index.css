@@ -117,7 +117,7 @@
     overflow: hidden;
   }
   .slider-container {
-    padding: 0 1rem;
+    padding: 0;
     border-radius: 15px;
     width: 100%;
     height: auto;
