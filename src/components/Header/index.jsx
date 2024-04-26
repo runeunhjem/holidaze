@@ -10,13 +10,14 @@ import logoLight from "../../assets/logo/holidaze-dark.png";
 import logoDark from "../../assets/logo/holidaze-yellow.png";
 import NavigationMenu from "../MUI/NavigationMenu";
 import FilterButton from "../MUI/FilterButton";
+import FavoriteProfilesDropdown from "../../components/FavoriteProfilesDropdown";
 
 const pages = ["Home", "Destinations", "About", "Contact"];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const { isDarkMode, userDetails } = useStore();
+  const { isDarkMode, userDetails, favoriteProfiles } = useStore();
   const logo = isDarkMode ? logoDark : logoLight;
 
   useEffect(() => {
@@ -142,14 +143,16 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="me-4 flex max-w-1200 justify-end text-right md:mx-auto">
+      <div className="me-4 flex max-w-1200 justify-between md:mx-auto">
+        {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
+        {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
         {userDetails.name ? (
           <span>
             Welcome back
             <Link
               to={`/profile/${userDetails.name}`}
               style={{
-                color: "var(--username-color)",
+                color: "var(--profile-text-color)",
               }}
             >
               {userDetails.name}

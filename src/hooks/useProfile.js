@@ -5,11 +5,12 @@ import { fetchApi } from "../utils/fetchApi";
 import { ENDPOINTS, PARAMS } from "../constants/api";
 
 const useProfile = () => {
-  const { setUserDetails, accessToken } = useStore();
+  const { setUserDetails, accessToken, setViewedProfile } = useStore();
   const { username } = useParams();
 
   const fetchUserProfile = useCallback(async () => {
     const endpoint = `${ENDPOINTS.profiles}/${encodeURIComponent(username)}${PARAMS._venues}${PARAMS._bookings}`;
+    console.log("Fetching user profile:", endpoint);
     try {
       const response = await fetchApi(endpoint, {
         method: "GET",
@@ -20,19 +21,21 @@ const useProfile = () => {
       });
 
       if (response.data) {
-        setUserDetails(response.data);
+        // setUserDetails(response.data);
+        setViewedProfile(response.data);
         console.log("User profile fetched successfully:", response.data);
       }
     } catch (error) {
       console.error("Error fetching user profile:", error.message);
     }
-  }, [username, accessToken, setUserDetails]); // Add setUserDetails to the dependencies
+  }, [username, accessToken, setViewedProfile]);
+  // }, [username, accessToken, setUserDetails, setViewedProfile]);
 
   useEffect(() => {
     if (username) fetchUserProfile();
   }, [username, fetchUserProfile]); // fetchUserProfile is already wrapped with useCallback
 
-  return { setUserDetails, fetchUserProfile };
+  return { setUserDetails, setViewedProfile, fetchUserProfile };
 };
 
 export default useProfile;

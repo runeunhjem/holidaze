@@ -1,70 +1,108 @@
 import { create } from "zustand";
-import { load, save } from "../utils/storage.js";
+import { persist } from "zustand/middleware";
 
-const useStore = create((set) => ({
-  isAuthenticated: load("isAuthenticated") || false,
-  isDarkMode: load("isDarkMode") || true,
-  accessToken: load("accessToken"),
-  userDetails: load("userDetails") || {},
-  venues: [],
-  justLoggedIn: false, // New state to control navigation after login
-
-  toggleDarkMode: () =>
-    set((state) => {
-      const newIsDarkMode = !state.isDarkMode;
-      // save("isDarkMode", newIsDarkMode);
-      document.body.setAttribute(
-        "data-theme",
-        newIsDarkMode ? "dark" : "light",
-      );
-      return { isDarkMode: newIsDarkMode };
-    }),
-
-  setIsAuthenticated: (isAuthenticated) => {
-    save("isAuthenticated", isAuthenticated);
-    set({ isAuthenticated });
-  },
-
-  setAccessToken: (accessToken) => {
-    save("accessToken", accessToken);
-    set({ accessToken, isAuthenticated: true });
-  },
-
-  setUserDetails: (details) => {
-    save("userDetails", details);
-    set({ userDetails: details });
-  },
-
-  clearUser: () => {
-    save("accessToken", null);
-    save("isAuthenticated", false);
-    save("userDetails", {});
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("isAuthenticated");
-    localStorage.removeItem("userDetails");
-    set({
-      accessToken: null,
+const useStore = create(
+  persist(
+    (set, get) => ({
       isAuthenticated: false,
+      isDarkMode: true,
+      accessToken: null,
       userDetails: {},
+      viewedProfile: {},
+      favoriteProfiles: [],
+      isFavorite: false,
+      venues: [],
       justLoggedIn: false,
-    });
-    // document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
-  },
 
-  logIn: (userDetails) => {
-    const { accessToken, ...restDetails } = userDetails;
-    save("isAuthenticated", true);
-    save("userDetails", restDetails);
-    save("accessToken", accessToken);
-    set({
-      isAuthenticated: true,
-      userDetails: restDetails,
-      justLoggedIn: true,
-      accessToken: accessToken,
-    });
-  },
+      addFavoriteProfile: (profile) => {
+        const { favoriteProfiles } = get();
+        if (!favoriteProfiles.some((p) => p.id === profile.id)) {
+          set({ favoriteProfiles: [...favoriteProfiles, profile] });
+        }
+      },
 
-  resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
-}));
+      removeFavoriteProfile: (profileId) => {
+        set((state) => ({
+          favoriteProfiles: state.favoriteProfiles.filter(
+            (p) => p.id !== profileId,
+          ),
+        }));
+      },
+
+      toggleDarkMode: () =>
+        set((state) => {
+          const newIsDarkMode = !state.isDarkMode;
+          document.body.setAttribute(
+            "data-theme",
+            newIsDarkMode ? "dark" : "light",
+          );
+          return { isDarkMode: newIsDarkMode };
+        }),
+
+      setIsAuthenticated: (isAuthenticated) =>
+        set({
+          isAuthenticated,
+        }),
+
+      setAccessToken: (accessToken) =>
+        set({
+          accessToken,
+          isAuthenticated: true,
+        }),
+
+      setUserDetails: (details) =>
+        set({
+          userDetails: details,
+        }),
+
+      setViewedProfile: (details) =>
+        set({
+          viewedProfile: details,
+        }),
+
+      clearUser: () =>
+        set({
+          accessToken: null,
+          isAuthenticated: false,
+          userDetails: {},
+          viewedProfile: {},
+          favoriteProfiles: [],
+          justLoggedIn: false,
+        }),
+
+      logIn: (userDetails) => {
+        const { accessToken, ...restDetails } = userDetails;
+
+        set({
+          isAuthenticated: true,
+          userDetails: restDetails,
+          viewedProfile: restDetails,
+          justLoggedIn: true,
+          accessToken: accessToken,
+        });
+      },
+
+      resetJustLoggedIn: () => set({ justLoggedIn: false }),
+    }),
+    {
+      name: "favorite-profiles-storage",
+      storage: {
+        getItem: (name) => {
+          const item = localStorage.getItem(name);
+          try {
+            return JSON.parse(item);
+          } catch {
+            return null;
+          }
+        },
+        setItem: (name, value) => {
+          const stringifiedValue = JSON.stringify(value);
+          localStorage.setItem(name, stringifiedValue);
+        },
+        removeItem: (name) => localStorage.removeItem(name),
+      },
+    },
+  ),
+);
 
 export default useStore;

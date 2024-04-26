@@ -68,9 +68,11 @@
     --input-text-color: var(--gray-500);
     --input-border-color: var(--gray-400);
     --input-border-color-focus: var(--blue-500);
-    --username-color: var(--sky-500);
+    --username-color: var(--blue-800);
     --about-title-shadow-color: var(--blue-800);
     --about-title-color: var(--sky-300);
+    --profile-text-color: var(--stone-600);
+    --profile-text-color-inverted: var(--stone-400);
   }
 
   [data-theme="dark"] {
@@ -94,6 +96,8 @@
     --username-color: var(--gray-400);
     --about-title-shadow-color: var(--gray-800);
     --about-title-color: var(--yellow-400);
+    --profile-text-color: var(--stone-400);
+    --profile-text-color-inverted: var(--stone-600);
   }
 
   body {
