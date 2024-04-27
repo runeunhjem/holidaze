@@ -225,7 +225,7 @@ function ProfilePage() {
           className="pt-2 mx-auto w-1/2 flex flex-col items-start md:justify-center md:text-left md:flex-row md:gap-8"
           style={{ marginTop: "20px" }}
         >
-          <div className="block text-left">
+          {/* <div className="block text-left">
             <div>Active Venues: {viewedProfile.venues.length || 0}</div>
             <div>
               Your Venues&apos; Bookings: {viewedProfile.venuesBookings || 0}
@@ -234,7 +234,7 @@ function ProfilePage() {
           <div className="block text-left">
             <div>Your Booked Stays: {viewedProfile.bookings.length || 0}</div>
             <div>Your Favorites: {viewedProfile.favorites || 0}</div>
-          </div>
+          </div> */}
         </div>
       </div>
     </main>
