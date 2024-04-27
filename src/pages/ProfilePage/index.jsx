@@ -7,7 +7,6 @@ import { TbHomeEdit, TbUserEdit } from "react-icons/tb";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { Popover, Typography } from "@mui/material";
-// import ProfileDetails from "../../components/ProfileDetails";
 
 function ProfilePage() {
   const { username } = useParams();
@@ -45,6 +44,8 @@ function ProfilePage() {
   ]);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -54,17 +55,30 @@ function ProfilePage() {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
+  // Handle closing popover by clicking outside
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (
+        anchorEl &&
+        !anchorEl.contains(event.target) &&
+        !event.target.closest(".bio")
+      ) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [anchorEl]);
 
   return (
     <main
-      style={{
-        color: "var(--profile-text-color)",
-      }}
+      style={{ color: "var(--profile-text-color)" }}
       className="min-h-screen"
     >
-      <div className="relative -mt-9 w-full max-w-1200 mx-auto">
+      <div className="relative mx-auto -mt-9 w-full max-w-1200">
         <img
           src={viewedProfile.banner ? viewedProfile.banner.url : ""}
           alt={
@@ -109,10 +123,7 @@ function ProfilePage() {
         </h1>
         {viewedProfile.venueManager ? (
           <div
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={{ alignItems: "center", justifyContent: "center" }}
             className="mt-2 flex"
           >
             <TbHomeEdit className="me-2 text-2xl" />
@@ -122,10 +133,7 @@ function ProfilePage() {
           </div>
         ) : (
           <div
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-            }}
+            style={{ alignItems: "center", justifyContent: "center" }}
             className="mt-2 flex"
           >
             <HiOutlineUser className="me-2 text-2xl" />
@@ -135,10 +143,7 @@ function ProfilePage() {
           </div>
         )}
         <div
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={{ alignItems: "center", justifyContent: "center" }}
           className="mt-2 flex"
         >
           <TbUserEdit className="me-2 text-2xl" />
@@ -147,10 +152,7 @@ function ProfilePage() {
           </h2>
         </div>
         <div
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={{ alignItems: "center", justifyContent: "center" }}
           className="mt-2 flex"
         >
           <MdOutlineMarkEmailRead className="text-1xl me-2" />
@@ -158,20 +160,18 @@ function ProfilePage() {
             {viewedProfile.email}
           </h3>
         </div>
-        {/* <hr /> */}
         <div className="relative">
           <hr
             style={{
-              display: "flex", // Shows the horizontal line
-              justifyContent: "center", // Centers the line
-              borderTop: "2px solid var(--profile-text-color)", // Sets the color of the horizontal line
-              backgroundColor: "transparent", // Ensures the background inside the hr is transparent
-              height: "0px", // Removes any height, relying on border only
+              display: "flex",
+              justifyContent: "center",
+              borderTop: "2px solid var(--profile-text-color)",
+              backgroundColor: "transparent",
+              height: "0px",
               maxWidth: "60%",
-              margin: "30px auto 20px auto", // Adds vertical space around the hr
+              margin: "30px auto 20px auto",
             }}
           />
-
           <div
             style={{
               position: "absolute",
@@ -191,10 +191,7 @@ function ProfilePage() {
             Read Bio
           </div>
           <Popover
-            sx={{
-              pointerEvents: "none",
-              marginTop: "10px",
-            }}
+            sx={{ pointerEvents: "none", marginTop: "10px" }}
             id={id}
             open={open}
             anchorEl={anchorEl}
@@ -219,22 +216,18 @@ function ProfilePage() {
               {viewedProfile.bio || "No biography provided."}
             </Typography>
           </Popover>
+      {
+        /* <div className="block text-left">
+        <div>Active Venues: {viewedProfile.venues.length || 0}</div>
+        <div>
+        Your Venues&apos; Bookings: {viewedProfile.venuesBookings || 0}
         </div>
-        {/* <hr /> */}
-        <div
-          className="pt-2 mx-auto w-1/2 flex flex-col items-start md:justify-center md:text-left md:flex-row md:gap-8"
-          style={{ marginTop: "20px" }}
-        >
-          {/* <div className="block text-left">
-            <div>Active Venues: {viewedProfile.venues.length || 0}</div>
-            <div>
-              Your Venues&apos; Bookings: {viewedProfile.venuesBookings || 0}
-            </div>
-          </div>
-          <div className="block text-left">
-            <div>Your Booked Stays: {viewedProfile.bookings.length || 0}</div>
-            <div>Your Favorites: {viewedProfile.favorites || 0}</div>
-          </div> */}
+        </div>
+      <div className="block text-left">
+      <div>Your Booked Stays: {viewedProfile.bookings.length || 0}</div>
+      <div>Your Favorites: {viewedProfile.favorites || 0}</div>
+      </div> */
+      }
         </div>
       </div>
     </main>
@@ -242,3 +235,4 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
+
