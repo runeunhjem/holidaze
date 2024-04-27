@@ -15,12 +15,13 @@ const useVenues = (page, limit = 100) => {
 
       try {
         const params = {
-          // sort: "createdAt",
-          // sortOrder: "desc",
+          sortBy: "name",
+          sortOrder: "asc",
           limit: limit,
           offset: (page - 1) * limit,
           _owner: true,
           _bookings: true,
+          // _venues: true,
         };
         const response = await fetchApi(endpoint, { method: "GET" }, params);
         if (response && response.data && response.meta) {

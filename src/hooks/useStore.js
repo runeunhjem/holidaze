@@ -89,7 +89,7 @@ const useStore = create(
       storage: {
         getItem: (name) => {
           const item = localStorage.getItem(name);
-          try {
+          try { 
             return JSON.parse(item);
           } catch {
             return null;

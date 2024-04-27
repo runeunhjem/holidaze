@@ -8,10 +8,12 @@ function Footer() {
 
   return (
     <S.StyledFooter theme={isDarkMode ? "dark" : "light"}>
-      <S.FooterText>&copy; {new Date().getFullYear()} Holidaze. All rights reserved.</S.FooterText>
+      <S.FooterText>
+        &copy; {new Date().getFullYear()} Holidaze. All rights reserved.
+      </S.FooterText>
       <S.FooterText className="credits">
         Design and development by{" "}
-        <Link to="https://runeunhjem.no" target="_new">
+        <Link to="https://portfolio1-ca.netlify.app/" target="_new">
           Rune Unhjem
         </Link>
       </S.FooterText>
