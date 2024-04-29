@@ -5,26 +5,21 @@ import { useEffect, useRef, useState } from "react";
 
 const FavoriteProfilesDropdown = () => {
   const navigate = useNavigate();
-  const {
-    favoriteProfiles,
-    removeFavoriteProfile,
-    userDetails,
-    addFavoriteProfile,
-  } = useStore(); // Ensure addFavoriteProfile is available
+  const { favoriteProfiles, removeFavoriteProfile, addFavoriteProfile } =
+    useStore();
+
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    // Initialize the default favorite profiles
     const defaultFavorites = [
-      { id: "spooky", name: "Spooky" },
+      { id: "Spooky", name: "Spooky" },
       { id: "kyrre", name: "kyrre" },
       { id: "ninuskaninus", name: "ninuskaninus" },
     ];
-
     defaultFavorites.forEach((profile) => {
-      if (!favoriteProfiles.some((p) => p.id === profile.id)) {
-        addFavoriteProfile(profile); // Add to state if not already present
+      if (!favoriteProfiles.some((p) => p.name === profile.name)) {
+        addFavoriteProfile(profile);
       }
     });
   }, [favoriteProfiles, addFavoriteProfile]);
@@ -33,13 +28,13 @@ const FavoriteProfilesDropdown = () => {
 
   const handleNavigation = (profileName) => {
     navigate(`/profile/${encodeURIComponent(profileName)}`);
-    setIsOpen(false); // Close the dropdown after navigation
+    setIsOpen(false);
   };
 
   const handleRemove = (profileId, event) => {
-    event.stopPropagation(); // Prevent navigation when clicking the bin
+    event.stopPropagation();
     removeFavoriteProfile(profileId);
-    setIsOpen(false); // Optionally close the dropdown
+    setIsOpen(false);
   };
 
   useEffect(() => {
@@ -48,14 +43,10 @@ const FavoriteProfilesDropdown = () => {
         setIsOpen(false);
       }
     };
-
     if (isOpen) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
   return (
@@ -67,15 +58,14 @@ const FavoriteProfilesDropdown = () => {
           outline: "none",
           border: "none",
           textDecoration: "none",
-          "&:hover": {
-            backgroundColor: "var(--header-bg-color)",
-          },
+          "&:hover": { backgroundColor: "var(--header-bg-color)" },
         }}
         onClick={toggleDropdown}
         className="rounded-md pt-0"
       >
         ❤️ Fav&apos;s
       </button>
+
       {isOpen && (
         <ul
           style={{
@@ -89,36 +79,25 @@ const FavoriteProfilesDropdown = () => {
           className="absolute z-10 mt-1 w-full rounded-md"
         >
           {favoriteProfiles.length > 0 ? (
-            favoriteProfiles
-              .filter((p) => p.name !== userDetails.name)
-              .map((profile) => (
-                <li
-                  key={profile.id}
-                  style={{
-                    color: "var(--username-color)",
-                    backgroundColor: "var(--header-bg-color)",
-                    outline: "none",
-                    textDecoration: "none",
-                  }}
-                  className="flex cursor-pointer items-center justify-between rounded-md p-2"
-                  onClick={() => handleNavigation(profile.name)}
-                >
-                  {profile.name}
-                  <RiDeleteBin6Line
-                    className="ml-2 cursor-pointer text-red-500 hover:text-red-700"
-                    onClick={(e) => handleRemove(profile.id, e)}
-                  />
-                </li>
-              ))
+            favoriteProfiles.map((profile) => (
+              <li
+                key={profile.id}
+                className="pointer-events-auto flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-sky-200 dark:hover:bg-yellow-200"
+                onClick={() => handleNavigation(profile.name)}
+              >
+                {profile.name}
+                <RiDeleteBin6Line
+                  className="ml-2 cursor-pointer text-red-500 hover:text-red-700"
+                  onClick={(e) => handleRemove(profile.id, e)}
+                />
+              </li>
+            ))
           ) : (
             <li
               className="flex cursor-pointer items-center justify-between rounded-md p-2"
               style={{
                 color: "var(--profile-text-color)",
                 backgroundColor: "var(--header-bg-color)",
-                padding: "10px",
-                textAlign: "center",
-                cursor: "default",
               }}
             >
               No favorites added

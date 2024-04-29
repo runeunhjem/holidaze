@@ -2,30 +2,44 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useStore from "../../hooks/useStore";
-import HeartToggle from "../../components/HeartToggle";
 import { TbHomeEdit, TbUserEdit } from "react-icons/tb";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { Popover, Typography } from "@mui/material";
 import defaultProfileBanner from "../../assets/images/profile-banner.png";
+import defaultAvatarImage from "../../assets/images/default-profile-image.png";
+import useHeartToggle from "../../hooks/useHeartToggle";
+import "./index.css";
 
 function ProfilePage() {
   const { username } = useParams();
   const { fetchUserProfile } = useProfile();
-  const { viewedProfile, favoriteProfiles, setViewedProfile } = useStore();
+  const {
+    viewedProfile,
+    favoriteProfiles,
+    setViewedProfile,
+    setIsFavorite,
+    // addFavoriteProfile,
+    // removeFavoriteProfile,
+  } = useStore();
+  const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
+
+  // const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     if (username) {
       fetchUserProfile(username).then((profileData) => {
         if (profileData) {
-          const isFavorite = favoriteProfiles.some(
-            (p) => p.id === profileData.id,
+          const isFav = favoriteProfiles.some(
+            (p) => p.name === profileData.name,
           );
-          setViewedProfile({ ...profileData, isFavorite });
+          setViewedProfile({ ...profileData, isFav });
+          setIsFavorite(isFav);
         }
       });
     }
-    document.title = "Holidaze - Profile";
+    document.title = `Holidaze - ${viewedProfile.name}'s Profile`;
+
     let metaDescription = document.querySelector("meta[name='description']");
     if (!metaDescription) {
       metaDescription = document.createElement("meta");
@@ -39,24 +53,20 @@ function ProfilePage() {
   }, [
     username,
     fetchUserProfile,
-    viewedProfile?.name,
     favoriteProfiles,
     setViewedProfile,
+    viewedProfile.name,
+    setIsFavorite,
   ]);
+
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const handleClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  // Handle closing popover by clicking outside
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (
@@ -69,9 +79,7 @@ function ProfilePage() {
     };
 
     document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [anchorEl]);
 
   return (
@@ -87,9 +95,10 @@ function ProfilePage() {
               ? defaultProfileBanner
               : viewedProfile.banner?.url ?? defaultProfileBanner
           }
-          alt={viewedProfile.banner?.alt || "Default banner"}
+          alt={viewedProfile.banner?.alt || "Illustration of profile banner"}
           className="h-64 w-full object-cover"
         />
+
         <div
           style={{
             borderRadius: "50%",
@@ -100,9 +109,9 @@ function ProfilePage() {
           className="absolute left-1/2 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 transform justify-center rounded-full object-cover align-middle"
         >
           <img
-            src={viewedProfile.avatar ? viewedProfile.avatar.url : ""}
+            src={viewedProfile.avatar ? viewedProfile.avatar.url : defaultAvatarImage}
             alt={
-              viewedProfile.avatar ? viewedProfile.avatar.alt : "Default avatar"
+              viewedProfile.avatar ? viewedProfile.avatar.alt : "Illustration of profile avatar"
             }
             style={{
               backgroundColor: "var(--body-bg-color)",
@@ -116,8 +125,11 @@ function ProfilePage() {
             }}
             className="object-cover"
           />
+
           <div className="absolute bottom-0 right-1">
-            <HeartToggle profile={viewedProfile} />
+            <div className="heart-toggle" onClick={toggleHeart}>
+              {isFavorite ? "💖" : "➕"}
+            </div>
           </div>
         </div>
       </div>
@@ -220,16 +232,24 @@ function ProfilePage() {
               {viewedProfile.bio || "No biography provided."}
             </Typography>
           </Popover>
-          {/* <div className="block text-left">
-        <div>Active Venues: {viewedProfile.venues.length || 0}</div>
-        <div>
-        Your Venues&apos; Bookings: {viewedProfile.venuesBookings || 0}
-        </div>
-        </div>
-      <div className="block text-left">
-      <div>Your Booked Stays: {viewedProfile.bookings.length || 0}</div>
-      <div>Your Favorites: {viewedProfile.favorites || 0}</div>
-      </div> */}
+          <div className="mx-auto flex max-w-300 flex-col items-center ps-12 pt-6">
+            <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
+              <div className="min-w-300 w-full text-left">
+                Active Venues: {viewedProfile.venues?.length || 0}
+              </div>
+              <div className="min-w-300 w-full text-left">
+                Your Venues&apos; Bookings: {viewedProfile.venuesBookings ?? 0}
+              </div>
+            </div>
+            <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
+              <div className="min-w-300 w-full text-left">
+                Your Bookings: {viewedProfile.bookings?.length || 0}
+              </div>
+              <div className="min-w-300 w-full text-left">
+                Your Favorites: {(viewedProfile.favorites ?? []).length}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -237,4 +257,3 @@ function ProfilePage() {
 }
 
 export default ProfilePage;
-

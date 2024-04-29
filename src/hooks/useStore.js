@@ -10,24 +10,36 @@ const useStore = create(
       userDetails: {},
       viewedProfile: {},
       favoriteProfiles: [],
-      isFavorite: false,
+      favorites: [], // State for favorite venues
       venues: [],
       justLoggedIn: false,
 
       addFavoriteProfile: (profile) => {
         const { favoriteProfiles } = get();
-        if (!favoriteProfiles.some((p) => p.id === profile.id)) {
+        if (!favoriteProfiles.some((p) => p.name === profile.name)) {
           set({ favoriteProfiles: [...favoriteProfiles, profile] });
         }
       },
 
-      removeFavoriteProfile: (profileId) => {
+      removeFavoriteProfile: (profileName) => {
         set((state) => ({
           favoriteProfiles: state.favoriteProfiles.filter(
-            (p) => p.id !== profileId,
+            (p) => p.name !== profileName,
           ),
         }));
       },
+
+      addFavoriteVenue: (venue) => {
+        const { favorites } = get();
+        if (!favorites.some((v) => v.id === venue.id)) {
+          set({ favorites: [...favorites, venue] });
+        }
+      },
+
+      removeFavoriteVenue: (venueId) =>
+        set((state) => ({
+          favorites: state.favorites.filter((v) => v.id !== venueId),
+        })),
 
       toggleDarkMode: () =>
         set((state) => {
@@ -39,26 +51,14 @@ const useStore = create(
           return { isDarkMode: newIsDarkMode };
         }),
 
-      setIsAuthenticated: (isAuthenticated) =>
-        set({
-          isAuthenticated,
-        }),
+      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 
       setAccessToken: (accessToken) =>
-        set({
-          accessToken,
-          isAuthenticated: true,
-        }),
+        set({ accessToken, isAuthenticated: true }),
 
-      setUserDetails: (details) =>
-        set({
-          userDetails: details,
-        }),
+      setUserDetails: (details) => set({ userDetails: details }),
 
-      setViewedProfile: (details) =>
-        set({
-          viewedProfile: details,
-        }),
+      setViewedProfile: (details) => set({ viewedProfile: details }),
 
       clearUser: () =>
         set({
@@ -67,18 +67,17 @@ const useStore = create(
           userDetails: {},
           viewedProfile: {},
           favoriteProfiles: [],
-          justLoggedIn: false,
+          favorites: [], // Clear favorite venues
         }),
 
       logIn: (userDetails) => {
         const { accessToken, ...restDetails } = userDetails;
-
         set({
           isAuthenticated: true,
           userDetails: restDetails,
           viewedProfile: restDetails,
           justLoggedIn: true,
-          accessToken: accessToken,
+          accessToken,
         });
       },
 
@@ -89,7 +88,7 @@ const useStore = create(
       storage: {
         getItem: (name) => {
           const item = localStorage.getItem(name);
-          try { 
+          try {
             return JSON.parse(item);
           } catch {
             return null;
