@@ -19,6 +19,7 @@ function ProfilePage() {
     favoriteProfiles,
     setViewedProfile,
     setIsFavorite,
+    userDetails,
     // addFavoriteProfile,
     // removeFavoriteProfile,
   } = useStore();
@@ -59,7 +60,6 @@ function ProfilePage() {
     setIsFavorite,
   ]);
 
-
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
@@ -85,7 +85,7 @@ function ProfilePage() {
   return (
     <main
       style={{ color: "var(--profile-text-color)" }}
-      className="min-h-screen"
+      className="min-h-screen profile-page"
     >
       <div className="relative mx-auto -mt-9 w-full max-w-1200">
         <img
@@ -109,9 +109,16 @@ function ProfilePage() {
           className="absolute left-1/2 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 transform justify-center rounded-full object-cover align-middle"
         >
           <img
-            src={viewedProfile.avatar ? viewedProfile.avatar.url : defaultAvatarImage}
+            src={
+              viewedProfile.avatar?.url ===
+              "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=400&w=400"
+                ? defaultAvatarImage
+                : viewedProfile.avatar?.url ?? defaultAvatarImage
+            }
             alt={
-              viewedProfile.avatar ? viewedProfile.avatar.alt : "Illustration of profile avatar"
+              viewedProfile.avatar
+                ? viewedProfile.avatar.alt
+                : "Illustration of profile avatar"
             }
             style={{
               backgroundColor: "var(--body-bg-color)",
@@ -126,11 +133,16 @@ function ProfilePage() {
             className="object-cover"
           />
 
-          <div className="absolute bottom-0 right-1">
-            <div className="heart-toggle" onClick={toggleHeart}>
-              {isFavorite ? "💖" : "➕"}
+          {viewedProfile.name !== userDetails.name && (
+            <div className="absolute bottom-0 right-1">
+              <div
+                className="heart-toggle cursor-pointer"
+                onClick={toggleHeart}
+              >
+                {isFavorite ? "💖" : "➕"}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <div className="container mx-auto max-w-1200 justify-center px-4 pb-8 pt-20">

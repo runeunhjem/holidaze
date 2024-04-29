@@ -143,11 +143,11 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="me-4 flex max-w-1200 justify-between md:mx-auto">
+      <div className="me-4 flex max-w-1200 justify-between text-right md:mx-auto">
         {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
         {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
         {userDetails.name ? (
-          <span>
+          <span className="flex flex-col sm:flex-row">
             Welcome back
             <Link
               to={`/profile/${userDetails.name}`}
