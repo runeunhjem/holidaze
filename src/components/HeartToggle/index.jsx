@@ -4,11 +4,11 @@ import useStore from "../../hooks/useStore";
 const HeartToggle = ({ profile }) => {
   const { favoriteProfiles, addFavoriteProfile, removeFavoriteProfile } =
     useStore();
-  const isFavorite = favoriteProfiles.some((p) => p.id === profile.id);
+  const isFavorite = favoriteProfiles.some((p) => p.id === profile.name);
 
   const toggleFavorite = () => {
     if (isFavorite) {
-      removeFavoriteProfile(profile.id);
+      removeFavoriteProfile(profile.name);
     } else {
       addFavoriteProfile(profile);
     }

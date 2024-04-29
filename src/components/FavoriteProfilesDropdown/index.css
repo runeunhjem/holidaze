@@ -1,0 +1,7 @@
+.menu-hover {
+  transition: background-color 0.1s ease-in-out; /* Optional: for a smooth transition */
+}
+
+.menu-hover:hover {
+  background-color: var(--menu-hover-bg-color) !important; /* Or any other color */
+}

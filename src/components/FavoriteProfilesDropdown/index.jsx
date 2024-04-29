@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useEffect, useRef, useState } from "react";
+import "./index.css";
 
 const FavoriteProfilesDropdown = () => {
   const navigate = useNavigate();
@@ -81,14 +82,19 @@ const FavoriteProfilesDropdown = () => {
           {favoriteProfiles.length > 0 ? (
             favoriteProfiles.map((profile) => (
               <li
-                key={profile.id}
-                className="pointer-events-auto flex cursor-pointer items-center justify-between rounded-md p-2 hover:bg-sky-200 dark:hover:bg-yellow-200"
+                key={profile.name}
+                style={{
+                  "&:hover": {
+                    backgroundColor: "var(--menu-hover-bg-color) !important",
+                  },
+                }}
+                className="flex cursor-pointer items-center justify-between rounded-md p-2 menu-hover"
                 onClick={() => handleNavigation(profile.name)}
               >
                 {profile.name}
                 <RiDeleteBin6Line
                   className="ml-2 cursor-pointer text-red-500 hover:text-red-700"
-                  onClick={(e) => handleRemove(profile.id, e)}
+                  onClick={(e) => handleRemove(profile.name, e)}
                 />
               </li>
             ))
