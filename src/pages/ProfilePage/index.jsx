@@ -7,6 +7,7 @@ import { TbHomeEdit, TbUserEdit } from "react-icons/tb";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { Popover, Typography } from "@mui/material";
+import defaultProfileBanner from "../../assets/images/profile-banner.png";
 
 function ProfilePage() {
   const { username } = useParams();
@@ -80,10 +81,13 @@ function ProfilePage() {
     >
       <div className="relative mx-auto -mt-9 w-full max-w-1200">
         <img
-          src={viewedProfile.banner ? viewedProfile.banner.url : ""}
-          alt={
-            viewedProfile.banner ? viewedProfile.banner.alt : "Default banner"
+          src={
+            viewedProfile.banner?.url ===
+            "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=500&w=1500"
+              ? defaultProfileBanner
+              : viewedProfile.banner?.url ?? defaultProfileBanner
           }
+          alt={viewedProfile.banner?.alt || "Default banner"}
           className="h-64 w-full object-cover"
         />
         <div
@@ -216,8 +220,7 @@ function ProfilePage() {
               {viewedProfile.bio || "No biography provided."}
             </Typography>
           </Popover>
-      {
-        /* <div className="block text-left">
+          {/* <div className="block text-left">
         <div>Active Venues: {viewedProfile.venues.length || 0}</div>
         <div>
         Your Venues&apos; Bookings: {viewedProfile.venuesBookings || 0}
@@ -226,8 +229,7 @@ function ProfilePage() {
       <div className="block text-left">
       <div>Your Booked Stays: {viewedProfile.bookings.length || 0}</div>
       <div>Your Favorites: {viewedProfile.favorites || 0}</div>
-      </div> */
-      }
+      </div> */}
         </div>
       </div>
     </main>

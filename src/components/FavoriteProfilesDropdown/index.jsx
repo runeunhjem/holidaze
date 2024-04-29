@@ -5,9 +5,29 @@ import { useEffect, useRef, useState } from "react";
 
 const FavoriteProfilesDropdown = () => {
   const navigate = useNavigate();
-  const { favoriteProfiles, removeFavoriteProfile, userDetails } = useStore();
+  const {
+    favoriteProfiles,
+    removeFavoriteProfile,
+    userDetails,
+    addFavoriteProfile,
+  } = useStore(); // Ensure addFavoriteProfile is available
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    // Initialize the default favorite profiles
+    const defaultFavorites = [
+      { id: "spooky", name: "Spooky" },
+      { id: "kyrre", name: "kyrre" },
+      { id: "ninuskaninus", name: "ninuskaninus" },
+    ];
+
+    defaultFavorites.forEach((profile) => {
+      if (!favoriteProfiles.some((p) => p.id === profile.id)) {
+        addFavoriteProfile(profile); // Add to state if not already present
+      }
+    });
+  }, [favoriteProfiles, addFavoriteProfile]);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -39,7 +59,7 @@ const FavoriteProfilesDropdown = () => {
   }, [isOpen]);
 
   return (
-    <div className="relative md:ps-8" ref={dropdownRef}>
+    <div className="relative ps-8" ref={dropdownRef}>
       <button
         style={{
           color: "var(--profile-text-color)",
