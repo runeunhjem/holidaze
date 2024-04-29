@@ -190,7 +190,11 @@ export default function MenuListComposition() {
                   id="composition-menu"
                   aria-labelledby="composition-button"
                   className="dark:bg-gray-800"
-                  sx={{ borderRadius: "5px" }}
+                  sx={ {
+                    py: 0,
+                    borderRadius: "5px",
+                    backgroundColor: theme.palette.mode === "dark" ? "var(--gray-800)" : "var(--sky-50)",
+                  } }
                   onKeyDown={handleListKeyDown}
                 >
                   {isAuthenticated
@@ -201,7 +205,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -223,7 +228,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -241,7 +247,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -259,7 +266,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -277,7 +285,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -297,7 +306,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"
@@ -315,7 +325,8 @@ export default function MenuListComposition() {
                               backgroundColor:
                                 theme.palette.mode === "dark"
                                   ? "var(--yellow-200)"
-                                  : "var(--sky-100)",
+                                  : "var(--sky-200)",
+                                  borderRadius: "5px",
                               color:
                                 theme.palette.mode === "dark"
                                   ? "var(--gray-900)"

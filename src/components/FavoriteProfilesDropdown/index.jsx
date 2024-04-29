@@ -70,7 +70,7 @@ const FavoriteProfilesDropdown = () => {
       {isOpen && (
         <ul
           style={{
-            color: "var(--username-color)",
+            color: "var(--profile-text-color)",
             backgroundColor: "var(--header-bg-color)",
             minWidth: "200px",
             top: "30px",
@@ -86,6 +86,7 @@ const FavoriteProfilesDropdown = () => {
                 style={{
                   "&:hover": {
                     backgroundColor: "var(--menu-hover-bg-color) !important",
+                    // color: "var(--gray-900) !important",
                   },
                 }}
                 className="flex cursor-pointer items-center justify-between rounded-md p-2 menu-hover"

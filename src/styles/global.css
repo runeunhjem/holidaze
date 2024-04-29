@@ -74,6 +74,7 @@
     --profile-text-color: var(--stone-600);
     --profile-text-color-inverted: var(--stone-400);
     --menu-hover-bg-color: var(--sky-200);
+    --menu-bg-color: var(--sky-100);
   }
 
   [data-theme="dark"] {
@@ -100,6 +101,7 @@
     --profile-text-color: var(--stone-400);
     --profile-text-color-inverted: var(--stone-600);
     --menu-hover-bg-color: var(--yellow-200);
+    --menu-bg-color: var(--gray-900);
   }
 
   body {

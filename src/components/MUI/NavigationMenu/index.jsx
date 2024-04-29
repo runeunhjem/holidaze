@@ -66,11 +66,12 @@ export default function NavigationMenu() {
         }}
         startIcon={
           open ? (
-            <FiX className="text-gray-900 dark:text-gray-100 me-2" />
+            <FiX className="me-2 text-gray-900 dark:text-gray-100" />
           ) : (
-            <FiMenu className="text-gray-900 dark:text-gray-100 me-2" />
+            <FiMenu className="me-2 text-gray-900 dark:text-gray-100" />
           )
-        }>
+        }
+      >
         <span className="hidden">Navigation Menu</span>
       </Button>
 
@@ -89,20 +90,36 @@ export default function NavigationMenu() {
             },
           },
         ]}
-        sx={{ zIndex: 1300, borderRadius: "5px" }}>
+        sx={{ zIndex: 1300, borderRadius: "5px" }}
+      >
         {({ TransitionProps, placement }) => (
-          <Grow {...TransitionProps} style={{ transformOrigin: placement === "top-start" ? "right bottom" : "left top" }}>
+          <Grow
+            {...TransitionProps}
+            style={{
+              transformOrigin:
+                placement === "top-start" ? "right bottom" : "left top",
+            }}
+          >
             <Paper
               sx={{
                 borderRadius: "5px",
-                borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+                borderColor:
+                  theme.palette.mode === "dark"
+                    ? "var(--yellow-400)"
+                    : "var(--sky-300)",
                 borderWidth: 1,
                 borderStyle: "solid",
-              }}>
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   sx={{
                     borderRadius: "5px",
+                    py: 0,
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "var(--gray-800)"
+                        : "var(--sky-50)",
                     // "&:hover": {
                     //   backgroundColor: "var(--sky-300)", // Custom hover color
                     // },
@@ -111,47 +128,80 @@ export default function NavigationMenu() {
                   id="burger-menu"
                   aria-labelledby="burger-button"
                   className="dark:bg-gray-800"
-                  onKeyDown={handleListKeyDown}>
+                  onKeyDown={handleListKeyDown}
+                >
                   {/* {isAuthenticated ? (
                     <div> */}
                   <MenuItem
                     sx={{
                       "&:hover": {
-                        backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "var(--yellow-200)"
+                            : "var(--sky-200)",
+                            borderRadius: "5px",
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "var(--gray-900)"
+                            : "var(--gray-900)",
                       },
                     }}
-                    onClick={() => handleNavigate("/")}>
+                    onClick={() => handleNavigate("/")}
+                  >
                     Home
                   </MenuItem>
                   <MenuItem
                     sx={{
                       "&:hover": {
-                        backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "var(--yellow-200)"
+                            : "var(--sky-200)",
+                            borderRadius: "5px",
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "var(--gray-900)"
+                            : "var(--gray-900)",
                       },
                     }}
-                    onClick={() => handleNavigate("/destinations")}>
+                    onClick={() => handleNavigate("/destinations")}
+                  >
                     Destinations
                   </MenuItem>
                   <MenuItem
                     sx={{
                       "&:hover": {
-                        backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "var(--yellow-200)"
+                            : "var(--sky-200)",
+                            borderRadius: "5px",
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "var(--gray-900)"
+                            : "var(--gray-900)",
                       },
                     }}
-                    onClick={() => handleNavigate("/about")}>
+                    onClick={() => handleNavigate("/about")}
+                  >
                     About Us
                   </MenuItem>
                   <MenuItem
                     sx={{
                       "&:hover": {
-                        backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-200)" : "var(--sky-100)",
-                        color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
+                        backgroundColor:
+                          theme.palette.mode === "dark"
+                            ? "var(--yellow-200)"
+                            : "var(--sky-200)",
+                            borderRadius: "5px",
+                        color:
+                          theme.palette.mode === "dark"
+                            ? "var(--gray-900)"
+                            : "var(--gray-900)",
                       },
                     }}
-                    onClick={() => handleNavigate("/contact")}>
+                    onClick={() => handleNavigate("/contact")}
+                  >
                     Contact Us
                   </MenuItem>
                   {/* </div>
