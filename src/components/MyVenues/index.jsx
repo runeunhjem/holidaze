@@ -1,19 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useMemo } from "react";
 import useStore from "../../hooks/useStore";
-import {
-  Card,
-  CardMedia,
-  Typography,
-  Box,
-  Popover,
-  CardContent,
-} from "@mui/material";
+import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import VenuePopover from "../VenuePopover";
 import "./index.css";
 
 function MyVenues() {
-  const { viewedProfile } = useStore(); // Get the user's profile from the global store
-  const venues = viewedProfile?.venues || []; // Extract venues from the profile
+  const { viewedProfile  } = useStore(); // Retrieve necessary items from the global store
+  const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]); // Extract venues from the profile
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,38 +24,20 @@ function MyVenues() {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? "venue-popover" : undefined;
 
-  // Use an effect to close the popover on mouse leave or click outside
-  useEffect(() => {
-    const handleMouseLeave = (event) => {
-      if (
-        anchorEl &&
-        !anchorEl.contains(event.target) &&
-        !event.target.closest("#venue-popover")
-      ) {
-        handleClose();
-      }
-    };
-
-    document.addEventListener("mouseleave", handleMouseLeave);
-    return () => {
-      document.removeEventListener("mouseleave", handleMouseLeave);
-    };
-  }, [anchorEl]);
+  // Memoize venues to avoid unnecessary re-renders
+  const venueDisplay = useMemo(() => venues, [venues]);
 
   return (
     <Box
-      className="my-venues-container px-4 sm:px-0"
+      className="my-venues-container"
       style={{
         padding: "16px 8px",
         maxWidth: "1200px",
         margin: "0 auto",
-        alignItems: "center",
-        justifyContent: "center",
       }}
     >
-      <div className="mt-6 flex items-center justify-around px-6">
+      <div className="mt-6 flex items center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           My Venues
         </Typography>
@@ -80,30 +56,22 @@ function MyVenues() {
           margin: "1px auto 20px auto",
         }}
       />
+
       {venues.length > 0 ? (
         <div
-          className="venues-container flex items-center justify-center"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "20px",
-          }}
+          className="venues-container flex items center justify-center"
+          style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
-          {venues.map((venue) => (
+          {venueDisplay.map((venue) => (
             <div
               key={venue.id}
-              className="venue-card-container flex items-center justify-center"
-              style={{
-                flexBasis: "30%",
-                borderRadius: "20px",
-                // margin: "0 auto",
-                // justifyContent: "center",
-              }}
+              className="venue-card-container items center flex justify-center"
+              style={{ flexBasis: "30%", borderRadius: "20px" }}
             >
               <Card
                 className="venue-container"
                 style={{ borderRadius: "20px" }}
-                onClick={() => navigate(`/venues/${venue.id}`)}
+                onClick = {() => navigate(`/venues/${venue.id}`)}
                 onMouseEnter={(e) => handleHover(e, venue)}
                 onMouseLeave={handleClose}
               >
@@ -114,8 +82,18 @@ function MyVenues() {
                   alt={venue.media[0].alt || venue.name}
                 />
 
-                {/* City overlay */}
-                <div className="city-overlay flex items-center justify-around">
+                {/* <div className="venue-bookings flex flex-col items-center justify-center">
+                  <Typography variant="h6" align="center" gutterBottom>
+                    {venue.id}
+                  </Typography>
+                  <Typography variant="h6" align="center" gutterBottom>
+                    {bookings[venue.id] && bookings[venue.id].length > 0
+                      ? `${bookings[venue.id].length} Bookings Found`
+                      : "No Bookings"}
+                  </Typography>
+                </div> */}
+
+                <div className="city-overlay items center flex justify-around">
                   {venue.location.city}
                   <span className="text-sm"> [Info]</span>
                 </div>
@@ -129,41 +107,8 @@ function MyVenues() {
         </Typography>
       )}
 
-      {/* Popover to display venue information */}
-      {selectedVenue && (
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          sx={{ pointerEvents: "none", marginTop: "10px" }}
-        >
-          <CardContent
-            style={{
-              backgroundColor: "var(--profile-text-color-inverted)",
-              border: "1px solid var(--profile-text-color)",
-              borderRadius: "5px",
-              padding: "20px",
-            }}
-          >
-            <Typography variant="h5">{selectedVenue.name}</Typography>
-            <Typography variant="body2" color="textSecondary">
-              {selectedVenue.description}
-            </Typography>
-            <Typography variant="body2" color="textSecondary">
-              Price: ${selectedVenue.price}
-            </Typography>
-          </CardContent>
-        </Popover>
-      )}
+      {/* VenuePopover */}
+      <VenuePopover selectedVenue={selectedVenue} anchorEl={anchorEl} open={open} onClose={handleClose} />
     </Box>
   );
 }
