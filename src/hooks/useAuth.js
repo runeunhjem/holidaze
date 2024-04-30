@@ -21,7 +21,7 @@ const useAuth = () => {
       const data = response.data; // Assuming fetchApi already parses JSON
       if (data.accessToken && data.name) {
         // Save accessToken to local storage and Zustand store
-        save("accessToken", data.accessToken);
+        // save("accessToken", data.accessToken);
         setAccessToken(data.accessToken);
 
         logIn({

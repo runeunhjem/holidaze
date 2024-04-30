@@ -60,15 +60,14 @@ const useStore = create(
 
       setViewedProfile: (details) => set({ viewedProfile: details }),
 
-      clearUser: () =>
+      clearUser: () => {
         set({
           accessToken: null,
           isAuthenticated: false,
           userDetails: {},
           viewedProfile: {},
-          favoriteProfiles: [],
-          favorites: [], // Clear favorite venues
-        }),
+        });
+      },
 
       logIn: (userDetails) => {
         const { accessToken, ...restDetails } = userDetails;
@@ -84,7 +83,7 @@ const useStore = create(
       resetJustLoggedIn: () => set({ justLoggedIn: false }),
     }),
     {
-      name: "favorite-profiles-storage",
+      name: "user-info-and-favs",
       storage: {
         getItem: (name) => {
           const item = localStorage.getItem(name);

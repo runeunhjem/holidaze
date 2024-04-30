@@ -64,7 +64,7 @@ function ProfilePage() {
   }, [anchorEl]);
 
   return (
-    <main
+    <div
       style={{ color: "var(--profile-text-color)" }}
       className="profile-page min-h-screen"
     >
@@ -85,7 +85,7 @@ function ProfilePage() {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-    </main>
+    </div>
   );
 }
 

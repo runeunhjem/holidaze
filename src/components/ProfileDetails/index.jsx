@@ -34,7 +34,6 @@ const ProfileDetails = ({
           color: "var(--body-bg-color)",
           cursor: "pointer",
         }}
-        aria-describedby={viewedProfile.name} // Use viewedProfile.name
         onClick={handleClick}
         className="bio"
       >
@@ -42,7 +41,7 @@ const ProfileDetails = ({
       </div>
       <Popover
         sx={{ pointerEvents: "none", marginTop: "10px" }}
-        id={viewedProfile.name} // Use viewedProfile.name
+        id={viewedProfile.name}
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
@@ -66,7 +65,9 @@ const ProfileDetails = ({
           {viewedProfile.bio || "No biography provided."}
         </Typography>
       </Popover>
-      <div className="mx-auto flex max-w-300 flex-col items-center ps-12 pt-6">
+      <div className="mx-auto flex max-w-300 flex-col items-center pt-6" style={ {
+        width: "200px",
+      }}>
         <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
           <div className="min-w-300 w-full text-left">
             Active Venues: {viewedProfile.venues?.length || 0}
