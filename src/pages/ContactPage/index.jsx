@@ -82,12 +82,8 @@ function ContactPage() {
             Visiting Address:
           </Typography>
           <Typography>
-            <a
-              href="https://goo.gl/maps/7Z3QpQf7JZzhttps://maps.app.goo.gl/GGUVBCuSC4YS6GcP6"
-              target="_blank"
-            >
-              Batangas Provincial Rd, Barangay Sta.Rita, 4200 Batangas,
-              Philippines
+            <a href="https://maps.app.goo.gl/VsEJasgAo86gVSki7" target="_blank">
+              Slettheiveien 81E, 4626 Kristiansand, Norway
             </a>
           </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
