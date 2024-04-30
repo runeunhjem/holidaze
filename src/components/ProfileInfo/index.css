@@ -1,0 +1,21 @@
+.profile-info {
+  h1 {
+    font-size: calc(
+      1.4vw + 1rem
+    ) !important;
+    padding-top: 10px;
+  }
+
+  h2 {
+    font-size: calc(
+      0.9vw + 0.8rem
+    ) !important;
+    padding-top: 5px;
+  }
+
+  h3 {
+    font-size: calc(
+      0.7vw + 0.6rem
+    ) !important;
+  }
+}

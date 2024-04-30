@@ -111,6 +111,8 @@
     color: var(--body-text-color) !important;
     background-color: var(--body-bg-color) !important;
     padding-top: 10.5rem;
+    overflow: auto;
+    scroll-behavior: smooth;
   }
 
   #root,

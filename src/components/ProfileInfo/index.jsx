@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import { TbHomeEdit, TbUserEdit } from "react-icons/tb";
 import { HiOutlineUser } from "react-icons/hi";
 import { MdOutlineMarkEmailRead } from "react-icons/md";
+import "./index.css";
 
 const ProfileInfo = ({ viewedProfile }) => {
   return (
-    <div className="container mx-auto w-full max-w-1200 px-4 pb-8 pt-20">
+    <div className="profile-info container mx-auto w-full max-w-1200 px-4 pb-8 pt-20">
       {/* Centered Heading */}
       <h1 className="text-center text-4xl font-bold capitalize">
         {viewedProfile.name}

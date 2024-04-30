@@ -5,6 +5,8 @@ export const LayoutContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
+  position: absolute;
+  width: 100%;
 `;
 
 export const MainContent = styled.main`

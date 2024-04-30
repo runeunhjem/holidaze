@@ -9,6 +9,7 @@ import ProfileDetails from "../../components/ProfileDetails";
 import useHeartToggle from "../../hooks/useHeartToggle";
 import defaultProfileBanner from "../../assets/images/profile-banner.png";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
+import MyVenues from "../../components/MyVenues";
 
 function ProfilePage() {
   const { username } = useParams();
@@ -85,6 +86,7 @@ function ProfilePage() {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
+      <MyVenues />
     </div>
   );
 }

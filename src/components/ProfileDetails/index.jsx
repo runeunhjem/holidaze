@@ -12,13 +12,14 @@ const ProfileDetails = ({
   return (
     <div className="relative">
       <hr
+        className="w-2/3 sm:w-1/2 md:w-1/3"
         style={{
           display: "flex",
           justifyContent: "center",
           borderTop: "2px solid var(--profile-text-color)",
           backgroundColor: "transparent",
           height: "0px",
-          maxWidth: "60%",
+          // maxWidth: "60%",
           margin: "30px auto 20px auto",
         }}
       />
