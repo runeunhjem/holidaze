@@ -66,6 +66,7 @@ const useStore = create(
           isAuthenticated: false,
           userDetails: {},
           viewedProfile: {},
+          bookings: [],
         });
       },
 
