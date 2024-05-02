@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
 import "./index.css";
 
@@ -35,6 +35,11 @@ function MyBookings() {
   };
 
   const open = Boolean(anchorEl);
+
+  const formatShortDate = (dateStr) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-GB"); // "en-GB" provides "dd/mm/yyyy" format
+  };
 
   return (
     <Box
@@ -74,18 +79,28 @@ function MyBookings() {
             <div
               key={booking.id}
               className="booking-card-container items center flex justify-center"
-              style={{ flexBasis: "25%", borderRadius: "20px" }}
+              style={{ borderRadius: "20px 0 0 20px", height: "176px" }}
+              onMouseLeave={handleClose}
             >
               <Card
                 className="booking-container"
-                style={{ borderRadius: "20px" }}
-                onMouseLeave={handleClose}
-                >
+                style={{
+                  borderRadius: "5px 0 0 5px",
+                  width: "40%",
+                  // height: "99%"
+                }}
+              >
                 <CardMedia
+                  onMouseLeave={handleClose}
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  onClick={() => navigate(`/bookings/${booking.id}`)}
+                  // onClick={() => navigate(`/bookings/${booking.id}`)}
+                  onClick={() => navigate(`/venues/${booking.venue.id}`)}
                   component="img"
-                  className="venue-image"
+                  className="booking-image"
+                  style={{
+                    borderRadius: "5px 0 0 5px",
+                    height: "100%",
+                  }}
                   image={booking.venue.media[0].url}
                   alt={booking.venue.media[0].alt || booking.venue.name}
                 />
@@ -93,27 +108,93 @@ function MyBookings() {
                 <div className="id-overlay items center flex justify-around">
                   ID: {booking.id.slice(0, 6)}
                 </div>
-
-                <div className="city-overlay items center flex justify-around">
-                  {booking.venue.location.city}
-                  <span
-                    onClick={(e) => handleHover(e, booking)}
-                    className="text-sm"
-                  >
-                    {" "}
-                    [Info]
-                  </span>
-                </div>
-
-                <div className="venue-bookings items center flex flex-col justify-center">
-                  <Typography variant="h6" align="center" gutterBottom>
-                    {booking.venue.name}
-                  </Typography>
-                  <Typography variant="h6" align="center" gutterBottom>
-                    Booked from {booking.dateFrom} to {booking.dateTo}
-                  </Typography>
-                </div>
               </Card>
+              <div className="city-overlay items center flex justify-around">
+                {booking.venue.name}, {booking.venue.location.city}
+                <span
+                  onMouseEnter={(e) => handleHover(e, booking)}
+                  className="cursor-pointer text-sm"
+                  onMouseLeave={handleClose}
+                >
+                  {" "}
+                  [Info]
+                </span>
+              </div>
+              <div
+                className="my-booking-details items center flex flex-col justify-start"
+                style={{
+                  backgroundColor: "var(--menu-bg-color)",
+                  width: "60%",
+                  fontSize: "calc(14px + 0.2vmin)",
+                  borderRadius: "20px",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontSize: "calc(14px + 0.2vmin)",
+                    textAlign: "left",
+                    paddingLeft: "10px",
+                    paddingTop: "28px",
+                    marginBottom: "0px",
+                  }}
+                  variant="h6"
+                  align="center"
+                  gutterBottom
+                >
+                  Booked for {booking.guests} guests
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: "calc(14px + 0.2vmin)",
+                    textAlign: "left",
+                    paddingLeft: "10px",
+                    marginBottom: "0px",
+                  }}
+                  variant="h6"
+                  align="center"
+                  gutterBottom
+                >
+                  Check-in: {formatShortDate(booking.dateFrom)}
+                </Typography>
+                {/* <Typography
+                  style={{
+                    fontSize: "calc(14px + 0.2vmin)",
+                    textAlign: "left",
+                    paddingLeft: "20px",
+                  }}
+                  variant="h6"
+                  align="center"
+                  gutterBottom
+                >
+                  {formatShortDate(booking.dateFrom)}
+                </Typography> */}
+                <Typography
+                  style={{
+                    fontSize: "calc(14px + 0.2vmin)",
+                    textAlign: "left",
+                    paddingLeft: "10px",
+                    marginBottom: "0px",
+                  }}
+                  variant="h6"
+                  align="center"
+                  gutterBottom
+                >
+                  Check-out: {formatShortDate(booking.dateTo)}
+                </Typography>
+                <Typography
+                  style={{
+                    fontSize: "calc(14px + 0.2vmin)",
+                    textAlign: "left",
+                    paddingLeft: "10px",
+                    marginTop: "2.5rem",
+                  }}
+                  variant="h6"
+                  align="center"
+                  gutterBottom
+                >
+                  <Link to={`/bookings/${booking.id}`}>View details</Link>
+                </Typography>
+              </div>
             </div>
           ))}
         </div>

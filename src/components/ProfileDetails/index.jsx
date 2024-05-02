@@ -57,7 +57,8 @@ const ProfileDetails = ({
       >
         <Typography
           style={{
-            backgroundColor: "var(--profile-text-color-inverted)",
+            backgroundColor: "var(--overlay-cards)",
+            color: "var(--overlay-cards-text)",
             border: "1px solid var(--profile-text-color)",
             borderRadius: "5px",
             padding: "20px",

@@ -70,7 +70,11 @@ function MyVenues() {
             >
               <Card
                 className="venue-container"
-                style={{ borderRadius: "20px" }}
+                style={ {
+                  borderRadius: "20px",
+                  // border: "1px solid var(--link-color-hover)"
+                  // boxShadow: "0px 0px 6px var(--link-color-hover)"
+                } }
                 onMouseLeave={handleClose}
               >
                 <CardMedia
@@ -81,17 +85,6 @@ function MyVenues() {
                   image={venue.media[0].url}
                   alt={venue.media[0].alt || venue.name}
                 />
-
-                {/* <div className="venue-bookings flex flex-col items-center justify-center">
-                  <Typography variant="h6" align="center" gutterBottom>
-                    {venue.id}
-                  </Typography>
-                  <Typography variant="h6" align="center" gutterBottom>
-                    {bookings[venue.id] && bookings[venue.id].length > 0
-                      ? `${bookings[venue.id].length} Bookings Found`
-                      : "No Bookings"}
-                  </Typography>
-                </div> */}
 
                 <div className="city-overlay items center flex justify-around">
                   {venue.location.city}

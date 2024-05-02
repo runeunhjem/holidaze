@@ -53,11 +53,14 @@
   [data-theme="light"] {
     --overlay-color: var(--overlay-color-light);
     --overlay-color-carousel: var(--overlay-color-carousel-light);
+    --overlay-cards: var(--sky-200);
+    --overlay-cards-text: var(--blue-800);
     --body-bg-color: var(--sky-50);
     --body-text-color: var(--gray-900);
     --header-bg-color: var(--sky-100);
     --footer-bg-color: var(--sky-100);
     --border-color: var(--sky-300);
+    --border-color-cards: var(--blue-300);
     --button-bg-color: var(--sky-300);
     --button-bg-color-hover: var(--sky-100);
     --button-text-color: var(--gray-900);
@@ -80,11 +83,14 @@
   [data-theme="dark"] {
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);
+    --overlay-cards: var(--stone-600);
+    --overlay-cards-text: var(--yellow-200);
     --body-bg-color: var(--gray-800);
     --body-text-color: var(--gray-100);
     --header-bg-color: var(--gray-900);
     --footer-bg-color: var(--gray-900);
     --border-color: var(--yellow-400);
+    --border-color-cards: var(--stone-400);
     --button-bg-color: var(--yellow-400);
     --button-bg-color-hover: var(--gray-800);
     --button-text-color: var(--gray-900);
