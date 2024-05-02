@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -79,11 +79,11 @@ function MyBookings() {
               <Card
                 className="booking-container"
                 style={{ borderRadius: "20px" }}
-                onClick={() => navigate(`/bookings/${booking.id}`)}
-                onMouseEnter={(e) => handleHover(e, booking)}
                 onMouseLeave={handleClose}
-              >
+                >
                 <CardMedia
+                  onMouseEnter={(e) => handleHover(e, booking)}
+                  onClick={() => navigate(`/bookings/${booking.id}`)}
                   component="img"
                   className="venue-image"
                   image={booking.venue.media[0].url}
@@ -96,7 +96,13 @@ function MyBookings() {
 
                 <div className="city-overlay items center flex justify-around">
                   {booking.venue.location.city}
-                  <span className="text-sm"> [Info]</span>
+                  <span
+                    onClick={(e) => handleHover(e, booking)}
+                    className="text-sm"
+                  >
+                    {" "}
+                    [Info]
+                  </span>
                 </div>
 
                 <div className="venue-bookings items center flex flex-col justify-center">

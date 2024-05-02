@@ -8,11 +8,6 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
 
   const id = open ? "venue-popover" : undefined;
 
-  // Split the description into individual sentences
-  const descriptionParagraphs = selectedVenue.description.split(". ").map(
-    (sentence, index) => `${sentence.trim()}.`, // Add back the period to each sentence
-  );
-
   return (
     <Popover
       id={id}
@@ -30,9 +25,6 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
       sx={{
         pointerEvents: "none",
         marginTop: "10px",
-        minWidth: "300px",
-        // width: "90%",
-        zIndex: 1000, // Ensure popover is above other elements
         maxWidth: "600px",
       }}
     >
@@ -43,38 +35,36 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
           border: "1px solid var(--profile-text-color)",
           borderRadius: "5px",
           padding: "20px",
-          overflowY: "auto", // Allow scrolling for longer content
-          // maxHeight: "300px", // Or any desired height
         }}
       >
         <Typography
           variant="h5"
           style={{
             color: "var(--profile-text-color)",
+            whiteSpace: "nowrap",
           }}
         >
           {selectedVenue.name}
         </Typography>
         <Typography
           variant="h5"
-          style={{
+          style={ {
+            whiteSpace: "nowrap",
             color: "var(--profile-text-color)",
           }}
         >
           {selectedVenue.location.country}, {selectedVenue.location.continent}
         </Typography>
-        {/* Render each sentence of the description as its own paragraph */}
-        {descriptionParagraphs.map((paragraph, index) => (
-          <Typography
-            key={index}
-            variant="body2"
-            style={{
-              color: "var(--profile-text-color)",
-            }}
-          >
-            {paragraph}
-          </Typography>
-        ))}
+        <Typography
+          variant="body2"
+          style={{
+            color: "var(--profile-text-color)",
+          }}
+        >
+          {/* Split the description into words, take the first six, and join them back into a string */}
+          {selectedVenue.description.split(" ").slice(0, 6).join(" ") +
+            (selectedVenue.description.split(" ").length > 6 ? "..." : "")}
+        </Typography>
 
         <Typography
           variant="body2"

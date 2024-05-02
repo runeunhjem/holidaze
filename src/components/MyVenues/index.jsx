@@ -6,7 +6,7 @@ import VenuePopover from "../VenuePopover";
 import "./index.css";
 
 function MyVenues() {
-  const { viewedProfile  } = useStore(); // Retrieve necessary items from the global store
+  const { viewedProfile } = useStore(); // Retrieve necessary items from the global store
   const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]); // Extract venues from the profile
   const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ function MyVenues() {
         margin: "0 auto",
       }}
     >
-      <div className="mt-6 flex items center justify-around px-6">
+      <div className="items center mt-6 flex justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           My Venues
         </Typography>
@@ -59,7 +59,7 @@ function MyVenues() {
 
       {venues.length > 0 ? (
         <div
-          className="venues-container flex items center justify-center py-6"
+          className="venues-container items center flex justify-center py-6"
           style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
           {venueDisplay.map((venue) => (
@@ -71,11 +71,11 @@ function MyVenues() {
               <Card
                 className="venue-container"
                 style={{ borderRadius: "20px" }}
-                onClick = {() => navigate(`/venues/${venue.id}`)}
-                onMouseEnter={(e) => handleHover(e, venue)}
                 onMouseLeave={handleClose}
               >
                 <CardMedia
+                  onClick={() => navigate(`/venues/${venue.id}`)}
+                  onMouseEnter={(e) => handleHover(e, venue)}
                   component="img"
                   className="venue-image"
                   image={venue.media[0].url}
@@ -95,12 +95,17 @@ function MyVenues() {
 
                 <div className="city-overlay items center flex justify-around">
                   {venue.location.city}
-                  <span className="text-sm"> [Info]</span>
+                  <span
+                    onClick={(e) => handleHover(e, venue)}
+                    className="text-sm"
+                  >
+                    {" "}
+                    [Info]
+                  </span>
                 </div>
                 <div className="id-overlay items center flex justify-around">
                   ID: {venue.id.slice(0, 6)}
                 </div>
-
               </Card>
             </div>
           ))}
@@ -112,7 +117,12 @@ function MyVenues() {
       )}
 
       {/* VenuePopover */}
-      <VenuePopover selectedVenue={selectedVenue} anchorEl={anchorEl} open={open} onClose={handleClose} />
+      <VenuePopover
+        selectedVenue={selectedVenue}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+      />
     </Box>
   );
 }
