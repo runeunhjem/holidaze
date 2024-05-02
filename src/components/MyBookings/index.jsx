@@ -25,6 +25,9 @@ function MyBookings() {
   const [selectedVenue, setSelectedVenue] = useState(null);
 
   const handleHover = (event, booking) => {
+    if (!anchorEl) {
+      setAnchorEl(null);
+    }
     setAnchorEl(event.currentTarget);
     setSelectedVenue(booking.venue); // Ensure `venue` exists before setting
   };
@@ -105,19 +108,21 @@ function MyBookings() {
                   alt={booking.venue.media[0].alt || booking.venue.name}
                 />
 
-                <div className="id-overlay items center flex justify-around">
-                  ID: {booking.id.slice(0, 6)}
+                <div className="id-overlay items center flex justify-around text-xs py-1 items-center">
+                  Your Ref: {booking.id.slice(0, 6)}
                 </div>
               </Card>
               <div className="city-overlay items center flex justify-around">
-                {booking.venue.name}, {booking.venue.location.city}
+                <div className="truncate-on-small">
+                  { booking.venue.name }, { booking.venue.location.city }
+                </div>
                 <span
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  className="cursor-pointer text-sm"
+                  className="cursor-pointer text-xs items-center flex justify-around py-1"
                   onMouseLeave={handleClose}
                 >
                   {" "}
-                  [Info]
+                  [ Venue details ]
                 </span>
               </div>
               <div
@@ -156,18 +161,7 @@ function MyBookings() {
                 >
                   Check-in: {formatShortDate(booking.dateFrom)}
                 </Typography>
-                {/* <Typography
-                  style={{
-                    fontSize: "calc(14px + 0.2vmin)",
-                    textAlign: "left",
-                    paddingLeft: "20px",
-                  }}
-                  variant="h6"
-                  align="center"
-                  gutterBottom
-                >
-                  {formatShortDate(booking.dateFrom)}
-                </Typography> */}
+
                 <Typography
                   style={{
                     fontSize: "calc(14px + 0.2vmin)",

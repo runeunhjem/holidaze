@@ -70,11 +70,11 @@ function MyVenues() {
             >
               <Card
                 className="venue-container"
-                style={ {
+                style={{
                   borderRadius: "20px",
                   // border: "1px solid var(--link-color-hover)"
                   // boxShadow: "0px 0px 6px var(--link-color-hover)"
-                } }
+                }}
                 onMouseLeave={handleClose}
               >
                 <CardMedia
@@ -90,14 +90,16 @@ function MyVenues() {
                   {venue.location.city}
                   <span
                     onClick={(e) => handleHover(e, venue)}
-                    className="text-sm"
+                    onMouseEnter={(e) => handleHover(e, venue)}
+                    onMouseLeave={handleClose}
+                    className="cursor-pointer text-sm py-1"
                   >
                     {" "}
                     [Info]
                   </span>
                 </div>
-                <div className="id-overlay items center flex justify-around">
-                  ID: {venue.id.slice(0, 6)}
+                <div className="id-overlay items center flex justify-around text-xs py-1">
+                  Venue ID: {venue.id.slice(0, 6)}
                 </div>
               </Card>
             </div>
