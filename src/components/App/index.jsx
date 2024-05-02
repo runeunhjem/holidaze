@@ -25,6 +25,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import MyVenuesPage from "../../pages/MyVenuesPage";
 import MyBookingsPage from "../../pages/MyBookingsPage";
 import MyFavoritesPage from "../../pages/MyFavoritesPage";
+import BookingDetailsPage from "../../pages/BookingDetailsPage";
 
 function App() {
   const { isAuthenticated, isDarkMode } = useStore((state) => ({
@@ -50,6 +51,7 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/destinations" element={<VenueListPage />} />
               <Route path="/venues/:id" element={<VenueDetailsPage />} />
+              <Route path="/bookings/:id" element={<BookingDetailsPage />} />
               <Route
                 path="/profile"
                 element={

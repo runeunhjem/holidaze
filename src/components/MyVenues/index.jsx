@@ -59,14 +59,14 @@ function MyVenues() {
 
       {venues.length > 0 ? (
         <div
-          className="venues-container flex items center justify-center"
+          className="venues-container flex items center justify-center py-6"
           style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
           {venueDisplay.map((venue) => (
             <div
               key={venue.id}
               className="venue-card-container items center flex justify-center"
-              style={{ flexBasis: "30%", borderRadius: "20px" }}
+              style={{ flexBasis: "25%", borderRadius: "20px" }}
             >
               <Card
                 className="venue-container"
@@ -97,6 +97,10 @@ function MyVenues() {
                   {venue.location.city}
                   <span className="text-sm"> [Info]</span>
                 </div>
+                <div className="id-overlay items center flex justify-around">
+                  ID: {venue.id.slice(0, 6)}
+                </div>
+
               </Card>
             </div>
           ))}

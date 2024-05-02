@@ -33,4 +33,6 @@ export const PARAMS = {
   _bookings: "&_bookings=true",
   _owner: "?_owner=true",
   _venues: "?_venues=true",
+  _venue: "?_venue=true",
+  _customer: "&_customer=true"
 };
