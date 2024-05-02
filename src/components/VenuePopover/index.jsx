@@ -42,6 +42,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
           style={{
             color: "var(--profile-text-color)",
             whiteSpace: "nowrap",
+            minWidth: "250px",
           }}
         >
           {selectedVenue.name}

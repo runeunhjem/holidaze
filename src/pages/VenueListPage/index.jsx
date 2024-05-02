@@ -29,7 +29,7 @@ function VenueListPage() {
   const { venues, error, totalPages, loading } = useVenues(currentPage, limit);
 
   useEffect(() => {
-    setDisplayedVenues(venues.slice(0, 10)); // Initially display 10 venues
+    setDisplayedVenues(venues.slice(0, 20)); // Initially display 10 venues
   }, [venues]);
 
   const handleShowMore = () => {

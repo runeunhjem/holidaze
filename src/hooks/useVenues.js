@@ -11,24 +11,28 @@ const useVenues = (page, limit = 100) => {
   useEffect(() => {
     const fetchVenues = async () => {
       setLoading(true);
-      const endpoint = `${ENDPOINTS.venues}`;
+
+      // Build query parameters
+      const params = {
+        sortBy: "name",
+        sortOrder: "asc",
+        limit,
+        offset: (page - 1) * limit,
+        _owner: true,
+        _bookings: true,
+      };
+      const queryParams = new URLSearchParams(params).toString();
 
       try {
-        const params = {
-          sortBy: "name",
-          sortOrder: "asc",
-          limit: limit,
-          offset: (page - 1) * limit,
-          _owner: true,
-          _bookings: true,
-          // _venues: true,
-        };
-        const response = await fetchApi(endpoint, { method: "GET" }, params);
+        const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
+          method: "GET",
+        });
+
         if (response && response.data && response.meta) {
           setVenues(response.data);
-          console.log("response.meta.totalCount", response.meta.totalCount);
           setTotalPages(Math.ceil(response.meta.totalCount / limit));
-          console.log("totalPages", totalPages);
+        } else {
+          setError("Unexpected response format");
         }
       } catch (error) {
         console.error("Failed to fetch venues:", error);
@@ -39,7 +43,7 @@ const useVenues = (page, limit = 100) => {
     };
 
     fetchVenues();
-  }, [page, limit, totalPages]);
+  }, [page, limit]);
 
   return { venues, loading, error, totalPages };
 };

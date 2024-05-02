@@ -192,7 +192,7 @@ function MyBookings() {
                   align="center"
                   gutterBottom
                 >
-                  <Link to={`/bookings/${booking.id}`}>View details</Link>
+                  <Link to={`/bookings/${booking.id}`}>Booking details</Link>
                 </Typography>
               </div>
             </div>
