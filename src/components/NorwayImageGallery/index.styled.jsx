@@ -24,15 +24,15 @@ export const StyledImage = styled.img`
   }
 `;
 
-export const Link = styled.span`
-  color: var(--link-color);
-  text-decoration: underline;
-  font-weight: 700;
-  transition: color 0.5s ease-in-out; // Smooth transition for color change
-  &:hover {
-    color: var(--link-color-hover);
-  }
-`;
+// export const Link = styled.span`
+//   color: var(--link-color);
+//   text-decoration: underline;
+//   font-weight: 700;
+//   transition: color 0.5s ease-in-out; // Smooth transition for color change
+//   &:hover {
+//     color: var(--link-color-hover);
+//   }
+// `;
 
 export const ImageContainer = styled.div`
   overflow: hidden; // Ensures content doesn't spill out
