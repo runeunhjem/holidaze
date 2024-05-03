@@ -1,4 +1,5 @@
 .react-datepicker__day--highlighted {
   background-color: var(--highlight-booked-red) !important;
-  color: white !important;
+  color: var(--header-bg-color) !important;
 }
+

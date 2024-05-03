@@ -31,10 +31,11 @@ export const ImageOverlay = styled.div`
   position: absolute;
   bottom: 0;
   width: 100%;
-  background-color: var(--overlay-color);
+  background-color: var(--overlay-cards);
   color: var(--body-text-color);
   text-align: center;
   padding: 2px 10px;
+  border-radius: 0 0 10px 10px;
 `;
 
 export const TopOverlay = styled.div`
@@ -44,10 +45,11 @@ export const TopOverlay = styled.div`
   position: absolute;
   top: 0;
   width: 100%;
-  background-color: var(--overlay-color);
+  background-color: var(--overlay-cards);
   color: var(--body-text-color);
   padding: 5px 10px;
 transition: all 0.3s ease-in-out;
+border-radius: 10px 10px 0 0;
 `;
 
 export const OverlaySection = styled.div`
@@ -118,10 +120,10 @@ export const ThumbnailImg = styled.img`
 
 export const OptionsIcon = styled(CgMoreVertical)`
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
   font-size: 24px;
   &:hover {
     color: var(--link-color);
-    transform: scale(1.5);
-    transition: all 0.3s ease-in-out;
+    transform: scale(1.3);
   }
 `;

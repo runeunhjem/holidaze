@@ -6,16 +6,10 @@ import VenuePopover from "../VenuePopover";
 import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 
-function MyVenues() {
-  const {
-    viewedProfile,
-    userDetails,
-    favorites,
-    addFavoriteVenue,
-    removeFavoriteVenue,
-  } = useStore();
-  const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]);
+function MyFavoriteVenues() {
+  const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore(); // Get favorite venues and actions from the global store
   const navigate = useNavigate();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
 
@@ -31,8 +25,8 @@ function MyVenues() {
 
   const open = Boolean(anchorEl);
 
-  // Memoize venues to avoid unnecessary re-renders
-  const venueDisplay = useMemo(() => venues, [venues]);
+  // Memoize favorites to avoid unnecessary re-renders
+  const favoriteDisplay = useMemo(() => favorites, [favorites]);
 
   const isFavorite = (venueId) =>
     favorites.some((venue) => venue.id === venueId);
@@ -45,13 +39,9 @@ function MyVenues() {
     }
   };
 
-  // Determine header text based on user ID comparison
-  const isOwnProfile = userDetails.name === viewedProfile.name;
-  const headerText = isOwnProfile ? "My Venues" : "Their Venues";
-
   return (
     <Box
-      className="my-venues-container"
+      className="my-favorite-venues-container"
       style={{
         padding: "16px 8px",
         maxWidth: "1200px",
@@ -60,10 +50,10 @@ function MyVenues() {
     >
       <div className="items center mt-6 flex justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
-          {headerText}
+          My Favorite Venues
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
-          ({venues.length})
+          ({favorites.length})
         </Typography>
       </div>
       <hr
@@ -78,12 +68,12 @@ function MyVenues() {
         }}
       />
 
-      {venues.length > 0 ? (
+      {favorites.length > 0 ? (
         <div
           className="venues-container items center flex justify-center py-6"
           style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
-          {venueDisplay.map((venue) => (
+          {favoriteDisplay.map((venue) => (
             <div
               key={venue.id}
               className="venue-card-container items center flex justify-center"
@@ -91,10 +81,7 @@ function MyVenues() {
             >
               <Card
                 className="venue-container"
-                style={{
-                  borderRadius: "20px",
-                  position: "relative",
-                }}
+                style={{ borderRadius: "20px", position: "relative" }}
                 onMouseLeave={handleClose}
               >
                 <CardMedia
@@ -137,10 +124,11 @@ function MyVenues() {
         </div>
       ) : (
         <Typography variant="body1" align="center">
-          No venues available.
+          No favorite venues available.
         </Typography>
       )}
 
+      {/* VenuePopover */}
       <VenuePopover
         selectedVenue={selectedVenue}
         anchorEl={anchorEl}
@@ -151,4 +139,4 @@ function MyVenues() {
   );
 }
 
-export default MyVenues;
+export default MyFavoriteVenues;

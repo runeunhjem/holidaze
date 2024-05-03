@@ -1,6 +1,7 @@
 // ProfileDetails.js
 import PropTypes from "prop-types";
 import { Popover, Typography } from "@mui/material";
+import useStore from "../../hooks/useStore";
 
 const ProfileDetails = ({
   viewedProfile,
@@ -9,6 +10,7 @@ const ProfileDetails = ({
   anchorEl,
   handleClose,
 }) => {
+  const { favorites } = useStore();
   return (
     <div className="relative">
       <hr
@@ -35,7 +37,9 @@ const ProfileDetails = ({
           color: "var(--body-bg-color)",
           cursor: "pointer",
         }}
-        onClick={handleClick}
+        onClick={ handleClick }
+        onMouseEnter={handleClick}
+        onMouseLeave={handleClose}
         className="bio"
       >
         Read Bio
@@ -57,8 +61,8 @@ const ProfileDetails = ({
       >
         <Typography
           style={{
-            backgroundColor: "var(--overlay-cards)",
-            color: "var(--overlay-cards-text)",
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--profile-text-color)",
             border: "1px solid var(--profile-text-color)",
             borderRadius: "5px",
             padding: "20px",
@@ -67,9 +71,12 @@ const ProfileDetails = ({
           {viewedProfile.bio || "No biography provided."}
         </Typography>
       </Popover>
-      <div className="mx-auto flex max-w-300 flex-col items-center pt-6" style={ {
-        width: "200px",
-      }}>
+      <div
+        className="mx-auto flex max-w-300 flex-col items-center pt-6"
+        style={{
+          width: "200px",
+        }}
+      >
         <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
           <div className="min-w-300 w-full text-left">
             Active Venues: {viewedProfile.venues?.length || 0}
@@ -83,7 +90,7 @@ const ProfileDetails = ({
             Your Bookings: {viewedProfile.bookings?.length || 0}
           </div>
           <div className="min-w-300 w-full text-left">
-            Your Favorites: {(viewedProfile.favorites ?? []).length}
+            Your Favorites: {(favorites ?? []).length}
           </div>
         </div>
       </div>

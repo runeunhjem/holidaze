@@ -1,0 +1,3 @@
+textarea[aria-hidden="true"][readonly] {
+    display: none !important;
+}

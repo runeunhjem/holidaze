@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import useStore from "./useStore";
 import { fetchApi } from "../utils/fetchApi";
-import { ENDPOINTS } from "../constants/api";
+import { ENDPOINTS, PARAMS } from "../constants/api";
 import { save } from "../utils/storage"; // Ensure you are importing load if you need it elsewhere
 
 const useAuth = () => {
   const navigate = useNavigate();
   const { logIn, clearUser, setAccessToken } = useStore(); // Ensure you have setAccessToken action in your Zustand store
 
-  const endpoint = ENDPOINTS.login;
+  const endpoint = `${ ENDPOINTS.login }?${PARAMS._bookings}`;
   const logInAsync = async (credentials) => {
     try {
       const response = await fetchApi(endpoint, {

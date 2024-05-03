@@ -4,9 +4,16 @@ import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
 import "./index.css";
+import { TbHeart, TbHeartFilled } from "react-icons/tb";
 
 function MyBookings() {
-  const { viewedProfile } = useStore(); // Retrieve necessary items from global store
+  const {
+    viewedProfile,
+    favorites,
+    addFavoriteVenue,
+    removeFavoriteVenue,
+    userDetails,
+  } = useStore();
 
   const bookingsList = useMemo(
     () => viewedProfile?.bookings || [],
@@ -29,7 +36,7 @@ function MyBookings() {
       setAnchorEl(null);
     }
     setAnchorEl(event.currentTarget);
-    setSelectedVenue(booking.venue); // Ensure `venue` exists before setting
+    setSelectedVenue(booking.venue);
   };
 
   const handleClose = () => {
@@ -41,8 +48,23 @@ function MyBookings() {
 
   const formatShortDate = (dateStr) => {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB"); // "en-GB" provides "dd/mm/yyyy" format
+    return date.toLocaleDateString("en-GB");
   };
+
+  const isFavorite = (venueId) =>
+    favorites.some((venue) => venue.id === venueId);
+
+  const toggleFavorite = (venue) => {
+    if (isFavorite(venue.id)) {
+      removeFavoriteVenue(venue.id);
+    } else {
+      addFavoriteVenue(venue);
+    }
+  };
+
+  // Determine header text based on user ID comparison
+  const isOwnProfile = userDetails.name === viewedProfile.name;
+  const headerText = isOwnProfile ? "My Bookings" : "Their Bookings";
 
   return (
     <Box
@@ -55,7 +77,7 @@ function MyBookings() {
     >
       <div className="items center mt-6 flex justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
-          My Bookings
+          {headerText}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
           ({transformedBookings.length})
@@ -72,31 +94,48 @@ function MyBookings() {
           margin: "1px auto 20px auto",
         }}
       />
-
       {transformedBookings.length > 0 ? (
         <div
           className="bookings-container items center flex justify-center py-6"
-          style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "20px",
+            position: "relative",
+          }}
         >
           {transformedBookings.map((booking) => (
             <div
               key={booking.id}
               className="booking-card-container items center flex justify-center"
-              style={{ borderRadius: "20px 0 0 20px", height: "176px" }}
+              style={{
+                borderRadius: "20px 0 0 20px",
+                height: "176px",
+                // position: "relative",
+              }}
               onMouseLeave={handleClose}
             >
+              <div
+                className="favorite-overlay"
+                onClick={() => toggleFavorite(booking.venue)}
+              >
+                {isFavorite(booking.venue.id) ? (
+                  <TbHeartFilled className="text-lg text-red-500" />
+                ) : (
+                  <TbHeart className="text-lg text-red-500" />
+                )}
+              </div>
               <Card
                 className="booking-container"
                 style={{
                   borderRadius: "5px 0 0 5px",
                   width: "40%",
-                  // height: "99%"
+                  // position: "relative",
                 }}
               >
                 <CardMedia
                   onMouseLeave={handleClose}
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  // onClick={() => navigate(`/bookings/${booking.id}`)}
                   onClick={() => navigate(`/venues/${booking.venue.id}`)}
                   component="img"
                   className="booking-image"
@@ -108,17 +147,17 @@ function MyBookings() {
                   alt={booking.venue.media[0].alt || booking.venue.name}
                 />
 
-                <div className="id-overlay items center flex justify-around text-xs py-1 items-center">
+                <div className="id-overlay items center flex items-center justify-around py-1 text-xs">
                   Your Ref: {booking.id.slice(0, 6)}
                 </div>
               </Card>
               <div className="city-overlay items center flex justify-around">
                 <div className="truncate-on-small">
-                  { booking.venue.name }, { booking.venue.location.city }
+                  {booking.venue.name}, {booking.venue.location.city}
                 </div>
                 <span
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  className="cursor-pointer text-xs items-center flex justify-around py-1"
+                  className="flex cursor-pointer items-center justify-around py-1 text-xs"
                   onMouseLeave={handleClose}
                 >
                   {" "}
@@ -186,7 +225,7 @@ function MyBookings() {
                   align="center"
                   gutterBottom
                 >
-                  <Link to={`/bookings/${booking.id}`}>Booking details</Link>
+                  <Link to={`/bookings/${booking.id}`}>View Booking</Link>
                 </Typography>
               </div>
             </div>
@@ -197,8 +236,6 @@ function MyBookings() {
           No bookings available.
         </Typography>
       )}
-
-      {/* VenuePopover */}
       <VenuePopover
         selectedVenue={selectedVenue}
         anchorEl={anchorEl}

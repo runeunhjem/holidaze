@@ -153,6 +153,7 @@ function Header() {
               to={`/profile/${userDetails.name}`}
               style={{
                 color: "var(--profile-text-color)",
+                paddingRight: 0,
               }}
             >
               {userDetails.name}

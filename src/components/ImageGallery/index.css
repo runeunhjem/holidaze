@@ -8,3 +8,16 @@
   opacity: 0;
   transition: opacity 0.5s ease-in-out;
 }
+
+.favorite-overlay {
+  position: absolute;
+  top: 100px;
+  right: 10px;
+  cursor: pointer;
+  background-color: var(--overlay-cards);
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

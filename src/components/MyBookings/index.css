@@ -39,7 +39,7 @@
   background-color: var(--button-bg-color);
   padding: 5px 10px;
   border-radius: 5px !important;
-  transition: all 0.3s ease; /* Ensure transition applies to both properties */
+  transition: all 0.3s ease;
 }
 
 .my-booking-details a:hover {
@@ -49,17 +49,29 @@
   text-transform: scale(1.5) !important;
 }
 
-
 .booking-image {
-  object-fit: cover; /* Ensures the image covers the defined space */
+  object-fit: cover;
   width: 100%;
-  height: 100%; /* Make it fill the container's size */
-  transition: all 0.3s ease; /* Ensure transition applies to both properties */
+  height: 100%;
+  transition: all 0.3s ease;
   &:hover {
-
     opacity: 0.5;
     scale: 1.1;
   }
+}
+
+.favorite-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  /* background-color: var(--profile-cards); */
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
 .city-overlay {
@@ -69,46 +81,38 @@
   background-color: var(--overlay-cards);
   color: var(--overlay-cards-text);
   text-align: center;
-  padding: "5px 0"; /* Spacing for the overlay text */
+  padding: "5px 0";
   border-radius: 5px 5px 0 0;
 }
 
 .id-overlay {
   position: absolute;
-  /* border: 1px solid var(--border-color-cards); */
   border-radius: 0 0 0 5px !important;
   bottom: 0;
   width: 100%;
   background-color: var(--overlay-cards);
   color: var(--overlay-cards-text);
   text-align: center;
-  padding: "5px 0"; /* Spacing for the overlay text */
+  padding: "5px 0";
 }
 
 body {
   overflow-y: scroll !important;
-
 }
 
 .my-bookings-container {
   h4 {
-    font-size: calc(
-      1.1vw + 1rem
-    ) !important;
+    font-size: calc(1.1vw + 1rem) !important;
 
     font-weight: 700;
   }
 
   h5 {
-    font-size: calc(
-      1vw + 0.8rem
-      ) !important;
-      font-weight: 700;
+    font-size: calc(1vw + 0.8rem) !important;
+    font-weight: 700;
   }
 
   p {
-    font-size: calc(
-      0.8vw + 0.6rem
-    ) !important;
+    font-size: calc(0.8vw + 0.6rem) !important;
   }
 }

@@ -1,0 +1,73 @@
+/* MyFavoriteVenues.css */
+.venue-container {
+  position: relative;
+  height: 175px; /* Fixed height */
+  width: 280px; /* Fixed width */
+  border-radius: 20px; /* Uniform rounding */
+}
+
+.venue-image {
+  cursor: pointer;
+  object-fit: cover; /* Ensures the image covers the defined space */
+  width: 100%;
+  height: 100%; /* Make it fill the container's size */
+  border-radius: 20px; /* Uniform rounding */
+  transition: all 0.3s ease; /* Ensure transition applies to both properties */
+}
+
+.venue-image:hover {
+  scale: 1.1;
+}
+
+.favorite-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+  background-color: var(--overlay-cards);
+  border-radius: 50%;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.city-overlay {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  background-color: var(--overlay-cards);
+  color: var(--overlay-cards-text);
+  text-align: center;
+  padding: "5px 0";
+}
+
+.id-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--overlay-cards);
+  color: var(--overlay-cards-text) !important;
+  text-align: center;
+  padding: "5px 0";
+}
+
+body {
+  overflow-y: scroll !important;
+}
+
+.my-favorite-venues-container {
+  h4 {
+    font-size: calc(1.1vw + 1rem) !important;
+    font-weight: 700;
+  }
+
+  h5 {
+    font-size: calc(1vw + 0.8rem) !important;
+    font-weight: 700;
+  }
+
+  p {
+    font-size: calc(0.8vw + 0.6rem) !important;
+  }
+}

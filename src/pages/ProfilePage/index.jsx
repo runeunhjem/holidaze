@@ -11,6 +11,7 @@ import defaultProfileBanner from "../../assets/images/profile-banner.png";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import MyVenues from "../../components/MyVenues";
 import MyBookings from "../../components/MyBookings";
+import MyFavoriteVenues from "../../components/MyFavoriteVenues";
 
 function ProfilePage() {
   const { username } = useParams();
@@ -19,8 +20,8 @@ function ProfilePage() {
     useStore();
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
-  const [bannerUrl, setBannerUrl] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
+  const [avatarUrl, setAvatarUrl] = useState(defaultAvatarImage);
 
   useEffect(() => {
     if (username) {
@@ -36,12 +37,14 @@ function ProfilePage() {
         }
       });
     }
+  }, [username, fetchUserProfile, favoriteProfiles, setViewedProfile]);
 
-    document.title = `Holidaze - ${viewedProfile.name}'s Profile`;
+  useEffect(() => {
+    document.title = `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`;
     setMetaDescription(
       "Explore our wide range of destinations from around the world to find your special place.",
     );
-  }, [username, fetchUserProfile, favoriteProfiles, setViewedProfile, viewedProfile.name]);
+  }, [viewedProfile.name]);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -89,6 +92,7 @@ function ProfilePage() {
       />
       <MyVenues />
       <MyBookings />
+      <MyFavoriteVenues />
     </div>
   );
 }

@@ -84,7 +84,7 @@
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);
     --overlay-cards: var(--stone-600);
-    --overlay-cards-text: var(--yellow-200);
+    --overlay-cards-text: var(--gray-300);
     --body-bg-color: var(--gray-800);
     --body-text-color: var(--gray-100);
     --header-bg-color: var(--gray-900);
