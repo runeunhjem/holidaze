@@ -37,7 +37,7 @@ const ProfileDetails = ({
           color: "var(--body-bg-color)",
           cursor: "pointer",
         }}
-        onClick={ handleClick }
+        onClick={handleClick}
         onMouseEnter={handleClick}
         onMouseLeave={handleClose}
         className="bio"
@@ -79,18 +79,19 @@ const ProfileDetails = ({
       >
         <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
           <div className="min-w-300 w-full text-left">
-            Active Venues: {viewedProfile.venues?.length || 0}
+            Have {viewedProfile.venues?.length || 0} locations for you
           </div>
           <div className="min-w-300 w-full text-left">
-            Your Venues&apos; Bookings: {viewedProfile.venuesBookings ?? 0}
+            Have {viewedProfile.bookings?.length || 0} upcoming stays
           </div>
         </div>
         <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">
-          <div className="min-w-300 w-full text-left">
-            Your Bookings: {viewedProfile.bookings?.length || 0}
+          <div className="min-w-300 w-full text-center">
+            {/* Their Venues&apos; Bookings: {viewedProfile.venuesBookings ?? 0}<br /> */}
+            --------------
           </div>
           <div className="min-w-300 w-full text-left">
-            Your Favorites: {(favorites ?? []).length}
+            Your Favorite Locations: {(favorites ?? []).length}
           </div>
         </div>
       </div>

@@ -18,13 +18,14 @@ function ProfilePage() {
   const { fetchUserProfile } = useProfile();
   const { viewedProfile, favoriteProfiles, setViewedProfile, userDetails } =
     useStore();
+  console.log("Viewed profile:", viewedProfile);
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
   const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
   const [avatarUrl, setAvatarUrl] = useState(defaultAvatarImage);
 
   useEffect(() => {
-    if (username) {
+    if ((username && !viewedProfile) || viewedProfile.name !== username) {
       fetchUserProfile(username).then((profileData) => {
         if (profileData) {
           const isFav = favoriteProfiles.some(
@@ -37,7 +38,13 @@ function ProfilePage() {
         }
       });
     }
-  }, [username, fetchUserProfile, favoriteProfiles, setViewedProfile]);
+  }, [
+    username,
+    fetchUserProfile,
+    favoriteProfiles,
+    viewedProfile,
+    setViewedProfile,
+  ]);
 
   useEffect(() => {
     document.title = `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`;

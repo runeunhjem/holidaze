@@ -17,6 +17,8 @@ const FavoriteProfilesDropdown = () => {
       { id: "Spooky", name: "Spooky" },
       { id: "kyrre", name: "kyrre" },
       { id: "ninuskaninus", name: "ninuskaninus" },
+      { id: "mrgold", name: "mrgold" },
+      { id: "vaz01", name: "vaz01" },
     ];
     defaultFavorites.forEach((profile) => {
       if (!favoriteProfiles.some((p) => p.name === profile.name)) {

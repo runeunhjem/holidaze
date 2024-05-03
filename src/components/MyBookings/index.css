@@ -44,7 +44,7 @@
 
 .my-booking-details a:hover {
   background-color: var(--button-bg-color-hover);
-  outline: 1px solid var(--border-color-cards);
+  outline: 1px solid var(--border-color);
   color: var(--button-text-color-hover);
   text-transform: scale(1.5) !important;
 }
@@ -72,8 +72,12 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  transition: all 0.3s ease;
 }
 
+.favorite-overlay:hover {
+  transform: scale(1.2);
+}
 .city-overlay {
   position: absolute;
   top: 0;

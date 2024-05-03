@@ -18,16 +18,25 @@ const useUserVenues = (username) => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log("Venues response:", response);
+
       if (response.data) {
-        const userVenues = response.data.filter(
-          (venue) => venue.owner.name === username,
-        );
+        console.log("Fetched data:", response.data);
+
+        // Filter the venues based on the username
+        const userVenues = response.data.filter((venue) => {
+          const owner = venue.owner;
+          console.log("Owner:", owner);
+          return owner && owner.name === username;
+        });
+
         setVenues(userVenues);
         console.log("User venues fetched successfully:", userVenues);
+      } else {
+        setVenues([]);
       }
     } catch (error) {
       console.error("Error fetching user venues:", error.message);
+      setVenues([]);
       setError(error.message);
     }
   }, [username, accessToken]);
