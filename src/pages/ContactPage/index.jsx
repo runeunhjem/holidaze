@@ -12,6 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+import contact1 from "../../assets/images/contact-1.png"
 
 function ContactPage() {
   const {
@@ -88,6 +89,7 @@ function ContactPage() {
           </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
         </Box>
+        <img src={contact1} alt="Contact Us" style={{ width: "100%", marginTop: "2rem" }} />
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -179,6 +181,14 @@ function ContactPage() {
             sx={{
               mt: 3,
               mb: 2,
+              bgcolor: "var(--button-bg-color)",
+              color: "var(--button-text-color)",
+              "&:hover": {
+                bgcolor: "var(--button-bg-color-hover)",
+                color: "var(--button-text-color-hover)",
+                outline: "1px solid var(--border-color)",
+              },
+
             }}
           >
             Send Message
