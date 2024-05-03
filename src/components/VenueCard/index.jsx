@@ -33,7 +33,7 @@ function VenueCard({ venue }) {
     setIsFavorite(!isFavorite);
   };
 
-  const hasAtLeastOneImage = venue.media && venue.media.length >= 0;
+  const hasAtLeastOneImage = venue.media && venue.media.length >= 3;
   const hasValidTitle = venue.name && !venue.name.includes("aaa");
   // Apply validation to country and continent
   const validCountry = validateField(venue.location.country);
