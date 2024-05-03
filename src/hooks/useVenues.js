@@ -20,14 +20,14 @@ const useVenues = (currentPage, limit = 10) => {
         _owner: true,
         _bookings: true,
       };
-      console.log("Venues params:", params);
+      // console.log("Venues params:", params);
       const queryParams = new URLSearchParams(params).toString();
 
       try {
         const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
           method: "GET",
         });
-        console.log("Venues response:", response);
+        // console.log("Venues response:", response);
 
         if (response && response.data && response.meta) {
           setVenues(response.data);

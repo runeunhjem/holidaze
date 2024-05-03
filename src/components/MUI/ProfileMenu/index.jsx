@@ -56,7 +56,7 @@ export default function MenuListComposition() {
   };
 
   React.useEffect(() => {
-    console.log("Authentication status changed:", isAuthenticated);
+    // console.log("Authentication status changed:", isAuthenticated);
   }, [isAuthenticated]); // Correct dependency
 
   React.useEffect(() => {

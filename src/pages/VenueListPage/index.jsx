@@ -11,7 +11,7 @@ function VenueListPage() {
   const { venues, venuesMeta, error, loading } = useVenues(currentPage, limit);
 
   useEffect(() => {
-    console.log("Fetching venues for page:", currentPage);
+    // console.log("Fetching venues for page:", currentPage);
   }, [currentPage]);
 
   const handlePageChange = (event, value) => {
