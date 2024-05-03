@@ -12,7 +12,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
-import contact1 from "../../assets/images/contact-1.png"
+import contact1 from "../../assets/images/contact-1.png";
 
 function ContactPage() {
   const {
@@ -45,7 +45,7 @@ function ContactPage() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="lg">
       <Box
         sx={{
           marginTop: 4,
@@ -57,7 +57,7 @@ function ContactPage() {
         <Typography component="h1" variant="h4">
           Contact Us
         </Typography>
-        <Box sx={{ mt: 4, textAlign: "center", width: "100%" }}>
+        <Box sx={{ mt: 8, textAlign: "center", width: "100%", maxWidth: 600 }}>
           <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
             Opening Hours:
           </Typography>
@@ -89,12 +89,16 @@ function ContactPage() {
           </Typography>
           <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
         </Box>
-        <img src={contact1} alt="Contact Us" style={{ width: "100%", marginTop: "2rem" }} />
+        <img
+          src={contact1}
+          alt="Contact Us"
+          style={{ width: "100%", marginTop: "2rem", borderRadius: "20px" }}
+        />
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
           noValidate
-          sx={{ mt: 8 }}
+          sx={{ mt: 8, width: "100%", maxWidth: 600 }}
         >
           <Typography component="h2" variant="h5" className="text-center">
             Send us a message
@@ -188,7 +192,6 @@ function ContactPage() {
                 color: "var(--button-text-color-hover)",
                 outline: "1px solid var(--border-color)",
               },
-
             }}
           >
             Send Message

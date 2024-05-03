@@ -12,8 +12,11 @@ const useStore = create(
       favoriteProfiles: [],
       favorites: [], // State for favorite venues
       venues: [],
+      venuesMeta: {},
       justLoggedIn: false,
 
+      setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
+      
       addFavoriteProfile: (profile) => {
         const { favoriteProfiles } = get();
         if (!favoriteProfiles.some((p) => p.name === profile.name)) {

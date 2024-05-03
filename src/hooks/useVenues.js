@@ -1,38 +1,37 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { fetchApi } from "../utils/fetchApi";
-import { ENDPOINTS, PARAMS } from "../constants/api";
+import { ENDPOINTS } from "../constants/api";
 
-const useVenues = (page, limit = 100) => {
+const useVenues = (currentPage, limit = 10) => {
   const [venues, setVenues] = useState([]);
+  const [venuesMeta, setVenuesMeta] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     const fetchVenues = async () => {
       setLoading(true);
 
-      // Build query parameters
-      // const params = {
-      //   sortBy: "name",
-      //   sortOrder: "asc",
-      //   limit,
-      //   offset: (page - 1) * limit,
-      //   _owner: true,
-      //   _bookings: true,
-      // };
-      // const queryParams = new URLSearchParams(params).toString();
+      const params = {
+        page: currentPage,
+        limit,
+        sortBy: "name",
+        sortOrder: "asc",
+        _owner: true,
+        _bookings: true,
+      };
+      console.log("Venues params:", params);
+      const queryParams = new URLSearchParams(params).toString();
 
       try {
-        // const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
-        const response = await fetchApi(`${ENDPOINTS.venues}${PARAMS._owner}${PARAMS._bookings}`, {
+        const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
           method: "GET",
         });
         console.log("Venues response:", response);
 
         if (response && response.data && response.meta) {
           setVenues(response.data);
-          setTotalPages(Math.ceil(response.meta.totalCount / limit));
+          setVenuesMeta(response.meta);
         } else {
           setError("Unexpected response format");
         }
@@ -45,9 +44,9 @@ const useVenues = (page, limit = 100) => {
     };
 
     fetchVenues();
-  }, [page, limit]);
+  }, [currentPage, limit]);
 
-  return { venues, loading, error, totalPages };
+  return { venues, venuesMeta, loading, error };
 };
 
 export default useVenues;
