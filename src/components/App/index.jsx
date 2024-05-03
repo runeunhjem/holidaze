@@ -39,7 +39,7 @@ function App() {
 
   const theme = React.useMemo(() => getTheme(isDarkMode), [isDarkMode]);
 
-  console.log("Is Authenticated in App:", isAuthenticated);
+  // console.log("Is Authenticated in App:", isAuthenticated);
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>

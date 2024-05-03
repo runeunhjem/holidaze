@@ -42,8 +42,8 @@ function VenueDetailsPage() {
   if (!venue) {
     return <div>Loading venue details...</div>;
   }
-  console.log("venue", venue);
-  console.log("venue.media", venue.media);
+  // console.log("venue", venue);
+  // console.log("venue.media", venue.media);
   // const media =
   //   venue.media.length >= 0
   //     ? venue.media.map((media) => ({

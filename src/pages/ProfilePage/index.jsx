@@ -18,7 +18,7 @@ function ProfilePage() {
   const { fetchUserProfile } = useProfile();
   const { viewedProfile, favoriteProfiles, setViewedProfile, userDetails } =
     useStore();
-  console.log("Viewed profile:", viewedProfile);
+  // console.log("Viewed profile:", viewedProfile);
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
   const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
