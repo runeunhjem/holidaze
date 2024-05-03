@@ -2,13 +2,29 @@ import PropTypes from "prop-types";
 import defaultProfileBanner from "../../assets/images/profile-banner.png";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 
+/**
+ * Renders the profile banner and avatar for a user.
+ *
+ * @param {Object} props - The properties for the component.
+ * @param {Object} props.viewedProfile - The profile data for the user being viewed.
+ * @param {Function} props.toggleHeart - The function to toggle the "favorite" status of the user.
+ * @param {boolean} props.isFavorite - Indicates if the user is a favorite.
+ * @param {Object} props.userDetails - The profile data for the logged-in user.
+ *
+ * @returns {JSX.Element} The BannerAndAvatar component.
+ */
 const BannerAndAvatar = ({
   viewedProfile,
   toggleHeart,
   isFavorite,
   userDetails,
 }) => {
-  // Utility function to check if the URL is valid or just a placeholder
+  /**
+   * Checks if the provided URL is valid and not a placeholder.
+   *
+   * @param {string} url - The URL to check.
+   * @returns {boolean} True if the URL is valid, false otherwise.
+   */
   const isValidUrl = (url) =>
     url &&
     url !== "string" &&
@@ -77,9 +93,24 @@ const BannerAndAvatar = ({
 };
 
 BannerAndAvatar.propTypes = {
+  /**
+   * The profile data for the user being viewed.
+   */
   viewedProfile: PropTypes.object.isRequired,
+
+  /**
+   * The function to toggle the "favorite" status of the user.
+   */
   toggleHeart: PropTypes.func.isRequired,
+
+  /**
+   * Indicates if the user is a favorite.
+   */
   isFavorite: PropTypes.bool.isRequired,
+
+  /**
+   * The profile data for the logged-in user.
+   */
   userDetails: PropTypes.object.isRequired,
 };
 

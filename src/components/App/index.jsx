@@ -106,7 +106,7 @@ function App() {
 }
 
 App.propTypes = {
-  children: propTypes.node, // 'node' covers anything that can be rendered: numbers, strings, elements, or an array (or fragment) containing these types.
+  children: propTypes.node,
 };
 
 export default App;
