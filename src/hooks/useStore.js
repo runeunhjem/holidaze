@@ -1,5 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { ENDPOINTS, PARAMS } from "../constants/api";
+import { fetchApi } from "../utils/fetchApi";
 
 const useStore = create(
   persist(
@@ -16,7 +18,7 @@ const useStore = create(
       justLoggedIn: false,
 
       setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
-      
+
       addFavoriteProfile: (profile) => {
         const { favoriteProfiles } = get();
         if (!favoriteProfiles.some((p) => p.name === profile.name)) {
@@ -73,15 +75,37 @@ const useStore = create(
         });
       },
 
-      logIn: (userDetails) => {
+      logIn: async (userDetails) => {
         const { accessToken, ...restDetails } = userDetails;
         set({
           isAuthenticated: true,
           userDetails: restDetails,
           viewedProfile: restDetails,
-          justLoggedIn: true,
           accessToken,
+          justLoggedIn: true,
         });
+
+        // Fetch the full user profile, including venues
+        try {
+          const profileResponse = await fetchApi(
+            `${ENDPOINTS.profiles}/${restDetails.username}${PARAMS._venues}`,
+            {
+              method: "GET",
+              headers: {
+                "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
+                Authorization: `Bearer ${accessToken}`,
+              },
+            },
+          );
+
+          if (profileResponse && profileResponse.data) {
+            set({ viewedProfile: profileResponse.data });
+          } else {
+            console.error("Failed to fetch full user profile");
+          }
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
       },
 
       resetJustLoggedIn: () => set({ justLoggedIn: false }),

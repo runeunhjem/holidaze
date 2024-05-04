@@ -11,15 +11,17 @@ import CreateVenueModal from "../CreateVenueModal";
 function MyVenues() {
   const {
     viewedProfile,
+    setViewedProfile,
     userDetails,
     favorites,
     addFavoriteVenue,
     removeFavoriteVenue,
   } = useStore();
-  const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]);
+  // const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
+  const [venues, setVenues] = useState(viewedProfile?.venues || []);
 
   const handleHover = (event, venue) => {
     setAnchorEl(event.currentTarget);
@@ -57,9 +59,14 @@ function MyVenues() {
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleVenueCreated = (newVenue) => {
-    console.log("New venue created:", newVenue);
-    // Handle the newly created venue (e.g., refresh list, notify user, etc.)
+    setVenues((prevVenues) => [...prevVenues, newVenue]);
+    setViewedProfile((prevProfile) => ({
+      ...prevProfile,
+      venues: [...(prevProfile.venues || []), newVenue],
+    }));
+    setIsModalOpen(false);
   };
+
 
   return (
     <Box

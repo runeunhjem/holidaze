@@ -33,8 +33,8 @@ const useAuth = () => {
           banner: data.banner,
           accessToken: data.accessToken,
         });
-        console.log("Fetching user profile details for:", data.name);
-        navigate(`/profile/${encodeURIComponent(data.name)}`); // Navigate to user's profile page
+        // console.log("Fetching user profile details for:", data.name);
+        // navigate(`/profile/${encodeURIComponent(data.name)}`); // Navigate to user's profile page
       } else {
         console.error("Login failed: No access token or username received");
         throw new Error("Login failed: No access token or username received");
