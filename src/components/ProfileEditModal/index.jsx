@@ -80,20 +80,26 @@ const ProfileEditModal = ({ open, handleClose }) => {
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal
+      open={open}
+      onClose={handleClose}
+      sx={{
+        borderRadius: 5,
+      }}
+    >
       <Box
         sx={{
-          outline: "1px solid var(--profile-text-color)",
+          border: "1px solid var(--button-bg-color)",
           position: "absolute",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
-          bgcolor: "var(--body-bg-color)",
+          minWidth: "300px",
+          bgcolor: "var(--header-bg-color)",
           color: "var(--profile-text-color)",
           boxShadow: 24,
-          p: 4,
-          borderRadius: 1,
+          p: { xs: 2, sm: 4 },
+          borderRadius: 5,
         }}
       >
         <Typography variant="h6" component="h2" mb={2} className="flex">
@@ -180,18 +186,18 @@ const ProfileEditModal = ({ open, handleClose }) => {
           fullWidth
           variant="contained"
           sx={{
-            bgcolor: "var(--button-bg-color)",
-            color: "var(--button-text-color)",
+            color: "var(--button-text-color-hover-cancel)",
+            backgroundColor: "var(--button-bg-color-hover-cancel)",
             "&:hover": {
+              bgcolor: "var(--button-bg-color-cancel)",
               outline: "1px solid var(--border-color)",
-              backgroundColor: "var(--button-bg-color-hover)",
-              color: "var(--button-text-color-hover)",
+              color: "var(--button-text-color-cancel)",
             },
             mt: 2,
           }}
-          onClick={handleSubmit}
+          onClick={handleClose}
         >
-          Submit
+          Cancel
         </Button>
       </Box>
     </Modal>

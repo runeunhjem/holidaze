@@ -133,7 +133,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
           width: { xs: "90%", md: 600 },
           maxHeight: "80vh",
           bgcolor: "var(--header-bg-color)",
-          boxShadow: 24,
+          boxShadow: 0,
           border: "1px solid var(--border-color)",
           p: 4,
           overflowY: "auto",
@@ -148,7 +148,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: "var(--overlay-cards)",
+                backgroundColor: "var(--cards-sections-bg-color)",
                 color: "var(--profile-text-color)",
                 borderRadius: "4px",
               }}
@@ -180,7 +180,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: "var(--overlay-cards)",
+                backgroundColor: "var(--cards-sections-bg-color)",
                 color: "var(--profile-text-color)",
                 borderRadius: "4px",
               }}
@@ -216,7 +216,20 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
                   </Grid>
                 </React.Fragment>
               ))}
-              <Button onClick={handleAddMedia}>Add More Media</Button>
+              <Button
+                sx={{
+                  bgcolor: "var(--button-bg-color)",
+                  color: "var(--button-text-color)",
+                  "&:hover": {
+                    outline: "1px solid var(--border-color)",
+                    backgroundColor: "var(--button-bg-color-hover)",
+                    color: "var(--button-text-color-hover)",
+                  },
+                }}
+                onClick={handleAddMedia}
+              >
+                Add one more image{" "}
+              </Button>
             </Box>
           </Grid>
 
@@ -224,7 +237,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: "var(--overlay-cards)",
+                backgroundColor: "var(--cards-sections-bg-color)",
                 color: "var(--profile-text-color)",
                 borderRadius: "4px",
               }}
@@ -295,7 +308,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: "var(--overlay-cards)",
+                backgroundColor: "var(--cards-sections-bg-color)",
                 color: "var(--profile-text-color)",
                 borderRadius: "4px",
               }}
@@ -381,7 +394,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
             <Box
               sx={{
                 p: 2,
-                backgroundColor: "var(--overlay-cards)",
+                backgroundColor: "var(--cards-sections-bg-color)",
                 color: "var(--profile-text-color)",
                 borderRadius: "4px",
               }}
@@ -460,7 +473,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
               width: "45%",
               "&:hover": {
                 backgroundColor: "var(--button-bg-color-hover-cancel)",
-                color: "var(--button-text-color-hover-cancel)",
+                color: "var(--button-text-color-cancel)",
               },
               mt: 2,
             }}

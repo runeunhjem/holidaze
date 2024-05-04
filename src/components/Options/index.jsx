@@ -24,7 +24,7 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
     <Box
       sx={{
         position: "fixed",
-        bottom: 0,
+        bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
         width: "100% !important",

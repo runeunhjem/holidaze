@@ -82,6 +82,7 @@
     --profile-text-color-inverted: var(--stone-400);
     --menu-hover-bg-color: var(--sky-200);
     --menu-bg-color: var(--sky-100);
+    --cards-sections-bg-color: var(--sky-200);
   }
 
   [data-theme="dark"] {
@@ -116,6 +117,7 @@
     --profile-text-color-inverted: var(--stone-600);
     --menu-hover-bg-color: var(--yellow-200);
     --menu-bg-color: var(--gray-900);
+    --cards-sections-bg-color: var(--gray-800);
   }
 
   body {
@@ -157,8 +159,8 @@
 
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: #7dd3fc  var(--button-bg-color-hover);
-    border-radius: 4px;
+    scrollbar-color: var(--button-bg-color)  var(--button-bg-color-hover);
+    border-radius: 15px 0 0 15px;
 }
 
 /* For browsers that support WebKit (e.g., Chrome, Safari, Edge) */
@@ -172,11 +174,11 @@
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--button-bg-color-hover);
-    border-radius: 4px;
+    border-radius: 1rem;
     border: 1px solid var(--button-bg-color);
 }
 /* Default light mode */
-html, body {
+/* html, body {
     scrollbar-width: thin;
     scrollbar-color: var(--sky-300) var(--sky-100);
     border-radius: 4px;
@@ -196,7 +198,7 @@ html::-webkit-scrollbar-track {
     background: var(--sky-300) !important;
 }
 
-/* Dark mode */
+
 html[data-theme="dark"], body[data-theme="dark"] {
     scrollbar-width: thin;
     scrollbar-color: var(--yellow-200) var(--gray-800) !important;
@@ -208,7 +210,7 @@ html[data-theme="dark"]::-webkit-scrollbar-thumb {
 
 html[data-theme="dark"]::-webkit-scrollbar-track {
     background-color: var(--gray-800) !important;
-}
+} */
 
 
 }

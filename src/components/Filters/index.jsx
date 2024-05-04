@@ -26,11 +26,10 @@ const Filters = ({
     <Box
       sx={{
         position: "fixed",
-        bottom: 0,
+        bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
         width: "100% !important",
-        // minWidth: "320px",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
         border: "1px solid var(--border-color)",
@@ -38,7 +37,6 @@ const Filters = ({
         zIndex: 1300,
         overflowY: "auto",
         transition: "transform 0.3s ease-in-out",
-        // Adding marginX and responsive maxWidth
         mx: { xs: "auto", sm: "auto" },
         minWidth: { xs: "320px", sm: "600px" },
       }}
@@ -50,7 +48,11 @@ const Filters = ({
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel>Rating</InputLabel>
+            <InputLabel
+              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+            >
+              Rating
+            </InputLabel>
             <Select
               value={filters.rating}
               onChange={(e) => handleFilterChange("rating", e.target.value)}
@@ -65,7 +67,11 @@ const Filters = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel>Price Range</InputLabel>
+            <InputLabel
+              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+            >
+              Price Range
+            </InputLabel>
             <Select
               value={filters.priceRange}
               onChange={(e) => handleFilterChange("priceRange", e.target.value)}
@@ -78,7 +84,11 @@ const Filters = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel>Continent</InputLabel>
+            <InputLabel
+              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+            >
+              Continent
+            </InputLabel>
             <Select
               value={filters.continent}
               onChange={(e) => handleFilterChange("continent", e.target.value)}
@@ -97,7 +107,11 @@ const Filters = ({
         </Grid>
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
-            <InputLabel>Country</InputLabel>
+            <InputLabel
+              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+            >
+              Country
+            </InputLabel>
             <Select
               value={filters.country}
               onChange={(e) => handleFilterChange("country", e.target.value)}
@@ -116,7 +130,11 @@ const Filters = ({
         </Grid>
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel>Max Guests</InputLabel>
+            <InputLabel
+              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+            >
+              Max Guests
+            </InputLabel>
             <Select
               value={filters.maxGuests}
               onChange={(e) => handleFilterChange("maxGuests", e.target.value)}
