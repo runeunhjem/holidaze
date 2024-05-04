@@ -82,10 +82,12 @@ function MyVenues() {
       <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           {headerText}
-          <Button
-            startIcon={<MdOutlineAddCircleOutline />}
-            onClick={handleOpenModal}
-          ></Button>
+          {isOwnProfile && (
+            <Button
+              startIcon={<MdOutlineAddCircleOutline />}
+              onClick={handleOpenModal}
+            />
+          )}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
           ({venues.length})

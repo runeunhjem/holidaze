@@ -33,6 +33,7 @@ const Filters = ({
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
         border: "1px solid var(--border-color)",
+        borderRadius: "20px 20px 20px 20px",
         p: { xs: 2, sm: 4 },
         zIndex: 1300,
         overflowY: "auto",
@@ -49,7 +50,10 @@ const Filters = ({
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel
-              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+              sx={{
+                backgroundColor: "var(--header-bg-color)",
+                padding: "0 4px",
+              }}
             >
               Rating
             </InputLabel>
@@ -68,7 +72,10 @@ const Filters = ({
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel
-              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+              sx={{
+                backgroundColor: "var(--header-bg-color)",
+                padding: "0 4px",
+              }}
             >
               Price Range
             </InputLabel>
@@ -76,6 +83,7 @@ const Filters = ({
               value={filters.priceRange}
               onChange={(e) => handleFilterChange("priceRange", e.target.value)}
             >
+              <MenuItem value="Choose Pricerange">Choose Pricerange</MenuItem>
               <MenuItem value="under500">Under 500</MenuItem>
               <MenuItem value="500to1000">500 - 1000</MenuItem>
               <MenuItem value="over1000">Over 1000</MenuItem>
@@ -85,7 +93,10 @@ const Filters = ({
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel
-              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+              sx={{
+                backgroundColor: "var(--header-bg-color)",
+                padding: "0 4px",
+              }}
             >
               Continent
             </InputLabel>
@@ -108,7 +119,10 @@ const Filters = ({
         <Grid item xs={12} sm={6}>
           <FormControl fullWidth>
             <InputLabel
-              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+              sx={{
+                backgroundColor: "var(--header-bg-color)",
+                padding: "0 4px",
+              }}
             >
               Country
             </InputLabel>
@@ -131,7 +145,10 @@ const Filters = ({
         <Grid item xs={12}>
           <FormControl fullWidth>
             <InputLabel
-              sx={{ backgroundColor: "var(--header-bg-color)", padding: "0 4px" }}
+              sx={{
+                backgroundColor: "var(--header-bg-color)",
+                padding: "0 4px",
+              }}
             >
               Max Guests
             </InputLabel>
@@ -139,6 +156,7 @@ const Filters = ({
               value={filters.maxGuests}
               onChange={(e) => handleFilterChange("maxGuests", e.target.value)}
             >
+              <MenuItem value="">Choose Max Guests</MenuItem>
               {[1, 2, 4, 6, 8, 10, 12, 15, 20].map((number) => (
                 <MenuItem key={number} value={number}>
                   {number}
@@ -156,7 +174,7 @@ const Filters = ({
             color: "var(--button-text-color-cancel)",
             "&:hover": {
               backgroundColor: "var(--button-bg-color-hover-cancel)",
-              color: "var(--button-text-color-hover-cancel)",
+              color: "var(--button-text-color-cancel)",
             },
           }}
         >

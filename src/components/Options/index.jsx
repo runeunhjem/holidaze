@@ -28,7 +28,7 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
         width: "100% !important",
-        // minWidth: "320px",
+        borderRadius: "20px 20px 20px 20px",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
         border: "1px solid var(--border-color)",
@@ -101,7 +101,7 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
             color: "var(--button-text-color-cancel)",
             "&:hover": {
               backgroundColor: "var(--button-bg-color-hover-cancel)",
-              color: "var(--button-text-color-hover-cancel)",
+              color: "var(--button-text-color-cancel)",
             },
           }}
         >
