@@ -14,7 +14,7 @@ function VenueListPage() {
     // console.log("Fetching venues for page:", currentPage);
   }, [currentPage]);
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = (value) => {
     console.log("Page changed to:", value);
     setCurrentPage(value);
   };

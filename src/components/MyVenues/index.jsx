@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -17,11 +17,14 @@ function MyVenues() {
     addFavoriteVenue,
     removeFavoriteVenue,
   } = useStore();
-  // const venues = useMemo(() => viewedProfile?.venues || [], [viewedProfile]);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [venues, setVenues] = useState(viewedProfile?.venues || []);
+
+  useEffect(() => {
+    setVenues(viewedProfile?.venues || []);
+  }, [viewedProfile]);
 
   const handleHover = (event, venue) => {
     setAnchorEl(event.currentTarget);
@@ -67,7 +70,6 @@ function MyVenues() {
     setIsModalOpen(false);
   };
 
-
   return (
     <Box
       className="my-venues-container"
@@ -77,14 +79,13 @@ function MyVenues() {
         margin: "0 auto",
       }}
     >
-      <div className="items-center mt-6 flex justify-around px-6">
+      <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           {headerText}
           <Button
             startIcon={<MdOutlineAddCircleOutline />}
             onClick={handleOpenModal}
-          >
-          </Button>
+          ></Button>
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
           ({venues.length})

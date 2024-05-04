@@ -1,17 +1,22 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { fetchApi } from "../utils/fetchApi";
 import { ENDPOINTS } from "../constants/api";
+import useStore from "./useStore";
 
 const useVenues = (currentPage, limit = 10) => {
-  const [venues, setVenues] = useState([]);
-  const [venuesMeta, setVenuesMeta] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    setVenues,
+    venues,
+    venuesMeta,
+    setLoading,
+    setError,
+    loading,
+    error,
+  } = useStore();
 
   useEffect(() => {
     const fetchVenues = async () => {
       setLoading(true);
-
       const params = {
         page: currentPage,
         limit,
@@ -20,18 +25,15 @@ const useVenues = (currentPage, limit = 10) => {
         _owner: true,
         _bookings: true,
       };
-      // console.log("Venues params:", params);
       const queryParams = new URLSearchParams(params).toString();
 
       try {
         const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
           method: "GET",
         });
-        // console.log("Venues response:", response);
 
         if (response && response.data && response.meta) {
-          setVenues(response.data);
-          setVenuesMeta(response.meta);
+          setVenues(response.data, response.meta);
         } else {
           setError("Unexpected response format");
         }
@@ -44,7 +46,7 @@ const useVenues = (currentPage, limit = 10) => {
     };
 
     fetchVenues();
-  }, [currentPage, limit]);
+  }, [currentPage, limit, setVenues, setLoading, setError]);
 
   return { venues, venuesMeta, loading, error };
 };

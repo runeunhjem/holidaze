@@ -2,132 +2,151 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ENDPOINTS, PARAMS } from "../constants/api";
 import { fetchApi } from "../utils/fetchApi";
+import { devtools } from 'zustand/middleware';
 
 const useStore = create(
-  persist(
-    (set, get) => ({
-      isAuthenticated: false,
-      isDarkMode: true,
-      accessToken: null,
-      userDetails: {},
-      viewedProfile: {},
-      favoriteProfiles: [],
-      favorites: [], // State for favorite venues
-      venues: [],
-      venuesMeta: {},
-      justLoggedIn: false,
+  devtools(
+    persist(
+      (set, get) => ({
+        isAuthenticated: false,
+        isDarkMode: true,
+        accessToken: null,
+        userDetails: {},
+        viewedProfile: {},
+        favoriteProfiles: [],
+        favorites: [], // State for favorite venues
+        venues: [],
+        venuesMeta: {},
+        justLoggedIn: false,
+        isOptionsOpen: false,
+        isFiltersOpen: false,
+        toggleOptionsOpen: () =>
+          set((state) => ({
+            isOptionsOpen: !state.isOptionsOpen,
+            // isFiltersOpen: false,
+          })),
+        toggleFiltersOpen: () =>
+          set((state) => ({
+            isFiltersOpen: !state.isFiltersOpen,
+            // isOptionsOpen: false,
+          })),
+        closeAll: () => set({ isOptionsOpen: false, isFiltersOpen: false }),
 
-      setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
+        setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
+        setLoading: (loading) => set({ loading }),
 
-      addFavoriteProfile: (profile) => {
-        const { favoriteProfiles } = get();
-        if (!favoriteProfiles.some((p) => p.name === profile.name)) {
-          set({ favoriteProfiles: [...favoriteProfiles, profile] });
-        }
-      },
-
-      removeFavoriteProfile: (profileName) => {
-        set((state) => ({
-          favoriteProfiles: state.favoriteProfiles.filter(
-            (p) => p.name !== profileName,
-          ),
-        }));
-      },
-
-      addFavoriteVenue: (venue) => {
-        const { favorites } = get();
-        if (!favorites.some((v) => v.id === venue.id)) {
-          set({ favorites: [...favorites, venue] });
-        }
-      },
-
-      removeFavoriteVenue: (venueId) =>
-        set((state) => ({
-          favorites: state.favorites.filter((v) => v.id !== venueId),
-        })),
-
-      toggleDarkMode: () =>
-        set((state) => {
-          const newIsDarkMode = !state.isDarkMode;
-          document.body.setAttribute(
-            "data-theme",
-            newIsDarkMode ? "dark" : "light",
-          );
-          return { isDarkMode: newIsDarkMode };
-        }),
-
-      setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-
-      setAccessToken: (accessToken) =>
-        set({ accessToken, isAuthenticated: true }),
-
-      setUserDetails: (details) => set({ userDetails: details }),
-
-      setViewedProfile: (details) => set({ viewedProfile: details }),
-
-      clearUser: () => {
-        set({
-          accessToken: null,
-          isAuthenticated: false,
-          userDetails: {},
-          viewedProfile: {},
-          bookings: [],
-        });
-      },
-
-      logIn: async (userDetails) => {
-        const { accessToken, ...restDetails } = userDetails;
-        set({
-          isAuthenticated: true,
-          userDetails: restDetails,
-          viewedProfile: restDetails,
-          accessToken,
-          justLoggedIn: true,
-        });
-
-        // Fetch the full user profile, including venues
-        try {
-          const profileResponse = await fetchApi(
-            `${ENDPOINTS.profiles}/${restDetails.username}${PARAMS._venues}`,
-            {
-              method: "GET",
-              headers: {
-                "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
-                Authorization: `Bearer ${accessToken}`,
-              },
-            },
-          );
-
-          if (profileResponse && profileResponse.data) {
-            set({ viewedProfile: profileResponse.data });
-          } else {
-            console.error("Failed to fetch full user profile");
+        addFavoriteProfile: (profile) => {
+          const { favoriteProfiles } = get();
+          if (!favoriteProfiles.some((p) => p.name === profile.name)) {
+            set({ favoriteProfiles: [...favoriteProfiles, profile] });
           }
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
-      },
+        },
 
-      resetJustLoggedIn: () => set({ justLoggedIn: false }),
-    }),
-    {
-      name: "user-info-and-favs",
-      storage: {
-        getItem: (name) => {
-          const item = localStorage.getItem(name);
+        removeFavoriteProfile: (profileName) => {
+          set((state) => ({
+            favoriteProfiles: state.favoriteProfiles.filter(
+              (p) => p.name !== profileName,
+            ),
+          }));
+        },
+
+        addFavoriteVenue: (venue) => {
+          const { favorites } = get();
+          if (!favorites.some((v) => v.id === venue.id)) {
+            set({ favorites: [...favorites, venue] });
+          }
+        },
+
+        removeFavoriteVenue: (venueId) =>
+          set((state) => ({
+            favorites: state.favorites.filter((v) => v.id !== venueId),
+          })),
+
+        toggleDarkMode: () =>
+          set((state) => {
+            const newIsDarkMode = !state.isDarkMode;
+            document.body.setAttribute(
+              "data-theme",
+              newIsDarkMode ? "dark" : "light",
+            );
+            return { isDarkMode: newIsDarkMode };
+          }),
+
+        setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
+
+        setAccessToken: (accessToken) =>
+          set({ accessToken, isAuthenticated: true }),
+
+        setUserDetails: (details) => set({ userDetails: details }),
+
+        setViewedProfile: (details) => set({ viewedProfile: details }),
+
+        clearUser: () => {
+          set({
+            accessToken: null,
+            isAuthenticated: false,
+            userDetails: {},
+            viewedProfile: {},
+            bookings: [],
+            venues: [],
+            venuesMeta: {},
+          });
+        },
+
+        logIn: async (userDetails) => {
+          const { accessToken, ...restDetails } = userDetails;
+          set({
+            isAuthenticated: true,
+            userDetails: restDetails,
+            viewedProfile: restDetails,
+            accessToken,
+            justLoggedIn: true,
+          });
+
+          // Fetch the full user profile, including venues
           try {
-            return JSON.parse(item);
-          } catch {
-            return null;
+            const profileResponse = await fetchApi(
+              `${ENDPOINTS.profiles}/${restDetails.username}${PARAMS._venues}`,
+              {
+                method: "GET",
+                headers: {
+                  "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              },
+            );
+
+            if (profileResponse && profileResponse.data) {
+              set({ viewedProfile: profileResponse.data });
+            } else {
+              console.error("Failed to fetch full user profile");
+            }
+          } catch (error) {
+            console.error("Error fetching user profile:", error);
           }
         },
-        setItem: (name, value) => {
-          const stringifiedValue = JSON.stringify(value);
-          localStorage.setItem(name, stringifiedValue);
+
+        resetJustLoggedIn: () => set({ justLoggedIn: false }),
+      }),
+      {
+        name: "user-info-and-favs",
+        storage: {
+          getItem: (name) => {
+            const item = localStorage.getItem(name);
+            try {
+              return JSON.parse(item);
+            } catch {
+              return null;
+            }
+          },
+          setItem: (name, value) => {
+            const stringifiedValue = JSON.stringify(value);
+            localStorage.setItem(name, stringifiedValue);
+          },
+          removeItem: (name) => localStorage.removeItem(name),
         },
-        removeItem: (name) => localStorage.removeItem(name),
       },
-    },
+    ),
   ),
 );
 
