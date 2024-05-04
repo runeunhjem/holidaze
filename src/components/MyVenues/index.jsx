@@ -1,10 +1,12 @@
 import { useState, useMemo } from "react";
 import useStore from "../../hooks/useStore";
-import { Card, CardMedia, Typography, Box } from "@mui/material";
+import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
 import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { MdOutlineAddCircleOutline } from "react-icons/md";
+import CreateVenueModal from "../CreateVenueModal";
 
 function MyVenues() {
   const {
@@ -49,6 +51,16 @@ function MyVenues() {
   const isOwnProfile = userDetails.name === viewedProfile.name;
   const headerText = isOwnProfile ? "My Venues" : "Their Venues";
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => setIsModalOpen(true);
+  const handleCloseModal = () => setIsModalOpen(false);
+
+  const handleVenueCreated = (newVenue) => {
+    console.log("New venue created:", newVenue);
+    // Handle the newly created venue (e.g., refresh list, notify user, etc.)
+  };
+
   return (
     <Box
       className="my-venues-container"
@@ -58,9 +70,14 @@ function MyVenues() {
         margin: "0 auto",
       }}
     >
-      <div className="items center mt-6 flex justify-around px-6">
+      <div className="items-center mt-6 flex justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           {headerText}
+          <Button
+            startIcon={<MdOutlineAddCircleOutline />}
+            onClick={handleOpenModal}
+          >
+          </Button>
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
           ({venues.length})
@@ -140,6 +157,12 @@ function MyVenues() {
           No venues available.
         </Typography>
       )}
+
+      <CreateVenueModal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        onVenueCreated={handleVenueCreated}
+      />
 
       <VenuePopover
         selectedVenue={selectedVenue}

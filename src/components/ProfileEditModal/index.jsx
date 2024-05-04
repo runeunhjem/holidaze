@@ -176,6 +176,23 @@ const ProfileEditModal = ({ open, handleClose }) => {
         >
           Submit
         </Button>
+        <Button
+          fullWidth
+          variant="contained"
+          sx={{
+            bgcolor: "var(--button-bg-color)",
+            color: "var(--button-text-color)",
+            "&:hover": {
+              outline: "1px solid var(--border-color)",
+              backgroundColor: "var(--button-bg-color-hover)",
+              color: "var(--button-text-color-hover)",
+            },
+            mt: 2,
+          }}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
       </Box>
     </Modal>
   );
