@@ -157,7 +157,7 @@
 
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color:var(--button-bg-color)  var(--button-bg-color-hover);
+    scrollbar-color: #7dd3fc  var(--button-bg-color-hover);
     border-radius: 4px;
 }
 
@@ -174,6 +174,40 @@
     background-color: var(--button-bg-color-hover);
     border-radius: 4px;
     border: 1px solid var(--button-bg-color);
+}
+/* Default light mode */
+html, body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--sky-300) var(--sky-100);
+    border-radius: 4px;
+}
+
+html::-webkit-scrollbar {
+    width: 8px;
+}
+
+html::-webkit-scrollbar-thumb {
+    background-color: var(--sky-100) !important;
+    border-radius: 4px;
+    border: 1px solid var(--sky-300) !important;
+}
+
+html::-webkit-scrollbar-track {
+    background: var(--sky-300) !important;
+}
+
+/* Dark mode */
+html[data-theme="dark"], body[data-theme="dark"] {
+    scrollbar-width: thin;
+    scrollbar-color: var(--yellow-200) var(--gray-800) !important;
+}
+
+html[data-theme="dark"]::-webkit-scrollbar-thumb {
+    background-color: var(--yellow-200) !important;
+}
+
+html[data-theme="dark"]::-webkit-scrollbar-track {
+    background-color: var(--gray-800) !important;
 }
 
 
