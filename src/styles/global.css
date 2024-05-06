@@ -160,8 +160,8 @@
 
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: var(--button-bg-color)  var(--button-bg-color-hover);
-    border-radius: 15px 0 0 15px;
+    scrollbar-color: var(--button-bg-color)  transparent;
+    border-radius: 20px 0 0 20px;
 }
 
 /* For browsers that support WebKit (e.g., Chrome, Safari, Edge) */

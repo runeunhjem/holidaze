@@ -31,13 +31,14 @@ const Filters = ({
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
-        width: "100%",
-        maxHeight: "50vh",
+        width: "90vw",
+        maxWidth: "600px",
+        maxHeight: "60vh",
         overflowY: "auto",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
         outline: "1px solid var(--border-color)",
-        borderRadius: "20px",
+        borderRadius: "20px !important",
         p: { xs: 2, sm: 4 },
         zIndex: 1300,
         transition: "transform 0.3s ease-in-out",
@@ -171,7 +172,8 @@ const Filters = ({
       <Box display="flex" justifyContent="space-between" mt={2}>
         <Button
           onClick={onClose}
-          sx={{
+          sx={ {
+            width: "100%",
             bgcolor: "var(--button-bg-color-cancel)",
             color: "var(--button-text-color-cancel)",
             "&:hover": {

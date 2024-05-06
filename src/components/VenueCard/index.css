@@ -1,7 +1,7 @@
 .venue-image-container {
   position: relative;
   width: 250px; /* Adjust as needed */
-  height: 250px; /* Fixed height */
+  height: 350px; /* Fixed height */
 }
 
 .venue-image-container img {
@@ -10,11 +10,21 @@
   object-fit: cover; /* Ensures the image covers the area without stretching */
 }
 
-.navigation-arrow {
+.card-info {
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 100%;
+  /* padding: 10px; */
+  /* background-color: rgba(0, 0, 0, 0.5);
+  color: white; */
+}
+
+/* .navigation-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+  background-color: rgba(255, 255, 255, 0.5);
   border: none;
   cursor: pointer;
 }
@@ -25,4 +35,4 @@
 
 .navigation-arrow.right {
   right: 10px;
-}
+} */

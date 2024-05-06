@@ -1,12 +1,12 @@
 import PropTypes from "prop-types";
 import { Popover, CardContent, Typography } from "@mui/material";
 
-function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
+function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
   if (!selectedVenue) {
     return null; // Don't render if no venue is selected
   }
 
-  const id = open ? "venue-popover" : undefined;
+  const id = open ? "venue-popover" : false;
 
   return (
     <Popover
@@ -45,16 +45,20 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             minWidth: "250px",
           }}
         >
-          {selectedVenue.name}
+          {selectedVenue.name || "Unknown Venue"}
         </Typography>
         <Typography
           variant="h5"
-          style={ {
+          style={{
             whiteSpace: "nowrap",
             color: "var(--profile-text-color)",
           }}
         >
-          {selectedVenue.location.country}, {selectedVenue.location.continent}
+          {selectedVenue.location &&
+          selectedVenue.location.country &&
+          selectedVenue.location.continent
+            ? `${selectedVenue.location.country}, ${selectedVenue.location.continent}`
+            : "Location Unknown"}
         </Typography>
         <Typography
           variant="body2"
@@ -62,9 +66,10 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          {/* Split the description into words, take the first six, and join them back into a string */}
-          {selectedVenue.description.split(" ").slice(0, 6).join(" ") +
-            (selectedVenue.description.split(" ").length > 6 ? "..." : "")}
+          {selectedVenue.description
+            ? selectedVenue.description.split(" ").slice(0, 6).join(" ") +
+              (selectedVenue.description.split(" ").length > 6 ? "..." : "")
+            : "Description not available"}
         </Typography>
 
         <Typography
@@ -74,7 +79,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             marginTop: "10px",
           }}
         >
-          Price: ${selectedVenue.price}
+          Price: ${selectedVenue.price || "N/A"}
         </Typography>
         <Typography
           variant="body2"
@@ -82,7 +87,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Max guests: {selectedVenue.maxGuests}
+          Max guests: {selectedVenue.maxGuests || "N/A"}
         </Typography>
         <Typography
           variant="body2"
@@ -90,7 +95,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Rating: {selectedVenue.rating}
+          Rating: {selectedVenue.rating || "N/A"}
         </Typography>
         <Typography
           variant="body2"
@@ -99,7 +104,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             margin: "10px 0",
           }}
         >
-          Images: {selectedVenue.media.length}
+          Images: {selectedVenue.media ? selectedVenue.media.length : "N/A"}
         </Typography>
         <Typography
           variant="body2"
@@ -107,7 +112,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Wifi: {selectedVenue.meta.wifi ? "Yes" : "No"}
+          Wifi: {selectedVenue.meta && selectedVenue.meta.wifi ? "Yes" : "No"}
         </Typography>
         <Typography
           variant="body2"
@@ -115,7 +120,8 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Breakfast: {selectedVenue.meta.breakfast ? "Yes" : "No"}
+          Breakfast:{" "}
+          {selectedVenue.meta && selectedVenue.meta.breakfast ? "Yes" : "No"}
         </Typography>
         <Typography
           variant="body2"
@@ -123,7 +129,8 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Parking: {selectedVenue.meta.parking ? "Yes" : "No"}
+          Parking:{" "}
+          {selectedVenue.meta && selectedVenue.meta.parking ? "Yes" : "No"}
         </Typography>
         <Typography
           variant="body2"
@@ -131,7 +138,8 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
             color: "var(--profile-text-color)",
           }}
         >
-          Pets allowed: {selectedVenue.meta.pets ? "Yes" : "No"}
+          Pets allowed:{" "}
+          {selectedVenue.meta && selectedVenue.meta.pets ? "Yes" : "No"}
         </Typography>
       </CardContent>
     </Popover>
@@ -141,7 +149,7 @@ function VenuePopover({ selectedVenue, anchorEl, open, onClose }) {
 VenuePopover.propTypes = {
   selectedVenue: PropTypes.object,
   anchorEl: PropTypes.object,
-  open: PropTypes.bool,
+  open: PropTypes.bool, // Open prop is now marked as optional
   onClose: PropTypes.func,
 };
 

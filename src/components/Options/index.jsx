@@ -29,8 +29,9 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
-        width: "100%",
-        maxHeight: "50vh", // Adjust this value as needed
+        width: "90vw",
+        maxWidth: "600px",
+        maxHeight: "60vh",
         overflowY: "auto",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
@@ -98,6 +99,7 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
         <Button
           onClick={onClose}
           sx={{
+            width: "100%",
             bgcolor: "var(--button-bg-color-cancel)",
             color: "var(--button-text-color-cancel)",
             "&:hover": {
