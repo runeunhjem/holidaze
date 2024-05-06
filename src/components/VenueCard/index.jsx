@@ -82,9 +82,9 @@ function VenueCard({ venue }) {
           </div>
           <button className="text-lg text-red-500 pt-8" onClick={toggleFavorite}>
             {isFavorite ? (
-              <TbHeartFilled className="text-xl transition-transform hover:scale-110" />
+              <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
             ) : (
-              <TbHeartPlus className="text-xl transition-transform hover:scale-110" />
+              <TbHeartPlus className="text-xl transition-transform hover:scale-125" />
             )}
           </button>
         </div>
@@ -95,12 +95,7 @@ function VenueCard({ venue }) {
           <span>${venue.price} / night</span>
           <Link
             to={`/venues/${venue.id}`}
-            className="px-3 py-1 text-sm font-semibold shadow transition-transform hover:scale-110"
-            style={{
-              color: "var(--button-text-color)",
-              backgroundColor: "var(--button-bg-color)",
-              borderRadius: "20px",
-            }}
+            className="venue-card-button px-3 py-1 text-sm font-semibold shadow "
           >
             View Details
           </Link>

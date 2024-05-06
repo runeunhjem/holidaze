@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import propTypes from "prop-types";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -9,18 +9,22 @@ import CountryFlag from "../../CountryFlag";
 import getCountryCode from "../../../utils/getCountryCode.js";
 import { Link } from "react-router-dom";
 import "./index.css";
-import Popover from "@mui/material/Popover"; // Import Popover component
-import VenuePopover from "../../VenuePopover";
 
 function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
-  const [hoveredVenue, setHoveredVenue] = useState(null); // Track hovered venue
-  const [anchorEl, setAnchorEl] = useState(null); // Anchor element for Popover
+  const [autoplay, setAutoplay] = useState(true);
 
-  const countryCode = getCountryCode(countryName);
-  const placeholderImage = "https://picsum.photos/300/200";
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (autoplay) {
+        setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+      }
+    }, 3000); // Adjust autoplay interval as needed
+
+    return () => clearInterval(interval);
+  }, [autoplay, maxSteps]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
@@ -32,17 +36,8 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
     );
   };
 
-  const handleHover = (event, venue) => {
-    setHoveredVenue(venue);
-    setAnchorEl(event.currentTarget); // Set anchor element for Popover
-  };
-
-  const handleClosePopover = () => {
-    setHoveredVenue(null);
-    setAnchorEl(null);
-  };
-
-  const openPopover = Boolean(anchorEl);
+  const countryCode = getCountryCode(countryName);
+  const placeholderImage = "https://picsum.photos/300/200";
 
   return (
     <div className="image-carousel">
@@ -50,30 +45,32 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
         <div
           key={index}
           className="image-container"
-          onMouseEnter={(e) => handleHover(e, { venueId, continent })}
-          onMouseLeave={handleClosePopover}
+          style={{
+            opacity: index === activeStep ? 1 : 0,
+            transition: "opacity 1.5s ease-in-out",
+          }}
         >
-          <Link to={`/venues/${venueId}`}>
-            <div className="image-wrapper">
+          <div className="image-wrapper">
+            <Link to={`/venues/${venueId}`}>
               <Box
                 component="img"
                 src={img ? img : placeholderImage}
                 alt={`Slide ${index + 1}`}
                 loading="lazy"
               />
-            </div>
-          </Link>
-          <div className="info">
-            <div>
-              {continent === "Unknown" || continent === ""
-                ? "Unspecified"
-                : continent}
-            </div>
-            {countryCode && countryCode !== "Unknown" && (
-              <div>
-                <CountryFlag countryCode={countryCode} />
+            </Link>
+            <div className="info">
+              <div className="text-sm">
+                {continent === "Unknown" || continent === ""
+                  ? "Unspecified"
+                  : continent}
               </div>
-            )}
+              {countryCode && countryCode !== "Unknown" && (
+                <div className="flag">
+                  <CountryFlag countryCode={countryCode} />
+                </div>
+              )}
+            </div>
           </div>
         </div>
       ))}
@@ -113,28 +110,6 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
           </Button>
         }
       />
-
-      {/* Popover for venue info */}
-      <Popover
-        open={openPopover}
-        anchorEl={anchorEl}
-        onClose={handleClosePopover}
-        anchorOrigin={{
-          vertical: "bottom",
-          horizontal: "left",
-        }}
-        transformOrigin={{
-          vertical: "top",
-          horizontal: "left",
-        }}
-      >
-        {hoveredVenue && (
-          <VenuePopover
-            selectedVenue={hoveredVenue}
-            onClose={handleClosePopover}
-          />
-        )}
-      </Popover>
     </div>
   );
 }

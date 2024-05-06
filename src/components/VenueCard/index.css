@@ -15,24 +15,20 @@
   bottom: 0px;
   left: 0;
   width: 100%;
-  /* padding: 10px; */
-  /* background-color: rgba(0, 0, 0, 0.5);
-  color: white; */
 }
 
-/* .navigation-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.5);
-  border: none;
-  cursor: pointer;
+.venue-card-button {
+  color: var(--button-text-color);
+  background-color: var(--button-bg-color);
+  border-radius: 20px;
+  transition: all 0.3s ease-in-out;
 }
 
-.navigation-arrow.left {
-  left: 10px;
+.venue-card-button:hover {
+  background-color: var(--button-bg-color-hover);
+  color: var(--button-text-color-hover);
+  outline: var(--border-color) solid 1px;
+  transform: scale(1.1);
+
 }
 
-.navigation-arrow.right {
-  right: 10px;
-} */
