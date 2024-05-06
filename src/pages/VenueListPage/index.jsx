@@ -25,7 +25,7 @@ function VenueListPage() {
 
 
   return (
-    <div className="venue-list-container mx-auto flex flex-col items-center gap-4 pb-4">
+    <div className="venue-list-container mx-auto overflow-x-hidden flex flex-col items-center gap-4 pb-4">
       {error && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity="error">{error}</Alert>

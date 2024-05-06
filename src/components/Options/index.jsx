@@ -22,23 +22,24 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
 
   return (
     <Box
+      className="custom-scrollbar"
+      id="options"
       sx={{
-        position: "fixed",
+        position: "absolute",
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
-        width: "100% !important",
-        borderRadius: "20px 20px 20px 20px",
+        width: "100%",
+        maxHeight: "50vh", // Adjust this value as needed
+        overflowY: "auto",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
-        border: "1px solid var(--border-color)",
+        outline: "1px solid var(--border-color)",
+        borderRadius: "20px",
         p: { xs: 2, sm: 4 },
         zIndex: 1300,
-        overflowY: "auto",
         transition: "transform 0.3s ease-in-out",
-        // Adding marginX and responsive maxWidth
-        mx: { xs: "auto", sm: "auto" },
-        minWidth: { xs: "320px", sm: "600px" },
+        minWidth: { xs: "250px", sm: "600px" },
       }}
     >
       <Typography variant="h6" gutterBottom>

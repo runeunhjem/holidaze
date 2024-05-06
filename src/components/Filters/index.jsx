@@ -24,22 +24,24 @@ const Filters = ({
 
   return (
     <Box
+      className="custom-scrollbar"
+      id="filters"
       sx={{
         position: "absolute",
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
-        width: "100% !important",
+        width: "100%",
+        maxHeight: "50vh",
+        overflowY: "auto",
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
-        border: "1px solid var(--border-color)",
-        borderRadius: "20px 20px 20px 20px",
+        outline: "1px solid var(--border-color)",
+        borderRadius: "20px",
         p: { xs: 2, sm: 4 },
         zIndex: 1300,
-        overflowY: "auto",
         transition: "transform 0.3s ease-in-out",
-        mx: { xs: "auto", sm: "auto" },
-        minWidth: { xs: "320px", sm: "600px" },
+        minWidth: { xs: "250px", sm: "600px" },
       }}
     >
       <Typography variant="h6" gutterBottom>
