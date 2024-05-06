@@ -2,16 +2,23 @@ import propTypes from "prop-types";
 import { Link } from "react-router-dom";
 import CardImageCarousel from "../MUI/CardImageCarousel"; // Adjust the path as necessary
 import RatingStar from "../RatingStar";
+import getCountryCode from "../../utils/getCountryCode";
 import { TbHeartPlus, TbHeartFilled } from "react-icons/tb";
-import useStore from "../../hooks/useStore";
-import { validateVenue } from "../Options";
 import { useEffect, useState } from "react";
+import useStore from "../../hooks/useStore";
 
 function VenueCard({ venue }) {
+
   const [isFavorite, setIsFavorite] = useState(false);
   const { addFavoriteVenue, removeFavoriteVenue, favorites } = useStore(
     (state) => state,
   );
+
+  // Validation functions
+  function validateField(field) {
+    const invalidValues = [null, undefined, "string", "", "aaa", "Unknown"]; // Extend this list as needed
+    return invalidValues.includes(field) ? "Unspecified" : field;
+  }
 
   useEffect(() => {
     setIsFavorite(favorites.some((fav) => fav.id === venue.id));
@@ -26,10 +33,19 @@ function VenueCard({ venue }) {
     setIsFavorite(!isFavorite);
   };
 
-  const isValidVenue = validateVenue(venue); // Validate the venue using the imported function
+  const hasAtLeastOneImage = venue.media && venue.media.length >= 0;
+  const hasValidTitle = venue.name && !venue.name.includes("aaa");
+  // Apply validation to country and continent
+  const validCountry = validateField(venue.location.country);
+  const validContinent = validateField(venue.location.continent);
 
-  if (!isValidVenue) return null; // Skip rendering if the venue is not valid
+  // Check for at least one image and a valid title
 
+  // if (!hasAtLeastOneImage || !hasValidTitle) return null;
+  const countryCode = getCountryCode(venue.location.country);
+  if (!hasAtLeastOneImage || !hasValidTitle || !countryCode || countryCode === "Unknown") return null;
+
+  // Extract URLs from media objects for the carousel
   const imageUrls = venue.media.map((item) => item.url);
 
   return (
@@ -40,8 +56,8 @@ function VenueCard({ venue }) {
       {/* Image container */}
       <CardImageCarousel
         images={imageUrls}
-        countryName={venue.location.country}
-        continent={venue.location.continent}
+        countryName={validCountry}
+        continent={validContinent}
         venueId={venue.id}
         venueName={venue.name}
       />
@@ -88,7 +104,7 @@ VenueCard.propTypes = {
       propTypes.shape({
         url: propTypes.string.isRequired,
         alt: propTypes.string,
-      }),
+      })
     ).isRequired,
     name: propTypes.string.isRequired,
     rating: propTypes.number.isRequired,

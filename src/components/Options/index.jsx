@@ -7,26 +7,6 @@ import {
   Button,
   Typography,
 } from "@mui/material";
-import getCountryCode from "../../utils/getCountryCode";
-
-export const validateVenue = (venue, options) => {
-  const hasAtLeastOneImage = venue.media && venue.media.length >= 0;
-  const hasValidTitle = venue.name && !venue.name.includes("aaa");
-  const countryCode = getCountryCode(venue.location.country);
-  const isValid = (
-    hasAtLeastOneImage &&
-    hasValidTitle &&
-    countryCode &&
-    countryCode !== "Unknown"
-  );
-
-  // Check if the option to hide venues without images is enabled
-  if (options.hideWithoutImages) {
-    return isValid;
-  } else {
-    return true; // Always return true if the option is disabled
-  }
-};
 
 const Options = ({ open, onClose, options, onOptionsChange }) => {
   const handleOptionChange = (field, value) => {
@@ -43,7 +23,7 @@ const Options = ({ open, onClose, options, onOptionsChange }) => {
   return (
     <Box
       sx={{
-        position: "absolute",
+        position: "fixed",
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",

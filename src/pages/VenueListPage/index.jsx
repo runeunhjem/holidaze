@@ -7,17 +7,22 @@ import PaginationButtons from "../../components/MUI/Pagination";
 
 function VenueListPage() {
   const [currentPage, setCurrentPage] = useState(1);
-  const limit = 10;
-  const { venues, venuesMeta, error, loading } = useVenues(currentPage, limit);
+  const limit = 100;
+  const { venues, venuesMeta, error, loading } = useVenues(
+    Number(currentPage),
+    limit,
+  ); // Ensure currentPage is a number
 
   useEffect(() => {
-    // console.log("Fetching venues for page:", currentPage);
+    console.log("Fetching venues for page:", currentPage);
   }, [currentPage]);
 
-  const handlePageChange = (value) => {
+  const handlePageChange = (event, value) => {
     console.log("Page changed to:", value);
-    setCurrentPage(value);
+    setCurrentPage(Number(value)); // Ensure value is converted to a number
   };
+
+
 
   return (
     <div className="venue-list-container mx-auto flex flex-col items-center gap-4 pb-4">
