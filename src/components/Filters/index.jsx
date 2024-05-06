@@ -25,7 +25,7 @@ const Filters = ({
   return (
     <Box
       sx={{
-        position: "fixed",
+        position: "absolute",
         bottom: "-15px",
         left: "50%",
         transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",

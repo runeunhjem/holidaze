@@ -6,6 +6,7 @@ import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import useStore from "../../hooks/useStore";
+import "./index.css";
 
 function ImageGallery({ media, countryName, continent, venue }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -49,31 +50,41 @@ function ImageGallery({ media, countryName, continent, venue }) {
     return <div>No images available.</div>;
   }
 
+
   return (
-    <S.Gallery>
-      {media.map((img, index) => (
-        <div
-          key={index}
-          className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
-          style={{ position: "relative" }}
-        >
-          <S.StyledImg src={img.url || placeholderImage} alt={img.alt} />
-          <S.ImageOverlay>{img.alt}</S.ImageOverlay>
-          <S.TopOverlay>
-            <S.OverlaySection>
-              <CountryFlag countryCode={overlayData.countryCode} />
-              {overlayData.continentText}
-            </S.OverlaySection>
-            <S.OverlaySection className="top-rated me-3 flex w-full items-center justify-end text-yellow-700 dark:text-yellow-400">
-              {venue.rating > 4 && (
-                <>
-                  <BsStars />
-                  Top Rated
-                </>
-              )}
-            </S.OverlaySection>
-            <S.OptionsIcon className="flex items-center justify-end" />
-          </S.TopOverlay>
+    <div className="gallery-wrapper">
+      <S.Gallery>
+        {media.map((img, index) => (
+          <div
+            key={index}
+            className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden1"}`}
+            style={{
+              position: "absolute",
+              width: "100%",
+              maxWidth: "100%",
+              margin: "0 auto",
+              overflow: "hidden",
+              padding: 0,
+              borderRadius: "20px",
+            }}
+          >
+            <S.StyledImg src={img.url || placeholderImage} alt={img.alt} />
+            <S.ImageOverlay>{img.alt}</S.ImageOverlay>
+            <S.TopOverlay>
+              <S.OverlaySection>
+                <CountryFlag countryCode={overlayData.countryCode} />
+                {overlayData.continentText}
+              </S.OverlaySection>
+              <S.OverlaySection className="top-rated me-3 flex w-full items-center justify-end text-yellow-700 dark:text-yellow-400">
+                {venue.rating > 4 && (
+                  <>
+                    <BsStars />
+                    Top Rated
+                  </>
+                )}
+              </S.OverlaySection>
+              <S.OptionsIcon className="flex items-center justify-end" />
+            </S.TopOverlay>
             <div
               className="favorite-overlay bg-none"
               onClick={() => toggleFavorite(venue)}
@@ -84,26 +95,27 @@ function ImageGallery({ media, countryName, continent, venue }) {
                 <TbHeart className="text-lg text-red-500" />
               )}
             </div>
-        </div>
-      ))}
-      <S.NavButton
-        direction="left"
-        onClick={() =>
-          setSelectedImageIndex((prevIndex) =>
-            prevIndex > 0 ? prevIndex - 1 : media.length - 1,
-          )
-        }
-      >
-        &#10094;
-      </S.NavButton>
-      <S.NavButton
-        direction="right"
-        onClick={() =>
-          setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length)
-        }
-      >
-        &#10095;
-      </S.NavButton>
+          </div>
+        ))}
+        <S.NavButton
+          direction="left"
+          onClick={() =>
+            setSelectedImageIndex((prevIndex) =>
+              prevIndex > 0 ? prevIndex - 1 : media.length - 1,
+            )
+          }
+        >
+          &#10094;
+        </S.NavButton>
+        <S.NavButton
+          direction="right"
+          onClick={() =>
+            setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length)
+          }
+        >
+          &#10095;
+        </S.NavButton>
+      </S.Gallery>
       <S.Thumbnails>
         {media.map((image, index) => (
           <S.ThumbnailImg
@@ -115,7 +127,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
           />
         ))}
       </S.Thumbnails>
-    </S.Gallery>
+    </div>
   );
 }
 
