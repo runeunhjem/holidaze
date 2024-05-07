@@ -3,7 +3,7 @@ import { fetchApi } from "../utils/fetchApi";
 import { ENDPOINTS } from "../constants/api";
 import useStore from "./useStore";
 
-const useVenues = (currentPage, limit = 10) => {
+const useVenues = (currentPage, filters, limit = 10) => {
   const {
     setVenues,
     venues,
@@ -22,8 +22,7 @@ const useVenues = (currentPage, limit = 10) => {
         limit,
         sortBy: "name",
         sortOrder: "asc",
-        _owner: true,
-        _bookings: true,
+        ...filters, // Include filters in the query parameters
       };
       const queryParams = new URLSearchParams(params).toString();
 
@@ -46,7 +45,7 @@ const useVenues = (currentPage, limit = 10) => {
     };
 
     fetchVenues();
-  }, [currentPage, limit, setVenues, setLoading, setError]);
+  }, [currentPage, filters, limit, setVenues, setLoading, setError]);
 
   return { venues, venuesMeta, loading, error };
 };

@@ -9,17 +9,50 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 
 const Filters = ({
   open,
   onClose,
-  filters,
   onFiltersChange,
   continents = [],
   countries = [],
+  venues,
 }) => {
+  const [filters, setFilters] = useState({
+    rating: "",
+    priceRange: "",
+    continent: "",
+    country: "",
+    maxGuests: "",
+  });
+
   const handleFilterChange = (field, value) => {
-    onFiltersChange({ ...filters, [field]: value });
+    const updatedFilters = { ...filters, [field]: value };
+    setFilters(updatedFilters);
+    onFiltersChange(updatedFilters);
+  };
+
+  const applyFilters = () => {
+    if (!venues) return; // Ensure venues is not undefined
+
+    let filteredVenues = venues.filter((venue) => {
+      return (
+        (!filters.rating || venue.rating >= Number(filters.rating)) &&
+        (!filters.priceRange ||
+          (filters.priceRange === "under500"
+            ? venue.price < 500
+            : filters.priceRange === "500to1000"
+              ? venue.price >= 500 && venue.price <= 1000
+              : venue.price > 1000)) &&
+        (!filters.continent ||
+          venue.location.continent === filters.continent) &&
+        (!filters.country || venue.location.country === filters.country) &&
+        (!filters.maxGuests || venue.maxGuests >= Number(filters.maxGuests))
+      );
+    });
+
+    onFiltersChange({ ...filters, filteredVenues });
   };
 
   return (
@@ -50,140 +83,53 @@ const Filters = ({
       </Typography>
 
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel
-              sx={{
-                backgroundColor: "var(--header-bg-color)",
-                padding: "0 4px",
-              }}
-            >
-              Rating
-            </InputLabel>
-            <Select
-              value={filters.rating}
-              onChange={(e) => handleFilterChange("rating", e.target.value)}
-            >
-              {[1, 2, 3, 4, 5].map((rating) => (
-                <MenuItem key={rating} value={rating}>
-                  {rating}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel
-              sx={{
-                backgroundColor: "var(--header-bg-color)",
-                padding: "0 4px",
-              }}
-            >
-              Price Range
-            </InputLabel>
-            <Select
-              value={filters.priceRange}
-              onChange={(e) => handleFilterChange("priceRange", e.target.value)}
-            >
-              <MenuItem value="Choose Pricerange">Choose Pricerange</MenuItem>
-              <MenuItem value="under500">Under 500</MenuItem>
-              <MenuItem value="500to1000">500 - 1000</MenuItem>
-              <MenuItem value="over1000">Over 1000</MenuItem>
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel
-              sx={{
-                backgroundColor: "var(--header-bg-color)",
-                padding: "0 4px",
-              }}
-            >
-              Continent
-            </InputLabel>
-            <Select
-              value={filters.continent}
-              onChange={(e) => handleFilterChange("continent", e.target.value)}
-            >
-              {continents.length > 0 ? (
-                continents.map((continent) => (
-                  <MenuItem key={continent} value={continent}>
-                    {continent}
+        {[
+          { label: "Min. Rating", field: "rating", options: [1, 2, 3, 4, 5] },
+          {
+            label: "Price Range",
+            field: "priceRange",
+            options: ["Choose Pricerange", "under500", "500to1000", "over1000"],
+          },
+          {
+            label: "Continent",
+            field: "continent",
+            options:
+              continents.length > 0 ? continents : ["No continents available"],
+          },
+          {
+            label: "Country",
+            field: "country",
+            options:
+              countries.length > 0 ? countries : ["No countries available"],
+          },
+          {
+            label: "Max Guests",
+            field: "maxGuests",
+            options: [1, 2, 4, 6, 8, 10, 12, 15, 20],
+          },
+        ].map((filter) => (
+          <Grid item xs={12} sm={6} key={filter.field}>
+            <FormControl fullWidth>
+              <InputLabel>{filter.label}</InputLabel>
+              <Select
+                value={filters[filter.field]}
+                onChange={(e) =>
+                  handleFilterChange(filter.field, e.target.value)
+                }
+              >
+                {filter.options.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {typeof option === "string" ? option : `${option}`}
                   </MenuItem>
-                ))
-              ) : (
-                <MenuItem value="">No continents available</MenuItem>
-              )}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <FormControl fullWidth>
-            <InputLabel
-              sx={{
-                backgroundColor: "var(--header-bg-color)",
-                padding: "0 4px",
-              }}
-            >
-              Country
-            </InputLabel>
-            <Select
-              value={filters.country}
-              onChange={(e) => handleFilterChange("country", e.target.value)}
-            >
-              {countries.length > 0 ? (
-                countries.map((country) => (
-                  <MenuItem key={country} value={country}>
-                    {country}
-                  </MenuItem>
-                ))
-              ) : (
-                <MenuItem value="">No countries available</MenuItem>
-              )}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl fullWidth>
-            <InputLabel
-              sx={{
-                backgroundColor: "var(--header-bg-color)",
-                padding: "0 4px",
-              }}
-            >
-              Max Guests
-            </InputLabel>
-            <Select
-              value={filters.maxGuests}
-              onChange={(e) => handleFilterChange("maxGuests", e.target.value)}
-            >
-              <MenuItem value="">Choose Max Guests</MenuItem>
-              {[1, 2, 4, 6, 8, 10, 12, 15, 20].map((number) => (
-                <MenuItem key={number} value={number}>
-                  {number}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        ))}
       </Grid>
       <Box display="flex" justifyContent="space-between" mt={2}>
-        <Button
-          onClick={onClose}
-          sx={ {
-            width: "100%",
-            bgcolor: "var(--button-bg-color-cancel)",
-            color: "var(--button-text-color-cancel)",
-            "&:hover": {
-              backgroundColor: "var(--button-bg-color-hover-cancel)",
-              color: "var(--button-text-color-cancel)",
-            },
-          }}
-        >
-          Close
-        </Button>
+        <Button onClick={applyFilters}>Apply Filters</Button>
+        <Button onClick={onClose}>Close</Button>
       </Box>
     </Box>
   );
@@ -192,10 +138,10 @@ const Filters = ({
 Filters.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
   onFiltersChange: PropTypes.func.isRequired,
   continents: PropTypes.array.isRequired,
   countries: PropTypes.array.isRequired,
+  venues: PropTypes.array.isRequired,
 };
 
 export default Filters;
