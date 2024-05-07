@@ -1,4 +1,4 @@
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
 
@@ -20,9 +20,13 @@ function PaginationButtons({ count, page, onChange }) {
 }
 
 PaginationButtons.propTypes = {
-  count: propTypes.number.isRequired,
-  page: propTypes.number.isRequired,
-  onChange: propTypes.func.isRequired,
+  count: PropTypes.number,
+  page: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
+
+PaginationButtons.defaultProps = {
+  count: 0,
 };
 
 export default PaginationButtons;

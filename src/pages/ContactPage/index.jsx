@@ -1,173 +1,204 @@
-import { useContext, useEffect, useState } from "react";
-import { ThemeContext } from "styled-components";
-import * as S from "./index.styled";
+import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import {
+  Container,
+  Box,
+  TextField,
+  Button,
+  Typography,
+  Alert,
+  Stack,
+  Divider,
+  FormControlLabel,
+  Checkbox,
+} from "@mui/material";
+import contact1 from "../../assets/images/contact-1.png";
 
 function ContactPage() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm();
+  const [submitError, setSubmitError] = React.useState("");
+  const [submitSuccess, setSubmitSuccess] = React.useState(false);
+
   useEffect(() => {
     document.title = "Holidaze - Contact";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
-      "Explore our wide range of destinations from around the world to find your special place."
-    );
   }, []);
 
-  const theme = useContext(ThemeContext);
-
-  const [formData, setFormData] = useState({
-    fullName: "",
-    subject: "",
-    email: "",
-    message: "",
-  });
-  const [touchedFields, setTouchedFields] = useState({});
-  const [validationMessages, setValidationMessages] = useState({});
-  const [inputStyles, setInputStyles] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const updateInputStyles = (name, isValid) => {
-    setInputStyles((prevStyles) => ({
-      ...prevStyles,
-      [name]: isValid ? theme.successMessage : theme.errorMessage,
-    }));
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-    if (value.trim() !== "" || touchedFields[name]) {
-      updateInputStyles(name, value);
-      checkFieldValidation(name, value);
-    }
-  };
-
-  const handleBlur = (e) => {
-    const { name, value } = e.target;
-    setTouchedFields((prevState) => ({
-      ...prevState,
-      [name]: true,
-    }));
-    checkFieldValidation(name, value);
-  };
-
-  const checkFieldValidation = (name, value) => {
-    const isValid = validateField(name, value);
-    setInputStyles((prevStyles) => ({
-      ...prevStyles,
-      [name]: isValid ? theme.successMessage : theme.errorMessage,
-    }));
-    const message = validateFormMessage(name, value, isValid);
-    setValidationMessages((prevMessages) => ({
-      ...prevMessages,
-      [name]: message,
-    }));
-  };
-
-  const validateField = (name, value) => {
-    switch (name) {
-      case "email":
-        return /\S+@\S+\.\S+/.test(value);
-      case "fullName":
-      case "subject":
-      case "message":
-        return value.trim().length >= 3;
-      default:
-        return false;
-    }
-  };
-
-  const validateFormMessage = (name, value, isValid) => {
-    if (value.trim() === "") {
-      return `The ${camelCaseToTitle(name)} is required.`;
-    }
-    switch (name) {
-      case "email":
-        return isValid ? "" : "Please enter a valid email address.";
-      case "fullName":
-        return isValid ? "" : "Full name must be at least 3 characters.";
-      case "subject":
-        return isValid ? "" : "Subject must be at least 3 characters.";
-      case "message":
-        return isValid ? "" : "Message must be at least 3 characters.";
-      default:
-        return "";
-    }
-  };
-
-  const camelCaseToTitle = (text) => {
-    const result = text.replace(/([A-Z])/g, " $1");
-    const finalResult = result.charAt(0).toUpperCase() + result.slice(1);
-    return finalResult;
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const isFormValid = Object.keys(formData).every((name) => validateField(name, formData[name]));
-
-    if (isFormValid) {
-      console.log("Form is valid, submitting data:", formData);
-
-      setIsSubmitted(true);
-
+  const onSubmit = async (data) => {
+    try {
+      // Simulate API call
+      console.log("Form Data Submitted:", data);
+      setSubmitSuccess(true);
+      setSubmitError("");
       setTimeout(() => {
-        setIsSubmitted(false);
-      }, 2000);
-
-      setFormData({ fullName: "", subject: "", email: "", message: "" });
-      setInputStyles({});
-      setTouchedFields({});
-      setValidationMessages({});
+        setSubmitSuccess(false);
+        reset();
+      }, 4000); // Dismiss success message after 4 seconds
+    } catch (error) {
+      setSubmitError("Failed to send message. Please try again.");
+      setSubmitSuccess(false);
     }
   };
 
   return (
-    <S.MainContainer id="ContactPage">
-      <S.FormTitle>Contact Us</S.FormTitle>
-      <S.ContactForm onSubmit={handleSubmit}>
-        {Object.entries(formData).map(([name, value]) => (
-          <S.FormField key={name}>
-            <S.Label htmlFor={name}>{camelCaseToTitle(name)}</S.Label>
-            {name !== "message" ? (
-              <S.Input
-                type={name === "email" ? "email" : "text"}
-                id={name}
-                name={name}
-                value={value}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder={`Enter your ${camelCaseToTitle(name)}`}
-                required
-                $inputColor={inputStyles[name]}
-              />
-            ) : (
-              <S.TextArea
-                id={name}
-                name={name}
-                value={value}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                $inputColor={inputStyles[name]}
-                placeholder="Enter your message"
-                required></S.TextArea>
-            )}
-            {touchedFields[name] && validationMessages[name] && (
-              <S.ValidationMessage>{validationMessages[name]}</S.ValidationMessage>
-            )}
-          </S.FormField>
-        ))}
-        <S.SubmitButton className="submitButton" type="submit" $isSubmitted={isSubmitted}>
-          {isSubmitted ? <>Sent Successfully </> : "Send Message"}
-        </S.SubmitButton>
-      </S.ContactForm>
-    </S.MainContainer>
+    <Container maxWidth="lg">
+      <Box
+        sx={{
+          marginTop: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h4">
+          Contact Us
+        </Typography>
+        <Box sx={{ mt: 8, textAlign: "center", width: "100%", maxWidth: 600 }}>
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Opening Hours:
+          </Typography>
+          <Typography>Monday-Saturday (08.00 / 8am - 17.00 / 5pm)</Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Phone Number:
+          </Typography>
+          <Typography>
+            <a href="tel:+6312345678">+63 12 345678</a>
+          </Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Email:
+          </Typography>
+          <Typography>
+            <a href="mailto:customerservice@holidaze.com">
+              customerservice@holidaze.com
+            </a>
+          </Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+          <Typography variant="h6" component="div" sx={{ fontWeight: "bold" }}>
+            Visiting Address:
+          </Typography>
+          <Typography>
+            <a href="https://maps.app.goo.gl/VsEJasgAo86gVSki7" target="_blank">
+              Slettheiveien 81E, 4626 Kristiansand, Norway
+            </a>
+          </Typography>
+          <Divider sx={{ my: 1, width: "70%", mx: "auto" }} />
+        </Box>
+        <img
+          src={contact1}
+          alt="Contact Us"
+          style={{ width: "100%", marginTop: "2rem", borderRadius: "20px" }}
+        />
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          noValidate
+          sx={{ mt: 8, width: "100%", maxWidth: 600 }}
+        >
+          <Typography component="h2" variant="h5" className="text-center">
+            Send us a message
+          </Typography>
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Full Name"
+            autoComplete="name"
+            autoFocus
+            {...register("fullName", {
+              required: "Full name is required",
+              minLength: {
+                value: 3,
+                message: "Full name must be at least 3 characters long.",
+              },
+            })}
+            error={!!errors.fullName}
+            helperText={errors.fullName?.message}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Email Address"
+            autoComplete="email"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: "Please enter a valid email address.",
+              },
+            })}
+            error={!!errors.email}
+            helperText={errors.email?.message}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Subject"
+            {...register("subject", {
+              required: "Subject is required",
+              minLength: {
+                value: 3,
+                message: "Subject must be at least 3 characters long.",
+              },
+            })}
+            error={!!errors.subject}
+            helperText={errors.subject?.message}
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Message"
+            multiline
+            rows={4}
+            {...register("message", {
+              required: "Message is required",
+              minLength: {
+                value: 3,
+                message: "Message must be at least 3 characters long.",
+              },
+            })}
+            error={!!errors.message}
+            helperText={errors.message?.message}
+          />
+          <FormControlLabel
+            control={<Checkbox {...register("venueManager")} />}
+            label="I am a Venue Manager."
+          />
+          {submitSuccess && (
+            <Stack sx={{ width: "100%", mt: 4 }} spacing={2}>
+              <Alert severity="success">Message sent successfully!</Alert>
+            </Stack>
+          )}
+          {submitError && (
+            <Stack sx={{ width: "100%" }} spacing={2}>
+              <Alert severity="error">{submitError}</Alert>
+            </Stack>
+          )}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{
+              mt: 3,
+              mb: 2,
+              bgcolor: "var(--button-bg-color)",
+              color: "var(--button-text-color)",
+              "&:hover": {
+                bgcolor: "var(--button-bg-color-hover)",
+                color: "var(--button-text-color-hover)",
+                outline: "1px solid var(--border-color)",
+              },
+            }}
+          >
+            Send Message
+          </Button>
+        </Box>
+      </Box>
+    </Container>
   );
 }
 

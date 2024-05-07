@@ -1,0 +1,19 @@
+.profile-page, .profile-info {
+  h1 {
+    font-size: calc(
+      1.4vw + 1rem
+    ) !important; /* 2vw is responsive to viewport width, 1rem is a fixed base size */
+  }
+
+  h2 {
+    font-size: calc(
+      1vw + 0.8rem
+    ) !important; /* Adjust the relative and fixed units to suit your needs */
+  }
+
+  h3 {
+    font-size: calc(
+      0.8vw + 0.6rem
+    ) !important; /* Further adjust as necessary */
+  }
+}

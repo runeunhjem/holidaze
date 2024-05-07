@@ -1,0 +1,20 @@
+/* index.css */
+
+.about-section .responsive-p {
+  display: grid;
+  grid-template-row: repeat(2, 1fr); /* This ensures two columns of equal width */
+  gap: 20px; /* Adjusts the space between columns */
+  margin: 1em auto;
+  gap: 1rem;
+  padding: 0 0.5em;
+}
+
+@media (min-width: 768px) {
+  .about-section .responsive-p {
+    padding: 0 1em;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* This ensures two columns of equal width */
+    gap: 20px; /* Adjusts the space between columns */
+    margin: 1em auto; /* Keeps consistent margin */
+  }
+}

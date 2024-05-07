@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledHeader = styled.header`
@@ -71,19 +71,19 @@ export const StyledHeader = styled.header`
   }
 `;
 
-export const NavLink = styled(Link)`
-  padding: 10px;
-  transition: color 0.3s ease;
+// export const NavLink = styled(Link)`
+//   padding: 10px;
+//   transition: color 0.3s ease;
 
-  &:hover {
-    color: var(--link-hover-color);
-  }
-`;
+//   &:hover {
+//     color: var(--link-hover-color);
+//   }
+// `;
 
-export const MenuButton = styled.button`
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: inherit;
-  font-size: 1.5rem;
-`;
+// export const MenuButton = styled.button`
+//   background: none;
+//   border: none;
+//   cursor: pointer;
+//   color: inherit;
+//   font-size: 1.5rem;
+// `;

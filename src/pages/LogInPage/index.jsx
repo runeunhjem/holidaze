@@ -9,6 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAuth } from "../../hooks/useAuth";
 import "./index.css";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const {
@@ -40,7 +41,6 @@ function LoginPage() {
       setError(error.message || "Login failed. Please check your credentials.");
     }
   };
-
 
   return (
     <Container maxWidth="sm">
@@ -87,7 +87,7 @@ function LoginPage() {
             type="submit"
             fullWidth
             variant="contained"
-            sx={ {
+            sx={{
               mt: 3,
               mb: 2,
               color: "var(--button-text-color)",
@@ -97,7 +97,7 @@ function LoginPage() {
                 color: "var(--button-text-color-hover)",
                 outline: "1px solid var(--border-color)",
               },
-            } }
+            }}
           >
             Login
           </Button>
@@ -108,6 +108,23 @@ function LoginPage() {
           )}
         </Box>
       </Box>
+      {/* <Box sx={ { mt: 8 } }> */}
+      <Typography variant="body2" color="textSecondary" align="center">
+        <span>Don&apos;t have an account yet?</span>
+        <br />
+        <Link
+          to="/register"
+          className="link"
+          style={{
+            color: "var(--link-color)",
+            "&:hover": {
+              color: "var(--link-color-hover)",
+            },
+          }}
+        >
+          Sign Up
+        </Link>
+      </Typography>
     </Container>
   );
 }

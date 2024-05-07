@@ -10,19 +10,24 @@ import logoLight from "../../assets/logo/holidaze-dark.png";
 import logoDark from "../../assets/logo/holidaze-yellow.png";
 import NavigationMenu from "../MUI/NavigationMenu";
 import FilterButton from "../MUI/FilterButton";
+import FavoriteProfilesDropdown from "../../components/FavoriteProfilesDropdown";
 
 const pages = ["Home", "Destinations", "About", "Contact"];
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
-  const { isDarkMode, userDetails } = useStore();
+  const { isDarkMode, userDetails, favoriteProfiles } = useStore();
   const logo = isDarkMode ? logoDark : logoLight;
 
   useEffect(() => {
     // This function handles closing the menu when clicking outside of the header container
     const handleDocumentClick = (event) => {
-      if (!event.target.closest(".header-container, .MuiDayCalendar-weekContainer")) {
+      if (
+        !event.target.closest(
+          ".header-container, .MuiDayCalendar-weekContainer",
+        )
+      ) {
         if (isOpen) {
           setIsOpen(false);
         }
@@ -45,7 +50,15 @@ function Header() {
       className="header-container"
     >
       <div className="container mx-auto max-w-6xl items-center justify-between md:flex">
-        <Link to="/" className="flex text-xl font-bold">
+        <Link
+          to="/"
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            "&:hover": {
+              backgroundColor: "var(--header-bg-color)",
+            },
+          }}
+        >
           <img
             src={logo}
             alt="Illustration of the Holidaze logo"
@@ -130,29 +143,34 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="flex max-w-1200 me-4 md:mx-auto justify-end text-right">
-        {userDetails.username ? (
-          <span>
+      <div className="me-4 flex max-w-1200 justify-between text-right md:mx-auto">
+        {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
+        {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
+        {userDetails.name ? (
+          <span className="flex flex-col sm:flex-row">
             Welcome back
-            <Link to={ `/profile/${userDetails.username}` } style={ {
-              color: "var(--username-color)",
-
-            }}>
-              {userDetails.username}
+            <Link
+              to={`/profile/${userDetails.name}`}
+              style={{
+                color: "var(--profile-text-color)",
+                paddingRight: 0,
+              }}
+            >
+              {userDetails.name}
             </Link>
           </span>
         ) : (
-        <div>
-          Welcome, please{" "}
-          <Link
-            to="/login"
-            style={{
-              color: "var(--link-color)",
-            }}
-          >
-            log in
-          </Link>
-        </div>
+          <div>
+            Welcome, please{" "}
+            <Link
+              to="/login"
+              style={{
+                color: "var(--link-color)",
+              }}
+            >
+              log in
+            </Link>
+          </div>
         )}
       </div>
     </StyledHeader>
@@ -160,4 +178,3 @@ function Header() {
 }
 
 export default Header;
-

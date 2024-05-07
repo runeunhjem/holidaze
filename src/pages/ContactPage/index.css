@@ -1,0 +1,5 @@
+
+  .MuiOutlinedInput-input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px var(--body-bg-color) inset !important;
+    -webkit-text-fill-color: var(--input-text-color) !important;
+}

@@ -1,76 +1,153 @@
 import { create } from "zustand";
-// import { save, load } from "../utils/storage.js";
-import { load } from "../utils/storage.js";
+import { persist } from "zustand/middleware";
+import { ENDPOINTS, PARAMS } from "../constants/api";
+import { fetchApi } from "../utils/fetchApi";
+import { devtools } from 'zustand/middleware';
 
-const useStore = create((set) => ({
-  isAuthenticated: load("isAuthenticated") || false,
-  isDarkMode: load("isDarkMode") || true,
-  accessToken: load("accessToken"),
-  userDetails: load("userDetails") || {},
-  venues: [],
-  justLoggedIn: false, // New state to control navigation after login
+const useStore = create(
+  devtools(
+    persist(
+      (set, get) => ({
+        isAuthenticated: false,
+        isDarkMode: true,
+        accessToken: null,
+        userDetails: {},
+        viewedProfile: {},
+        favoriteProfiles: [],
+        favorites: [], // State for favorite venues
+        venues: [],
+        venuesMeta: {},
+        justLoggedIn: false,
+        isOptionsOpen: false,
+        isFiltersOpen: false,
+        toggleOptionsOpen: () =>
+          set((state) => ({
+            isOptionsOpen: !state.isOptionsOpen,
+            // isFiltersOpen: false,
+          })),
+        toggleFiltersOpen: () =>
+          set((state) => ({
+            isFiltersOpen: !state.isFiltersOpen,
+            // isOptionsOpen: false,
+          })),
+        closeAll: () => set({ isOptionsOpen: false, isFiltersOpen: false }),
 
-  toggleDarkMode: () =>
-    set((state) => {
-      const newIsDarkMode = !state.isDarkMode;
-      // save("isDarkMode", newIsDarkMode);
-      document.body.setAttribute(
-        "data-theme",
-        newIsDarkMode ? "dark" : "light",
-      );
-      return { isDarkMode: newIsDarkMode };
-    }),
+        setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
+        setLoading: (loading) => set({ loading }),
 
-  setIsAuthenticated: (isAuthenticated) => {
-    // save("isAuthenticated", isAuthenticated);
-    set({ isAuthenticated });
-  },
+        addFavoriteProfile: (profile) => {
+          const { favoriteProfiles } = get();
+          if (!favoriteProfiles.some((p) => p.name === profile.name)) {
+            set({ favoriteProfiles: [...favoriteProfiles, profile] });
+          }
+        },
 
-  setAccessToken: (accessToken) => {
-    // save("accessToken", accessToken);
-    set({ accessToken, isAuthenticated: true });
-  },
+        removeFavoriteProfile: (profileName) => {
+          set((state) => ({
+            favoriteProfiles: state.favoriteProfiles.filter(
+              (p) => p.name !== profileName,
+            ),
+          }));
+        },
 
-  setUserDetails: (details) => {
-    // save("userDetails", details);
-    set({ userDetails: details });
-  },
+        addFavoriteVenue: (venue) => {
+          const { favorites } = get();
+          if (!favorites.some((v) => v.id === venue.id)) {
+            set({ favorites: [...favorites, venue] });
+          }
+        },
 
-  clearUser: () => {
-    // save("accessToken", null);
-    // save("isAuthenticated", false);
-    // save("userDetails", {});
-    // localStorage.removeItem("accessToken");
-    set({
-      accessToken: null,
-      isAuthenticated: false,
-      userDetails: {},
-      justLoggedIn: false,
-    });
-    // document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
-  },
+        removeFavoriteVenue: (venueId) =>
+          set((state) => ({
+            favorites: state.favorites.filter((v) => v.id !== venueId),
+          })),
 
-  logIn: (userDetails) => {
-    // save("isAuthenticated", true);
-    // save("userDetails", userDetails);
-    set({ isAuthenticated: true, userDetails, justLoggedIn: true });
-  },
+        toggleDarkMode: () =>
+          set((state) => {
+            const newIsDarkMode = !state.isDarkMode;
+            document.body.setAttribute(
+              "data-theme",
+              newIsDarkMode ? "dark" : "light",
+            );
+            return { isDarkMode: newIsDarkMode };
+          }),
 
-  // logOut: () => {
-  //   // save("accessToken", null);
-  //   // save("isAuthenticated", false);
-  //   // save("userDetails", {});
-  //   // localStorage.removeItem("accessToken");
-  //   set({
-  //     accessToken: null,
-  //     isAuthenticated: false,
-  //     userDetails: {},
-  //     justLoggedIn: false,
-  //   });
-  //   document.body.setAttribute("data-theme", "dark"); // Optionally reset to default theme
-  // },
+        setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 
-  resetJustLoggedIn: () => set({ justLoggedIn: false }), // Reset the flag after navigation
-}));
+        setAccessToken: (accessToken) =>
+          set({ accessToken, isAuthenticated: true }),
+
+        setUserDetails: (details) => set({ userDetails: details }),
+
+        setViewedProfile: (details) => set({ viewedProfile: details }),
+
+        clearUser: () => {
+          set({
+            accessToken: null,
+            isAuthenticated: false,
+            userDetails: {},
+            viewedProfile: {},
+            bookings: [],
+            venues: [],
+            venuesMeta: {},
+          });
+        },
+
+        logIn: async (userDetails) => {
+          const { accessToken, ...restDetails } = userDetails;
+          set({
+            isAuthenticated: true,
+            userDetails: restDetails,
+            viewedProfile: restDetails,
+            accessToken,
+            justLoggedIn: true,
+          });
+
+          // Fetch the full user profile, including venues
+          try {
+            const profileResponse = await fetchApi(
+              `${ENDPOINTS.profiles}/${restDetails.username}${PARAMS._venues}`,
+              {
+                method: "GET",
+                headers: {
+                  "X-Noroff-API-Key": import.meta.env.VITE_API_KEY,
+                  Authorization: `Bearer ${accessToken}`,
+                },
+              },
+            );
+
+            if (profileResponse && profileResponse.data) {
+              set({ viewedProfile: profileResponse.data });
+            } else {
+              console.error("Failed to fetch full user profile");
+            }
+          } catch (error) {
+            console.error("Error fetching user profile:", error);
+          }
+        },
+
+        resetJustLoggedIn: () => set({ justLoggedIn: false }),
+      }),
+      {
+        name: "user-info-and-favs",
+        storage: {
+          getItem: (name) => {
+            const item = localStorage.getItem(name);
+            try {
+              return JSON.parse(item);
+            } catch {
+              return null;
+            }
+          },
+          setItem: (name, value) => {
+            const stringifiedValue = JSON.stringify(value);
+            localStorage.setItem(name, stringifiedValue);
+          },
+          removeItem: (name) => localStorage.removeItem(name),
+        },
+      },
+    ),
+  ),
+);
 
 export default useStore;

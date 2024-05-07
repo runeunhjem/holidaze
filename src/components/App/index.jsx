@@ -25,6 +25,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import MyVenuesPage from "../../pages/MyVenuesPage";
 import MyBookingsPage from "../../pages/MyBookingsPage";
 import MyFavoritesPage from "../../pages/MyFavoritesPage";
+import BookingDetailsPage from "../../pages/BookingDetailsPage";
 
 function App() {
   const { isAuthenticated, isDarkMode } = useStore((state) => ({
@@ -38,7 +39,7 @@ function App() {
 
   const theme = React.useMemo(() => getTheme(isDarkMode), [isDarkMode]);
 
-  console.log("Is Authenticated in App:", isAuthenticated);
+  // console.log("Is Authenticated in App:", isAuthenticated);
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -50,6 +51,7 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/destinations" element={<VenueListPage />} />
               <Route path="/venues/:id" element={<VenueDetailsPage />} />
+              <Route path="/bookings/:id" element={<BookingDetailsPage />} />
               <Route
                 path="/profile"
                 element={
@@ -104,7 +106,7 @@ function App() {
 }
 
 App.propTypes = {
-  children: propTypes.node, // 'node' covers anything that can be rendered: numbers, strings, elements, or an array (or fragment) containing these types.
+  children: propTypes.node,
 };
 
 export default App;

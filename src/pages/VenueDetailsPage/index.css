@@ -1,4 +1,11 @@
-.react-datepicker__day--highlighted {
-  background-color: var(--highlight-booked-red) !important;
-  color: white !important;
+/* Available dates */
+.available-date {
+  /* background-color: var(--green-200); */
+}
+
+/* Booked dates */
+.booked-date {
+  border-radius: 4px;
+  background-color: var(--red-200);
+  color: var(--gray-900); /* Optionally, change text color for better contrast */
 }

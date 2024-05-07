@@ -7,8 +7,8 @@ import norwayImage5 from "../../assets/images/norway-image-5.png";
 
 function NorwayImageGallery() {
   return (
-    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-4">
-      <div className="image-container w-full overflow-hidden">
+    <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-0">
+      <div className="w-full overflow-hidden">
         <S.StyledImage
           className="w-full overflow-hidden"
           src={norwayImage1}
@@ -16,7 +16,7 @@ function NorwayImageGallery() {
         />
       </div>
       <div className="flex w-full flex-nowrap gap-6">
-        <div className="image-container w-1/2 overflow-hidden">
+        <div className="w-1/2 overflow-hidden">
           <S.StyledImage
             className="w-full"
             src={norwayImage2}
@@ -24,10 +24,10 @@ function NorwayImageGallery() {
           />
         </div>
         <div className="flex w-1/2 flex-wrap gap-5">
-          <div className="image-container overflow-hidden ">
+          <div className="overflow-hidden ">
             <S.StyledImage src={norwayImage3} alt="Visit Trolltunga" />
           </div>
-          <div className="image-container flex flex-nowrap gap-5 p-0">
+          <div className="flex flex-nowrap gap-5 p-0">
             <S.ImageContainer className="image4 p-0">
               <S.StyledImage
                 // className="w-2/3 p-0"

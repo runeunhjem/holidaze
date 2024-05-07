@@ -17,7 +17,7 @@ function TravelTips() {
         to="/destinations"
         className="mt-6 w-full max-w-800 ps-1 text-left underline-offset-4"
       >
-        <S.Link className="w-full max-w-800 md:px-4">
+        <S.Link className="w-full max-w-800 px-2">
           All norwegian destinations
         </S.Link>
       </Link>

@@ -16,7 +16,7 @@ function TravelTips() {
         to="/destinations"
         className="my-6 w-full max-w-800 ps-1 text-left underline-offset-4 "
       >
-        <S.Link className="w-full max-w-800 md:px-4">All destinations</S.Link>
+        <S.Link className="w-full max-w-800 px-2">All destinations</S.Link>
       </Link>
     </S.StyledContainer>
   );
