@@ -1,24 +1,26 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import {
   Box,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Button,
+  // Button,
   Grid,
   Typography,
 } from "@mui/material";
 import { useState } from "react";
 
-const Filters = ({
-  open,
-  onClose,
-  onFiltersChange,
-  continents = [],
-  countries = [],
-  venues,
-}) => {
+const Filters = (
+  // {
+  // open,
+  // onClose,
+  // onFiltersChange,
+  // continents = [],
+  // countries = [],
+  // venues,
+  // }
+) => {
   const [filters, setFilters] = useState({
     rating: "",
     priceRange: "",
@@ -30,30 +32,30 @@ const Filters = ({
   const handleFilterChange = (field, value) => {
     const updatedFilters = { ...filters, [field]: value };
     setFilters(updatedFilters);
-    onFiltersChange(updatedFilters);
+    // onFiltersChange(updatedFilters);
   };
 
-  const applyFilters = () => {
-    if (!venues) return; // Ensure venues is not undefined
+  // const applyFilters = () => {
+  //   if (!venues) return; // Ensure venues is not undefined
 
-    let filteredVenues = venues.filter((venue) => {
-      return (
-        (!filters.rating || venue.rating >= Number(filters.rating)) &&
-        (!filters.priceRange ||
-          (filters.priceRange === "under500"
-            ? venue.price < 500
-            : filters.priceRange === "500to1000"
-              ? venue.price >= 500 && venue.price <= 1000
-              : venue.price > 1000)) &&
-        (!filters.continent ||
-          venue.location.continent === filters.continent) &&
-        (!filters.country || venue.location.country === filters.country) &&
-        (!filters.maxGuests || venue.maxGuests >= Number(filters.maxGuests))
-      );
-    });
+  //   let filteredVenues = venues.filter((venue) => {
+  //     return (
+  //       (!filters.rating || venue.rating >= Number(filters.rating)) &&
+  //       (!filters.priceRange ||
+  //         (filters.priceRange === "under500"
+  //           ? venue.price < 500
+  //           : filters.priceRange === "500to1000"
+  //             ? venue.price >= 500 && venue.price <= 1000
+  //             : venue.price > 1000)) &&
+  //       (!filters.continent ||
+  //         venue.location.continent === filters.continent) &&
+  //       (!filters.country || venue.location.country === filters.country) &&
+  //       (!filters.maxGuests || venue.maxGuests >= Number(filters.maxGuests))
+  //     );
+  //   });
 
-    onFiltersChange({ ...filters, filteredVenues });
-  };
+  //   onFiltersChange({ ...filters, filteredVenues });
+  // };
 
   return (
     <Box
@@ -90,18 +92,18 @@ const Filters = ({
             field: "priceRange",
             options: ["Choose Pricerange", "under500", "500to1000", "over1000"],
           },
-          {
-            label: "Continent",
-            field: "continent",
-            options:
-              continents.length > 0 ? continents : ["No continents available"],
-          },
-          {
-            label: "Country",
-            field: "country",
-            options:
-              countries.length > 0 ? countries : ["No countries available"],
-          },
+          // {
+          //   label: "Continent",
+          //   field: "continent",
+          //   options:
+          //     continents.length > 0 ? continents : ["No continents available"],
+          // },
+          // {
+          //   label: "Country",
+          //   field: "country",
+          //   options:
+          //     countries.length > 0 ? countries : ["No countries available"],
+          // },
           {
             label: "Max Guests",
             field: "maxGuests",
@@ -128,20 +130,20 @@ const Filters = ({
         ))}
       </Grid>
       <Box display="flex" justifyContent="space-between" mt={2}>
-        <Button onClick={applyFilters}>Apply Filters</Button>
-        <Button onClick={onClose}>Close</Button>
+        {/* <Button onClick={applyFilters}>Apply Filters</Button>
+        <Button onClick={onClose}>Close</Button> */}
       </Box>
     </Box>
   );
 };
 
-Filters.propTypes = {
-  open: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onFiltersChange: PropTypes.func.isRequired,
-  continents: PropTypes.array.isRequired,
-  countries: PropTypes.array.isRequired,
-  venues: PropTypes.array.isRequired,
-};
+// Filters.propTypes = {
+//   open: PropTypes.bool.isRequired,
+//   onClose: PropTypes.func.isRequired,
+//   onFiltersChange: PropTypes.func.isRequired,
+//   continents: PropTypes.array.isRequired,
+//   countries: PropTypes.array.isRequired,
+//   venues: PropTypes.array.isRequired,
+// };
 
 export default Filters;
