@@ -16,7 +16,7 @@ const CancelButton = ({ onClick }) => {
         textTransform: "none",
         backgroundColor: theme.palette.mode === "dark" ? "var(--red-700)" : "var(--red-500)",
         color: theme.palette.mode === "dark" ? "var(--gray-100)" : "var(--gray-900)",
-        ":hover": {
+        "&:hover": {
           color: theme.palette.mode === "dark" ? "var(--gray-900) !important" : "var(--gray-100)",
           backgroundColor: theme.palette.mode === "dark" ? "var(--red-500)" : "var(--red-700)",
         },

@@ -89,7 +89,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
                   </>
                 )}
               </S.OverlaySection>
-              <S.OverlaySection className="options">
+              <S.OverlaySection className="options-icon">
                 <S.OptionsIcon />
               </S.OverlaySection>
             </S.TopOverlay>

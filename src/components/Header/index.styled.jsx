@@ -6,7 +6,7 @@ export const StyledHeader = styled.header`
   left: 0;
   width: 100%;
   z-index: 999;
-  padding: 10px 10px 10px 10px;
+  padding: 10px 10px 0px 10px;
   transition: all 0.1s ease-in-out;
   background-color: var(
     --header-bg-color

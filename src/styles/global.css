@@ -84,6 +84,8 @@
     --menu-hover-bg-color: var(--sky-200);
     --menu-bg-color: var(--sky-100);
     --cards-sections-bg-color: var(--sky-200);
+    --menu-items-text-color-hover: var(--blue-800);
+    --menu-items-bg-color-hover: var(--sky-200);
   }
 
   [data-theme="dark"] {
@@ -119,6 +121,8 @@
     --menu-hover-bg-color: var(--yellow-200);
     --menu-bg-color: var(--gray-900);
     --cards-sections-bg-color: var(--gray-800);
+    --menu-items-bg-color-hover: var(--stone-600);
+    --menu-items-text-color-hover: var(--gray-300);
   }
 
   body {
@@ -158,60 +162,38 @@
     flex: 1;
   }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
   .custom-scrollbar {
     scrollbar-width: thin;
-    scrollbar-color: var(--button-bg-color)  transparent;
-    border-radius: 20px 0 0 20px;
-}
+    scrollbar-color: var(--menu-hover-bg-color) transparent;
+    border-radius: 10px;
+    outline: 1px solid var(--menu-hover-bg-color);
+  }
 
-/* For browsers that support WebKit (e.g., Chrome, Safari, Edge) */
-.custom-scrollbar::-webkit-scrollbar {
+  /* For browsers that support WebKit (e.g., Chrome, Safari, Edge) */
+  .custom-scrollbar::-webkit-scrollbar {
     width: 8px;
-}
+    border-radius: 6px;
+  }
 
-.custom-scrollbar::-webkit-scrollbar-track {
+  .custom-scrollbar::-webkit-scrollbar-track {
     background: var(--button-bg-color);
-}
+  }
 
-.custom-scrollbar::-webkit-scrollbar-thumb {
+  .custom-scrollbar::-webkit-scrollbar-thumb {
     background-color: var(--button-bg-color-hover);
     border-radius: 1rem;
     border: 1px solid var(--button-bg-color);
-}
-/* Default light mode */
-/* html, body {
-    scrollbar-width: thin;
-    scrollbar-color: var(--sky-300) var(--sky-100);
-    border-radius: 4px;
-}
-
-html::-webkit-scrollbar {
-    width: 8px;
-}
-
-html::-webkit-scrollbar-thumb {
-    background-color: var(--sky-100) !important;
-    border-radius: 4px;
-    border: 1px solid var(--sky-300) !important;
-}
-
-html::-webkit-scrollbar-track {
-    background: var(--sky-300) !important;
-}
-
-
-html[data-theme="dark"], body[data-theme="dark"] {
-    scrollbar-width: thin;
-    scrollbar-color: var(--yellow-200) var(--gray-800) !important;
-}
-
-html[data-theme="dark"]::-webkit-scrollbar-thumb {
-    background-color: var(--yellow-200) !important;
-}
-
-html[data-theme="dark"]::-webkit-scrollbar-track {
-    background-color: var(--gray-800) !important;
-} */
-
-
+  }
 }

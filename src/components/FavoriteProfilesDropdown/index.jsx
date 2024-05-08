@@ -13,7 +13,7 @@ const FavoriteProfilesDropdown = () => {
     useStore();
 
   const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
+  const menuOpen = Boolean(anchorEl);
 
   useEffect(() => {
     const defaultFavorites = [
@@ -59,8 +59,8 @@ const FavoriteProfilesDropdown = () => {
         onClick={handleClick}
         sx={{
           color: "var(--profile-text-color) !important",
-
         }}
+        className="header-nav-links"
       >
         ❤️
         <span className="ms-1">Managers</span>
@@ -68,7 +68,7 @@ const FavoriteProfilesDropdown = () => {
       <Menu
         id="favorite-profile-menu"
         anchorEl={anchorEl}
-        open={open}
+        open={menuOpen}
         onClose={handleClose}
         sx={{
           ".MuiList-root": {

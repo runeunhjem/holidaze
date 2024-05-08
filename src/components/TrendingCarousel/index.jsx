@@ -54,7 +54,7 @@ function TrendingCarousel() {
 
   return (
     <div
-      className="slider-container mx-auto mt-9 w-full justify-center overflow-hidden sm:mt-3 sm:max-w-800 md:max-w-800"
+      className="slider-container mx-auto mt-9 w-full justify-center overflow-hidden sm:mt-9 sm:max-w-800 md:max-w-800"
       ref={sliderContainerRef}
     >
       <Slider {...settings}>
