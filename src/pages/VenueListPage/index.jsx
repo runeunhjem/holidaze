@@ -6,6 +6,8 @@ import PaginationButtons from "../../components/MUI/Pagination";
 import Filters from "../../components/Filters";
 import Options from "../../components/Options";
 import useStore from "../../hooks/useStore";
+import { fetchApi } from "../../utils/fetchApi";
+import { ENDPOINTS } from "../../constants/api";
 
 function VenueListPage() {
   const {
@@ -15,7 +17,10 @@ function VenueListPage() {
     loading,
     currentPage,
     setCurrentPage,
-    // options,
+    filters,
+    setVenues,
+    setLoading,
+    setError,
   } = useStore((state) => ({
     venues: state.venues,
     venuesMeta: state.venuesMeta,
@@ -23,15 +28,43 @@ function VenueListPage() {
     loading: state.loading,
     currentPage: state.currentPage,
     setCurrentPage: state.setCurrentPage,
-    options: state.options,
+    filters: state.filters,
+    setVenues: state.setVenues,
+    setLoading: state.setLoading,
+    setError: state.setError,
   }));
 
   useEffect(() => {
-    console.log("Fetching venues for page:", currentPage);
-  }, [currentPage]);
+    async function fetchVenues() {
+      setLoading(true);
+      const params = {
+        page: currentPage,
+        limit: 10,
+        sortBy: "name",
+        sortOrder: "asc",
+        ...filters,
+      };
+      const queryParams = new URLSearchParams(params).toString();
+
+      try {
+        const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`);
+        if (response && response.data && response.meta) {
+          setVenues(response.data, response.meta);
+        } else {
+          setError("Unexpected response format");
+        }
+      } catch (error) {
+        setError("Failed to fetch venues: " + error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchVenues();
+  }, [currentPage, filters, setLoading, setError, setVenues]);
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(Number(value));
+    setCurrentPage(value);
   };
 
   return (

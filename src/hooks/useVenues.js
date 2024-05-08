@@ -3,49 +3,58 @@ import { fetchApi } from "../utils/fetchApi";
 import { ENDPOINTS } from "../constants/api";
 import useStore from "./useStore";
 
-const useVenues = (currentPage, filters, limit = 10) => {
+const useVenues = () => {
   const {
+    currentPage,
+    filters,
     setVenues,
-    venues,
-    venuesMeta,
     setLoading,
     setError,
+    venues,
+    venuesMeta,
     loading,
     error,
-  } = useStore();
+  } = useStore((state) => ({
+    currentPage: state.currentPage,
+    filters: state.filters,
+    setVenues: state.setVenues,
+    setLoading: state.setLoading,
+    setError: state.setError,
+    venues: state.venues,
+    venuesMeta: state.venuesMeta,
+    loading: state.loading,
+    error: state.error,
+  }));
 
   useEffect(() => {
-    const fetchVenues = async () => {
+    async function fetchVenues() {
       setLoading(true);
       const params = {
         page: currentPage,
-        limit,
+        limit: 10, // Or manage limit from the store
         sortBy: "name",
         sortOrder: "asc",
-        ...filters, // Include filters in the query parameters
+        ...filters,
       };
       const queryParams = new URLSearchParams(params).toString();
 
       try {
-        const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`, {
-          method: "GET",
-        });
-
+        const response = await fetchApi(`${ENDPOINTS.venues}?${queryParams}`);
         if (response && response.data && response.meta) {
           setVenues(response.data, response.meta);
         } else {
           setError("Unexpected response format");
         }
       } catch (error) {
-        console.error("Failed to fetch venues:", error);
         setError(error.message);
+        console.error("Failed to fetch venues:", error);
       } finally {
         setLoading(false);
       }
-    };
+    }
 
     fetchVenues();
-  }, [currentPage, filters, limit, setVenues, setLoading, setError]);
+  }, [currentPage, filters, setLoading, setError, setVenues]);
 
   return { venues, venuesMeta, loading, error };
 };

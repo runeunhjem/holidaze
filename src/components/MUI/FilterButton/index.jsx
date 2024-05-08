@@ -47,7 +47,7 @@ function FilterButton({
   useEffect(() => {
     toggleOptionsOpen();
     toggleFiltersOpen();
-    closeAll();
+    // closeAll();
   }, [closeAll, toggleOptionsOpen, toggleFiltersOpen]);
 
   return (
