@@ -48,7 +48,7 @@ function MyFavoriteVenues() {
         margin: "0 auto",
       }}
     >
-      <div className="items center mt-6 flex justify-around px-6">
+      <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           My Favorite Venues
         </Typography>
@@ -70,13 +70,13 @@ function MyFavoriteVenues() {
 
       {favorites.length > 0 ? (
         <div
-          className="venues-container items center flex justify-center py-6"
+          className="venues-container flex items-center justify-center py-6"
           style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
           {favoriteDisplay.map((venue) => (
             <div
               key={venue.id}
-              className="venue-card-container items center flex justify-center"
+              className="venue-card-container flex items-center justify-center"
               style={{ flexBasis: "25%", borderRadius: "20px" }}
             >
               <Card
@@ -93,7 +93,7 @@ function MyFavoriteVenues() {
                   alt={venue.media[0].alt || venue.name}
                 />
 
-                <div className="city-overlay items center flex justify-around">
+                <div className="city-overlay flex items-center justify-around">
                   {venue.location.city}
                   <span
                     onClick={(e) => handleHover(e, venue)}
@@ -105,7 +105,7 @@ function MyFavoriteVenues() {
                     [Info]
                   </span>
                 </div>
-                <div className="id-overlay items center flex justify-around py-1 text-xs">
+                <div className="id-overlay flex items-center justify-around py-1 text-xs">
                   Venue ID: {venue.id.slice(0, 6)}
                 </div>
                 <div

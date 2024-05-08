@@ -75,7 +75,7 @@ function MyBookings() {
         margin: "0 auto",
       }}
     >
-      <div className="items center mt-6 flex justify-around px-6">
+      <div className="mt-6 flex justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
           {headerText}
         </Typography>
@@ -96,7 +96,7 @@ function MyBookings() {
       />
       {transformedBookings.length > 0 ? (
         <div
-          className="bookings-container items center flex justify-center py-6"
+          className="bookings-container flex justify-center py-6"
           style={{
             display: "flex",
             flexWrap: "wrap",
@@ -107,7 +107,7 @@ function MyBookings() {
           {transformedBookings.map((booking) => (
             <div
               key={booking.id}
-              className="booking-card-container items center flex justify-center"
+              className="booking-card-container flex justify-center"
               style={{
                 borderRadius: "20px 0 0 20px",
                 height: "176px",
@@ -147,17 +147,17 @@ function MyBookings() {
                   alt={booking.venue.media[0].alt || booking.venue.name}
                 />
 
-                <div className="id-overlay items center flex items-center justify-around py-1 text-xs">
+                <div className="id-overlay flex items-center justify-around py-1 text-xs">
                   Your Ref: {booking.id.slice(0, 6)}
                 </div>
               </Card>
-              <div className="city-overlay items center flex justify-around">
-                <div className="truncate-on-small">
+              <div className="city-overlay items-center flex justify-between px-3 whitespace-nowrap">
+                <div className="truncate-on-small pe-2">
                   {booking.venue.name}, {booking.venue.location.city}
                 </div>
                 <span
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  className="flex cursor-pointer items-center justify-around py-1 text-xs"
+                  className="flex cursor-pointer items-center justify-around py-1 text-xs whitespace-nowrap"
                   onMouseLeave={handleClose}
                 >
                   {" "}

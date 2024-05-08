@@ -44,7 +44,7 @@ const ProfileInfo = ({ viewedProfile }) => {
       <div className="mt-2 flex items-center justify-center">
         <TbUserEdit className="me-2 text-2xl" />
 
-        <h2 onClick={handleOpenModal} className="text-2xl font-bold cursor-pointer">
+        <h2 onClick={handleOpenModal} className="text-2xl font-bold cursor-pointer header-nav-links px-2 rounded">
           Edit Profile
         </h2>
       </div>

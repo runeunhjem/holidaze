@@ -12,7 +12,7 @@ function FilterButton({
   onFiltersChange = () => {},
 }) {
   const {
-    isOptionsOpen,
+    optionsMenuIsOpen,
     isFiltersOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
@@ -20,12 +20,9 @@ function FilterButton({
   } = useStore();
 
   const [options, setOptions] = useState({
-    hideWithoutImages: false,
-    venuesPerPage: 10,
-    hasFreeParking: false,
-    hasFreeWifi: false,
-    hasBreakfast: false,
-    allowsPets: false,
+    checkImage: false, // Ensured all are initialized
+    checkTitle: false,
+    checkCountry: false,
   });
 
   const [filters, setFilters] = useState({
@@ -63,7 +60,7 @@ function FilterButton({
       </FilterButtonStyled>
 
       <Options
-        open={isOptionsOpen}
+        optionsMenuIsOpen={optionsMenuIsOpen}
         onClose={toggleOptionsOpen}
         options={options}
         onOptionsChange={handleOptionsChange}

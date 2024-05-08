@@ -65,7 +65,7 @@ const Filters = (
         position: "absolute",
         bottom: "-15px",
         left: "50%",
-        transform: open ? "translate(-50%, -100%)" : "translate(-50%, 100%)",
+        transform: "translate(-50%, 100%)",
         width: "90vw",
         maxWidth: "600px",
         maxHeight: "60vh",
@@ -73,10 +73,12 @@ const Filters = (
         bgcolor: "var(--header-bg-color)",
         boxShadow: 24,
         outline: "1px solid var(--border-color)",
-        borderRadius: "20px !important",
+        borderRadius: "20px",
         p: { xs: 2, sm: 4 },
         zIndex: 1300,
-        transition: "transform 0.3s ease-in-out",
+        opacity: open ? 0 : 0, // Set to 1 : 0 when i have fixed the issue
+        visibility: open ? "hidden" : "hidden", // Set to visible : hidden when i have fixed the issue
+        transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
         minWidth: { xs: "250px", sm: "600px" },
       }}
     >

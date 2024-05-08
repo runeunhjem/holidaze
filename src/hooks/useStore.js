@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ENDPOINTS, PARAMS } from "../constants/api";
 import { fetchApi } from "../utils/fetchApi";
-import { devtools } from 'zustand/middleware';
+import { devtools } from "zustand/middleware";
 
 const useStore = create(
   devtools(
@@ -14,26 +14,44 @@ const useStore = create(
         userDetails: {},
         viewedProfile: {},
         favoriteProfiles: [],
-        favorites: [], // State for favorite venues
+        favorites: [],
         venues: [],
         venuesMeta: {},
+        currentPage: 1,
+        setCurrentPage: (page) => set(() => ({ currentPage: page })),
         justLoggedIn: false,
-        isOptionsOpen: false,
+        optionsMenuIsOpen: false,
         isFiltersOpen: false,
+        options: {
+          checkImage: false,
+          checkTitle: false,
+          checkCountry: false,
+        },
+        filters: {
+          rating: "",
+          priceRange: "",
+          continent: "",
+          country: "",
+          maxGuests: 1,
+        },
         toggleOptionsOpen: () =>
           set((state) => ({
-            isOptionsOpen: !state.isOptionsOpen,
+            optionsMenuIsOpen: !state.optionsMenuIsOpen,
             // isFiltersOpen: false,
           })),
         toggleFiltersOpen: () =>
           set((state) => ({
             isFiltersOpen: !state.isFiltersOpen,
-            // isOptionsOpen: false,
+            // optionsMenuIsOpen: false,
           })),
-        closeAll: () => set({ isOptionsOpen: false, isFiltersOpen: false }),
+        closeAll: () => set({ optionsMenuIsOpen: false, isFiltersOpen: false }),
 
         setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
         setLoading: (loading) => set({ loading }),
+        setOptions: (newOptions) =>
+          set((state) => ({ options: { ...state.options, ...newOptions } })),
+        setFilters: (newFilters) =>
+          set(() => ({ filters: newFilters, currentPage: 1 })),
 
         addFavoriteProfile: (profile) => {
           const { favoriteProfiles } = get();
