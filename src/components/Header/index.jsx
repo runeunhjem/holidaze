@@ -19,6 +19,13 @@ function Header() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const { isDarkMode, userDetails, favoriteProfiles } = useStore();
   const logo = isDarkMode ? logoDark : logoLight;
+  const { toggleOptionsOpen, toggleFiltersOpen } = useStore();
+
+  useEffect(() => {
+    toggleOptionsOpen();
+    toggleFiltersOpen();
+
+  }, [toggleOptionsOpen, toggleFiltersOpen]);
 
   useEffect(() => {
     // This function handles closing the menu when clicking outside of the header container
