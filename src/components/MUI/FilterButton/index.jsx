@@ -16,7 +16,6 @@ function FilterButton({
     isFiltersOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
-    closeAll,
   } = useStore();
 
   const [options, setOptions] = useState({
@@ -48,8 +47,9 @@ function FilterButton({
 
   // Close both options and filters when the page reloads
   useEffect(() => {
-    closeAll();
-  }, [closeAll]);
+    toggleOptionsOpen();
+    toggleFiltersOpen();
+  }, [toggleOptionsOpen, toggleFiltersOpen]);
 
   return (
     <ButtonContainer>
