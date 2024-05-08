@@ -16,6 +16,7 @@ function FilterButton({
     isFiltersOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
+    closeAll,
   } = useStore();
 
   const [options, setOptions] = useState({
@@ -49,7 +50,8 @@ function FilterButton({
   useEffect(() => {
     toggleOptionsOpen();
     toggleFiltersOpen();
-  }, [toggleOptionsOpen, toggleFiltersOpen]);
+    closeAll();
+  }, [closeAll, toggleOptionsOpen, toggleFiltersOpen]);
 
   return (
     <ButtonContainer>

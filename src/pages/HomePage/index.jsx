@@ -4,8 +4,16 @@ import TrendingCarousel from "../../components/TrendingCarousel";
 import VerticalSlider from "../../components/VerticalSlider";
 import VisitNorway from "../../components/VisitNorway";
 import TravelTips from "../../components/TravelTips";
+import useStore from "../../hooks/useStore";
 
 function HomePage() {
+  const { toggleOptionsOpen, toggleFiltersOpen, closeAll } = useStore();
+
+  useEffect(() => {
+    toggleOptionsOpen();
+    toggleFiltersOpen();
+    // closeAll();
+  }, [closeAll, toggleOptionsOpen, toggleFiltersOpen]);
 
 useEffect(() => {
   document.title = "Holidaze - Home";
