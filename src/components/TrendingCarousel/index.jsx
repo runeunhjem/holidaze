@@ -23,6 +23,7 @@ function TrendingCarousel() {
     speed: 800,
     autoplaySpeed: 4000,
     cssEase: "ease-in-out",
+    lazyLoad: "ondemand",
     responsive: [
       {
         breakpoint: 1024,
@@ -53,7 +54,7 @@ function TrendingCarousel() {
 
   return (
     <div
-      className="slider-container mx-auto mt-9 sm:mt-3 w-full justify-center overflow-hidden sm:max-w-800 md:max-w-800"
+      className="slider-container mx-auto mt-9 w-full justify-center overflow-hidden sm:mt-3 sm:max-w-800 md:max-w-800"
       ref={sliderContainerRef}
     >
       <Slider {...settings}>

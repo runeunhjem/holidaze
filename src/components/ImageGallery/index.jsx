@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import * as S from "./index.styled";
 import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
@@ -12,15 +12,15 @@ function ImageGallery({ media, countryName, continent, venue }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const [overlayData, setOverlayData] = useState({
-    countryCode: "",
-    continentText: "",
+    countryCode: getCountryCode(countryName || ""),
+    continentText: continent || "Unspecified",
   });
   const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
 
   const isFavorite = (venueId) =>
     favorites.some((favorite) => favorite.id === venueId);
 
-  const toggleFavorite = (venue) => {
+  const toggleFavorite = () => {
     if (isFavorite(venue.id)) {
       removeFavoriteVenue(venue.id);
     } else {
@@ -31,25 +31,26 @@ function ImageGallery({ media, countryName, continent, venue }) {
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
     const continentText =
-      continent === "Unknown" || continent === "" ? "Unspecified" : continent;
+      !continent || continent === "Unknown" ? "Unspecified" : continent;
     setOverlayData({ countryCode: fetchedCountryCode, continentText });
   }, [countryName, continent]);
 
   useEffect(() => {
     setImageVisible(true);
     const timer = setTimeout(() => {
-      setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length);
+      setSelectedImageIndex(
+        (prevIndex) => (prevIndex + 1) % (media.length || 1),
+      ); // Avoid division by zero
       setImageVisible(true);
     }, 5000);
     return () => clearTimeout(timer);
   }, [selectedImageIndex, media.length]);
 
-  const placeholderImage = "https://picsum.photos/400/600";
-
-  if (media.length === 0) {
+  if (!media || media.length === 0) {
     return <div>No images available.</div>;
   }
 
+  const placeholderImage = "https://picsum.photos/400/600";
 
   return (
     <div className="gallery-wrapper">
@@ -57,7 +58,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
         {media.map((img, index) => (
           <div
             key={index}
-            className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden1"}`}
+            className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
             style={{
               position: "absolute",
               width: "100%",
@@ -68,8 +69,13 @@ function ImageGallery({ media, countryName, continent, venue }) {
               borderRadius: "20px",
             }}
           >
-            <S.StyledImg src={img.url || placeholderImage} alt={img.alt} />
-            <S.ImageOverlay>{img.alt}</S.ImageOverlay>
+            <S.StyledImg
+              src={img.url || placeholderImage}
+              alt={img.alt || "Image"}
+            />
+            <S.ImageOverlay>
+              {img.alt || "No description available"}
+            </S.ImageOverlay>
             <S.TopOverlay>
               <S.OverlaySection>
                 <CountryFlag countryCode={overlayData.countryCode} />
@@ -83,12 +89,11 @@ function ImageGallery({ media, countryName, continent, venue }) {
                   </>
                 )}
               </S.OverlaySection>
-              <S.OptionsIcon className="flex items-center justify-end" />
+              <S.OverlaySection className="options">
+                <S.OptionsIcon />
+              </S.OverlaySection>
             </S.TopOverlay>
-            <div
-              className="favorite-overlay bg-none"
-              onClick={() => toggleFavorite(venue)}
-            >
+            <div className="favorite-overlay bg-none" onClick={toggleFavorite}>
               {isFavorite(venue.id) ? (
                 <TbHeartFilled className="text-lg text-red-500" />
               ) : (
@@ -120,7 +125,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
         {media.map((image, index) => (
           <S.ThumbnailImg
             key={index}
-            src={image.url}
+            src={image.url || placeholderImage}
             alt={image.alt || "Thumbnail"}
             className={selectedImageIndex === index ? "selected" : ""}
             onClick={() => setSelectedImageIndex(index)}
@@ -132,15 +137,15 @@ function ImageGallery({ media, countryName, continent, venue }) {
 }
 
 ImageGallery.propTypes = {
-  media: propTypes.arrayOf(
-    propTypes.shape({
-      url: propTypes.string.isRequired,
-      alt: propTypes.string,
+  media: PropTypes.arrayOf(
+    PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      alt: PropTypes.string,
     }),
   ).isRequired,
-  venue: propTypes.object.isRequired,
-  countryName: propTypes.string.isRequired,
-  continent: propTypes.string.isRequired,
+  venue: PropTypes.object.isRequired,
+  countryName: PropTypes.string.isRequired,
+  continent: PropTypes.string.isRequired,
 };
 
 export default ImageGallery;

@@ -115,7 +115,7 @@ export const Thumbnails = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 20px;
 `;
 
 export const ThumbnailImg = styled.img`
@@ -137,9 +137,9 @@ export const ThumbnailImg = styled.img`
 export const OptionsIcon = styled(CgMoreVertical)`
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  font-size: 24px;
+  font-size: 20px;
+  color: var(--link-color);
   &:hover {
-    color: var(--link-color);
     transform: scale(1.3);
   }
 `;

@@ -1,4 +1,3 @@
-// import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledHeader = styled.header`
@@ -9,6 +8,11 @@ export const StyledHeader = styled.header`
   z-index: 999;
   padding: 10px 10px 10px 10px;
   transition: all 0.1s ease-in-out;
+  background-color: var(
+    --header-bg-color
+  ); /* Use global variable for background */
+  border-bottom: 1px solid var(--border-color); /* Use global variable for border */
+
   .container {
     position: relative;
     max-width: 1200px;
@@ -24,14 +28,19 @@ export const StyledHeader = styled.header`
     padding: 2px 4px;
     border-radius: 4px;
     &:hover {
-      color: var(${({ theme }) => (theme === "dark" ? "--link-color-dark-hover" : "--link-color-light-hover")});
-      transition: all 0.3s ease;
-      background-color: var(${({ theme }) => (theme === "dark" ? "--overlay-color-dark" : "--overlay-color-light")});
+      color: var(--link-color-hover); /* Use global variable for hover color */
+      background-color: var(
+        --overlay-color
+      ); /* Use global variable for background on hover */
     }
 
     &.active {
-      color: var(${({ theme }) => (theme === "dark" ? "--link-color-dark-hover" : "--link-color-light-hover")});
-      background-color: var(${({ theme }) => (theme === "dark" ? "--overlay-color-dark" : "--overlay-color-light")});
+      color: var(
+        --link-color-hover
+      ); /* Use global variable for active link color */
+      background-color: var(
+        --overlay-color
+      ); /* Use global variable for active link background */
     }
   }
 
@@ -57,11 +66,13 @@ export const StyledHeader = styled.header`
       position: absolute;
       top: 100%;
       right: 0;
-      background-color: var(${({ theme }) => (theme === "dark" ? "--bg-header-dark" : "--bg-header-light")});
+      background-color: var(
+        --header-bg-color
+      ); /* Use global variable for background */
       flex-direction: column;
       align-items: flex-end;
       padding: 1rem;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
       border-radius: 4px;
     }
 
@@ -70,20 +81,3 @@ export const StyledHeader = styled.header`
     }
   }
 `;
-
-// export const NavLink = styled(Link)`
-//   padding: 10px;
-//   transition: color 0.3s ease;
-
-//   &:hover {
-//     color: var(--link-hover-color);
-//   }
-// `;
-
-// export const MenuButton = styled.button`
-//   background: none;
-//   border: none;
-//   cursor: pointer;
-//   color: inherit;
-//   font-size: 1.5rem;
-// `;

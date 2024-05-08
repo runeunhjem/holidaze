@@ -14,26 +14,39 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
-  const [autoplay, setAutoplay] = useState(true);
+
+  const [loadedIndices, setLoadedIndices] = useState([0]); // Start with the first image loaded
 
   useEffect(() => {
+    if (!images || images.length === 0) {
+      // console.error("No images provided to the carousel yet");
+      return () => {}; // Early return to avoid setting up the interval
+    }
     const interval = setInterval(() => {
-      if (autoplay) {
-        setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
-      }
-    }, 3000); // Adjust autoplay interval as needed
+      handleNext();
+    }, 3000); // Auto-play functionality
 
     return () => clearInterval(interval);
-  }, [autoplay, maxSteps]);
+  }, [activeStep, maxSteps]);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => (prevActiveStep + 1) % maxSteps);
+    if (maxSteps > 0) {
+      const nextStep = (activeStep + 1) % maxSteps;
+      setActiveStep(nextStep);
+      updateLoadedIndices(nextStep);
+    }
   };
 
   const handleBack = () => {
-    setActiveStep(
-      (prevActiveStep) => (prevActiveStep - 1 + maxSteps) % maxSteps,
-    );
+    if (maxSteps > 0) {
+      const nextStep = (activeStep - 1 + maxSteps) % maxSteps;
+      setActiveStep(nextStep);
+      updateLoadedIndices(nextStep);
+    }
+  };
+
+  const updateLoadedIndices = (nextStep) => {
+    setLoadedIndices((prev) => [...new Set([...prev, nextStep])]);
   };
 
   const countryCode = getCountryCode(countryName);
@@ -54,7 +67,13 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
             <Link to={`/venues/${venueId}`}>
               <Box
                 component="img"
-                src={img ? img : placeholderImage}
+                src={
+                  loadedIndices.includes(index)
+                    ? img
+                      ? img
+                      : placeholderImage
+                    : undefined
+                }
                 alt={`Slide ${index + 1}`}
                 loading="lazy"
               />

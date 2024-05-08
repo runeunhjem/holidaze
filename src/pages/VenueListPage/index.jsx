@@ -30,7 +30,7 @@ function VenueListPage() {
     setCurrentPage(Number(value)); // Ensure value is converted to a number
   };
 
-  
+
 
   return (
     <div className="venue-list-container mx-auto flex flex-col items-center gap-4 overflow-x-hidden pb-4">

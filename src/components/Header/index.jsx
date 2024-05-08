@@ -154,7 +154,7 @@ function Header() {
         {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
         {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
         {userDetails.name ? (
-          <span className="flex flex-col sm:flex-row">
+          <span className="flex flex-col sm:flex-row items-center">
             Welcome back
             <Link
               to={`/profile/${userDetails.name}`}

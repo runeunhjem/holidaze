@@ -9,21 +9,21 @@ function TravelTipsImageGallery() {
     <S.StyledContainer className="flex w-full max-w-800 flex-wrap gap-3 px-0 md:px-0">
       <div className="flex w-full flex-nowrap gap-6">
         <S.ImageContainer className="w-1/2 relative">
-          <S.StyledImage src={travelTipsImage1} alt="Sunny Favorites" />
+          <S.StyledImage src={travelTipsImage1} alt="Sunny Favorites" loading="lazy" />
           <S.ImageOverlay>Sunny Favorites</S.ImageOverlay>
         </S.ImageContainer>
         <S.ImageContainer className="w-1/2 relative">
-          <S.StyledImage src={travelTipsImage2} alt="Pet Favorites" />
+          <S.StyledImage src={travelTipsImage2} alt="Pet Favorites" loading="lazy" />
           <S.ImageOverlay>Pet Favorites</S.ImageOverlay>
         </S.ImageContainer>
       </div>
       <div className="flex w-full flex-nowrap gap-6">
         <S.ImageContainer className="w-1/2 relative">
-          <S.StyledImage src={travelTipsImage3} alt="Kid Friendly" />
+          <S.StyledImage src={travelTipsImage3} alt="Kid Friendly" loading="lazy" />
           <S.ImageOverlay>Kid Friendly</S.ImageOverlay>
         </S.ImageContainer>
         <S.ImageContainer className="w-1/2 relative">
-          <S.StyledImage src={travelTipsImage4} alt="Adventure" />
+          <S.StyledImage src={travelTipsImage4} alt="Adventure" loading="lazy" />
           <S.ImageOverlay>Adventure</S.ImageOverlay>
         </S.ImageContainer>
       </div>

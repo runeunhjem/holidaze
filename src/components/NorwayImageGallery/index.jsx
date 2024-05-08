@@ -13,6 +13,7 @@ function NorwayImageGallery() {
           className="w-full overflow-hidden"
           src={norwayImage1}
           alt="Norwegian fjords"
+          loading="lazy"
         />
       </div>
       <div className="flex w-full flex-nowrap gap-6">
@@ -21,11 +22,16 @@ function NorwayImageGallery() {
             className="w-full"
             src={norwayImage2}
             alt="Breathtaking aurora"
+            loading="lazy"
           />
         </div>
         <div className="flex w-1/2 flex-wrap gap-5">
           <div className="overflow-hidden ">
-            <S.StyledImage src={norwayImage3} alt="Visit Trolltunga" />
+            <S.StyledImage
+              src={norwayImage3}
+              alt="Visit Trolltunga"
+              loading="lazy"
+            />
           </div>
           <div className="flex flex-nowrap gap-5 p-0">
             <S.ImageContainer className="image4 p-0">
@@ -33,13 +39,15 @@ function NorwayImageGallery() {
                 // className="w-2/3 p-0"
                 src={norwayImage4}
                 alt="Magical evenings"
+                loading="lazy"
               />
             </S.ImageContainer>
-            <S.ImageContainer className="image5 p-0 flex justify-end">
+            <S.ImageContainer className="image5 flex justify-end p-0">
               <S.StyledImage
                 // className="w-1/3 p-0"
                 src={norwayImage5}
                 alt="Drive the infamous Trollstigen"
+                loading="lazy"
               />
             </S.ImageContainer>
           </div>

@@ -1,7 +1,10 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useEffect, useRef, useState } from "react";
+import IconButton from "@mui/material/IconButton";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import "./index.css";
 
 const FavoriteProfilesDropdown = () => {
@@ -9,11 +12,12 @@ const FavoriteProfilesDropdown = () => {
   const { favoriteProfiles, removeFavoriteProfile, addFavoriteProfile } =
     useStore();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const defaultFavorites = [
+      { id: "HolidazeManager", name: "HolidazeManager" },
       { id: "Spooky", name: "Spooky" },
       { id: "kyrre", name: "kyrre" },
       { id: "ninuskaninus", name: "ninuskaninus" },
@@ -27,93 +31,80 @@ const FavoriteProfilesDropdown = () => {
     });
   }, [favoriteProfiles, addFavoriteProfile]);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleNavigation = (profileName) => {
     navigate(`/profile/${encodeURIComponent(profileName)}`);
-    setIsOpen(false);
+    handleClose();
   };
 
   const handleRemove = (profileId, event) => {
     event.stopPropagation();
     removeFavoriteProfile(profileId);
-    setIsOpen(false);
+    handleClose();
   };
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    };
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
-
   return (
-    <div className="relative ps-8" ref={dropdownRef}>
-      <button
-        style={{
-          color: "var(--profile-text-color)",
-          backgroundColor: "var(--header-bg-color)",
-          outline: "none",
-          border: "none",
-          textDecoration: "none",
-          "&:hover": { backgroundColor: "var(--header-bg-color)" },
-        }}
-        onClick={toggleDropdown}
-        className="rounded-md pt-0"
-      >
-        ❤️ Fav&apos;s
-      </button>
+    <div className="relative">
+      <IconButton
+        aria-controls={open ? "favorite-profile-menu" : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? "true" : undefined}
+        onClick={handleClick}
+        sx={{
+          color: "var(--profile-text-color) !important",
 
-      {isOpen && (
-        <ul
-          style={{
+        }}
+      >
+        ❤️
+        <span className="ms-1">Managers</span>
+      </IconButton>
+      <Menu
+        id="favorite-profile-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        sx={{
+          ".MuiList-root": {
+            // Targeting the root Paper component used by Menu
+            backgroundColor: "var(--body-bg-color)",
             color: "var(--profile-text-color)",
-            backgroundColor: "var(--header-bg-color)",
-            minWidth: "200px",
-            top: "30px",
             border: "1px solid var(--border-color)",
-            textDecoration: "none",
-          }}
-          className="absolute z-10 mt-1 w-full rounded-md"
-        >
-          {favoriteProfiles.length > 0 ? (
-            favoriteProfiles.map((profile) => (
-              <li
-                key={profile.name}
-                style={{
-                  "&:hover": {
-                    backgroundColor: "var(--menu-hover-bg-color) !important",
-                    // color: "var(--gray-900) !important",
-                  },
-                }}
-                className="flex cursor-pointer items-center justify-between rounded-md p-2 menu-hover"
-                onClick={() => handleNavigation(profile.name)}
-              >
-                {profile.name}
-                <RiDeleteBin6Line
-                  className="ml-2 cursor-pointer text-red-500 hover:text-red-700"
-                  onClick={(e) => handleRemove(profile.name, e)}
-                />
-              </li>
-            ))
-          ) : (
-            <li
-              className="flex cursor-pointer items-center justify-between rounded-md p-2"
-              style={{
-                color: "var(--profile-text-color)",
-                backgroundColor: "var(--header-bg-color)",
+            borderRadius: "5px",
+          },
+        }}
+      >
+        {favoriteProfiles.length > 0 ? (
+          favoriteProfiles.map((profile) => (
+            <MenuItem
+              key={profile.id}
+              onClick={() => handleNavigation(profile.name)}
+              sx={{
+                justifyContent: "space-between",
+                borderRadius: "6px",
+                "&:hover": {
+                  color: "var(--button-text-color)",
+                  backgroundColor: "var(--menu-hover-bg-color)",
+                },
               }}
             >
-              No favorites added
-            </li>
-          )}
-        </ul>
-      )}
+              {profile.name}
+              <RiDeleteBin6Line
+                onClick={(e) => handleRemove(profile.id, e)}
+                className="ms-3 cursor-pointer text-red-500 hover:text-red-700"
+              />
+            </MenuItem>
+          ))
+        ) : (
+          <MenuItem disabled>No favorites added</MenuItem>
+        )}
+      </Menu>
     </div>
   );
 };

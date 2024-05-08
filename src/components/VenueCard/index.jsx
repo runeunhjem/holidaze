@@ -32,17 +32,22 @@ function VenueCard({ venue }) {
     setIsFavorite(!isFavorite);
   };
 
-  const hasAtLeastOneImage = venue.media && venue.media.length >= 0;
+  const hasAtLeastOneImage = venue.media && venue.media.length >= 1;
   const hasValidTitle = venue.name && !venue.name.includes("aaa");
   const validCountry = validateField(venue.location.country);
   const validContinent = validateField(venue.location.continent);
   const countryCode = getCountryCode(venue.location.country);
+  const hasUndesiredImage = venue.media.some(
+    (img) => img.url === "https://url.com/image.jpg",
+  );
 
+  // Additional check for undesired image URL
   if (
     !hasAtLeastOneImage ||
     !hasValidTitle ||
     !countryCode ||
-    countryCode === "Unknown"
+    countryCode === "Unknown" ||
+    hasUndesiredImage // Check if any image matches the undesired URL
   )
     return null;
 
@@ -80,7 +85,10 @@ function VenueCard({ venue }) {
             <span className="me-1">{venue.rating.toFixed(1)}</span>
             <RatingStar rating={venue.rating} />
           </div>
-          <button className="text-lg text-red-500 pt-8" onClick={toggleFavorite}>
+          <button
+            className="pt-8 text-lg text-red-500"
+            onClick={toggleFavorite}
+          >
             {isFavorite ? (
               <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
             ) : (
