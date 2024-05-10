@@ -60,7 +60,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
             key={index}
             className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
             style={{
-              position: "absolute",
+              // position: "absolute",
               width: "100%",
               maxWidth: "100%",
               margin: "0 auto",
@@ -71,10 +71,10 @@ function ImageGallery({ media, countryName, continent, venue }) {
           >
             <S.StyledImg
               src={img.url || placeholderImage}
-              alt={img.alt || "Image"}
+              alt={img.alt || "Illustration from the venue"}
             />
             <S.ImageOverlay>
-              {img.alt || "No description available"}
+              {img.alt || "Illustration from the venue"}
             </S.ImageOverlay>
             <S.TopOverlay>
               <S.OverlaySection>
