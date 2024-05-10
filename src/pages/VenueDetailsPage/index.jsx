@@ -10,6 +10,7 @@ import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
 import { TbParking } from "react-icons/tb";
+import { sanitizeFields } from "../../utils/filters"; // Correct path to the filters.js
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -21,6 +22,11 @@ function VenueDetailsPage() {
       if (error) {
         console.error("Failed to fetch venue details:", error);
       } else if (data && data.data) {
+        // Apply sanitation to the received data
+        data.data.location.country = sanitizeFields(data.data.location.country);
+        data.data.location.continent = sanitizeFields(
+          data.data.location.continent,
+        );
         setVenue(data.data);
       }
     };
@@ -69,7 +75,7 @@ function VenueDetailsPage() {
         </p>
         <p className="flex h-10 align-top">
           <strong>Rating:</strong>{" "}
-          <RiStarSFill className="text-xl inline mt-0.3 text-yellow-500" />
+          <RiStarSFill className="mt-0.3 inline text-xl text-yellow-500" />
           {venue.rating || "No rating"} stars
         </p>
         {venue.meta && (

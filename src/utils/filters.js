@@ -1,4 +1,5 @@
-import getCountryCode from "../../utils/getCountryCode";
+import getCountryCode from "./getCountryCode";
+
 
 export const hasValidImages = (media, options) => {
   if (!options.checkImage) return true;

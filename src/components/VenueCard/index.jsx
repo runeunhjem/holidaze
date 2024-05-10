@@ -12,17 +12,12 @@ import {
   hasValidContinent,
   hasMinimumImages,
   sanitizeFields,
-} from "./filters";
+} from "../../utils/filters";
 import "./index.css";
 
 function VenueCard({ venue }) {
-  const { options, favorites, addFavoriteVenue, removeFavoriteVenue } =
-    useStore((state) => ({
-      options: state.options,
-      favorites: state.favorites,
-      addFavoriteVenue: state.addFavoriteVenue,
-      removeFavoriteVenue: state.removeFavoriteVenue,
-    }));
+  const { options, favorites, addFavoriteVenue, removeFavoriteVenue, filters } =
+    useStore();
 
   const [isFavorite, setIsFavorite] = useState(
     favorites.some((fav) => fav.id === venue.id),
@@ -42,7 +37,7 @@ function VenueCard({ venue }) {
 
     setIsVisible(checkFilters());
     setIsFavorite(favorites.some((fav) => fav.id === venue.id));
-  }, [favorites, venue, options]);
+  }, [favorites, venue, options, filters]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -55,15 +50,13 @@ function VenueCard({ venue }) {
 
   if (!isVisible) return null;
 
-  // Sanitize and prepare fields
   const sanitizedVenue = {
     ...venue,
     name: sanitizeFields(venue.name),
     country: sanitizeFields(venue.location.country),
     continent: sanitizeFields(venue.location.continent),
-    price: sanitizeFields(`${venue.price}`), // Assuming venue.price is a number, convert to string for checking
+    price: sanitizeFields(`${venue.price}`),
   };
-
   return (
     <div
       className="wrapper relative my-2 flex flex-col overflow-hidden rounded pb-4 shadow-lg"

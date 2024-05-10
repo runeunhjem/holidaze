@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import CountryFlag from "../../CountryFlag";
 import getCountryCode from "../../../utils/getCountryCode.js";
-import { sanitizeFields } from "../../VenueCard/filters"; // Ensure correct path
+import { sanitizeFields } from "../../../utils/filters.js";
 import { Link } from "react-router-dom";
 import "./index.css";
 
@@ -98,7 +98,9 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
             </Link>
             <div className="info">
               <div className="text-sm">
-                <span>
+                <span style={ {
+                  fontWeight: "normal",
+                }}>
                   {capitalizedCountry}, {capitalizedContinent}
                 </span>
               </div>

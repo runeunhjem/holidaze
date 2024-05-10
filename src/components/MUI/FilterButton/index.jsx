@@ -5,10 +5,10 @@ import Options from "../../Options";
 import Filters from "../../Filters";
 import { useEffect } from "react";
 
-function FilterButton({ continents = [], countries = [] }) {
+function FilterButton() {
   const {
     optionsMenuIsOpen,
-    isFiltersOpen,
+    filtersMenuIsOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
   } = useStore();
@@ -34,10 +34,10 @@ function FilterButton({ continents = [], countries = [] }) {
         onClose={toggleOptionsOpen}
       />
       <Filters
-        open={isFiltersOpen}
+        open={filtersMenuIsOpen}
         onClose={toggleFiltersOpen}
-        continents={continents}
-        countries={countries}
+        // continents={continents}
+        // countries={countries}
       />
     </ButtonContainer>
   );

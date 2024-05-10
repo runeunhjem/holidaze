@@ -14,7 +14,6 @@ const useStore = create(
           checkCountry: true,
           checkContinent: true,
           minImagesCount: true,
-
         },
         setOptions: (newOptions) =>
           set((state) => ({ options: { ...state.options, ...newOptions } })),
@@ -34,30 +33,74 @@ const useStore = create(
           set({ venuesPerPage: limit, currentPage: 1 }),
         justLoggedIn: false,
         optionsMenuIsOpen: false,
-        isFiltersOpen: false,
+        filtersMenuIsOpen: false,
         filters: {
           rating: "",
-          priceRange: "",
-          continent: "",
+          maxPrice: "",
+          minPrice: "",
+          city: "",
           country: "",
-          maxGuests: 1,
+          continent: "",
+          maxGuests: "",
+          amenities: [],
+          hasBookings: false,
+          manager: "",
+        },
+        setFilter: (filterKey, value) =>
+          set((state) => ({
+            filters: { ...state.filters, [filterKey]: value },
+          })),
+        filterOptions: {
+          rating: [],
+          maxPrice: [],
+          minPrice: [],
+          city: [],
+          country: [],
+          continent: [],
+          maxGuests: [],
+          amenities: [],
+          manager: [],
+          hasBookings: [],
+        },
+        updateFilterOptions: () => {
+          const { venues } = get();
+          const newFilterOptions = {
+            rating: [...new Set(venues.map((v) => v.rating))].sort(),
+            maxPrice: [...new Set(venues.map((v) => v.price))].sort(
+              (a, b) => a - b,
+            ),
+            minPrice: [...new Set(venues.map((v) => v.price))].sort(
+              (a, b) => a - b,
+            ),
+            city: [...new Set(venues.map((v) => v.location.city))].sort(),
+            country: [...new Set(venues.map((v) => v.location.country))].sort(),
+            continent: [
+              ...new Set(venues.map((v) => v.location.continent)),
+            ].sort(),
+            maxGuests: [...new Set(venues.map((v) => v.maxGuests))].sort(
+              (a, b) => a - b,
+            ),
+            amenities: ["Wi-Fi", "Parking", "Breakfast", "Pets Allowed"], // This could be more dynamic if your data structure supports it
+            manager: [...new Set(venues.map((v) => v.owner.name))].sort(),
+            hasBookings: [true, false],
+          };
+          set({ filterOptions: newFilterOptions });
         },
         toggleOptionsOpen: () =>
           set((state) => ({
             optionsMenuIsOpen: !state.optionsMenuIsOpen,
-            // isFiltersOpen: false,
+            // filtersMenuIsOpen: false,
           })),
         toggleFiltersOpen: () =>
           set((state) => ({
-            isFiltersOpen: !state.isFiltersOpen,
+            filtersMenuIsOpen: !state.filtersMenuIsOpen,
             // optionsMenuIsOpen: false,
           })),
-        closeAll: () => set({ optionsMenuIsOpen: false, isFiltersOpen: false }),
+        closeAll: () =>
+          set({ optionsMenuIsOpen: false, filtersMenuIsOpen: false }),
 
         setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
         setLoading: (loading) => set({ loading }),
-        setFilters: (newFilters) =>
-          set(() => ({ filters: newFilters, currentPage: 1 })),
 
         addFavoriteProfile: (profile) => {
           const { favoriteProfiles } = get();
@@ -65,6 +108,7 @@ const useStore = create(
             set({ favoriteProfiles: [...favoriteProfiles, profile] });
           }
         },
+        
 
         removeFavoriteProfile: (profileName) => {
           set((state) => ({

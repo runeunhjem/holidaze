@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import useStore from "../../hooks/useStore";
 import { MdClose } from "react-icons/md";
+import { RiSettings4Line } from "react-icons/ri";
 
 const Options = () => {
   const {
@@ -90,7 +91,10 @@ const Options = () => {
           fontSize: "24px",
         }}
       />
-      <Typography variant="h5" gutterBottom>
+      <Typography className="flex items-center" variant="h5" gutterBottom>
+        <RiSettings4Line className="text-3xl me-4" style={ {
+          color: "var(--link-color)",
+        } } />
         Options
       </Typography>
       <Grid container spacing={1}>
@@ -124,10 +128,11 @@ const Options = () => {
       </Grid>
       <Button
         onClick={toggleOptionsOpen}
-        fullWidth
+        width="100px"
         sx={{
           mt: 4,
           bgcolor: "var(--button-bg-color-cancel)",
+          color: "var(--button-text-color-cancel)",
           "&:hover": { backgroundColor: "var(--button-bg-color-hover-cancel)" },
         }}
       >

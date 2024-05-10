@@ -6,7 +6,7 @@ import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import useStore from "../../hooks/useStore";
-import { sanitizeFields } from "../VenueCard/filters"; // Correct path as needed
+import { sanitizeFields } from "../../utils/filters";
 
 import "./index.css";
 
@@ -152,4 +152,3 @@ ImageGallery.propTypes = {
 };
 
 export default ImageGallery;
-
