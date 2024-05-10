@@ -11,7 +11,7 @@ export const Gallery = styled.div`
   padding: 0;
   border-radius: 20px;
   @media (max-width: 468px) {
-    /* height: 200px; */
+    height: 200px;
   }
 `;
 
@@ -34,7 +34,7 @@ export const StyledImg = styled.img`
   transition: opacity 0.5s ease-in-out;
 
   @media (max-width: 468px) {
-    /* height: 200px; */
+    height: 200px;
   }
 `;
 
