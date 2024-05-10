@@ -31,7 +31,7 @@ const useVenues = () => {
       setLoading(true);
       const params = {
         page: currentPage,
-        limit: 10, // Or manage limit from the store
+        // limit: limit, // Or manage limit from the store
         sortBy: "name",
         sortOrder: "asc",
         ...filters,

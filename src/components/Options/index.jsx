@@ -5,21 +5,28 @@ import {
   Grid,
   Button,
   Typography,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import useStore from "../../hooks/useStore";
-import { MdClose } from "react-icons/md"; // Importing the close icon
+import { MdClose } from "react-icons/md";
 
 const Options = () => {
-  const { options, setOptions, toggleOptionsOpen, optionsMenuIsOpen } =
-    useStore((state) => ({
-      options: state.options,
-      setOptions: state.setOptions,
-      toggleOptionsOpen: state.toggleOptionsOpen,
-      optionsMenuIsOpen: state.optionsMenuIsOpen,
-    }));
+  const {
+    options,
+    setOptions,
+    venuesPerPage,
+    setVenuesPerPage,
+    toggleOptionsOpen,
+    optionsMenuIsOpen,
+  } = useStore();
 
   const handleOptionChange = (field, event) => {
     setOptions({ ...options, [field]: event.target.checked });
+  };
+
+  const handleVenuesPerPageChange = (event) => {
+    setVenuesPerPage(event.target.value);
   };
 
   return (
@@ -46,7 +53,6 @@ const Options = () => {
         visibility: optionsMenuIsOpen ? "visible" : "hidden",
       }}
     >
-      {/* Close Icon */}
       <MdClose
         onClick={toggleOptionsOpen}
         style={{
@@ -54,11 +60,11 @@ const Options = () => {
           top: "8px",
           right: "8px",
           cursor: "pointer",
-          color: "gray", // Customize as needed
-          fontSize: "24px", // Customize size as needed
+          color: "gray",
+          fontSize: "24px",
         }}
       />
-      <Typography className="pb-4" variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom>
         Options
       </Typography>
       <Grid container spacing={1}>
@@ -75,19 +81,28 @@ const Options = () => {
             />
           </Grid>
         ))}
+        <Grid item xs={12}>
+          <Typography>Venues per page:</Typography>
+          <Select
+            value={venuesPerPage}
+            onChange={handleVenuesPerPageChange}
+            fullWidth
+          >
+            {[10, 25, 50, 100].map((number) => (
+              <MenuItem key={number} value={number}>
+                {number}
+              </MenuItem>
+            ))}
+          </Select>
+        </Grid>
       </Grid>
       <Button
         onClick={toggleOptionsOpen}
         fullWidth
         sx={{
           mt: 4,
-          width: "100px",
           bgcolor: "var(--button-bg-color-cancel)",
-          color: "var(--button-text-color-cancel)",
-          "&:hover": {
-            backgroundColor: "var(--button-bg-color-hover-cancel)",
-            color: "var(--button-text-color-hover-cancel)",
-          },
+          "&:hover": { backgroundColor: "var(--button-bg-color-hover-cancel)" },
         }}
       >
         Close

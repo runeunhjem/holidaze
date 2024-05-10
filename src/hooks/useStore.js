@@ -19,6 +19,8 @@ const useStore = create(
         venuesMeta: {},
         currentPage: 1,
         setCurrentPage: (page) => set(() => ({ currentPage: page })),
+        venuesPerPage: 10, // Default value
+        setVenuesPerPage: (limit) => set({ venuesPerPage: limit, currentPage: 1}),
         justLoggedIn: false,
         optionsMenuIsOpen: false,
         isFiltersOpen: false,

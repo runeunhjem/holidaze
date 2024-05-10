@@ -16,28 +16,18 @@ function VenueListPage() {
     currentPage,
     setCurrentPage,
     filters,
+    venuesPerPage,
     setVenues,
     setLoading,
     setError,
-  } = useStore((state) => ({
-    venues: state.venues,
-    venuesMeta: state.venuesMeta,
-    error: state.error,
-    loading: state.loading,
-    currentPage: state.currentPage,
-    setCurrentPage: state.setCurrentPage,
-    filters: state.filters,
-    setVenues: state.setVenues,
-    setLoading: state.setLoading,
-    setError: state.setError,
-  }));
+  } = useStore();
 
   useEffect(() => {
     async function fetchVenues() {
       setLoading(true);
       const params = {
         page: currentPage,
-        limit: 10,
+        limit: venuesPerPage,
         sortBy: "name",
         sortOrder: "asc",
         ...filters,
@@ -59,7 +49,7 @@ function VenueListPage() {
     }
 
     fetchVenues();
-  }, [currentPage, filters, setLoading, setError, setVenues]);
+  }, [currentPage, venuesPerPage, filters, setLoading, setError, setVenues]); // Note: venuesPerPage added to dependency array
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
