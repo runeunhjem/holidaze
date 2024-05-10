@@ -69,6 +69,11 @@ export const sanitizeFields = (
     oseania: "Oceania",
     "sør-amerika": "South America",
     amerika: "America",
+    norge: "Norway",
+    danmark: "Denmark",
+    sverige: "Sweden",
+    sweeden: "Sweden",
+    // "united arab emirates": "UAE",
   },
 ) => {
   // Check if value is null or undefined and return "Unspecified" right away
@@ -86,5 +91,6 @@ export const sanitizeFields = (
   return undesiredValues.includes(valueLowerCase)
     ? "Unspecified"
     : translatedValue;
+
 };
 

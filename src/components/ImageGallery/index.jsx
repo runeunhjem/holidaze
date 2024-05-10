@@ -6,18 +6,18 @@ import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import useStore from "../../hooks/useStore";
-// import { sanitizeFields } from '../VenueCard/filters'; // Adjust the path as needed
+import { sanitizeFields } from "../VenueCard/filters"; // Correct path as needed
 
 import "./index.css";
 
 function ImageGallery({ media, countryName, continent, venue }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
+  const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
   const [overlayData, setOverlayData] = useState({
     countryCode: getCountryCode(countryName || ""),
     continentText: continent || "Unspecified",
   });
-  const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
 
   const isFavorite = (venueId) =>
     favorites.some((favorite) => favorite.id === venueId);
@@ -32,9 +32,11 @@ function ImageGallery({ media, countryName, continent, venue }) {
 
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
-    const continentText =
-      !continent || continent === "Unknown" ? "Unspecified" : continent;
-    setOverlayData({ countryCode: fetchedCountryCode, continentText });
+    const sanitizedContinent = sanitizeFields(continent); // Sanitize and translate the continent name
+    setOverlayData({
+      countryCode: fetchedCountryCode,
+      continentText: sanitizedContinent,
+    });
   }, [countryName, continent]);
 
   useEffect(() => {
@@ -62,7 +64,6 @@ function ImageGallery({ media, countryName, continent, venue }) {
             key={index}
             className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
             style={{
-              // position: "absolute",
               width: "100%",
               maxWidth: "100%",
               margin: "0 auto",
@@ -151,3 +152,4 @@ ImageGallery.propTypes = {
 };
 
 export default ImageGallery;
+

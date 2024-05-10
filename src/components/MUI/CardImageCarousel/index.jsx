@@ -49,13 +49,20 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
   const countryCode = getCountryCode(countryName);
   const sanitizedContinent = sanitizeFields(continent);
   const sanitizedCountry = sanitizeFields(countryName);
+  const truncateLength = 13;
+
   const placeholderImage = "https://picsum.photos/300/200";
 
   const capitalizeFirstLetter = (string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
+  const capitalizedCountry = capitalizeFirstLetter(
+    sanitizedCountry.length > truncateLength
+      ? `${sanitizedCountry.substring(0, truncateLength)}...`
+      : sanitizedCountry,
+  );
   const capitalizedContinent = capitalizeFirstLetter(sanitizedContinent);
-  const capitalizedCountry = capitalizeFirstLetter(sanitizedCountry);
+  // const capitalizedCountry = capitalizeFirstLetter(sanitizedCountry);
 
   return (
     <div className="image-carousel">
