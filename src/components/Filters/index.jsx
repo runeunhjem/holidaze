@@ -21,11 +21,12 @@ const Filters = () => {
   } = useStore();
 
   useEffect(() => {
-    updateFilterOptions(); // Populate filter options when the component mounts
+    updateFilterOptions(); // Ensure options are updated on component mount
   }, [updateFilterOptions]);
 
-  const handleFiltersChange = (field, multiple) => (event) => {
-    setFilter(field, multiple ? event.target.value : event.target.value);
+  const handleFiltersChange = (field, isMultiple) => (event) => {
+    const value = isMultiple ? event.target.value : event.target.value;
+    setFilter(field, value);
   };
 
   return (
@@ -66,7 +67,7 @@ const Filters = () => {
           >
             {options.map((option, index) => (
               <MenuItem key={index} value={option}>
-                {option}
+                {option != null ? option.toString() : "N/A"}
               </MenuItem>
             ))}
           </Select>
