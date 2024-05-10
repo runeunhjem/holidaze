@@ -32,6 +32,7 @@ function VenueCard({ venue }) {
     ...venue,
     name: sanitizeFields(venue.name),
     country: sanitizeFields(venue.location.country),
+    continent: sanitizeFields(venue.location.continent),
     price: sanitizeFields(`${venue.price}`), // Assuming venue.price is a number, convert to string for checking
   };
 
@@ -72,7 +73,7 @@ function VenueCard({ venue }) {
       <CardImageCarousel
         images={venue.media.map((item) => item.url)}
         countryName={sanitizedVenue.country}
-        continent={venue.location.continent}
+        continent={sanitizedVenue.continent}
         venueId={venue.id}
         venueName={sanitizedVenue.name}
       />

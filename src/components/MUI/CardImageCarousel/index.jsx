@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import propTypes from "prop-types";
 import Box from "@mui/material/Box";
 import MobileStepper from "@mui/material/MobileStepper";
@@ -7,6 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import CountryFlag from "../../CountryFlag";
 import getCountryCode from "../../../utils/getCountryCode.js";
+import { sanitizeFields } from "../../VenueCard/filters"; // Correct path to the filters.js
 import { Link } from "react-router-dom";
 import "./index.css";
 
@@ -14,42 +15,33 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
   const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
-
   const [loadedIndices, setLoadedIndices] = useState([0]); // Start with the first image loaded
 
+  const handleNext = useCallback(() => {
+    const nextStep = (activeStep + 1) % maxSteps;
+    setActiveStep(nextStep);
+    updateLoadedIndices(nextStep);
+  }, [activeStep, maxSteps]);
+
+  const handleBack = useCallback(() => {
+    const nextStep = (activeStep - 1 + maxSteps) % maxSteps;
+    setActiveStep(nextStep);
+    updateLoadedIndices(nextStep);
+  }, [activeStep, maxSteps]);
+
   useEffect(() => {
-    if (!images || images.length === 0) {
-      // console.error("No images provided to the carousel yet");
-      return () => {}; // Early return to avoid setting up the interval
-    }
     const interval = setInterval(() => {
       handleNext();
     }, 3000); // Auto-play functionality
-
     return () => clearInterval(interval);
-  }, [activeStep, maxSteps]);
-
-  const handleNext = () => {
-    if (maxSteps > 0) {
-      const nextStep = (activeStep + 1) % maxSteps;
-      setActiveStep(nextStep);
-      updateLoadedIndices(nextStep);
-    }
-  };
-
-  const handleBack = () => {
-    if (maxSteps > 0) {
-      const nextStep = (activeStep - 1 + maxSteps) % maxSteps;
-      setActiveStep(nextStep);
-      updateLoadedIndices(nextStep);
-    }
-  };
+  }, [handleNext]); // `handleNext` is now a dependency
 
   const updateLoadedIndices = (nextStep) => {
     setLoadedIndices((prev) => [...new Set([...prev, nextStep])]);
   };
 
   const countryCode = getCountryCode(countryName);
+  const sanitizedContinent = sanitizeFields(continent);
   const placeholderImage = "https://picsum.photos/300/200";
 
   return (
@@ -67,11 +59,17 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
             <Link to={`/venues/${venueId}`}>
               <Box
                 component="img"
+                sx={{
+                  display: "block",
+                  maxWidth: "100%",
+                  overflow: "hidden",
+                  width: "100%",
+                  height: "100%", // Ensure images fit the container
+                  objectFit: "cover", // Cover ensures the image fills the area without being stretched
+                }}
                 src={
                   loadedIndices.includes(index)
-                    ? img
-                      ? img
-                      : placeholderImage
+                    ? img || placeholderImage
                     : undefined
                 }
                 alt={`Slide ${index + 1}`}
@@ -79,15 +77,9 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
               />
             </Link>
             <div className="info">
-              <div className="text-sm">
-                {continent === "Unknown" || continent === ""
-                  ? "Unspecified"
-                  : continent}
-              </div>
+              <div className="text-sm">{sanitizedContinent}</div>
               {countryCode && countryCode !== "Unknown" && (
-                <div className="flag">
-                  <CountryFlag countryCode={countryCode} />
-                </div>
+                <CountryFlag countryCode={countryCode} />
               )}
             </div>
           </div>

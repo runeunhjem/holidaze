@@ -6,6 +6,8 @@ import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import useStore from "../../hooks/useStore";
+// import { sanitizeFields } from '../VenueCard/filters'; // Adjust the path as needed
+
 import "./index.css";
 
 function ImageGallery({ media, countryName, continent, venue }) {

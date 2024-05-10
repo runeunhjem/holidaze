@@ -11,7 +11,7 @@ export const hasValidImages = (media, options) => {
 
 export const hasValidTitle = (title, options) => {
   if (!options.checkTitle) return true;
-  const undesiredKeywords = ["aaa", "unknown", "string", "3"]; // Extend this list as needed
+  const undesiredKeywords = ["unknown", "string", "aaa", "asdf", "3"]; // Extend this list as needed
   return !undesiredKeywords.some((keyword) =>
     title.toLowerCase().includes(keyword),
   );
@@ -26,7 +26,7 @@ export const hasValidCountry = (country, options) => {
 
 export const sanitizeFields = (
   value,
-  undesiredValues = [null, undefined, "", "   ", "unknown", "string", "a", "3"],
+  undesiredValues = [null, undefined, "", "unknown", "string", "slide"],
 ) => {
   // Check if value is null or undefined and return "Unspecified" right away
   if (value === null || value === undefined || typeof value !== "string") {
