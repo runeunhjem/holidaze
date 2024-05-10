@@ -9,6 +9,8 @@ import {
   hasValidImages,
   hasValidTitle,
   hasValidCountry,
+  hasValidContinent,
+  hasMinimumImages,
   sanitizeFields,
 } from "./filters";
 import "./index.css";
@@ -27,27 +29,20 @@ function VenueCard({ venue }) {
   );
   const [isVisible, setIsVisible] = useState(true);
 
-  // Sanitize and prepare fields
-  const sanitizedVenue = {
-    ...venue,
-    name: sanitizeFields(venue.name),
-    country: sanitizeFields(venue.location.country),
-    continent: sanitizeFields(venue.location.continent),
-    price: sanitizeFields(`${venue.price}`), // Assuming venue.price is a number, convert to string for checking
-  };
-
   useEffect(() => {
     const checkFilters = () => {
       return (
         hasValidImages(venue.media, options) &&
         hasValidTitle(venue.name, options) &&
-        hasValidCountry(venue.location.country, options)
+        hasValidCountry(venue.location.country, options) &&
+        hasValidContinent(venue.location.continent, options) &&
+        hasMinimumImages(venue.media, options)
       );
     };
 
     setIsVisible(checkFilters());
-    setIsFavorite(favorites.some((fav) => fav.id === venue.id)); // Update favorite status
-  }, [favorites, venue, options]); // Dependencies ensure update on relevant changes
+    setIsFavorite(favorites.some((fav) => fav.id === venue.id));
+  }, [favorites, venue, options]);
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -59,6 +54,15 @@ function VenueCard({ venue }) {
   };
 
   if (!isVisible) return null;
+
+  // Sanitize and prepare fields
+  const sanitizedVenue = {
+    ...venue,
+    name: sanitizeFields(venue.name),
+    country: sanitizeFields(venue.location.country),
+    continent: sanitizeFields(venue.location.continent),
+    price: sanitizeFields(`${venue.price}`), // Assuming venue.price is a number, convert to string for checking
+  };
 
   return (
     <div

@@ -29,6 +29,32 @@ const Options = () => {
     setVenuesPerPage(event.target.value);
   };
 
+  // Define the order of the options here
+  const optionOrder = [
+    "checkImage",
+    "minImagesCount",
+    "checkTitle",
+    "checkCountry",
+    "checkContinent",
+  ];
+
+  const formatLabel = (key) => {
+    switch (key) {
+      case "minImagesCount":
+        return "2 images or more";
+      case "checkImage":
+        return "valid image";
+      case "checkContinent":
+        return "valid continent";
+      case "checkTitle":
+        return "valid title";
+      case "checkCountry":
+        return "valid country";
+      default:
+        return key;
+    }
+  };
+
   return (
     <Box
       className="custom-scrollbar"
@@ -68,16 +94,16 @@ const Options = () => {
         Options
       </Typography>
       <Grid container spacing={1}>
-        {Object.entries(options).map(([key, value]) => (
+        {optionOrder.map((key) => (
           <Grid item xs={12} key={key}>
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={value}
+                  checked={options[key]}
                   onChange={(e) => handleOptionChange(key, e)}
                 />
               }
-              label={`Only show venues with valid ${key.charAt(5).toUpperCase() + key.slice(6)}`}
+              label={`Only show venues with ${formatLabel(key)}`}
             />
           </Grid>
         ))}

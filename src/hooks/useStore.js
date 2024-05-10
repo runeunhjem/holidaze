@@ -8,6 +8,16 @@ const useStore = create(
   devtools(
     persist(
       (set, get) => ({
+        options: {
+          checkImage: false,
+          checkTitle: false,
+          checkCountry: true,
+          checkContinent: true,
+          minImagesCount: true,
+
+        },
+        setOptions: (newOptions) =>
+          set((state) => ({ options: { ...state.options, ...newOptions } })),
         isAuthenticated: false,
         isDarkMode: true,
         accessToken: null,
@@ -20,15 +30,11 @@ const useStore = create(
         currentPage: 1,
         setCurrentPage: (page) => set(() => ({ currentPage: page })),
         venuesPerPage: 10, // Default value
-        setVenuesPerPage: (limit) => set({ venuesPerPage: limit, currentPage: 1}),
+        setVenuesPerPage: (limit) =>
+          set({ venuesPerPage: limit, currentPage: 1 }),
         justLoggedIn: false,
         optionsMenuIsOpen: false,
         isFiltersOpen: false,
-        options: {
-          checkImage: false,
-          checkTitle: false,
-          checkCountry: false,
-        },
         filters: {
           rating: "",
           priceRange: "",
@@ -50,8 +56,6 @@ const useStore = create(
 
         setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
         setLoading: (loading) => set({ loading }),
-        setOptions: (newOptions) =>
-          set((state) => ({ options: { ...state.options, ...newOptions } })),
         setFilters: (newFilters) =>
           set(() => ({ filters: newFilters, currentPage: 1 })),
 

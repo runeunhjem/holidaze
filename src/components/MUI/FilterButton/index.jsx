@@ -3,52 +3,22 @@ import useStore from "../../../hooks/useStore";
 import { ButtonContainer, FilterButtonStyled } from "./index.styled";
 import Options from "../../Options";
 import Filters from "../../Filters";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-function FilterButton({
-  continents = [],
-  countries = [],
-  onOptionsChange = () => {},
-  onFiltersChange = () => {},
-}) {
+function FilterButton({ continents = [], countries = [] }) {
   const {
     optionsMenuIsOpen,
     isFiltersOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
-    closeAll,
   } = useStore();
 
-  const [options, setOptions] = useState({
-    checkImage: false, // Ensured all are initialized
-    checkTitle: false,
-    checkCountry: false,
-  });
-
-  const [filters, setFilters] = useState({
-    rating: "",
-    priceRange: "under500",
-    continent: "",
-    country: "",
-    maxGuests: 1,
-  });
-
-  const handleOptionsChange = (newOptions) => {
-    setOptions(newOptions);
-    onOptionsChange(newOptions);
-  };
-
-  const handleFiltersChange = (newFilters) => {
-    setFilters(newFilters);
-    onFiltersChange(newFilters);
-  };
-
-  // Close both options and filters when the page reloads
+  // Close both options and filters when certain conditions are met or on page reload
   useEffect(() => {
+    // Example to auto-close, adjust logic as needed
     toggleOptionsOpen();
     toggleFiltersOpen();
-    // closeAll();
-  }, [closeAll, toggleOptionsOpen, toggleFiltersOpen]);
+  }, [toggleOptionsOpen, toggleFiltersOpen]);
 
   return (
     <ButtonContainer>
@@ -62,15 +32,10 @@ function FilterButton({
       <Options
         optionsMenuIsOpen={optionsMenuIsOpen}
         onClose={toggleOptionsOpen}
-        options={options}
-        onOptionsChange={handleOptionsChange}
       />
-
       <Filters
         open={isFiltersOpen}
         onClose={toggleFiltersOpen}
-        filters={filters}
-        onFiltersChange={handleFiltersChange}
         continents={continents}
         countries={countries}
       />
@@ -81,15 +46,11 @@ function FilterButton({
 FilterButton.defaultProps = {
   continents: [],
   countries: [],
-  onOptionsChange: () => {},
-  onFiltersChange: () => {},
 };
 
 FilterButton.propTypes = {
   continents: PropTypes.arrayOf(PropTypes.string).isRequired,
   countries: PropTypes.arrayOf(PropTypes.string).isRequired,
-  onOptionsChange: PropTypes.func.isRequired,
-  onFiltersChange: PropTypes.func.isRequired,
 };
 
 export default FilterButton;

@@ -7,34 +7,40 @@ import { useTheme } from "@mui/material/styles";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import CountryFlag from "../../CountryFlag";
 import getCountryCode from "../../../utils/getCountryCode.js";
-import { sanitizeFields } from "../../VenueCard/filters"; // Correct path to the filters.js
+import { sanitizeFields } from "../../VenueCard/filters"; // Ensure correct path
 import { Link } from "react-router-dom";
 import "./index.css";
 
 function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
-  const [activeStep, setActiveStep] = useState(0);
   const maxSteps = images.length;
+  const [activeStep, setActiveStep] = useState(0);
   const [loadedIndices, setLoadedIndices] = useState([0]); // Start with the first image loaded
 
   const handleNext = useCallback(() => {
-    const nextStep = (activeStep + 1) % maxSteps;
-    setActiveStep(nextStep);
-    updateLoadedIndices(nextStep);
+    if (maxSteps > 0) {
+      const nextStep = (activeStep + 1) % maxSteps;
+      setActiveStep(nextStep);
+      updateLoadedIndices(nextStep);
+    }
   }, [activeStep, maxSteps]);
 
   const handleBack = useCallback(() => {
-    const nextStep = (activeStep - 1 + maxSteps) % maxSteps;
-    setActiveStep(nextStep);
-    updateLoadedIndices(nextStep);
+    if (maxSteps > 0) {
+      const nextStep = (activeStep - 1 + maxSteps) % maxSteps;
+      setActiveStep(nextStep);
+      updateLoadedIndices(nextStep);
+    }
   }, [activeStep, maxSteps]);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleNext();
-    }, 3000); // Auto-play functionality
-    return () => clearInterval(interval);
-  }, [handleNext]); // `handleNext` is now a dependency
+    if (maxSteps > 0) {
+      const interval = setInterval(() => {
+        handleNext();
+      }, 3000); // Auto-play functionality
+      return () => clearInterval(interval);
+    }
+  }, [handleNext, maxSteps]); // `maxSteps` added to dependencies to handle empty or changed image arrays
 
   const updateLoadedIndices = (nextStep) => {
     setLoadedIndices((prev) => [...new Set([...prev, nextStep])]);
@@ -42,7 +48,14 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
 
   const countryCode = getCountryCode(countryName);
   const sanitizedContinent = sanitizeFields(continent);
+  const sanitizedCountry = sanitizeFields(countryName);
   const placeholderImage = "https://picsum.photos/300/200";
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+  const capitalizedContinent = capitalizeFirstLetter(sanitizedContinent);
+  const capitalizedCountry = capitalizeFirstLetter(sanitizedCountry);
 
   return (
     <div className="image-carousel">
@@ -77,7 +90,11 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
               />
             </Link>
             <div className="info">
-              <div className="text-sm">{sanitizedContinent}</div>
+              <div className="text-sm">
+                <span>
+                  {capitalizedCountry}, {capitalizedContinent}
+                </span>
+              </div>
               {countryCode && countryCode !== "Unknown" && (
                 <CountryFlag countryCode={countryCode} />
               )}
@@ -130,6 +147,7 @@ CardImageCarousel.propTypes = {
   countryName: propTypes.string,
   venueId: propTypes.string.isRequired,
   continent: propTypes.string,
+  country: propTypes.string,
 };
 
 export default CardImageCarousel;
