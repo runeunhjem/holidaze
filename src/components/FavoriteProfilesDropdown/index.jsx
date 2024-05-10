@@ -51,7 +51,7 @@ const FavoriteProfilesDropdown = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative -mt-3 sm:mt-0">
       <IconButton
         aria-controls={open ? "favorite-profile-menu" : undefined}
         aria-haspopup="true"

@@ -1,4 +1,3 @@
-// src/components/Options/index.jsx
 import {
   Box,
   Checkbox,
@@ -8,6 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import useStore from "../../hooks/useStore";
+import { MdClose } from "react-icons/md"; // Importing the close icon
 
 const Options = () => {
   const { options, setOptions, toggleOptionsOpen, optionsMenuIsOpen } =
@@ -31,7 +31,7 @@ const Options = () => {
         left: "50%",
         transform: "translate(-50%, 100%)",
         width: "90vw",
-        maxWidth: "600px",
+        maxWidth: "618px",
         maxHeight: "60vh",
         overflowY: "auto",
         bgcolor: "var(--header-bg-color)",
@@ -42,10 +42,22 @@ const Options = () => {
         zIndex: 1300,
         transition: "opacity 0.3s ease-in-out, visibility 0.3s ease-in-out",
         minWidth: { xs: "250px", sm: "600px" },
-        opacity: optionsMenuIsOpen ? 1 : 0, // Control visibility using Zustand state
-        visibility: optionsMenuIsOpen ? "visible" : "hidden", // Control visibility using Zustand state
+        opacity: optionsMenuIsOpen ? 1 : 0,
+        visibility: optionsMenuIsOpen ? "visible" : "hidden",
       }}
     >
+      {/* Close Icon */}
+      <MdClose
+        onClick={toggleOptionsOpen}
+        style={{
+          position: "absolute",
+          top: "8px",
+          right: "8px",
+          cursor: "pointer",
+          color: "gray", // Customize as needed
+          fontSize: "24px", // Customize size as needed
+        }}
+      />
       <Typography className="pb-4" variant="h5" gutterBottom>
         Options
       </Typography>
@@ -69,7 +81,7 @@ const Options = () => {
         fullWidth
         sx={{
           mt: 4,
-          width: "100%",
+          width: "100px",
           bgcolor: "var(--button-bg-color-cancel)",
           color: "var(--button-text-color-cancel)",
           "&:hover": {

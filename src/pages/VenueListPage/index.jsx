@@ -3,8 +3,6 @@ import VenueCard from "../../components/VenueCard";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import PaginationButtons from "../../components/MUI/Pagination";
-import Filters from "../../components/Filters";
-import Options from "../../components/Options";
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
@@ -69,8 +67,6 @@ function VenueListPage() {
 
   return (
     <div className="venue-list-container mx-auto mt-8 flex flex-col items-center gap-4 overflow-x-hidden pb-4">
-      <Options />
-      <Filters />
       {error && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity="error">{error}</Alert>

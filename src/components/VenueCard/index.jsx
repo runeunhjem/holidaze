@@ -1,12 +1,16 @@
-// src/components/VenueCard/index.jsx
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import CardImageCarousel from "../MUI/CardImageCarousel";
 import RatingStar from "../RatingStar";
-import getCountryCode from "../../utils/getCountryCode";
 import { TbHeartPlus, TbHeartFilled } from "react-icons/tb";
-import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
+import {
+  hasValidImages,
+  hasValidTitle,
+  hasValidCountry,
+  sanitizeFields,
+} from "./filters";
 import "./index.css";
 
 function VenueCard({ venue }) {
@@ -23,24 +27,26 @@ function VenueCard({ venue }) {
   );
   const [isVisible, setIsVisible] = useState(true);
 
+  // Sanitize and prepare fields
+  const sanitizedVenue = {
+    ...venue,
+    name: sanitizeFields(venue.name),
+    country: sanitizeFields(venue.location.country),
+    price: sanitizeFields(`${venue.price}`), // Assuming venue.price is a number, convert to string for checking
+  };
+
   useEffect(() => {
-    setIsFavorite(favorites.some((fav) => fav.id === venue.id));
-
     const checkFilters = () => {
-      const hasValidImages =
-        !options.checkImage ||
-        (venue.media.length > 0 &&
-          !venue.media.some((img) => img.url === "https://url.com/image.jpg"));
-      const hasValidTitle = !options.checkTitle || !venue.name.includes("aaa");
-      const validCountry =
-        !options.checkCountry ||
-        getCountryCode(venue.location.country) !== "Unknown";
-
-      return hasValidImages && hasValidTitle && validCountry;
+      return (
+        hasValidImages(venue.media, options) &&
+        hasValidTitle(venue.name, options) &&
+        hasValidCountry(venue.location.country, options)
+      );
     };
 
     setIsVisible(checkFilters());
-  }, [favorites, venue, options]); // React on changes in favorites, venue data, or options
+    setIsFavorite(favorites.some((fav) => fav.id === venue.id)); // Update favorite status
+  }, [favorites, venue, options]); // Dependencies ensure update on relevant changes
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -65,17 +71,17 @@ function VenueCard({ venue }) {
     >
       <CardImageCarousel
         images={venue.media.map((item) => item.url)}
-        countryName={venue.location.country}
+        countryName={sanitizedVenue.country}
         continent={venue.location.continent}
         venueId={venue.id}
-        venueName={venue.name}
+        venueName={sanitizedVenue.name}
       />
       <div className="card-info">
         <div
           className="flex w-full items-center px-4"
           style={{ height: "40px", alignItems: "flex-start" }}
         >
-          <div className="font-bold">{venue.name}</div>
+          <div className="font-bold">{sanitizedVenue.name}</div>
         </div>
         <div
           className="h-50px flex w-full items-center justify-between px-4"
