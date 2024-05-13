@@ -31,6 +31,19 @@ const Filters = () => {
     setFilter(field, value);
   };
 
+  const labelMap = {
+    rating: "Rating",
+    maxPrice: "Max Price",
+    minPrice: "Min Price",
+    city: "City",
+    country: "Country",
+    continent: "Continent",
+    maxGuests: "Max Guests",
+    amenities: "Amenities",
+    manager: "Manager",
+    hasBookings: "Has Bookings",
+  };
+
   return (
     <Box
       className="custom-scrollbar"
@@ -77,10 +90,11 @@ const Filters = () => {
       </Typography>
       {Object.entries(filterOptions).map(([key, options]) => (
         <FormControl fullWidth margin="normal" key={key}>
-          <InputLabel>{`Filter by ${key}`}</InputLabel>
+          <InputLabel>{labelMap[key] || `Filter by ${key}`}</InputLabel>
           <Select
+            className="custom-select"
             value={filters[key] || (key === "amenities" ? [] : "")}
-            label={`Filter by ${key}`}
+            label={labelMap[key] || `Filter by ${key}`}
             onChange={handleFiltersChange(key, key === "amenities")}
             multiple={key === "amenities"}
           >
@@ -92,6 +106,7 @@ const Filters = () => {
           </Select>
         </FormControl>
       ))}
+
       <div
         style={{
           display: "flex",
