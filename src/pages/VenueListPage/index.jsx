@@ -1,4 +1,3 @@
-// VenueListPage.jsx
 import { useEffect } from "react";
 import VenueCard from "../../components/VenueCard";
 import Alert from "@mui/material/Alert";
@@ -7,7 +6,7 @@ import PaginationButtons from "../../components/MUI/Pagination";
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
-// import Filters from "../../components/Filters";
+import Filters from "../../components/Filters"; // Make sure Filters is imported if it's used
 
 function VenueListPage() {
   const {
@@ -22,6 +21,7 @@ function VenueListPage() {
     setVenues,
     setLoading,
     setError,
+    updateFilterOptions,
   } = useStore();
 
   useEffect(() => {
@@ -30,18 +30,20 @@ function VenueListPage() {
       const params = {
         page: currentPage,
         limit: venuesPerPage,
-        sortBy: "name",
         sortOrder: "asc",
-        ...filters,
+        _owner: true,
+        _bookings: true,
+        ...filters, // Ensure filters are applied correctly
       };
       const queryParams = new URLSearchParams(params).toString();
 
       try {
         const response = await fetchApi(
-          `${ENDPOINTS.venues}?${queryParams}&_owner=true&_bookings=true`,
+          `${ENDPOINTS.venues}?${queryParams.toString()}`,
         );
-        if (response && response.data && response.meta) {
+        if (response && response.data) {
           setVenues(response.data, response.meta);
+          updateFilterOptions(response.data); // Update filter options based on the filtered venues
         } else {
           setError("Unexpected response format");
         }
@@ -53,28 +55,49 @@ function VenueListPage() {
     }
 
     fetchVenues();
-  }, [currentPage, venuesPerPage, filters, setLoading, setError, setVenues]);
+  }, [
+    currentPage,
+    venuesPerPage,
+    filters,
+    setLoading,
+    setError,
+    setVenues,
+    updateFilterOptions,
+  ]);
 
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
 
+  // Function to count active filters
+  const countActiveFilters = () => {
+    return Object.values(filters).reduce((count, value) => {
+      if (value && value !== "" && !(Array.isArray(value) && value.length === 0)) {
+        count += 1;
+      }
+      return count;
+    }, 0);
+  };
+
+  const activeFilterCount = countActiveFilters();
+
   return (
     <div className="venue-list-container mx-auto mt-8 flex flex-col items-center gap-4 overflow-x-hidden pb-4">
-      {/* <Filters /> */}
+      <Filters />
       {error && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
       {loading && <p>Loading...</p>}
-      {venuesMeta && venuesMeta.pageCount && (
+      <PaginationButtons
+        count={venuesMeta.pageCount}
+        page={currentPage}
+        onChange={handlePageChange}
+      />
+      {activeFilterCount > 0 && <p>You have {activeFilterCount} active filters</p>}
+      {venues.length > 0 ? (
         <>
-          <PaginationButtons
-            count={venuesMeta.pageCount}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
           <div className="flex flex-wrap justify-center gap-4 px-5">
             {venues.map((venue) => (
               <VenueCard key={venue.id} venue={venue} />
@@ -86,6 +109,8 @@ function VenueListPage() {
             onChange={handlePageChange}
           />
         </>
+      ) : (
+        <p>No venues found with the current filters.</p>
       )}
     </div>
   );

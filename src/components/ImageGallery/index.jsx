@@ -6,7 +6,7 @@ import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import useStore from "../../hooks/useStore";
-import { sanitizeFields } from "../../utils/filters";
+import { sanitizeFields } from "../../utils/options";
 
 import "./index.css";
 

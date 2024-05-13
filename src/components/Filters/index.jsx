@@ -9,6 +9,8 @@ import {
   Typography,
 } from "@mui/material";
 import useStore from "../../hooks/useStore";
+import { BiFilterAlt } from "react-icons/bi";
+import { MdClose } from "react-icons/md";
 
 const Filters = () => {
   const {
@@ -53,7 +55,24 @@ const Filters = () => {
         visibility: filtersMenuIsOpen ? "visible" : "hidden",
       }}
     >
-      <Typography variant="h6" gutterBottom>
+      <MdClose
+        onClick={toggleFiltersOpen}
+        style={{
+          position: "absolute",
+          top: "8px",
+          right: "8px",
+          cursor: "pointer",
+          color: "gray",
+          fontSize: "24px",
+        }}
+      />
+      <Typography className="flex items-center" variant="h5" gutterBottom>
+        <BiFilterAlt
+          className="me-4 text-3xl"
+          style={{
+            color: "var(--link-color)",
+          }}
+        />
         Filter Venues
       </Typography>
       {Object.entries(filterOptions).map(([key, options]) => (
@@ -73,24 +92,49 @@ const Filters = () => {
           </Select>
         </FormControl>
       ))}
-      <Button
-        onClick={() => setFilter("resetFilters", true)}
-        variant="outlined"
-        sx={{ mt: 2, mb: 2 }}
-      >
-        Reset Filters
-      </Button>
-      <Button
-        onClick={toggleFiltersOpen}
-        sx={{
-          mt: 4,
-          bgcolor: "var(--button-bg-color-cancel)",
-          color: "var(--button-text-color-cancel)",
-          "&:hover": { backgroundColor: "var(--button-bg-color-hover-cancel)" },
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          height: "60px",
+          width: "100%",
         }}
       >
-        Close
-      </Button>
+        <Button
+          onClick={toggleFiltersOpen}
+          sx={{
+            bgcolor: "var(--button-bg-color-cancel)",
+            color: "var(--button-text-color-cancel)",
+            "&:hover": {
+              backgroundColor: "var(--button-bg-color-hover-cancel)",
+            },
+          }}
+        >
+          Close
+        </Button>
+        <Button
+          onClick={() => {
+            setFilter("resetFilters", true);
+            useStore.getState().resetFilters(); // Resets filters and then triggers re-fetch
+          }}
+          variant="outlined"
+          sx={{
+            bgcolor: "var(--button-bg-color)",
+            color: "var(--button-text-color)",
+            border: "0px solid var(--border-color)",
+            // outline: "var(--border-color)",
+            "&:hover": {
+              backgroundColor: "var(--button-bg-color-hover)",
+              color: "var(--button-text-color-hover)",
+              outline: "1px solid var(--border-color)",
+              border: "0px solid var(--border-color)",
+            },
+          }}
+        >
+          Reset Filters
+        </Button>
+      </div>
     </Box>
   );
 };

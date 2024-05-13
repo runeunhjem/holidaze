@@ -10,7 +10,7 @@ import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
 import { TbParking } from "react-icons/tb";
-import { sanitizeFields } from "../../utils/filters"; // Correct path to the filters.js
+import { sanitizeFields } from "../../utils/options";
 
 function VenueDetailsPage() {
   const { id } = useParams();

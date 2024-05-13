@@ -12,7 +12,7 @@ import {
   hasValidContinent,
   hasMinimumImages,
   sanitizeFields,
-} from "../../utils/filters";
+} from "../../utils/options";
 import "./index.css";
 
 function VenueCard({ venue }) {
@@ -25,7 +25,7 @@ function VenueCard({ venue }) {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    const checkFilters = () => {
+    const checkOptions = () => {
       return (
         hasValidImages(venue.media, options) &&
         hasValidTitle(venue.name, options) &&
@@ -35,9 +35,54 @@ function VenueCard({ venue }) {
       );
     };
 
-    setIsVisible(checkFilters());
+    const normalizeMeta = (meta) => {
+    if (Array.isArray(meta)) {
+      return meta;
+    } else if (typeof meta === "object") {
+      return Object.keys(meta).filter((key) => meta[key]); // Converts object keys to an array if their values are truthy
+    }
+    return []; // Return empty array as fallback
+  };
+
+    const checkFilters = () => {
+  const meetsAmenities =
+    filters.amenities.length === 0 ||
+    filters.amenities.every((amenity) =>
+      normalizeMeta(venue.meta).includes(amenity),
+    );
+
+  // Normalizing strings to lowercase for a case-insensitive comparison
+  const managerNameMatch =
+    !filters.manager ||
+    (venue.owner &&
+      venue.owner.name.toLowerCase() === filters.manager.toLowerCase());
+
+  // Check if venue has bookings based on filters.hasBookings being true and bookings existing
+  const hasBookingsMatch = !filters.hasBookings || (venue.bookings && venue.bookings.length > 0);
+
+  return (
+    (!filters.rating || venue.rating >= filters.rating) &&
+    (!filters.maxPrice || venue.price <= filters.maxPrice) &&
+    (!filters.minPrice || venue.price >= filters.minPrice) &&
+    (!filters.city || venue.location.city === filters.city) &&
+    managerNameMatch &&
+    (!filters.country || venue.location.country === filters.country) &&
+    (!filters.continent || venue.location.continent === filters.continent) &&
+    (!filters.maxGuests || venue.maxGuests <= filters.maxGuests) &&
+    hasBookingsMatch &&
+    meetsAmenities
+  );
+};
+
+
+
+
+    const isOptionValid = checkOptions();
+    const isFilterValid = checkFilters();
+    setIsVisible(isOptionValid && isFilterValid);
     setIsFavorite(favorites.some((fav) => fav.id === venue.id));
   }, [favorites, venue, options, filters]);
+
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -57,6 +102,10 @@ function VenueCard({ venue }) {
     continent: sanitizeFields(venue.location.continent),
     price: sanitizeFields(`${venue.price}`),
   };
+
+
+
+
   return (
     <div
       className="wrapper relative my-2 flex flex-col overflow-hidden rounded pb-4 shadow-lg"
@@ -117,6 +166,13 @@ function VenueCard({ venue }) {
   );
 }
 
+VenueCard.defaultProps = {
+  venue: {
+    meta: [],
+    bookings: [],
+  },
+};
+
 VenueCard.propTypes = {
   venue: PropTypes.shape({
     media: PropTypes.arrayOf(
@@ -126,10 +182,21 @@ VenueCard.propTypes = {
       }),
     ).isRequired,
     name: PropTypes.string.isRequired,
+    maxGuests: PropTypes.number.isRequired,
+    owner: PropTypes.shape({
+      name: PropTypes.string,
+      email: PropTypes.string,
+    }),
+    meta: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.string),
+      PropTypes.object,
+    ]),
+    bookings: PropTypes.array, // Define the shape more specifically if needed
     rating: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
     location: PropTypes.shape({
+      city: PropTypes.string,
       country: PropTypes.string,
       continent: PropTypes.string,
     }).isRequired,
