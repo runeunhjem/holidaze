@@ -88,7 +88,7 @@ function VenueListPage() {
         </Stack>
       )}
       {loading && <p>Loading...</p>}
-      <h1>Total venues: {venuesMeta.totalCount}</h1>
+      <h1>Total venues before filtering: {venuesMeta.totalCount}</h1>
       <PaginationButtons
         count={venuesMeta.pageCount}
         page={currentPage}

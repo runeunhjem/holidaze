@@ -1,35 +1,72 @@
-import { useEffect } from "react";
+import { useEffect, useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
 import VenueCard from "../../components/VenueCard";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import PaginationButtons from "../../components/MUI/Pagination";
-import useStore from "../../hooks/useStore";  // Assuming this hook provides access to the application state and methods
+import { fetchApi } from "../../utils/fetchApi";
+import { ENDPOINTS } from "../../constants/api";
 
 function SearchResultsPage() {
-  const { venues, venuesMeta, loading, error, setCurrentPage, setFilter } = useStore();
   const location = useLocation();
+  const [venues, setVenues] = useState([]);
+  const [venuesMeta, setVenuesMeta] = useState({
+    pageCount: 1,
+    totalCount: 0,
+    currentPage: 1,
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchVenues = useCallback(async () => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("q");
+
+    if (!query) return;
+
+    setLoading(true);
+    setError(null);
+
+    let allVenues = [];
+    let page = 1;
+    let totalPages = 1;
+
+    try {
+      while (page <= totalPages) {
+        const response = await fetchApi(
+          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}`,
+        );
+
+        if (response && Array.isArray(response.data)) {
+          allVenues = [...allVenues, ...response.data];
+          totalPages = response.meta.pageCount;
+          setVenuesMeta({
+            pageCount: totalPages,
+            totalCount: response.meta.totalCount,
+            currentPage: page,
+          });
+          page += 1;
+        } else {
+          setError("No data found or unexpected format.");
+          break;
+        }
+      }
+
+      setVenues(allVenues);
+    } catch (error) {
+      setError(`Error searching venues: ${error.message}`);
+    } finally {
+      setLoading(false);
+    }
+  }, [location.search]);
 
   useEffect(() => {
-    // Extract the URL parameters and set filters accordingly
-    const searchParams = new URLSearchParams(location.search);
-    const filters = {
-      city: searchParams.get("city"),
-      country: searchParams.get("country"),
-      continent: searchParams.get("continent"),
-      guests: searchParams.get("guests"),
-      dateFrom: searchParams.get("dateFrom"),
-      dateTo: searchParams.get("dateTo"),
-    };
-
-    console.log("Using filters:", filters);
-
-    setFilter(filters);  // Make sure this method properly updates the filters used for fetching venues
-    // Fetch venues based on new filters
-  }, [location.search, setFilter]);
+    fetchVenues();
+  }, [location.search, fetchVenues]);
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+    setVenuesMeta((prevMeta) => ({ ...prevMeta, currentPage: value }));
+    fetchVenues(value);
   };
 
   return (
@@ -40,9 +77,12 @@ function SearchResultsPage() {
         </Stack>
       )}
       {loading && <p>Loading...</p>}
+      {venuesMeta.totalCount > 0 && (
+        <h1>Total venues: {venuesMeta.totalCount}</h1>
+      )}
       <PaginationButtons
-        count={venuesMeta?.pageCount || 0}
-        page={venuesMeta?.currentPage || 1}
+        count={venuesMeta.pageCount}
+        page={venuesMeta.currentPage}
         onChange={handlePageChange}
       />
       {venues.length > 0 ? (
@@ -52,8 +92,13 @@ function SearchResultsPage() {
           ))}
         </div>
       ) : (
-        <p>No venues found with the current filters. Please adjust your search criteria.</p>
+        <p>No venues found with the current filters.</p>
       )}
+      <PaginationButtons
+        count={venuesMeta.pageCount}
+        page={venuesMeta.currentPage}
+        onChange={handlePageChange}
+      />
     </div>
   );
 }

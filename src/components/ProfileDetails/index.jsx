@@ -11,7 +11,8 @@ const ProfileDetails = ({
   handleClose,
 }) => {
   const { favorites } = useStore();
-  console.log("Viewed Profile: ", viewedProfile );
+  // console.log("Viewed Profile: ", viewedProfile);
+
   return (
     <div className="relative">
       <hr

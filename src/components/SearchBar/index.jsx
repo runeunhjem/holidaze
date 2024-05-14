@@ -1,26 +1,55 @@
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
+import { fetchApi } from "../../utils/fetchApi";
+import { ENDPOINTS, PARAMS } from "../../constants/api";
 import BasicDatePickers from "../MUI/BasicDatePicker";
 import DestinationInput from "../MUI/DestinationInput";
 import GuestsInput from "../MUI/GuestsInput";
 import Stack from "@mui/material/Stack";
 import Button from "../MUI/Button";
 import CancelButton from "../MUI/CancelButton";
+import SearchVenueCard from "../SearchVenueCard";
+import "../SearchVenueCard/index.css";
 
 function SearchBar({ onClose }) {
   const navigate = useNavigate();
-
   const [searchParams, setSearchParams] = useState({
     destination: "",
     dateFrom: "",
     dateTo: "",
     guests: "",
   });
+  const [lookaheadResults, setLookaheadResults] = useState([]);
+
+  // Debounce function to delay fetchLookaheadResults
+  const debounceFetchLookaheadResults = debounce(async (query) => {
+    if (!query) {
+      setLookaheadResults([]);
+      return;
+    }
+    try {
+      const response = await fetchApi(
+        `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}${PARAMS.sortBy}${PARAMS.sortOrder}`,
+      );
+      if (response && Array.isArray(response.data)) {
+        setLookaheadResults(response.data);
+      } else {
+        setLookaheadResults([]);
+      }
+    } catch (error) {
+      console.error("Error fetching lookahead results:", error);
+      setLookaheadResults([]);
+    }
+  }, 700); // Adjust the delay as needed (300ms in this case)
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setSearchParams((prev) => ({ ...prev, [name]: value }));
+    if (name === "destination") {
+      debounceFetchLookaheadResults(value);
+    }
   };
 
   const handleDateChange = (name, newValue) => {
@@ -30,12 +59,8 @@ function SearchBar({ onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
-
-    // Only add parameters that have values
     if (searchParams.destination) {
-      params.set("city", searchParams.destination);
-      params.set("country", searchParams.destination);
-      params.set("continent", searchParams.destination);
+      params.set("q", searchParams.destination);
     }
     if (searchParams.guests) {
       params.set("guests", searchParams.guests);
@@ -46,9 +71,7 @@ function SearchBar({ onClose }) {
     if (searchParams.dateTo) {
       params.set("dateTo", searchParams.dateTo);
     }
-
     navigate(`/searchResults?${params.toString()}`);
-    console.log("Navigating to: ", `/searchResults?${params.toString()}`);
   };
 
   return (
@@ -88,12 +111,20 @@ function SearchBar({ onClose }) {
           Cancel
         </CancelButton>
       </Stack>
+      {/* Lookahead Results */}
+      {lookaheadResults.length > 0 && (
+        <div className="lookahead-results">
+          {lookaheadResults.map((venue) => (
+            <SearchVenueCard key={venue.id} venue={venue} />
+          ))}
+        </div>
+      )}
     </form>
   );
 }
 
 SearchBar.propTypes = {
-  onClose: propTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SearchBar;
