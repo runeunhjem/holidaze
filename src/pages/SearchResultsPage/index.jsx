@@ -5,7 +5,7 @@ import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
 import PaginationButtons from "../../components/MUI/Pagination";
 import { fetchApi } from "../../utils/fetchApi";
-import { ENDPOINTS } from "../../constants/api";
+import { ENDPOINTS, PARAMS } from "../../constants/api";
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -34,7 +34,7 @@ function SearchResultsPage() {
     try {
       while (page <= totalPages) {
         const response = await fetchApi(
-          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}`,
+          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}`,
         );
 
         if (response && Array.isArray(response.data)) {
@@ -78,7 +78,7 @@ function SearchResultsPage() {
       )}
       {loading && <p>Loading...</p>}
       {venuesMeta.totalCount > 0 && (
-        <h1>Total venues: {venuesMeta.totalCount}</h1>
+        <h1>Total venues before filtering: {venuesMeta.totalCount}</h1>
       )}
       <PaginationButtons
         count={venuesMeta.pageCount}
