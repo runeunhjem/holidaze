@@ -1,0 +1,11 @@
+.header-nav-links {
+  transition: all 0.3s ease;
+
+}
+
+.header-nav-links:hover {
+  transform: color 0.3s ease;
+  /* background-color: var(--menu-items-bg-color-hover) !important; */
+  color: var(--menu-items-text-color-hover) !important;
+  box-shadow: inset 0 -1px 0 var(--link-color-hover);
+}

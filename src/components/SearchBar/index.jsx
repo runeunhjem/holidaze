@@ -1,112 +1,133 @@
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
+import { fetchApi } from "../../utils/fetchApi";
+import { ENDPOINTS, PARAMS } from "../../constants/api";
 import BasicDatePickers from "../MUI/BasicDatePicker";
 import DestinationInput from "../MUI/DestinationInput";
 import GuestsInput from "../MUI/GuestsInput";
 import Stack from "@mui/material/Stack";
 import Button from "../MUI/Button";
 import CancelButton from "../MUI/CancelButton";
-// import { fetchApi } from "../../utils/fetchApi";
+import SearchVenueCard from "../SearchVenueCard";
+import "../SearchVenueCard/index.css";
 
 function SearchBar({ onClose }) {
-  // const [dateFromDate, setdateFromDate] = useState(null);
-  // const [dateToDate, setdateToDate] = useState(null);
-
-
-  // Accepting onClose prop
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
     destination: "",
     dateFrom: "",
     dateTo: "",
     guests: "",
   });
+  const [lookaheadResults, setLookaheadResults] = useState([]);
 
-  const handleChange = (event, newValue) => {
-    const target = event.target;
-    const name = target.name;
-    const value = target.value || newValue; // This will use the target value or a passed newValue from components like date pickers
-
-    console.log(`Input change detected. Field: ${name}, Value: ${value}`);
-
-    setSearchParams((prevState) => {
-      const updatedParams = { ...prevState, [name]: value };
-      console.log(`Updated search params:`, updatedParams);
-      return updatedParams;
-    });
-  };
-
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Submitting with search parameters:", searchParams); // Log current state at submission
-    // if (!searchParams.destination || !searchParams.dateFrom || !searchParams.dateTo || !searchParams.guests) {
-    //   console.error("All fields must be filled out");
-    //   return;
-    // }
-
-    // const query = encodeURIComponent(searchParams.destination);
-    // const maxGuests = encodeURIComponent(searchParams.guests);
-    // const availableFrom = encodeURIComponent(searchParams.dateFrom);
-    // const availableTo = encodeURIComponent(searchParams.dateTo);
-
+  // Debounce function to delay fetchLookaheadResults
+  const debounceFetchLookaheadResults = debounce(async (query) => {
+    if (!query) {
+      setLookaheadResults([]);
+      return;
+    }
     try {
-      const url = `https://v2.api.noroff.dev/holidaze/venues/search?_owner=true&_bookings=true&q=a`;
-
-      console.log("Fetching URL:", url); // Log the full URL being fetched
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log("Search results:", data); // Log the results from the API
+      const response = await fetchApi(
+        `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}${PARAMS.sortBy}${PARAMS.sortOrder}`,
+      );
+      if (response && Array.isArray(response.data)) {
+        setLookaheadResults(response.data);
+      } else {
+        setLookaheadResults([]);
+      }
     } catch (error) {
-      console.error("Error searching venues:", error);
+      console.error("Error fetching lookahead results:", error);
+      setLookaheadResults([]);
+    }
+  }, 700); // Adjust the delay as needed (300ms in this case)
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setSearchParams((prev) => ({ ...prev, [name]: value }));
+    if (name === "destination") {
+      debounceFetchLookaheadResults(value);
     }
   };
 
+  const handleDateChange = (name, newValue) => {
+    setSearchParams((prev) => ({ ...prev, [name]: newValue }));
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (searchParams.destination) {
+      params.set("q", searchParams.destination);
+    }
+    if (searchParams.guests) {
+      params.set("guests", searchParams.guests);
+    }
+    if (searchParams.dateFrom) {
+      params.set("dateFrom", searchParams.dateFrom);
+    }
+    if (searchParams.dateTo) {
+      params.set("dateTo", searchParams.dateTo);
+    }
+    navigate(`/searchResults?${params.toString()}`);
+    onClose();
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-0 py-4 max-w-1200 mx-auto z-1">
-      <div className="flex flex-col sm:flex-row gap-4 w-full">
+    <form
+      onSubmit={handleSubmit}
+      className="z-1 mx-auto flex max-w-1200 flex-col gap-4 px-0 py-4"
+    >
+      <div className="flex w-full flex-col gap-4 sm:flex-row">
         <DestinationInput
           className="w-full md:w-1/2"
           name="destination"
           label="Destination"
-          onChange={handleChange}
+          onChange={handleInputChange}
           value={searchParams.destination}
         />
         <GuestsInput
           className="w-full md:w-1/2"
           name="guests"
           label="Guests"
-          onChange={handleChange}
+          onChange={handleInputChange}
           value={searchParams.guests}
         />
       </div>
       <BasicDatePickers
         dateFrom={searchParams.dateFrom}
-        setDateFrom={(newValue) => setSearchParams((prev) => ({ ...prev, dateFrom: newValue }))}
+        setDateFrom={(newValue) => handleDateChange("dateFrom", newValue)}
         dateTo={searchParams.dateTo}
-        setDateTo={(newValue) => setSearchParams((prev) => ({ ...prev, dateTo: newValue }))}
+        setDateTo={(newValue) => handleDateChange("dateTo", newValue)}
       />
       <Stack
         spacing={2}
         direction="row"
-        sx={{
-          width: "100%",
-          height: "40px",
-          justifyContent: "center",
-        }}>
-        <Button type="submit">Search</Button>
+        sx={{ width: "100%", height: "40px", justifyContent: "center" }}
+      >
+        <Button type="submit" onClick={onClose}>
+          Search
+        </Button>
         <CancelButton type="button" onClick={onClose}>
           Cancel
         </CancelButton>
       </Stack>
+      {/* Lookahead Results */}
+      {lookaheadResults.length > 0 && (
+        <div className="lookahead-results">
+          {lookaheadResults.map((venue) => (
+            <SearchVenueCard key={venue.id} venue={venue} onClose={onClose} />
+          ))}
+        </div>
+      )}
     </form>
   );
 }
 
 SearchBar.propTypes = {
-  onClose: propTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SearchBar;

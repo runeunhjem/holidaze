@@ -2,46 +2,133 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ENDPOINTS, PARAMS } from "../constants/api";
 import { fetchApi } from "../utils/fetchApi";
-import { devtools } from 'zustand/middleware';
+import { devtools } from "zustand/middleware";
 
 const useStore = create(
   devtools(
     persist(
       (set, get) => ({
+        // Initial states and functions definitions
+        options: {
+          checkImage: false,
+          checkTitle: false,
+          checkCountry: true,
+          checkContinent: true,
+          minImagesCount: true,
+        },
+        setOptions: (newOptions) =>
+          set((state) => ({ options: { ...state.options, ...newOptions } })),
         isAuthenticated: false,
         isDarkMode: true,
         accessToken: null,
         userDetails: {},
         viewedProfile: {},
         favoriteProfiles: [],
-        favorites: [], // State for favorite venues
+        favorites: [],
         venues: [],
         venuesMeta: {},
+        currentPage: 1,
+        setCurrentPage: (page) => set(() => ({ currentPage: page })),
+        venuesPerPage: 10,
+        setVenuesPerPage: (limit) =>
+          set({ venuesPerPage: limit, currentPage: 1 }),
         justLoggedIn: false,
-        isOptionsOpen: false,
-        isFiltersOpen: false,
-        toggleOptionsOpen: () =>
+        optionsMenuIsOpen: false,
+        filtersMenuIsOpen: false,
+        resetFilters: () => {
+          set(() => ({
+            filters: {
+              rating: "",
+              maxPrice: "",
+              minPrice: "",
+              city: "",
+              country: "",
+              continent: "",
+              maxGuests: "",
+              amenities: [],
+              hasBookings: false,
+              manager: "",
+            },
+          }));
+        },
+        filters: {
+          rating: "",
+          maxPrice: "",
+          minPrice: "",
+          city: "",
+          country: "",
+          continent: "",
+          maxGuests: "",
+          amenities: [],
+          hasBookings: false,
+          manager: "",
+        },
+        setFilter: (filterKey, value) =>
           set((state) => ({
-            isOptionsOpen: !state.isOptionsOpen,
-            // isFiltersOpen: false,
+            filters: { ...state.filters, [filterKey]: value },
           })),
-        toggleFiltersOpen: () =>
-          set((state) => ({
-            isFiltersOpen: !state.isFiltersOpen,
-            // isOptionsOpen: false,
-          })),
-        closeAll: () => set({ isOptionsOpen: false, isFiltersOpen: false }),
+        filterOptions: {
+          rating: [],
+          maxPrice: [],
+          minPrice: [],
+          city: [],
+          country: [],
+          continent: [],
+          maxGuests: [],
+          amenities: [],
+          manager: [],
+          hasBookings: [],
+        },
+        updateFilterOptions: () => {
+          const { venues } = get();
+          const amenities = new Set();
+          venues.forEach((venue) => {
+            Object.keys(venue.meta || {}).forEach((key) => {
+              if (venue.meta[key]) {
+                // Assuming meta contains boolean values for amenities
+                amenities.add(key);
+              }
+            });
+          });
 
+          const newFilterOptions = {
+            rating: [...new Set(venues.map((v) => v.rating))].sort(
+              (a, b) => a - b,
+            ),
+            maxPrice: [...new Set(venues.map((v) => v.price))].sort(
+              (a, b) => a - b,
+            ),
+            minPrice: [...new Set(venues.map((v) => v.price))].sort(
+              (a, b) => a - b,
+            ),
+            city: [...new Set(venues.map((v) => v.location.city))].sort(),
+            country: [...new Set(venues.map((v) => v.location.country))].sort(),
+            continent: [
+              ...new Set(venues.map((v) => v.location.continent)),
+            ].sort(),
+            maxGuests: [...new Set(venues.map((v) => v.maxGuests))].sort(
+              (a, b) => a - b,
+            ),
+            amenities: [...amenities].sort(),
+            manager: [...new Set(venues.map((v) => v.owner?.name))].sort(),
+            hasBookings: [true, false],
+          };
+          set({ filterOptions: newFilterOptions });
+        },
+        toggleOptionsOpen: () =>
+          set((state) => ({ optionsMenuIsOpen: !state.optionsMenuIsOpen })),
+        toggleFiltersOpen: () =>
+          set((state) => ({ filtersMenuIsOpen: !state.filtersMenuIsOpen })),
+        closeAll: () =>
+          set({ optionsMenuIsOpen: false, filtersMenuIsOpen: false }),
         setVenues: (data, meta) => set({ venues: data, venuesMeta: meta }),
         setLoading: (loading) => set({ loading }),
-
         addFavoriteProfile: (profile) => {
           const { favoriteProfiles } = get();
           if (!favoriteProfiles.some((p) => p.name === profile.name)) {
             set({ favoriteProfiles: [...favoriteProfiles, profile] });
           }
         },
-
         removeFavoriteProfile: (profileName) => {
           set((state) => ({
             favoriteProfiles: state.favoriteProfiles.filter(
@@ -49,19 +136,16 @@ const useStore = create(
             ),
           }));
         },
-
         addFavoriteVenue: (venue) => {
           const { favorites } = get();
           if (!favorites.some((v) => v.id === venue.id)) {
             set({ favorites: [...favorites, venue] });
           }
         },
-
         removeFavoriteVenue: (venueId) =>
           set((state) => ({
             favorites: state.favorites.filter((v) => v.id !== venueId),
           })),
-
         toggleDarkMode: () =>
           set((state) => {
             const newIsDarkMode = !state.isDarkMode;
@@ -71,16 +155,11 @@ const useStore = create(
             );
             return { isDarkMode: newIsDarkMode };
           }),
-
         setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
-
         setAccessToken: (accessToken) =>
           set({ accessToken, isAuthenticated: true }),
-
         setUserDetails: (details) => set({ userDetails: details }),
-
         setViewedProfile: (details) => set({ viewedProfile: details }),
-
         clearUser: () => {
           set({
             accessToken: null,
@@ -92,7 +171,6 @@ const useStore = create(
             venuesMeta: {},
           });
         },
-
         logIn: async (userDetails) => {
           const { accessToken, ...restDetails } = userDetails;
           set({
@@ -102,8 +180,6 @@ const useStore = create(
             accessToken,
             justLoggedIn: true,
           });
-
-          // Fetch the full user profile, including venues
           try {
             const profileResponse = await fetchApi(
               `${ENDPOINTS.profiles}/${restDetails.username}${PARAMS._venues}`,
@@ -115,7 +191,6 @@ const useStore = create(
                 },
               },
             );
-
             if (profileResponse && profileResponse.data) {
               set({ viewedProfile: profileResponse.data });
             } else {
@@ -125,7 +200,6 @@ const useStore = create(
             console.error("Error fetching user profile:", error);
           }
         },
-
         resetJustLoggedIn: () => set({ justLoggedIn: false }),
       }),
       {

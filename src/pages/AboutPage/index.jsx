@@ -26,7 +26,8 @@ function AboutPage() {
           <img
             src={bannerImage1}
             alt="Illustrated Holidaze banner #3"
-            className="w-full"
+            className="w-full bg-500-black"
+
           />
           <h1
             style={{

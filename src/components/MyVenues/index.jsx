@@ -36,7 +36,7 @@ function MyVenues() {
     setSelectedVenue(null);
   };
 
-  const open = Boolean(anchorEl);
+  const modalOpen = Boolean(anchorEl);
 
   // Memoize venues to avoid unnecessary re-renders
   const venueDisplay = useMemo(() => venues, [venues]);
@@ -86,7 +86,11 @@ function MyVenues() {
             <Button
               startIcon={<MdOutlineAddCircleOutline />}
               onClick={handleOpenModal}
-            />
+            >
+              <span className="visually-hidden">
+            Add new venue
+              </span>
+              </Button>
           )}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
@@ -107,13 +111,13 @@ function MyVenues() {
 
       {venues.length > 0 ? (
         <div
-          className="venues-container items center flex justify-center py-6"
+          className="venues-container flex items-center justify-center py-6"
           style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}
         >
           {venueDisplay.map((venue) => (
             <div
               key={venue.id}
-              className="venue-card-container items center flex justify-center"
+              className="venue-card-container flex items-center justify-center"
               style={{ flexBasis: "25%", borderRadius: "20px" }}
             >
               <Card
@@ -133,8 +137,8 @@ function MyVenues() {
                   alt={venue.media[0].alt || venue.name}
                 />
 
-                <div className="city-overlay items center flex justify-around">
-                  {venue.location.city}
+                <div className="city-overlay flex items-center justify-between px-3">
+                  {venue.location.city}, {venue.location.country}
                   <span
                     onClick={(e) => handleHover(e, venue)}
                     onMouseEnter={(e) => handleHover(e, venue)}
@@ -145,7 +149,7 @@ function MyVenues() {
                     [Info]
                   </span>
                 </div>
-                <div className="id-overlay items center flex justify-around py-1 text-xs">
+                <div className="id-overlay flex items-center justify-around py-1 text-xs">
                   Venue ID: {venue.id.slice(0, 6)}
                 </div>
                 <div
@@ -177,7 +181,7 @@ function MyVenues() {
       <VenuePopover
         selectedVenue={selectedVenue}
         anchorEl={anchorEl}
-        open={open}
+        open={modalOpen}
         onClose={handleClose}
       />
     </Box>

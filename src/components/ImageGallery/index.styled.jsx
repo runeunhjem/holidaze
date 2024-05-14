@@ -5,11 +5,11 @@ export const Gallery = styled.div`
   position: relative;
   width: 100%;
   max-width: 100%; // Adjust as needed
+  height: 400px;
   margin: 0 auto;
   overflow: hidden;
   padding: 0;
   border-radius: 20px;
-  height: 400px;
   @media (max-width: 468px) {
     height: 200px;
   }
@@ -69,6 +69,7 @@ export const OverlaySection = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  white-space: nowrap;
 `;
 
 export const NavButton = styled.button`
@@ -104,7 +105,7 @@ export const NavButton = styled.button`
     // Mobile devices
     font-size: 16px; // Even smaller font size for very small screens
     padding: 3px 8px; // Reduce padding to fit small screens
-    top: 40% !important;
+    top: 50% !important;
   }
 `;
 
@@ -115,7 +116,7 @@ export const Thumbnails = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
-  padding-top: 10px;
+  padding-top: 20px;
 `;
 
 export const ThumbnailImg = styled.img`
@@ -137,9 +138,9 @@ export const ThumbnailImg = styled.img`
 export const OptionsIcon = styled(CgMoreVertical)`
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  font-size: 24px;
+  font-size: 20px;
+  color: var(--link-color);
   &:hover {
-    color: var(--link-color);
     transform: scale(1.3);
   }
 `;

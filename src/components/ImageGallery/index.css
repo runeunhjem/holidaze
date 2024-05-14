@@ -7,6 +7,9 @@
   left: 0;
   opacity: 0; /* Start hidden */
   transition: opacity 0.5s ease-in-out;
+  @media (max-width: 468px) {
+    height: 200px;
+  }
 }
 
 .visible {

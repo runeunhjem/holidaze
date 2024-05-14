@@ -134,7 +134,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
           maxHeight: "80vh",
           bgcolor: "var(--header-bg-color)",
           boxShadow: 0,
-          border: "1px solid var(--border-color)",
+          // border: "1px solid var(--border-color)",
           p: 4,
           overflowY: "auto",
         }}

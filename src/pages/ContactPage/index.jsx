@@ -13,6 +13,7 @@ import {
   Checkbox,
 } from "@mui/material";
 import contact1 from "../../assets/images/contact-1.png";
+import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
 
 function ContactPage() {
   const {
@@ -46,6 +47,8 @@ function ContactPage() {
 
   return (
     <Container maxWidth="lg">
+      <AddMissingFormLabelsToMUI />{" "}
+      {/* Add this line to include the utility function */}
       <Box
         sx={{
           marginTop: 4,

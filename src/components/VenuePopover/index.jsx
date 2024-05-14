@@ -25,7 +25,9 @@ function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
       sx={{
         pointerEvents: "none",
         marginTop: "10px",
-        maxWidth: "600px",
+        maxWidth: "100%",
+        whiteSpace: "wrap",
+        borderRadius: "5px",
       }}
     >
       <CardContent
@@ -41,16 +43,19 @@ function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
           variant="h5"
           style={{
             color: "var(--profile-text-color)",
-            whiteSpace: "nowrap",
-            minWidth: "250px",
+            // minWidth: "250px",
           }}
         >
-          {selectedVenue.name || "Unknown Venue"}
+          {/* {selectedVenue.name || "Unknown Venue"} */}
+          {selectedVenue.name
+            ? selectedVenue.name.split(" ").slice(0, 3).join(" ") +
+              (selectedVenue.name.split(" ").length > 3 ? "..." : "")
+            : "Title has not been specified"}
         </Typography>
         <Typography
           variant="h5"
           style={{
-            whiteSpace: "nowrap",
+            // whiteSpace: "nowrap",
             color: "var(--profile-text-color)",
           }}
         >

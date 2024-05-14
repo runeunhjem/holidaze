@@ -1,11 +1,11 @@
 /* MyBookings/index.css */
 
-@media (max-width: 360px) {
+@media (max-width: 468px) {
   .truncate-on-small {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 20ch; /* Limiting to 20 characters */
+    max-width: 40ch; /* Limiting to 20 characters */
   }
 }
 

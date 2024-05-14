@@ -11,6 +11,7 @@ import logoDark from "../../assets/logo/holidaze-yellow.png";
 import NavigationMenu from "../MUI/NavigationMenu";
 import FilterButton from "../MUI/FilterButton";
 import FavoriteProfilesDropdown from "../../components/FavoriteProfilesDropdown";
+import "./index.css";
 
 const pages = ["Home", "Destinations", "About", "Contact"];
 
@@ -19,6 +20,12 @@ function Header() {
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const { isDarkMode, userDetails, favoriteProfiles } = useStore();
   const logo = isDarkMode ? logoDark : logoLight;
+  const { toggleOptionsOpen, toggleFiltersOpen } = useStore();
+
+  useEffect(() => {
+    toggleOptionsOpen();
+    toggleFiltersOpen();
+  }, [toggleOptionsOpen, toggleFiltersOpen]);
 
   useEffect(() => {
     // This function handles closing the menu when clicking outside of the header container
@@ -85,7 +92,7 @@ function Header() {
               <Link
                 to={`/${page.toLowerCase()}`}
                 key={page}
-                className={`md:text-md z-1000 mx-2 my-1 text-left md:flex ${
+                className={`header-nav-links md:text-md z-1000 mx-2 my-1 text-left md:flex ${
                   index === pages.length - 1 ? "md:mr-0" : "md:mx-2"
                 }`}
               >
@@ -106,7 +113,7 @@ function Header() {
             className="my-4 me-3 cursor-pointer items-center"
             size={20}
           />
-          <span className="hidden">Search</span>
+          <span className="visually-hidden">Search</span>
         </button>
         <ToggleTheme className="my-4 items-center" />
 
@@ -143,14 +150,15 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="me-4 flex max-w-1200 justify-between text-right md:mx-auto">
+      <div className="me-4 flex max-w-1200 justify-between text-right md:mx-auto sm:-mt-2">
         {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
         {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
         {userDetails.name ? (
-          <span className="flex flex-col sm:flex-row">
+          <span className="flex flex-col items-end sm:items-center sm:flex-row">
             Welcome back
             <Link
               to={`/profile/${userDetails.name}`}
+              className="header-nav-links"
               style={{
                 color: "var(--profile-text-color)",
                 paddingRight: 0,
