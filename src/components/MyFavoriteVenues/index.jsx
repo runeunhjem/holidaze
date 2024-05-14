@@ -32,6 +32,17 @@ function MyFavoriteVenues() {
     favorites.some((venue) => venue.id === venueId);
 
   const toggleFavorite = (venue) => {
+    if (anchorEl) {
+      handleClose();
+      setTimeout(() => {
+        performToggle(venue);
+      }, 300); // Wait for the popover to fully close before modifying the favorites
+    } else {
+      performToggle(venue);
+    }
+  };
+
+  const performToggle = (venue) => {
     if (isFavorite(venue.id)) {
       removeFavoriteVenue(venue.id);
     } else {
@@ -129,12 +140,14 @@ function MyFavoriteVenues() {
       )}
 
       {/* VenuePopover */}
-      <VenuePopover
-        selectedVenue={selectedVenue}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-      />
+      {selectedVenue && document.body.contains(anchorEl) && (
+        <VenuePopover
+          selectedVenue={selectedVenue}
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+        />
+      )}
     </Box>
   );
 }

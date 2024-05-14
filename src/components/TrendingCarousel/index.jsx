@@ -60,17 +60,17 @@ function TrendingCarousel() {
       <Slider {...settings}>
         <div className="image-slide-container p-0">
           <div className="image-overlay-top">Trending Locations</div>
-          <img src={image1} alt="Asian Pearls" />
+          <img src={image1} alt="Illustration of Asian Pearls" />
           <div className="image-overlay">Asian Pearls</div>
         </div>
         <div className="image-slide-container p-0">
           <div className="image-overlay-top">Nature Fans</div>
-          <img src={image2} alt="Norwegian Summer" />
+          <img src={image2} alt="Illustration of Norwegian Summer" />
           <div className="image-overlay">Norwegian Summer</div>
         </div>
         <div className="image-slide-container p-0">
           <div className="image-overlay-top">Animal Lovers</div>
-          <img src={image3} alt="Pet Favorites" />
+          <img src={image3} alt="Illustration of Pet Favorites" />
           <div className="image-overlay">Pet Favorites</div>
         </div>
       </Slider>

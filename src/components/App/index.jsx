@@ -26,6 +26,7 @@ import MyVenuesPage from "../../pages/MyVenuesPage";
 import MyBookingsPage from "../../pages/MyBookingsPage";
 import MyFavoritesPage from "../../pages/MyFavoritesPage";
 import BookingDetailsPage from "../../pages/BookingDetailsPage";
+import SearchResultsPage from "../../pages/SearchResultsPage";
 
 function App() {
   const { isAuthenticated, isDarkMode } = useStore((state) => ({
@@ -96,7 +97,8 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/myFavorites" element={<MyFavoritesPage />} />
               <Route path="/myBookings" element={<MyBookingsPage />} />
-              <Route path="/myVenues" element={<MyVenuesPage />} />
+              <Route path="/myVenues" element={ <MyVenuesPage /> } />
+              <Route path="/searchResults" element={<SearchResultsPage />} />
             </Routes>
           </Layout>
         </ThemeProvider>

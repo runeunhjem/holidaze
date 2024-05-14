@@ -146,7 +146,10 @@ function VenueCard({ venue }) {
               <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
             ) : (
               <TbHeartPlus className="text-xl transition-transform hover:scale-125" />
-            )}
+            ) }
+            <span className="visually-hidden">
+              Toggle favorite
+            </span>
           </button>
         </div>
         <div

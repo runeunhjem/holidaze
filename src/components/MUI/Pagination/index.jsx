@@ -20,7 +20,7 @@ function PaginationButtons({ count, page, onChange }) {
         showLastButton={!isMobile} // Show these buttons only on non-mobile devices
         siblingCount={isMobile ? 0 : 2} // Fewer sibling buttons on mobile
         boundaryCount={isMobile ? 1 : 2} // Fewer boundary buttons on mobile
-        sx={{ justifyContent: "center", paddingTop: 2 }}
+        sx={{ justifyContent: "center", paddingTop: 0 }}
       />
     </Stack>
   );

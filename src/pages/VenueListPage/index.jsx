@@ -6,7 +6,6 @@ import PaginationButtons from "../../components/MUI/Pagination";
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
-import Filters from "../../components/Filters"; // Make sure Filters is imported if it's used
 
 function VenueListPage() {
   const {
@@ -33,7 +32,7 @@ function VenueListPage() {
         sortOrder: "asc",
         _owner: true,
         _bookings: true,
-        ...filters, // Ensure filters are applied correctly
+        ...filters,
       };
       const queryParams = new URLSearchParams(params).toString();
 
@@ -43,7 +42,7 @@ function VenueListPage() {
         );
         if (response && response.data) {
           setVenues(response.data, response.meta);
-          updateFilterOptions(response.data); // Update filter options based on the filtered venues
+          updateFilterOptions(response.data);
         } else {
           setError("Unexpected response format");
         }
@@ -83,19 +82,21 @@ function VenueListPage() {
 
   return (
     <div className="venue-list-container mx-auto mt-8 flex flex-col items-center gap-4 overflow-x-hidden pb-4">
-      <Filters />
       {error && (
         <Stack sx={{ width: "100%" }} spacing={2}>
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
       {loading && <p>Loading...</p>}
+      <h1>Total venues: {venuesMeta.totalCount}</h1>
       <PaginationButtons
         count={venuesMeta.pageCount}
         page={currentPage}
         onChange={handlePageChange}
       />
-      {activeFilterCount > 0 && <p>You have {activeFilterCount} active filters</p>}
+      {activeFilterCount > 0 && (
+        <p>You have {activeFilterCount} active filters</p>
+      )}
       {venues.length > 0 ? (
         <>
           <div className="flex flex-wrap justify-center gap-4 px-5">

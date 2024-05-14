@@ -11,6 +11,7 @@ import {
 import useStore from "../../hooks/useStore";
 import { BiFilterAlt } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
+import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
 
 const Filters = () => {
   const {
@@ -68,6 +69,8 @@ const Filters = () => {
         visibility: filtersMenuIsOpen ? "visible" : "hidden",
       }}
     >
+      <AddMissingFormLabelsToMUI />{" "}
+      {/* Add this line to include the utility function */}
       <MdClose
         onClick={toggleFiltersOpen}
         style={{
@@ -106,7 +109,6 @@ const Filters = () => {
           </Select>
         </FormControl>
       ))}
-
       <div
         style={{
           display: "flex",
@@ -138,7 +140,6 @@ const Filters = () => {
             bgcolor: "var(--button-bg-color)",
             color: "var(--button-text-color)",
             border: "0px solid var(--border-color)",
-            // outline: "var(--border-color)",
             "&:hover": {
               backgroundColor: "var(--button-bg-color-hover)",
               color: "var(--button-text-color-hover)",
