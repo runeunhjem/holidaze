@@ -7,11 +7,16 @@ import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
 import { TbParking } from "react-icons/tb";
 import { sanitizeFields } from "../../utils/options";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import "./index.css";
 
 function VenueDetailsPage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -31,12 +36,56 @@ function VenueDetailsPage() {
     fetchVenueDetails();
   }, [id]);
 
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   if (!venue) {
     return <div>Loading venue details...</div>;
   }
 
+  const isDateBooked = (date) => {
+    return venue.bookings.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return date >= fromDate && date <= toDate;
+    });
+  };
+
+  const isRangeBooked = (start, end) => {
+    return venue.bookings.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return (
+        (start <= fromDate && end >= fromDate) || // starts before and ends during/after
+        (start >= fromDate && start <= toDate) || // starts during
+        (start <= fromDate && end >= toDate) // encompasses booking
+      );
+    });
+  };
+
+  const handleDateChange = (dates) => {
+    const [start, end] = dates;
+    if (isRangeBooked(start, end)) {
+      setStartDate(null);
+      setEndDate(null);
+    } else {
+      setStartDate(start);
+      setEndDate(end);
+    }
+  };
+
+  const renderDayContents = (day, date) => {
+    if (isDateBooked(date)) {
+      return <span className="booked-date">{day}</span>;
+    }
+    return day;
+  };
+
   return (
-    <div className="mx-auto max-w-4xl p-4">
+    <div className="venue-details mx-auto max-w-4xl p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
         {venue.name || "Venue"}
       </h1>
@@ -63,9 +112,7 @@ function VenueDetailsPage() {
 
         <div className="details-container">
           <div className="details-left">
-            <p className="font-bold underline underline-offset-4">
-              Details:
-            </p>
+            <p className="font-bold underline underline-offset-4">Details:</p>
             <ul className="details-list">
               <li>
                 <strong>Price:</strong> ${venue.price || "N/A"} / night
@@ -116,19 +163,42 @@ function VenueDetailsPage() {
           )}
         </div>
 
-        {venue.bookings && venue.bookings.length > 0 && (
-          <div className="mt-6">
-            <h2 className="text-2xl font-bold">Booked Dates</h2>
-            <ul>
-              {venue.bookings.map((booking, index) => (
-                <li key={index}>
-                  {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-                  {new Date(booking.dateTo).toLocaleDateString()}
-                </li>
-              ))}
-            </ul>
+        <div className="details-container">
+          <div className="booking-left">
+            <p className="font-bold underline underline-offset-4 booking-title">Book Now:</p>
+            <div className="datepicker-container">
+              <DatePicker
+                selected={startDate}
+                onChange={handleDateChange}
+                startDate={startDate}
+                endDate={endDate}
+                selectsRange
+                inline
+                minDate={new Date()}
+                filterDate={(date) => !isDateBooked(date)}
+                monthsShown={windowWidth >= 768 ? 2 : 1}
+                // orientation="landscape"
+                renderDayContents={renderDayContents}
+              />
+            </div>
           </div>
-        )}
+          {venue.bookings && venue.bookings.length > 0 && (
+            <div className="booking-right">
+              <p className="font-bold underline underline-offset-4 booking-title">
+                Booked Dates
+              </p>
+              <ul className="amenities-list">
+                {venue.bookings.map((booking, index) => (
+                  <li key={index}>
+                    {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
+                    {new Date(booking.dateTo).toLocaleDateString()}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
         <p className="pt-3">
           <strong>Venue added:</strong>{" "}
           {new Date(venue.created).toLocaleDateString()} by{" "}

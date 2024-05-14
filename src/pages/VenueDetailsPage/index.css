@@ -1,18 +1,45 @@
+.venue-details {
+  /* max-width: 90%; */
+  max-width: 100%;
+  margin: auto;
+}
+
 .details-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
 }
 
+.booking-container {
+  /* display: flex;
+  flex-direction: row; */
+  gap: 2rem;
+  width: 100%;
+}
+
+.booking-title {
+  margin: 0 0 1rem 0;
+}
+
 .details-left,
-.details-right {
+.details-right,
+.booking-left,
+.booking-right {
   padding: 1rem;
   border-radius: 10px;
   background-color: var(--menu-bg-color);
   width: 100%;
 }
+.booking-left,
+.booking-right {
+  /* padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--menu-bg-color); */
+  /* width: 100%; */
+}
 
-.details-left p {
+.details-left p,
+.booking-left p {
   display: inline;
   width: 170px;
 }
@@ -33,17 +60,52 @@
   align-items: center;
   width: 170px;
 }
+
+.datepicker-container {
+  /* width: 100%; */
+  width: min-content;
+  margin: 1rem 0 0 0;
+}
+
+.booked-date {
+  text-decoration: line-through;
+  /* background-color: var(--red-200); */
+  /* padding: 1rem; */
+  border-radius: 50%;
+  color: var(--red-700);
+}
+
 .amenities {
   color: var(--link-color);
 }
+
 @media (min-width: 768px) {
-  .details-container {
+  .details-container,
+  .booking-container {
     flex-direction: row;
     justify-content: space-between;
   }
 
   .details-left,
   .details-right {
+    width: 48%;
+  }
+  .booking-left,
+  .booking-right {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .details-container,
+  .booking-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .details-left,
+  .details-right,
+  .booking-left,
+  .booking-right {
     width: 48%;
   }
 }
