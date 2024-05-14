@@ -44,7 +44,10 @@ const ProfileInfo = ({ viewedProfile }) => {
       <div className="mt-2 flex items-center justify-center">
         <TbUserEdit className="me-2 text-2xl" />
 
-        <h2 onClick={handleOpenModal} className="text-2xl font-bold cursor-pointer header-nav-links px-2 rounded">
+        <h2
+          onClick={handleOpenModal}
+          className="header-nav-links cursor-pointer rounded px-2 text-2xl font-bold"
+        >
           Edit Profile
         </h2>
       </div>
@@ -52,7 +55,7 @@ const ProfileInfo = ({ viewedProfile }) => {
       {/* Email information */}
       <div className="mt-2 flex items-center justify-center">
         <MdOutlineMarkEmailRead className="text-1xl me-2" />
-        <h3 className="text-1xl text-center font-bold">
+        <h3 className="text-1xl rounded header-nav-links text-center font-bold">
           <Link to={`mailto:${viewedProfile.email}`}>
             {viewedProfile.email}
           </Link>

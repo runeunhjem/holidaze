@@ -1,0 +1,14 @@
+.reset-link {
+  color: var(--link-color) !important;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.reset-link:hover {
+  color: var(--link-color-hover) !important;
+  text-decoration: underline;
+}
+
+.span-info {
+  font-size: 1.3rem;
+}

@@ -6,6 +6,8 @@ import PaginationButtons from "../../components/MUI/Pagination";
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
+import { Link } from "react-router-dom";
+import "./index.css";
 
 function VenueListPage() {
   const {
@@ -21,6 +23,7 @@ function VenueListPage() {
     setLoading,
     setError,
     updateFilterOptions,
+    resetFilters, // Add resetFilters function from the store
   } = useStore();
 
   useEffect(() => {
@@ -71,7 +74,11 @@ function VenueListPage() {
   // Function to count active filters
   const countActiveFilters = () => {
     return Object.values(filters).reduce((count, value) => {
-      if (value && value !== "" && !(Array.isArray(value) && value.length === 0)) {
+      if (
+        value &&
+        value !== "" &&
+        !(Array.isArray(value) && value.length === 0)
+      ) {
         count += 1;
       }
       return count;
@@ -88,14 +95,19 @@ function VenueListPage() {
         </Stack>
       )}
       {loading && <p>Loading...</p>}
-      <h1>Total venues before filtering: {venuesMeta.totalCount}</h1>
+      <h1 className="span-info">Total venues before filtering: {venuesMeta.totalCount}</h1>
       <PaginationButtons
         count={venuesMeta.pageCount}
         page={currentPage}
         onChange={handlePageChange}
       />
       {activeFilterCount > 0 && (
-        <p>You have {activeFilterCount} active filters</p>
+        <span className="span-info">
+          You have {activeFilterCount} active filters{" "}
+          <Link onClick={resetFilters} className="reset-link">
+            [reset]
+          </Link>
+        </span>
       )}
       {venues.length > 0 ? (
         <>
