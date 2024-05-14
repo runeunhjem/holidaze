@@ -72,6 +72,7 @@ function SearchBar({ onClose }) {
       params.set("dateTo", searchParams.dateTo);
     }
     navigate(`/searchResults?${params.toString()}`);
+    onClose();
   };
 
   return (
@@ -106,7 +107,9 @@ function SearchBar({ onClose }) {
         direction="row"
         sx={{ width: "100%", height: "40px", justifyContent: "center" }}
       >
-        <Button type="submit">Search</Button>
+        <Button type="submit" onClick={onClose}>
+          Search
+        </Button>
         <CancelButton type="button" onClick={onClose}>
           Cancel
         </CancelButton>
@@ -115,7 +118,7 @@ function SearchBar({ onClose }) {
       {lookaheadResults.length > 0 && (
         <div className="lookahead-results">
           {lookaheadResults.map((venue) => (
-            <SearchVenueCard key={venue.id} venue={venue} />
+            <SearchVenueCard key={venue.id} venue={venue} onClose={onClose} />
           ))}
         </div>
       )}

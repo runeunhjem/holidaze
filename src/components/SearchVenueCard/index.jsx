@@ -6,7 +6,7 @@ import RatingStar from "../RatingStar";
 import useStore from "../../hooks/useStore";
 import "./index.css";
 
-function SearchVenueCard({ venue }) {
+function SearchVenueCard({ venue, onClose }) {
   const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
   const [isFavorite, setIsFavorite] = useState(
     favorites.some((fav) => fav.id === venue.id),
@@ -28,35 +28,42 @@ function SearchVenueCard({ venue }) {
 
   return (
     <div className="search-venue-card-wrapper">
-    <div className="search-venue-card">
-      <img
-        src={venue.media[0]?.url}
-        alt={venue.media[0]?.alt || venue.name}
-        className="search-venue-image"
-      />
-      <div className="search-venue-info">
-        <div className="search-venue-name">{venue.name}</div>
-        <div className="search-venue-details">
-          <div className="search-venue-rating">
-            <span className="me-1">{venue.rating.toFixed(1)}</span>
-            <RatingStar rating={venue.rating} />
+      <div className="search-venue-card">
+        <img
+          src={venue.media[0]?.url}
+          alt={venue.media[0]?.alt || venue.name}
+          className="search-venue-image"
+          onClick={onClose}
+        />
+        <div className="search-venue-info">
+          <div className="search-venue-name truncate">
+            {venue.name}
           </div>
-          <div className="search-venue-actions">
-            <button className="text-lg text-red-500" onClick={toggleFavorite}>
-              {isFavorite ? (
-                <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
-              ) : (
-                <TbHeartPlus className="text-xl transition-transform hover:scale-125" />
-              )}
-              <span className="visually-hidden">Toggle favorite</span>
-            </button>
-            <div className="search-venue-price">${venue.price} / night</div>
+          <div className="search-venue-details">
+            <div className="search-venue-rating">
+              <span className="me-1">{venue.rating.toFixed(1)}</span>
+              <RatingStar rating={venue.rating} />
+            </div>
+            <div className="search-venue-actions">
+              <button className="text-lg text-red-500" onClick={toggleFavorite}>
+                {isFavorite ? (
+                  <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
+                ) : (
+                  <TbHeartPlus className="text-xl transition-transform hover:scale-125" />
+                )}
+                <span className="visually-hidden">Toggle favorite</span>
+              </button>
+              <div className="search-venue-price">${venue.price} / night</div>
+            </div>
           </div>
+          <Link
+            to={`/venues/${venue.id}`}
+            className="search-venue-link"
+            onClick={onClose}
+          >
+            View Details
+          </Link>
         </div>
-        <Link to={`/venues/${venue.id}`} className="search-venue-link">
-          View Details
-        </Link>
-      </div>
       </div>
     </div>
   );
@@ -75,6 +82,7 @@ SearchVenueCard.propTypes = {
     price: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default SearchVenueCard;
