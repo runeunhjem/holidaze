@@ -6,9 +6,12 @@ import Stack from "@mui/material/Stack";
 import PaginationButtons from "../../components/MUI/Pagination";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS, PARAMS } from "../../constants/api";
+import dayjs from "dayjs";
+import useStore from "../../hooks/useStore";
 
 function SearchResultsPage() {
   const location = useLocation();
+  const { filters } = useStore();
   const [venues, setVenues] = useState([]);
   const [venuesMeta, setVenuesMeta] = useState({
     pageCount: 1,
@@ -18,11 +21,28 @@ function SearchResultsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const isRangeBooked = (venue, start, end) => {
+    return venue.bookings?.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return (
+        (start <= fromDate && end >= fromDate) ||
+        (start >= fromDate && start <= toDate) ||
+        (start <= fromDate && end >= toDate)
+      );
+    });
+  };
+
   const fetchVenues = useCallback(async () => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("q");
-
-    if (!query) return;
+    const dateFrom = searchParams.get("dateFrom")
+      ? new Date(searchParams.get("dateFrom"))
+      : null;
+    const dateTo = searchParams.get("dateTo")
+      ? new Date(searchParams.get("dateTo"))
+      : null;
+    const guests = searchParams.get("guests");
 
     setLoading(true);
     setError(null);
@@ -33,9 +53,16 @@ function SearchResultsPage() {
 
     try {
       while (page <= totalPages) {
-        const response = await fetchApi(
-          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}`,
-        );
+        let response;
+        if (query) {
+          response = await fetchApi(
+            `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}${PARAMS._bookings}`,
+          );
+        } else {
+          response = await fetchApi(
+            `${ENDPOINTS.venues}?page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}${PARAMS._bookings}`,
+          );
+        }
 
         if (response && Array.isArray(response.data)) {
           allVenues = [...allVenues, ...response.data];
@@ -50,6 +77,16 @@ function SearchResultsPage() {
           setError("No data found or unexpected format.");
           break;
         }
+      }
+
+      if (dateFrom && dateTo) {
+        allVenues = allVenues.filter(
+          (venue) => !isRangeBooked(venue, dateFrom, dateTo),
+        );
+      }
+
+      if (guests) {
+        allVenues = allVenues.filter((venue) => venue.maxGuests >= guests);
       }
 
       setVenues(allVenues);
@@ -69,6 +106,28 @@ function SearchResultsPage() {
     fetchVenues(value);
   };
 
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get("q");
+  const dateFrom = searchParams.get("dateFrom");
+  const dateTo = searchParams.get("dateTo");
+  const guests = searchParams.get("guests");
+
+  // Function to count active filters
+  const countActiveFilters = () => {
+    return Object.values(filters).reduce((count, value) => {
+      if (
+        value &&
+        value !== "" &&
+        !(Array.isArray(value) && value.length === 0)
+      ) {
+        count += 1;
+      }
+      return count;
+    }, 0);
+  };
+
+  const activeFilterCount = countActiveFilters();
+
   return (
     <div className="venue-list-container mx-auto mt-8 flex flex-col items-center gap-4 overflow-x-hidden pb-4">
       {error && (
@@ -77,8 +136,55 @@ function SearchResultsPage() {
         </Stack>
       )}
       {loading && <p>Loading...</p>}
+      {(query || dateFrom || dateTo || guests || activeFilterCount > 0) && (
+        <div
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--header-text-color)",
+            borderRadius: "10px",
+            maxWidth: "1200px",
+            border: "1px solid var(--border-color)",
+            textAlign: "center",
+          }}
+          className="info-box mb-4 rounded bg-gray-200 p-4"
+        >
+          <p>
+            Showing {venues.length} results for{" "}
+            <strong>{query || "all venues"}</strong>{" "}
+            {dateFrom && (
+              <>
+                with check-in{" "}
+                <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>{" "}
+              </>
+            )}
+            {dateTo && (
+              <>
+                and check-out{" "}
+                <strong>{dayjs(dateTo).format("YYYY-MM-DD")}</strong>
+              </>
+            )}
+            {guests && (
+              <>
+                {" "}
+                for <strong>{guests}</strong> guests
+              </>
+            ) }
+          </p>
+          <p>
+            {activeFilterCount > 0 && (
+              <>
+                {" "}
+                You also have <strong>{activeFilterCount}</strong> active filters
+              </>
+            )}
+          </p>
+        </div>
+      )}
       {venuesMeta.totalCount > 0 && (
-        <h1>Total venues before filtering: {venuesMeta.totalCount}</h1>
+        <h1>
+          Total venues before filtering for your search criteria:{" "}
+          {venuesMeta.totalCount}
+        </h1>
       )}
       <PaginationButtons
         count={venuesMeta.pageCount}

@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 import { fetchApi } from "../../utils/fetchApi";
@@ -17,43 +17,79 @@ function SearchBar({ onClose }) {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useState({
     destination: "",
-    dateFrom: "",
-    dateTo: "",
+    dateFrom: null,
+    dateTo: null,
     guests: "",
   });
   const [lookaheadResults, setLookaheadResults] = useState([]);
 
-  // Debounce function to delay fetchLookaheadResults
-  const debounceFetchLookaheadResults = debounce(async (query) => {
-    if (!query) {
-      setLookaheadResults([]);
-      return;
-    }
-    try {
-      const response = await fetchApi(
-        `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}${PARAMS.sortBy}${PARAMS.sortOrder}`,
+  const isRangeBooked = (venue, start, end) => {
+    return venue.bookings?.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return (
+        (start <= fromDate && end >= fromDate) ||
+        (start >= fromDate && start <= toDate) ||
+        (start <= fromDate && end >= toDate)
       );
-      if (response && Array.isArray(response.data)) {
-        setLookaheadResults(response.data);
-      } else {
+    });
+  };
+
+  // Debounce function to delay fetchLookaheadResults
+  const debounceFetchLookaheadResults = useCallback(
+    debounce(async (latestSearchParams) => {
+      const { destination, dateFrom, dateTo, guests } = latestSearchParams;
+
+      if (!destination) {
+        setLookaheadResults([]);
+        return;
+      }
+      try {
+        const response = await fetchApi(
+          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(destination)}${PARAMS.sortBy}${PARAMS.sortOrder}${PARAMS._bookings}`,
+        );
+        if (response && Array.isArray(response.data)) {
+          let filteredResults = response.data;
+
+          if (dateFrom && dateTo) {
+            const start = new Date(dateFrom);
+            const end = new Date(dateTo);
+            filteredResults = filteredResults.filter(
+              (venue) => !isRangeBooked(venue, start, end),
+            );
+          }
+
+          if (guests) {
+            filteredResults = filteredResults.filter(
+              (venue) => venue.maxGuests >= guests,
+            );
+          }
+
+          setLookaheadResults(filteredResults);
+        } else {
+          setLookaheadResults([]);
+        }
+      } catch (error) {
+        console.error("Error fetching lookahead results:", error);
         setLookaheadResults([]);
       }
-    } catch (error) {
-      console.error("Error fetching lookahead results:", error);
-      setLookaheadResults([]);
-    }
-  }, 700); // Adjust the delay as needed (300ms in this case)
+    }, 700), // Adjust the delay as needed (700ms in this case)
+    [],
+  );
+
+  useEffect(() => {
+    debounceFetchLookaheadResults(searchParams);
+  }, [searchParams, debounceFetchLookaheadResults]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setSearchParams((prev) => ({ ...prev, [name]: value }));
-    if (name === "destination") {
-      debounceFetchLookaheadResults(value);
-    }
+    console.log(`Input ${name} changed:`, value);
   };
 
   const handleDateChange = (name, newValue) => {
     setSearchParams((prev) => ({ ...prev, [name]: newValue }));
+    console.log(`Date ${name} changed:`, newValue);
   };
 
   const handleSubmit = (e) => {
@@ -66,10 +102,10 @@ function SearchBar({ onClose }) {
       params.set("guests", searchParams.guests);
     }
     if (searchParams.dateFrom) {
-      params.set("dateFrom", searchParams.dateFrom);
+      params.set("dateFrom", searchParams.dateFrom.toISOString());
     }
     if (searchParams.dateTo) {
-      params.set("dateTo", searchParams.dateTo);
+      params.set("dateTo", searchParams.dateTo.toISOString());
     }
     navigate(`/searchResults?${params.toString()}`);
     onClose();
@@ -92,8 +128,8 @@ function SearchBar({ onClose }) {
           className="w-full md:w-1/2"
           name="guests"
           label="Guests"
-          onChange={handleInputChange}
           value={searchParams.guests}
+          onChange={handleInputChange}
         />
       </div>
       <BasicDatePickers
@@ -118,7 +154,7 @@ function SearchBar({ onClose }) {
       {lookaheadResults.length > 0 && (
         <div className="lookahead-results">
           {lookaheadResults.map((venue) => (
-            <SearchVenueCard key={venue.id} venue={venue} onClose={onClose} />
+            <SearchVenueCard key={venue.id} venue={venue} />
           ))}
         </div>
       )}
