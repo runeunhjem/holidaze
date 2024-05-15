@@ -35,7 +35,7 @@ function VenueDetailsPage() {
 
     fetchVenueDetails();
   }, [id]);
-
+  console.log("venue fetch: ", venue);
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
@@ -101,7 +101,7 @@ function VenueDetailsPage() {
           <MdLocationPin className="mr-2 text-2xl text-red-500" />
           <p className="font-bold tracking-wide">
             {venue.location.address}, {venue.location.zip}{" "}
-            {venue.location.city || "Unspecified city"},
+            {venue.location.city || "Unspecified city"},{" "}
             {venue.location.country || "Unspecified country"}
           </p>
         </div>
@@ -112,7 +112,14 @@ function VenueDetailsPage() {
 
         <div className="details-container">
           <div className="details-left">
-            <p className="font-bold underline underline-offset-4">Details:</p>
+            <p
+              className="font-bold"
+              style={{
+                color: "var(--profile-text-color)",
+              }}
+            >
+              Details:
+            </p>
             <ul className="details-list">
               <li>
                 <strong>Price:</strong> ${venue.price || "N/A"} / night
@@ -130,7 +137,12 @@ function VenueDetailsPage() {
 
           {venue.meta && (
             <div className="details-right">
-              <p className="font-bold underline underline-offset-4">
+              <p
+                className="font-bold"
+                style={{
+                  color: "var(--profile-text-color)",
+                }}
+              >
                 Amenities:
               </p>
               <ul className="amenities-list">
@@ -165,7 +177,14 @@ function VenueDetailsPage() {
 
         <div className="details-container">
           <div className="booking-left">
-            <p className="font-bold underline underline-offset-4 booking-title">Check availability:</p>
+            <p
+              className="booking-title font-bold"
+              style={{
+                color: "var(--profile-text-color)",
+              }}
+            >
+              Check availability:
+            </p>
             <div className="datepicker-container">
               <DatePicker
                 selected={startDate}
@@ -176,18 +195,22 @@ function VenueDetailsPage() {
                 inline
                 minDate={new Date()}
                 filterDate={(date) => !isDateBooked(date)}
-                monthsShown={windowWidth >= 768 ? 2 : 1}
-                // orientation="landscape"
+                monthsShown={windowWidth >= 768 ? 2 : 2}
                 renderDayContents={renderDayContents}
               />
             </div>
           </div>
           {venue.bookings && venue.bookings.length > 0 && (
             <div className="booking-right">
-              <p className="font-bold underline underline-offset-4 booking-title">
+              <p
+                className="booking-title font-bold"
+                style={{
+                  color: "var(--profile-text-color)",
+                }}
+              >
                 Booked Dates
               </p>
-              <ul className="amenities-list">
+              <ul className="booked-list">
                 {venue.bookings.map((booking, index) => (
                   <li key={index}>
                     {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
@@ -198,21 +221,45 @@ function VenueDetailsPage() {
             </div>
           )}
         </div>
-
-        <p className="pt-3">
-          <strong>Venue added:</strong>{" "}
-          {new Date(venue.created).toLocaleDateString()} by{" "}
-          <Link to={`/profile/${encodeURIComponent(venue.owner.name)}`}>
-            {venue.owner.name}
-          </Link>
-        </p>
-        <p>
-          <strong>Venue updated:</strong>{" "}
-          {new Date(venue.updated).toLocaleDateString()} by{" "}
-          <Link to={`/profile/${encodeURIComponent(venue.owner.name)}`}>
-            {venue.owner.name}
-          </Link>
-        </p>
+        <div
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--profile-text-color)",
+          }}
+          className="manager-container flex w-full  max-w-1200 flex-wrap items-center justify-around rounded-lg py-4"
+        >
+          <div className="manager-avatar flex items-center">
+            {venue.owner.avatar.url && (
+              <img
+                src={venue.owner.avatar.url}
+                alt="Illustration of the Manager's avatar"
+                style={{
+                  width: "50px",
+                  height: "50px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                  boxShadow: "1px 2px 4px var(--link-color)",
+                }}
+              />
+            )}
+            <p className="ms-3 flex flex-col">
+              <strong>Venue is managed by</strong>{" "}
+              <Link className="header-nav-links rounded" to={`/profile/${encodeURIComponent(venue.owner.name)}`}>
+                {venue.owner.name}
+              </Link>
+            </p>
+          </div>
+          <div className="ms-3 flex flex-col">
+            <span className="ms-3">
+              <strong>Venue Added:</strong>{" "}
+              {new Date(venue.created).toLocaleDateString()}
+            </span>
+            <span className="ms-3">
+              <strong>Venue Updated:</strong>{" "}
+              {new Date(venue.updated).toLocaleDateString()}
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
