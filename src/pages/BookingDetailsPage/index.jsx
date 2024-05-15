@@ -37,8 +37,8 @@ function BookingDetailsPage() {
       </h1>
       <ImageGallery
         media={venue.media || []}
-        countryName={venue.location?.country ?? "Unknown"}
-        continent={venue.location?.continent ?? "Unknown"}
+        countryName={venue.location?.country ?? "Unspecified"}
+        continent={venue.location?.continent ?? "Unspecified"}
         venue={venue}
       />
 
@@ -64,7 +64,7 @@ function BookingDetailsPage() {
         </p>
 
         <p>
-          <strong>Booked by:</strong> {booking.customer?.name || "Unknown"}
+          <strong>Booked by:</strong> {booking.customer?.name || "Unspecified"}
         </p>
 
         <div>

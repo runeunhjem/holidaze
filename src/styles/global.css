@@ -14,8 +14,10 @@
     --white: #ffffff;
     --black: #000000;
     --red-200: #fecaca;
+    --red-300: #fca5a5;
     --red-500: #ef4444;
     --red-700: #b91c1c;
+    --rose-800: #9f1239;
     --orange-200: #fed7aa;
     --green-200: #bbf7d0;
     --green-800: #166534;
@@ -65,7 +67,7 @@
     --button-bg-color: var(--sky-300);
     --button-bg-color-cancel: var(--red-700);
     --button-bg-color-hover: var(--sky-200);
-    --button-bg-color-hover-cancel: var(--red-500);
+    --button-bg-color-hover-cancel: var(--rose-800);
     --button-text-color: var(--gray-900);
     --button-text-color-cancel: var(--gray-100);
     --button-text-color-hover: var(--gray-900);
@@ -162,11 +164,11 @@
     flex: 1;
   }
 
-  @media (max-width: 530px) {
+  /* @media (max-width: 530px) {
     .react-datepicker {
       width: min-content !important;
     }
-  }
+  } */
 
   .visually-hidden {
     position: absolute;

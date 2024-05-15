@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS, PARAMS } from "../../constants/api";
 import BasicDatePickers from "../MUI/BasicDatePicker";
@@ -22,8 +22,9 @@ function SearchBar({ onClose }) {
     guests: "",
   });
   const [lookaheadResults, setLookaheadResults] = useState([]);
+  const debouncedFetchRef = useRef();
 
-  const isRangeBooked = (venue, start, end) => {
+  const isRangeBooked = useCallback((venue, start, end) => {
     return venue.bookings?.some((booking) => {
       const fromDate = new Date(booking.dateFrom);
       const toDate = new Date(booking.dateTo);
@@ -33,11 +34,10 @@ function SearchBar({ onClose }) {
         (start <= fromDate && end >= toDate)
       );
     });
-  };
+  }, []);
 
-  // Debounce function to delay fetchLookaheadResults
-  const debounceFetchLookaheadResults = useCallback(
-    debounce(async (latestSearchParams) => {
+  useEffect(() => {
+    debouncedFetchRef.current = debounce(async (latestSearchParams) => {
       const { destination, dateFrom, dateTo, guests } = latestSearchParams;
 
       if (!destination) {
@@ -73,13 +73,16 @@ function SearchBar({ onClose }) {
         console.error("Error fetching lookahead results:", error);
         setLookaheadResults([]);
       }
-    }, 700), // Adjust the delay as needed (700ms in this case)
-    [],
-  );
+    }, 700); // Adjust the delay as needed (700ms in this case)
+
+    return () => {
+      debouncedFetchRef.current.cancel();
+    };
+  }, [isRangeBooked]);
 
   useEffect(() => {
-    debounceFetchLookaheadResults(searchParams);
-  }, [searchParams, debounceFetchLookaheadResults]);
+    debouncedFetchRef.current(searchParams);
+  }, [searchParams]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -154,7 +157,7 @@ function SearchBar({ onClose }) {
       {lookaheadResults.length > 0 && (
         <div className="lookahead-results">
           {lookaheadResults.map((venue) => (
-            <SearchVenueCard key={venue.id} venue={venue} />
+            <SearchVenueCard key={venue.id} venue={venue} onClose={onClose} />
           ))}
         </div>
       )}

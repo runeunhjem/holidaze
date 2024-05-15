@@ -150,11 +150,11 @@ function Header() {
       </nav>
 
       <FilterButton />
-      <div className="me-4 flex max-w-1200 justify-between text-right md:mx-auto sm:-mt-2">
+      <div className="me-4 flex max-w-1200 justify-between text-right sm:-mt-2 md:mx-auto">
         {favoriteProfiles.length > 0 && <FavoriteProfilesDropdown />}
         {favoriteProfiles.length === 0 && <FavoriteProfilesDropdown />}
         {userDetails.name ? (
-          <span className="flex flex-col items-end sm:items-center sm:flex-row">
+          <span className="flex flex-col items-end sm:flex-row sm:items-center">
             Welcome back
             <Link
               to={`/profile/${userDetails.name}`}
@@ -168,12 +168,13 @@ function Header() {
             </Link>
           </span>
         ) : (
-          <div>
+          <div className="pt-0.5 rounded sm:pt-4">
             Welcome, please{" "}
             <Link
+              className="header-nav-links rounded ps-1"
               to="/login"
               style={{
-                color: "var(--link-color)",
+                color: "var(--red-700)",
               }}
             >
               log in

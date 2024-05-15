@@ -165,7 +165,7 @@ function VenueDetailsPage() {
 
         <div className="details-container">
           <div className="booking-left">
-            <p className="font-bold underline underline-offset-4 booking-title">Book Now:</p>
+            <p className="font-bold underline underline-offset-4 booking-title">Check availability:</p>
             <div className="datepicker-container">
               <DatePicker
                 selected={startDate}
