@@ -95,12 +95,16 @@ function VenueListPage() {
         </Stack>
       )}
       {loading && <p>Loading...</p>}
-      <h1 className="span-info">Total venues before filtering: {venuesMeta.totalCount}</h1>
-      <PaginationButtons
-        count={venuesMeta.pageCount}
-        page={currentPage}
-        onChange={handlePageChange}
-      />
+      <h1 className="span-info">
+        Total venues before filtering: {venuesMeta.totalCount}
+      </h1>
+      <div className="pagination-container flex justify-center">
+        <PaginationButtons
+          count={venuesMeta.pageCount}
+          page={currentPage}
+          onChange={handlePageChange}
+        />
+      </div>
       {activeFilterCount > 0 && (
         <span className="span-info">
           You have {activeFilterCount} active filters{" "}
@@ -116,17 +120,20 @@ function VenueListPage() {
               <VenueCard key={venue.id} venue={venue} />
             ))}
           </div>
-          <PaginationButtons
-            count={venuesMeta.pageCount}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
+          <div className="pagination-bottom-container flex justify-center">
+            <PaginationButtons
+              count={venuesMeta.pageCount}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
+          </div>
         </div>
       ) : (
         <p>No venues found with the current filters.</p>
       )}
     </div>
   );
+
 }
 
 export default VenueListPage;
