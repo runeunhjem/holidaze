@@ -9,9 +9,8 @@ import "./index.css";
 
 function MyFavoriteVenues() {
   const { favorites, addFavoriteVenue, removeFavoriteVenue, options } =
-    useStore(); // Get favorite venues, actions, and options from the global store
+    useStore();
   const navigate = useNavigate();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
 
@@ -58,11 +57,7 @@ function MyFavoriteVenues() {
   return (
     <Box
       className="my-favorite-venues-container"
-      style={{
-        padding: "16px 8px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
+      style={{ padding: "16px 8px", maxWidth: "1200px", margin: "0 auto" }}
     >
       <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
@@ -105,8 +100,18 @@ function MyFavoriteVenues() {
                   onMouseEnter={(e) => handleHover(e, venue)}
                   component="img"
                   className="venue-image"
-                  image={venue.media[0].url}
-                  alt={venue.media[0].alt || venue.name}
+                  image={
+                    (venue.media &&
+                      venue.media.length > 0 &&
+                      venue.media[0].url) ||
+                    "default_image_url.jpg"
+                  }
+                  alt={
+                    (venue.media &&
+                      venue.media.length > 0 &&
+                      venue.media[0].alt) ||
+                    venue.name
+                  }
                 />
 
                 <div className="city-overlay flex w-full items-center justify-between px-3">
@@ -147,7 +152,6 @@ function MyFavoriteVenues() {
         </Typography>
       )}
 
-      {/* VenuePopover */}
       {selectedVenue && document.body.contains(anchorEl) && (
         <VenuePopover
           selectedVenue={selectedVenue}
