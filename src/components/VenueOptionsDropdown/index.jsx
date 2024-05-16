@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { CgMoreVertical } from "react-icons/cg";
 import { FaTrashAlt, FaEdit, FaPrint, FaShareAlt } from "react-icons/fa";
 import IconButton from "@mui/material/IconButton";
@@ -8,14 +8,13 @@ import MenuItem from "@mui/material/MenuItem";
 import useStore from "../../hooks/useStore";
 import "./index.css";
 
-const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
+const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner = false }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const menuOpen = Boolean(anchorEl);
   const buttonRef = useRef(null);
 
-  const { isAuthenticated, userDetails } = useStore((state) => ({
+  const { isAuthenticated } = useStore((state) => ({
     isAuthenticated: state.isAuthenticated,
-    userDetails: state.userDetails,
   }));
 
   const handleClick = () => {
@@ -36,6 +35,20 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
     handleClose();
   };
 
+  // Close the menu if a click occurs outside of it
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (buttonRef.current && !buttonRef.current.contains(event.target)) {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [buttonRef]);
+
   return (
     <div className="dropdown-container">
       <IconButton
@@ -48,7 +61,6 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
           color: "var(--profile-text-color) !important",
           padding: "6px",
         }}
-        // className="header-nav-links"
       >
         <CgMoreVertical
           className="menu-icon"
@@ -81,11 +93,9 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
             margin: "0",
             padding: "0",
           },
-
           marginTop: "12px",
           marginLeft: "5px",
         }}
-        getContentAnchorEl={() => buttonRef.current}
       >
         <MenuItem className="menu-hover" onClick={handleShare}>
           <FaShareAlt
@@ -97,7 +107,7 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
           <FaPrint style={{ marginRight: "8px", color: "var(--link-color)" }} />
           Print venue
         </MenuItem>
-        {isAuthenticated && userDetails.name === venueOwner && (
+        {isAuthenticated && venueOwner && (
           <div>
             <MenuItem className="menu-hover" onClick={onEdit}>
               <FaEdit
@@ -121,7 +131,7 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner }) => {
 VenueOptionsDropdown.propTypes = {
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
-  venueOwner: PropTypes.string.isRequired,
+  venueOwner: PropTypes.bool,
 };
 
 export default VenueOptionsDropdown;

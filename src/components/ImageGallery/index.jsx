@@ -11,7 +11,15 @@ import { sanitizeFields } from "../../utils/options";
 import VenueOptionsDropdown from "../VenueOptionsDropdown";
 import "./index.css";
 
-function ImageGallery({ media, countryName, continent, venue, onEdit }) {
+function ImageGallery({
+  media,
+  countryName,
+  continent,
+  venue,
+  onEdit,
+  onDelete,
+  venueOwner, // Add venueOwner prop
+}) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
@@ -33,7 +41,7 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
 
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
-    const sanitizedContinent = sanitizeFields(continent);
+    const sanitizedContinent = sanitizeFields(continent); // Sanitize and translate the continent name
     setOverlayData({
       countryCode: fetchedCountryCode,
       continentText: sanitizedContinent,
@@ -45,7 +53,7 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
     const timer = setTimeout(() => {
       setSelectedImageIndex(
         (prevIndex) => (prevIndex + 1) % (media.length || 1),
-      );
+      ); // Avoid division by zero
       setImageVisible(true);
     }, 5000);
     return () => clearTimeout(timer);
@@ -60,9 +68,9 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
   return (
     <div className="gallery-container">
       <VenueOptionsDropdown
-        onEdit={onEdit} // Pass down the handler
-        onDelete={() => console.log("Delete venue")} // Replace with your delete logic
-        venueOwner={venue.owner.name}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        venueOwner={venueOwner} // Pass the venueOwner prop
       />
       <div className="gallery-wrapper">
         <S.Gallery>
@@ -101,20 +109,22 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
                     color: "var(--top-rated-color)",
                   }}
                 >
-                  {venue.bookings.length > 5 && (
+                  {venue.bookings?.length > 5 && (
                     <div
                       className="mr-3 flex items-center"
-                      style={{ color: "var(--popular-color)" }}
+                      style={{
+                        color: "var(--popular-color)",
+                      }}
                     >
                       <FaFire />
                       <span className="ml-1">Popular</span>
                     </div>
                   )}
                   {venue.rating > 4 && (
-                    <>
+                    <div>
                       <BsStars />
                       Top Rated
-                    </>
+                    </div>
                   )}
                 </S.OverlaySection>
               </S.TopOverlay>
@@ -131,7 +141,7 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
             </div>
           ))}
           {media.length > 1 && (
-            <>
+            <div>
               <S.NavButton
                 direction="left"
                 onClick={() =>
@@ -152,7 +162,7 @@ function ImageGallery({ media, countryName, continent, venue, onEdit }) {
               >
                 &#10095;
               </S.NavButton>
-            </>
+            </div>
           )}
         </S.Gallery>
         <S.Thumbnails>
@@ -181,7 +191,9 @@ ImageGallery.propTypes = {
   venue: PropTypes.object.isRequired,
   countryName: PropTypes.string.isRequired,
   continent: PropTypes.string.isRequired,
-  onEdit: PropTypes.func.isRequired, // Add prop types validation
+  onEdit: PropTypes.func.isRequired, // Ensure the handler is passed down
+  onDelete: PropTypes.func.isRequired, // Ensure the handler is passed down
+  venueOwner: PropTypes.bool.isRequired, // Add prop type validation for venueOwner
 };
 
 export default ImageGallery;

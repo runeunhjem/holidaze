@@ -1,3 +1,4 @@
+// useStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ENDPOINTS, PARAMS } from "../constants/api";
@@ -8,7 +9,6 @@ const useStore = create(
   devtools(
     persist(
       (set, get) => ({
-        // Initial states and functions definitions
         options: {
           checkImage: false,
           checkTitle: false,
@@ -85,7 +85,6 @@ const useStore = create(
           venues.forEach((venue) => {
             Object.keys(venue.meta || {}).forEach((key) => {
               if (venue.meta[key]) {
-                // Assuming meta contains boolean values for amenities
                 amenities.add(key);
               }
             });
@@ -159,7 +158,13 @@ const useStore = create(
         setAccessToken: (accessToken) =>
           set({ accessToken, isAuthenticated: true }),
         setUserDetails: (details) => set({ userDetails: details }),
-        setViewedProfile: (details) => set({ viewedProfile: details }),
+        setViewedProfile: (details) =>
+          set((state) => ({
+            viewedProfile: {
+              ...state.viewedProfile,
+              ...details,
+            },
+          })),
         clearUser: () => {
           set({
             accessToken: null,

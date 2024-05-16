@@ -152,30 +152,30 @@ function SearchResultsPage() {
             Showing {venues.length} results for{" "}
             <strong>{query || "all venues"}</strong>{" "}
             {dateFrom && (
-              <>
+              <div>
                 with check-in{" "}
                 <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>{" "}
-              </>
+              </div>
             )}
             {dateTo && (
-              <>
+              <div>
                 and check-out{" "}
                 <strong>{dayjs(dateTo).format("YYYY-MM-DD")}</strong>
-              </>
+              </div>
             )}
             {guests && (
-              <>
+              <div>
                 {" "}
                 for <strong>{guests}</strong> guests
-              </>
+              </div>
             ) }
           </p>
           <p>
             {activeFilterCount > 0 && (
-              <>
+              <div>
                 {" "}
                 You also have <strong>{activeFilterCount}</strong> active filters
-              </>
+              </div>
             )}
           </p>
         </div>

@@ -87,10 +87,8 @@ function MyVenues() {
               startIcon={<MdOutlineAddCircleOutline />}
               onClick={handleOpenModal}
             >
-              <span className="visually-hidden">
-            Add new venue
-              </span>
-              </Button>
+              <span className="visually-hidden">Add new venue</span>
+            </Button>
           )}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>

@@ -14,7 +14,7 @@ import { editVenue } from "../../utils/editVenue";
 import useStore from "../../hooks/useStore";
 
 const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
-  const { accessToken } = useStore();
+  const { accessToken, setViewedProfile } = useStore();
   const [venueData, setVenueData] = useState({
     name: "",
     description: "",
@@ -107,10 +107,25 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
   };
 
   const handleSubmit = async () => {
+    const originalOwner = currentVenue.owner; // Save the original owner
     try {
-      const updatedVenue = await editVenue(venueData, accessToken);
+      const updatedVenue = await editVenue(
+        currentVenue.id,
+        venueData,
+        accessToken,
+      );
+      // Restore the owner if it gets lost
+      if (!updatedVenue.owner) {
+        updatedVenue.owner = originalOwner;
+      }
       onVenueUpdated(updatedVenue);
-      onClose();
+      setViewedProfile((prevProfile) => {
+        const updatedVenues = prevProfile.venues.map((venue) =>
+          venue.id === updatedVenue.id ? updatedVenue : venue,
+        );
+        return { ...prevProfile, venues: updatedVenues };
+      });
+      setTimeout(onClose, 500); // Adding a delay to the close action
     } catch (error) {
       console.error("Failed to update venue:", error);
     }

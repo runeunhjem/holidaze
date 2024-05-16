@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import ImageGallery from "../../components/ImageGallery";
 import { getVenueById } from "../../utils/getVenueById";
+import { deleteVenue } from "../../utils/deleteVenue";
 import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
@@ -11,15 +12,19 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import EditVenueModal from "../../components/EditVenueModal";
+import useStore from "../../hooks/useStore";
 import "./index.css";
 
 function VenueDetailsPage() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { accessToken, userDetails } = useStore();
   const [venue, setVenue] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [venueOwner, setVenueOwner] = useState(false);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -39,6 +44,12 @@ function VenueDetailsPage() {
   }, [id]);
 
   useEffect(() => {
+    if (venue && userDetails) {
+      setVenueOwner(userDetails.name === venue.owner?.name);
+    }
+  }, [venue, userDetails]);
+
+  useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -56,12 +67,21 @@ function VenueDetailsPage() {
     setVenue(updatedVenue);
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteVenue(id, accessToken);
+      navigate(`/profile/${encodeURIComponent(venue.owner?.name)}`); // Redirect to the home page or another page after deletion
+    } catch (error) {
+      console.error("Failed to delete venue:", error);
+    }
+  };
+
   if (!venue) {
     return <div>Loading venue details...</div>;
   }
 
   const isDateBooked = (date) => {
-    return venue.bookings.some((booking) => {
+    return venue.bookings?.some((booking) => {
       const fromDate = new Date(booking.dateFrom);
       const toDate = new Date(booking.dateTo);
       return date >= fromDate && date <= toDate;
@@ -69,7 +89,7 @@ function VenueDetailsPage() {
   };
 
   const isRangeBooked = (start, end) => {
-    return venue.bookings.some((booking) => {
+    return venue.bookings?.some((booking) => {
       const fromDate = new Date(booking.dateFrom);
       const toDate = new Date(booking.dateTo);
       return (
@@ -116,6 +136,8 @@ function VenueDetailsPage() {
         continent={venue.location.continent || "Unspecified"}
         venue={venue}
         onEdit={handleEditOpen} // Pass down the handler
+        onDelete={handleDelete} // Pass down the handler
+        venueOwner={venueOwner} // Pass down the venueOwner
       />
 
       <div className="mt-6 space-y-2">
@@ -222,16 +244,16 @@ function VenueDetailsPage() {
               />
             </div>
           </div>
-          {venue.bookings && venue.bookings.length > 0 && (
-            <div className="booking-right">
-              <p
-                className="booking-title font-bold"
-                style={{
-                  color: "var(--profile-text-color)",
-                }}
-              >
-                Booked Dates
-              </p>
+          <div className="booking-right">
+            <p
+              className="booking-title font-bold"
+              style={{
+                color: "var(--profile-text-color)",
+              }}
+            >
+              Booked Dates
+            </p>
+            {venue.bookings && venue.bookings.length > 0 ? (
               <ul className="booked-list">
                 {venue.bookings.map((booking, index) => (
                   <li key={index}>
@@ -240,8 +262,10 @@ function VenueDetailsPage() {
                   </li>
                 ))}
               </ul>
-            </div>
-          )}
+            ) : (
+              <p>No bookings yet</p>
+            )}
+          </div>
         </div>
         <div
           style={{
@@ -252,7 +276,7 @@ function VenueDetailsPage() {
         >
           <div className="manager-avatar flex items-center">
             <img
-              src={getAvatarUrl(venue.owner.avatar.url)}
+              src={getAvatarUrl(venue?.owner?.avatar?.url)}
               alt="Illustration of the Manager's avatar"
               style={{
                 width: "50px",
@@ -266,9 +290,9 @@ function VenueDetailsPage() {
               <strong>Venue is managed by</strong>{" "}
               <Link
                 className="header-nav-links rounded"
-                to={`/profile/${encodeURIComponent(venue.owner.name)}`}
+                to={`/profile/${encodeURIComponent(venue?.owner?.name)}`}
               >
-                {venue.owner.name}
+                {venue?.owner?.name}
               </Link>
             </p>
           </div>

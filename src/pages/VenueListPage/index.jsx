@@ -110,7 +110,7 @@ function VenueListPage() {
         </span>
       )}
       {venues.length > 0 ? (
-        <>
+        <div>
           <div className="flex flex-wrap justify-center gap-4 px-5">
             {venues.map((venue) => (
               <VenueCard key={venue.id} venue={venue} />
@@ -121,7 +121,7 @@ function VenueListPage() {
             page={currentPage}
             onChange={handlePageChange}
           />
-        </>
+        </div>
       ) : (
         <p>No venues found with the current filters.</p>
       )}
