@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import defaultProfileBanner from "../../assets/images/profile-banner.png";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
+import { TbHeartPlus } from "react-icons/tb";
 
 /**
  * Renders the profile banner and avatar for a user.
@@ -28,6 +29,7 @@ const BannerAndAvatar = ({
   const isValidUrl = (url) =>
     url &&
     url !== "string" &&
+    url !== "https://i.stack.imgur.com/EzZiD.png" &&
     url !== "https://url.com/image.jpg" &&
     url !==
       "https://images.unsplash.com/photo-1579547945413-497e1b99dac0?crop=entropy&cs=tinysrgb&fit=crop&fm=jpg&q=80&h=500&w=1500" &&
@@ -81,9 +83,18 @@ const BannerAndAvatar = ({
 
         {/* Conditional rendering for the heart toggle */}
         {viewedProfile.name !== userDetails.name && (
-          <div className="absolute bottom-0 right-1">
+          <div className="absolute bottom-0 right-0">
             <div className="heart-toggle cursor-pointer" onClick={toggleHeart}>
-              {isFavorite ? "💖" : "➕"}
+              {isFavorite ? (
+                "💖"
+              ) : (
+                <TbHeartPlus
+                  style={{
+                    color: "var(--booked-dates-color)",
+                    fontSize: "20px",
+                  }}
+                />
+              )}
             </div>
           </div>
         )}

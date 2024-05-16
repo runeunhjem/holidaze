@@ -121,7 +121,7 @@ function ImageGallery({
                     </div>
                   )}
                   {venue.rating > 4 && (
-                    <div>
+                    <div className="flex whitespace-nowrap">
                       <BsStars />
                       Top Rated
                     </div>

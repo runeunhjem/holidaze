@@ -1,6 +1,5 @@
 import getCountryCode from "./getCountryCode";
 
-
 export const hasValidImages = (media, options) => {
   if (!options.checkImage) return true;
   return (
@@ -33,15 +32,20 @@ export const hasValidContinent = (continent, options) => {
   );
 };
 
-
 export const hasValidTitle = (title, options) => {
   if (!options.checkTitle) return true;
-  const undesiredKeywords = ["unknown", "unspecified", "string", "aaa", "asdf", "3"]; // Extend this list as needed
+  const undesiredKeywords = [
+    "unknown",
+    "unspecified",
+    "string",
+    "aaa",
+    "asdf",
+    "3",
+  ]; // Extend this list as needed
   return !undesiredKeywords.some((keyword) =>
     title.toLowerCase().includes(keyword),
   );
 };
-
 
 export const hasValidCountry = (country, options) => {
   if (!options.checkCountry) return true;
@@ -77,7 +81,6 @@ export const sanitizeFields = (
     sweeden: "Sweden",
     usa: "United States",
     suomi: "Finland",
-    // "united arab emirates": "UAE",
   },
 ) => {
   // Check if value is null or undefined and return "Unspecified" right away
@@ -95,6 +98,4 @@ export const sanitizeFields = (
   return undesiredValues.includes(valueLowerCase)
     ? "Unspecified"
     : translatedValue;
-
 };
-

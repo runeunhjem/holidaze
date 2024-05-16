@@ -4,6 +4,7 @@ import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { sanitizeVenue } from "../../utils/sanitizeVenue";
 import "./index.css";
 
 function MyBookings() {
@@ -13,6 +14,7 @@ function MyBookings() {
     addFavoriteVenue,
     removeFavoriteVenue,
     userDetails,
+    options,
   } = useStore();
 
   const bookingsList = useMemo(
@@ -23,9 +25,9 @@ function MyBookings() {
   const transformedBookings = useMemo(() => {
     return bookingsList.map((booking) => ({
       ...booking,
-      venue: booking.venue || {},
+      venue: sanitizeVenue(booking.venue || {}, options),
     }));
-  }, [bookingsList]);
+  }, [bookingsList, options]);
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -73,6 +75,7 @@ function MyBookings() {
         padding: "16px 8px",
         maxWidth: "1200px",
         margin: "0 auto",
+        width: "100%",
       }}
     >
       <div className="mt-6 flex justify-around px-6">
@@ -151,13 +154,15 @@ function MyBookings() {
                   Your Ref: {booking.id.slice(0, 6)}
                 </div>
               </Card>
-              <div className="city-overlay items-center flex justify-between px-3 whitespace-nowrap">
-                <div className="truncate-on-small pe-2">
-                  {booking.venue.name}, {booking.venue.location.city}
+              <div className="city-overlay flex items-center justify-between whitespace-nowrap px-3">
+                <div className="truncate-bookings-on-small pe-2">
+                  {booking.venue.name || "Unspecified title"},{" "}
+                  {booking.venue.location.city || "Unspecified city"},{" "}
+                  {booking.venue.location.country || "Unspecified country"}
                 </div>
                 <span
                   onMouseEnter={(e) => handleHover(e, booking)}
-                  className="flex cursor-pointer items-center justify-around py-1 text-xs whitespace-nowrap"
+                  className="flex cursor-pointer items-center justify-around whitespace-nowrap py-1 text-xs"
                   onMouseLeave={handleClose}
                 >
                   {" "}

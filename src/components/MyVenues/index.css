@@ -1,4 +1,11 @@
 /* MyVenues.css */
+.truncate-venues-on-small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 25ch;
+}
+
 .venue-container {
   position: relative;
   height: 175px; /* Fixed height */

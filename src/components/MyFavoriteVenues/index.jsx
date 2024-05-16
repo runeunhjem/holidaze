@@ -3,11 +3,13 @@ import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
-import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { sanitizeVenue } from "../../utils/sanitizeVenue";
+import "./index.css";
 
 function MyFavoriteVenues() {
-  const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore(); // Get favorite venues and actions from the global store
+  const { favorites, addFavoriteVenue, removeFavoriteVenue, options } =
+    useStore(); // Get favorite venues, actions, and options from the global store
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,8 +27,11 @@ function MyFavoriteVenues() {
 
   const open = Boolean(anchorEl);
 
-  // Memoize favorites to avoid unnecessary re-renders
-  const favoriteDisplay = useMemo(() => favorites, [favorites]);
+  // Memoize sanitized favorites to avoid unnecessary re-renders
+  const favoriteDisplay = useMemo(
+    () => favorites.map((venue) => sanitizeVenue(venue, options)),
+    [favorites, options],
+  );
 
   const isFavorite = (venueId) =>
     favorites.some((venue) => venue.id === venueId);
@@ -104,8 +109,11 @@ function MyFavoriteVenues() {
                   alt={venue.media[0].alt || venue.name}
                 />
 
-                <div className="city-overlay flex items-center justify-around">
-                  {venue.location.city}
+                <div className="city-overlay flex w-full items-center justify-between px-3">
+                  <span className="truncate-favorites-on-small">
+                    {venue.location.city || "Unspecified city"},{" "}
+                    {venue.location.country || "Unspecified country"}
+                  </span>
                   <span
                     onClick={(e) => handleHover(e, venue)}
                     onMouseEnter={(e) => handleHover(e, venue)}

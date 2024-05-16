@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from "react";
-import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
@@ -7,6 +6,8 @@ import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import CreateVenueModal from "../CreateVenueModal";
+import { sanitizeVenue } from "../../utils/sanitizeVenue";
+import useStore from "../../hooks/useStore";
 
 function MyVenues() {
   const {
@@ -16,6 +17,7 @@ function MyVenues() {
     favorites,
     addFavoriteVenue,
     removeFavoriteVenue,
+    options,
   } = useStore();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -38,8 +40,10 @@ function MyVenues() {
 
   const modalOpen = Boolean(anchorEl);
 
-  // Memoize venues to avoid unnecessary re-renders
-  const venueDisplay = useMemo(() => venues, [venues]);
+  const venueDisplay = useMemo(
+    () => venues.map((venue) => sanitizeVenue(venue, options)),
+    [venues, options],
+  );
 
   const isFavorite = (venueId) =>
     favorites.some((venue) => venue.id === venueId);
@@ -52,7 +56,6 @@ function MyVenues() {
     }
   };
 
-  // Determine header text based on user ID comparison
   const isOwnProfile = userDetails.name === viewedProfile.name;
   const headerText = isOwnProfile ? "My Venues" : "Their Venues";
 
@@ -62,7 +65,6 @@ function MyVenues() {
   const handleCloseModal = () => setIsModalOpen(false);
 
   const handleVenueCreated = (newVenue) => {
-    setVenues((prevVenues) => [...prevVenues, newVenue]);
     setViewedProfile((prevProfile) => ({
       ...prevProfile,
       venues: [...(prevProfile.venues || []), newVenue],
@@ -73,11 +75,7 @@ function MyVenues() {
   return (
     <Box
       className="my-venues-container"
-      style={{
-        padding: "16px 8px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
+      style={{ padding: "16px 8px", maxWidth: "1200px", margin: "0 auto" }}
     >
       <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
@@ -120,10 +118,7 @@ function MyVenues() {
             >
               <Card
                 className="venue-container"
-                style={{
-                  borderRadius: "20px",
-                  position: "relative",
-                }}
+                style={{ borderRadius: "20px", position: "relative" }}
                 onMouseLeave={handleClose}
               >
                 <CardMedia
@@ -136,7 +131,10 @@ function MyVenues() {
                 />
 
                 <div className="city-overlay flex items-center justify-between px-3">
-                  {venue.location.city}, {venue.location.country}
+                  <span className="truncate-venues-on-small">
+                    {venue.location.city || "Unspecified city"},{" "}
+                    {venue.location.country || "Unspecified country"}
+                  </span>
                   <span
                     onClick={(e) => handleHover(e, venue)}
                     onMouseEnter={(e) => handleHover(e, venue)}
