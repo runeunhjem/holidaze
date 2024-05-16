@@ -84,13 +84,11 @@ function MyVenues() {
             <Button
               startIcon={<MdOutlineAddCircleOutline />}
               onClick={handleOpenModal}
+              style={{ color: "var(--link-color)" }}
             >
               <span className="visually-hidden">Add new venue</span>
             </Button>
           )}
-        </Typography>
-        <Typography variant="h5" align="center" gutterBottom>
-          ({venues.length})
         </Typography>
       </div>
       <hr
