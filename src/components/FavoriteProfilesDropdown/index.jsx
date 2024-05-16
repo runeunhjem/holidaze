@@ -83,7 +83,7 @@ const FavoriteProfilesDropdown = () => {
         {favoriteProfiles.length > 0 ? (
           favoriteProfiles.map((profile) => (
             <MenuItem
-              key={profile.id}
+              key={profile.name}
               onClick={() => handleNavigation(profile.name)}
               sx={{
                 justifyContent: "space-between",
@@ -96,7 +96,7 @@ const FavoriteProfilesDropdown = () => {
             >
               {profile.name}
               <RiDeleteBin6Line
-                onClick={(e) => handleRemove(profile.id, e)}
+                onClick={(e) => handleRemove(profile.name, e)}
                 className="ms-3 cursor-pointer text-red-500 hover:text-red-700"
               />
             </MenuItem>

@@ -3,8 +3,8 @@ import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
-import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import "./index.css";
 
 function MyBookings() {
   const {

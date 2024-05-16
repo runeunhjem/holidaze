@@ -258,7 +258,13 @@ function VenueDetailsPage() {
                 {venue.bookings.map((booking, index) => (
                   <li key={index}>
                     {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-                    {new Date(booking.dateTo).toLocaleDateString()}
+                    {new Date(booking.dateTo).toLocaleDateString()} by{" "}
+                    <Link
+                      className="header-nav-links rounded"
+                      to={`/profile/${encodeURIComponent(booking.customer.name)}`}
+                    >
+                      {booking.customer.name}
+                    </Link>
                   </li>
                 ))}
               </ul>

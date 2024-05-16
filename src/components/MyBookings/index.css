@@ -5,7 +5,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 40ch; /* Limiting to 20 characters */
+    max-width: 10ch; /* Limiting to 20 characters */
   }
 }
 
