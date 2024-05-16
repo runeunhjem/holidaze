@@ -5,12 +5,13 @@ import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { FaFire } from "react-icons/fa"; // Importing the popular icon
 import useStore from "../../hooks/useStore";
 import { sanitizeFields } from "../../utils/options";
-import VenueOptionsDropdown from "../VenueOptionsDropdown"; // import the component
+import VenueOptionsDropdown from "../VenueOptionsDropdown";
 import "./index.css";
 
-function ImageGallery({ media, countryName, continent, venue }) {
+function ImageGallery({ media, countryName, continent, venue, onEdit }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
@@ -32,7 +33,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
 
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
-    const sanitizedContinent = sanitizeFields(continent); // Sanitize and translate the continent name
+    const sanitizedContinent = sanitizeFields(continent);
     setOverlayData({
       countryCode: fetchedCountryCode,
       continentText: sanitizedContinent,
@@ -44,21 +45,11 @@ function ImageGallery({ media, countryName, continent, venue }) {
     const timer = setTimeout(() => {
       setSelectedImageIndex(
         (prevIndex) => (prevIndex + 1) % (media.length || 1),
-      ); // Avoid division by zero
+      );
       setImageVisible(true);
     }, 5000);
     return () => clearTimeout(timer);
   }, [selectedImageIndex, media.length]);
-
-  const handleEdit = () => {
-    // Placeholder for edit action - replace with your modal logic
-    console.log("Edit venue");
-  };
-
-  const handleDelete = () => {
-    // Placeholder for delete action - replace with your modal logic
-    console.log("Delete venue");
-  };
 
   if (!media || media.length === 0) {
     return <div>No images available.</div>;
@@ -68,13 +59,21 @@ function ImageGallery({ media, countryName, continent, venue }) {
 
   return (
     <div className="gallery-container">
-      <VenueOptionsDropdown onEdit={handleEdit} onDelete={handleDelete} />
+      <VenueOptionsDropdown
+        onEdit={onEdit} // Pass down the handler
+        onDelete={() => console.log("Delete venue")} // Replace with your delete logic
+        venueOwner={venue.owner.name}
+      />
       <div className="gallery-wrapper">
         <S.Gallery>
           {media.map((img, index) => (
             <div
               key={index}
-              className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden1"}`}
+              className={`fade-effect ${
+                isImageVisible && index === selectedImageIndex
+                  ? "visible"
+                  : "hidden1"
+              }`}
               style={{
                 width: "100%",
                 maxWidth: "100%",
@@ -96,7 +95,21 @@ function ImageGallery({ media, countryName, continent, venue }) {
                   <CountryFlag countryCode={overlayData.countryCode} />
                   {overlayData.continentText}
                 </S.OverlaySection>
-                <S.OverlaySection className="top-rated me-12 flex w-full items-center justify-end text-yellow-700 dark:text-yellow-400">
+                <S.OverlaySection
+                  className="top-rated me-12 flex w-full items-center justify-end"
+                  style={{
+                    color: "var(--top-rated-color)",
+                  }}
+                >
+                  {venue.bookings.length > 5 && (
+                    <div
+                      className="mr-3 flex items-center"
+                      style={{ color: "var(--popular-color)" }}
+                    >
+                      <FaFire />
+                      <span className="ml-1">Popular</span>
+                    </div>
+                  )}
                   {venue.rating > 4 && (
                     <>
                       <BsStars />
@@ -104,9 +117,6 @@ function ImageGallery({ media, countryName, continent, venue }) {
                     </>
                   )}
                 </S.OverlaySection>
-                {/* <S.OverlaySection className="options-icon">
-                  <S.OptionsIcon />
-                </S.OverlaySection> */}
               </S.TopOverlay>
               <div
                 className="favorite-overlay bg-none"
@@ -120,26 +130,30 @@ function ImageGallery({ media, countryName, continent, venue }) {
               </div>
             </div>
           ))}
-          <S.NavButton
-            direction="left"
-            onClick={() =>
-              setSelectedImageIndex((prevIndex) =>
-                prevIndex > 0 ? prevIndex - 1 : media.length - 1,
-              )
-            }
-          >
-            &#10094;
-          </S.NavButton>
-          <S.NavButton
-            direction="right"
-            onClick={() =>
-              setSelectedImageIndex(
-                (prevIndex) => (prevIndex + 1) % media.length,
-              )
-            }
-          >
-            &#10095;
-          </S.NavButton>
+          {media.length > 1 && (
+            <>
+              <S.NavButton
+                direction="left"
+                onClick={() =>
+                  setSelectedImageIndex((prevIndex) =>
+                    prevIndex > 0 ? prevIndex - 1 : media.length - 1,
+                  )
+                }
+              >
+                &#10094;
+              </S.NavButton>
+              <S.NavButton
+                direction="right"
+                onClick={() =>
+                  setSelectedImageIndex(
+                    (prevIndex) => (prevIndex + 1) % media.length,
+                  )
+                }
+              >
+                &#10095;
+              </S.NavButton>
+            </>
+          )}
         </S.Gallery>
         <S.Thumbnails>
           {media.map((image, index) => (
@@ -167,6 +181,7 @@ ImageGallery.propTypes = {
   venue: PropTypes.object.isRequired,
   countryName: PropTypes.string.isRequired,
   continent: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired, // Add prop types validation
 };
 
 export default ImageGallery;

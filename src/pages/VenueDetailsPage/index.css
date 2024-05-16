@@ -91,7 +91,7 @@
 .booked-date {
   text-decoration: line-through;
   border-radius: 50%;
-  color: var(--button-bg-color-hover-cancel);
+  color: var(--booked-dates-color);
 }
 
 .amenities {
@@ -168,14 +168,14 @@
 }
 
 /* Navigation buttons (arrows) */
-/* .react-datepicker__navigation-icon::before,
+.react-datepicker__navigation-icon::before,
 .react-datepicker__navigation-icon::after,
 .react-datepicker__navigation-icon--next::after,
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
   color: var(--link-color-hover) !important;
 
-} */
+}
 
 /* .react-datepicker__navigation--previous:hover,
 .react-datepicker__navigation--next:hover {
@@ -254,13 +254,13 @@
 .react-datepicker__quarter-text--disabled,
 .react-datepicker__year-text--disabled {
   cursor: default;
-  color: var(--gray-500);
+  color: var(--profile-text-color);
 }
 .react-datepicker__day--disabled:hover,
 .react-datepicker__month-text--disabled:hover,
 .react-datepicker__quarter-text--disabled:hover,
 .react-datepicker__year-text--disabled:hover {
   cursor: default;
-  color: var(--gray-500) !important;
+  color: var(--profile-text-color) !important;
   background-color: transparent !important;
 }

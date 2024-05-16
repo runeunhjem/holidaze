@@ -4,4 +4,17 @@
 
 .menu-hover:hover {
   background-color: var(--menu-hover-bg-color) !important;
+  color: var(--stone-600) !important;
+  border-radius: 4px;
+}
+
+.menu-icon {
+  transition: transform 0.1s ease-in-out;
+}
+.menu-icon:hover {
+  transform: scale(1.2);
+}
+
+.MuiMenu-paper {
+  border-radius: 6px !important;
 }

@@ -168,13 +168,13 @@ function Header() {
             </Link>
           </span>
         ) : (
-          <div className="pt-0.5 rounded sm:pt-4">
+          <div className="rounded pt-0.5 sm:pt-4">
             Welcome, please{" "}
             <Link
               className="header-nav-links rounded ps-1"
               to="/login"
               style={{
-                color: "var(--red-700)",
+                color: "var(--button-bg-color-hover-cancel)",
               }}
             >
               log in

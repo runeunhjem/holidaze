@@ -9,11 +9,14 @@ import { TbParking } from "react-icons/tb";
 import { sanitizeFields } from "../../utils/options";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import defaultAvatarImage from "../../assets/images/default-profile-image.png";
+import EditVenueModal from "../../components/EditVenueModal";
 import "./index.css";
 
 function VenueDetailsPage() {
   const { id } = useParams();
   const [venue, setVenue] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -24,7 +27,6 @@ function VenueDetailsPage() {
       if (error) {
         console.error("Failed to fetch venue details:", error);
       } else if (data && data.data) {
-        // Apply sanitation to the received data
         data.data.location.country = sanitizeFields(data.data.location.country);
         data.data.location.continent = sanitizeFields(
           data.data.location.continent,
@@ -35,12 +37,24 @@ function VenueDetailsPage() {
 
     fetchVenueDetails();
   }, [id]);
-  console.log("venue fetch: ", venue);
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const handleEditOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  const handleEditClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleVenueUpdated = (updatedVenue) => {
+    setVenue(updatedVenue);
+  };
 
   if (!venue) {
     return <div>Loading venue details...</div>;
@@ -59,9 +73,9 @@ function VenueDetailsPage() {
       const fromDate = new Date(booking.dateFrom);
       const toDate = new Date(booking.dateTo);
       return (
-        (start <= fromDate && end >= fromDate) || // starts before and ends during/after
-        (start >= fromDate && start <= toDate) || // starts during
-        (start <= fromDate && end >= toDate) // encompasses booking
+        (start <= fromDate && end >= fromDate) ||
+        (start >= fromDate && start <= toDate) ||
+        (start <= fromDate && end >= toDate)
       );
     });
   };
@@ -84,6 +98,13 @@ function VenueDetailsPage() {
     return day;
   };
 
+  const getAvatarUrl = (avatarUrl) => {
+    if (!avatarUrl || avatarUrl === "https://url.com/image.jpg") {
+      return defaultAvatarImage;
+    }
+    return avatarUrl;
+  };
+
   return (
     <div className="venue-details mx-auto max-w-4xl p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
@@ -94,6 +115,7 @@ function VenueDetailsPage() {
         countryName={venue.location.country || "Unspecified"}
         continent={venue.location.continent || "Unspecified"}
         venue={venue}
+        onEdit={handleEditOpen} // Pass down the handler
       />
 
       <div className="mt-6 space-y-2">
@@ -226,41 +248,49 @@ function VenueDetailsPage() {
             backgroundColor: "var(--header-bg-color)",
             color: "var(--profile-text-color)",
           }}
-          className="manager-container flex w-full  max-w-1200 flex-wrap items-center justify-around rounded-lg py-4"
+          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-around rounded-lg py-4"
         >
           <div className="manager-avatar flex items-center">
-            {venue.owner.avatar.url && (
-              <img
-                src={venue.owner.avatar.url}
-                alt="Illustration of the Manager's avatar"
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                  boxShadow: "1px 2px 4px var(--link-color)",
-                }}
-              />
-            )}
+            <img
+              src={getAvatarUrl(venue.owner.avatar.url)}
+              alt="Illustration of the Manager's avatar"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                boxShadow: "1px 2px 4px var(--link-color)",
+              }}
+            />
             <p className="ms-3 flex flex-col">
               <strong>Venue is managed by</strong>{" "}
-              <Link className="header-nav-links rounded" to={`/profile/${encodeURIComponent(venue.owner.name)}`}>
+              <Link
+                className="header-nav-links rounded"
+                to={`/profile/${encodeURIComponent(venue.owner.name)}`}
+              >
                 {venue.owner.name}
               </Link>
             </p>
           </div>
           <div className="ms-3 flex flex-col">
-            <span className="ms-3">
-              <strong>Venue Added:</strong>{" "}
+            <span className="ms-3 flex justify-between">
+              <strong className="me-2">Venue Added:</strong>{" "}
               {new Date(venue.created).toLocaleDateString()}
             </span>
-            <span className="ms-3">
-              <strong>Venue Updated:</strong>{" "}
+            <span className="ms-3 flex justify-between">
+              <strong className="me-2">Venue Updated:</strong>{" "}
               {new Date(venue.updated).toLocaleDateString()}
             </span>
           </div>
         </div>
       </div>
+
+      <EditVenueModal
+        open={editModalOpen}
+        onClose={handleEditClose}
+        onVenueUpdated={handleVenueUpdated}
+        currentVenue={venue}
+      />
     </div>
   );
 }

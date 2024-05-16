@@ -15,6 +15,7 @@
     --black: #000000;
     --red-200: #fecaca;
     --red-300: #fca5a5;
+    --red-400: #f87171;
     --red-500: #ef4444;
     --red-700: #b91c1c;
     --rose-800: #9f1239;
@@ -24,6 +25,7 @@
     --yellow-200: #fef08a;
     --yellow-400: #facc15;
     --yellow-500: #eab308;
+    --yellow-700: #a16207;
     --sky-50: #f0f9ff;
     --sky-100: #e0f2fe;
     --sky-200: #bae6fd;
@@ -88,6 +90,9 @@
     --cards-sections-bg-color: var(--sky-200);
     --menu-items-text-color-hover: var(--blue-800);
     --menu-items-bg-color-hover: var(--sky-200);
+    --booked-dates-color: var(--red-700);
+    --top-rated-color: var(--yellow-700);
+    --popular-color: var(--blue-800);
   }
 
   [data-theme="dark"] {
@@ -125,6 +130,9 @@
     --cards-sections-bg-color: var(--gray-800);
     --menu-items-bg-color-hover: var(--stone-600);
     --menu-items-text-color-hover: var(--gray-300);
+    --booked-dates-color: var(--red-400);
+    --top-rated-color: var(--yellow-400);
+    --popular-color: var(--sky-300);
   }
 
   body {
