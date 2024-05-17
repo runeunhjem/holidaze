@@ -96,7 +96,7 @@ function VenueListPage() {
       )}
       {loading && <p>Loading...</p>}
       <h1 className="span-info">
-        Total venues before filtering: {venuesMeta.totalCount}
+        We have { venuesMeta.totalCount }{ " " } locations for you to choose from
       </h1>
       <div className="pagination-container flex justify-center">
         <PaginationButtons
