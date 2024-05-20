@@ -67,7 +67,7 @@
 .amenities-list li {
   display: inline-flex;
   align-items: center;
-  width: 170px;
+  width: 180px;
 }
 
 .datepicker-container {

@@ -171,7 +171,7 @@ function VenueDetailsPage() {
               <li>
                 <strong>Max Guests:</strong> {venue.maxGuests || "N/A"}
               </li>
-              <li className="flex align-top whitespace-nowrap">
+              <li className="flex align-top whitespace-nowrap w-full">
                 <strong>Rating:</strong>{" "}
                 <RiStarSFill className="mt-0.3 inline text-xl text-yellow-500" />
                 {venue.rating || "No rating"} stars
@@ -278,9 +278,9 @@ function VenueDetailsPage() {
             backgroundColor: "var(--header-bg-color)",
             color: "var(--profile-text-color)",
           }}
-          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-around rounded-lg py-4"
+          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-start gap-4 md:justify-around rounded-lg py-4"
         >
-          <div className="manager-avatar flex items-center">
+          <div className="manager-avatar flex items-center ms-3">
             <img
               src={getAvatarUrl(venue?.owner?.avatar?.url)}
               alt="Illustration of the Manager's avatar"
@@ -302,7 +302,7 @@ function VenueDetailsPage() {
               </Link>
             </p>
           </div>
-          <div className="ms-3 flex flex-col">
+          <div className="md:ms-3 flex flex-col">
             <span className="ms-3 flex justify-between">
               <strong className="me-2">Venue Added:</strong>{" "}
               {new Date(venue.created).toLocaleDateString()}
