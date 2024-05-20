@@ -128,16 +128,16 @@ function VenueDetailsPage() {
   return (
     <div className="venue-details mx-auto max-w-4xl p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
-        {venue.name || "Venue"}
+        {venue.name || "Venue name not provided"}
       </h1>
       <ImageGallery
         media={venue.media || []}
-        countryName={venue.location.country || "Unspecified"}
-        continent={venue.location.continent || "Unspecified"}
+        countryName={venue.location.country || "Unspecified country"}
+        continent={venue.location.continent || "Unspecified continent"}
         venue={venue}
-        onEdit={handleEditOpen} // Pass down the handler
-        onDelete={handleDelete} // Pass down the handler
-        venueOwner={venueOwner} // Pass down the venueOwner
+        onEdit={handleEditOpen}
+        onDelete={handleDelete}
+        venueOwner={venueOwner}
       />
 
       <div className="mt-6 space-y-2">
