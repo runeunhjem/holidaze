@@ -124,8 +124,16 @@ function MyVenues() {
                   onMouseEnter={(e) => handleHover(e, venue)}
                   component="img"
                   className="venue-image"
-                  image={venue.media[0].url}
-                  alt={venue.media[0].alt || venue.name}
+                  image={
+                    venue.media && venue.media.length > 0
+                      ? venue.media[0].url
+                      : "default_image_url.jpg"
+                  }
+                  alt={
+                    venue.media && venue.media.length > 0
+                      ? venue.media[0].alt || venue.name
+                      : "Default Alt Text"
+                  }
                 />
 
                 <div className="city-overlay flex items-center justify-between px-3">

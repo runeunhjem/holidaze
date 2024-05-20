@@ -171,7 +171,7 @@ function VenueDetailsPage() {
               <li>
                 <strong>Max Guests:</strong> {venue.maxGuests || "N/A"}
               </li>
-              <li className="flex align-top">
+              <li className="flex align-top whitespace-nowrap">
                 <strong>Rating:</strong>{" "}
                 <RiStarSFill className="mt-0.3 inline text-xl text-yellow-500" />
                 {venue.rating || "No rating"} stars
