@@ -17,6 +17,7 @@ import useStore from "../../hooks/useStore";
 import BookNowModal from "../../components/BookNowModal";
 import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
+import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -174,6 +175,13 @@ function VenueDetailsPage() {
     }
   };
 
+  const userActiveBookings = venue.bookings
+    ? venue.bookings.filter(
+        (booking) =>
+          booking.customer?.name === userDetails.name &&
+          new Date(booking.dateTo) >= new Date(),
+      )
+    : [];
 
   const renderDayContents = (day, date) => {
     if (isDateBooked(date)) {
@@ -322,7 +330,7 @@ function VenueDetailsPage() {
                 />
               </div>
             </div>
-            <div className="book-now-bottom  mx-4 flex w-full flex-wrap justify-between gap-4 md:flex-nowrap">
+            <div className="book-now-bottom mx-4 flex w-full flex-wrap justify-between gap-4 md:flex-nowrap">
               <div className="flex flex-col items-start">
                 Nights:
                 <br />
@@ -348,6 +356,77 @@ function VenueDetailsPage() {
             </div>
           )}
         </div>
+
+        {userActiveBookings && userActiveBookings.length > 0 && (
+          <div
+            className="bookings-list manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
+          >
+            <h2 className="my-0 py-0 text-2xl font-bold">
+              My Active Bookings ({userActiveBookings.length})
+            </h2>
+            <div className="w-full px-4">
+              <ul className="w-full flex flex-wrap gap-2">
+                {userActiveBookings.map((booking, index) => (
+                  <li
+                    key={index}
+                    className="flex w-full flex-wrap items-start justify-between gap-2 p-2 md:flex-row md:items-center"
+                    style={{
+                      outline: "1px solid var(--green-800)",
+                    }}
+                  >
+                    <div className="flex flex-col md:flex-row md:items-center gap-2">
+                      <Link
+                        to={`/bookings/${booking.id}`}
+                        className="header-nav-links rounded flex flex-col md:flex-row items-start md:items-center md:gap-2"
+                        style={{ color: "var(--link-color)" }}
+                      >
+                        <span>Your ref: {booking.id.slice(0, 4)}</span>
+                        {` ${new Date(booking.dateFrom).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          },
+                        )} to ${new Date(booking.dateTo).toLocaleDateString(
+                          "en-GB",
+                          {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "2-digit",
+                          },
+                        )}`}
+                      </Link>
+                      <span className="text-start">Guests: {booking.guests}</span>
+                    </div>
+                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
+                      <span>
+                        Ordered:{" "}
+                        {new Date(booking.created).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "2-digit",
+                        })}
+                      </span>
+                      <span>
+                        Updated:{" "}
+                        {new Date(booking.updated).toLocaleDateString("en-GB", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "2-digit",
+                        })}
+                      </span>
+                      <span className="mt-2 flex justify-end md:mt-0">
+                        <FaEdit className="booked-icons ml-2 cursor-pointer" />
+                        <FaTrashAlt className="booked-icons ml-2 cursor-pointer" />
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
 
         <div className="details-container !mt-4">
           <div className="booking-left">
@@ -390,12 +469,24 @@ function VenueDetailsPage() {
                   .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom))
                   .map((booking, index) => (
                     <li key={index}>
-                      {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-                      {new Date(booking.dateTo).toLocaleDateString()} by{" "}
+                      {new Date(booking.dateFrom).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}{" "}
+                      to{" "}
+                      {new Date(booking.dateTo).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      })}{" "}
+                      by{" "}
                       {booking.customer && booking.customer.name ? (
                         <Link
                           className="header-nav-links rounded"
-                          to={`/profile/${encodeURIComponent(booking.customer.name)}`}
+                          to={`/profile/${encodeURIComponent(
+                            booking.customer.name,
+                          )}`}
                         >
                           {booking.customer.name}
                         </Link>

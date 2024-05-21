@@ -66,7 +66,9 @@ function MyBookings() {
 
   // Determine header text based on user ID comparison
   const isOwnProfile = userDetails.name === viewedProfile.name;
-  const headerText = isOwnProfile ? "My active Bookings" : "Their active Bookings";
+  const headerText = isOwnProfile
+    ? "My Active Bookings"
+    : "Their Active Bookings";
 
   return (
     <Box

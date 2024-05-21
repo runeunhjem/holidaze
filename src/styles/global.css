@@ -20,8 +20,11 @@
     --red-700: #b91c1c;
     --rose-800: #9f1239;
     --orange-200: #fed7aa;
+    --green-100: #dcfce7;
     --green-200: #bbf7d0;
+    --green-700: #15803d;
     --green-800: #166534;
+    --green-950: #052e16;
     --yellow-200: #fef08a;
     --yellow-400: #facc15;
     --yellow-500: #eab308;
@@ -56,6 +59,10 @@
   }
 
   [data-theme="light"] {
+    --success-alert-bg-color: var(--green-200);
+    --success-alert-text-color: var(--green-800);
+    --success-alert-border-color: var(--green-700);
+    --bookings-bg-color: var(--green-100);
     --overlay-color: var(--overlay-color-light);
     --overlay-color-carousel: var(--overlay-color-carousel-light);
     --overlay-cards: var(--sky-200);
@@ -96,6 +103,10 @@
   }
 
   [data-theme="dark"] {
+    --success-alert-bg-color: var(--green-800);
+    --success-alert-text-color: var(--green-200);
+    --success-alert-border-color: var(--green-700);
+    --bookings-bg-color: var(--green-950);
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);
     --overlay-cards: var(--stone-600);

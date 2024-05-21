@@ -177,14 +177,22 @@
   box-shadow: inset 0 -1px 0 var(--link-color-hover);
 }
 
-.success-alert {
-  background-color: var(--green-200);
-  color: var(--green-800);
-  border: 1px solid var(--green-200);
+.success-alert, .bookings-list {
+  background-color: var(--success-alert-bg-color);
+  color: var(--success-alert-text-color);
+  border: 1px solid var(--success-alert-border-color);
   border-radius: 4px;
   padding: 10px;
   text-align: center;
   width: 100%;
+}
+
+.bookings-list {
+  background-color: var(--bookings-bg-color);
+  /* border: none; */
+}
+.booked-icons {
+  color: var(--link-color);
 }
 
 
