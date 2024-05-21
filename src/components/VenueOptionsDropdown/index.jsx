@@ -95,6 +95,7 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner = false }) => {
           },
           marginTop: "12px",
           marginLeft: "5px",
+          width: "180px",
         }}
       >
         <MenuItem className="menu-hover" onClick={handleShare}>

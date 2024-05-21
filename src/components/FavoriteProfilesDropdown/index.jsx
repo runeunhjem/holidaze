@@ -78,6 +78,7 @@ const FavoriteProfilesDropdown = () => {
             border: "1px solid var(--border-color)",
             borderRadius: "5px",
           },
+          maxWidth: "230px",
         }}
       >
         {favoriteProfiles.length > 0 ? (

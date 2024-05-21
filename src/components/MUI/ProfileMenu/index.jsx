@@ -177,12 +177,20 @@ export default function MenuListComposition() {
             <Paper
               sx={{
                 borderRadius: "5px",
-                borderColor:
-                  theme.palette.mode === "dark"
-                    ? "var(--yellow-400)"
-                    : "var(--sky-300)",
-                borderWidth: 1,
-                borderStyle: "solid",
+                // borderColor:
+                //   theme.palette.mode === "dark"
+                //     ? "var(--yellow-400)"
+                //     : "var(--sky-300)",
+                // borderWidth: "1px",
+                // borderStyle: "solid",
+                width: "180px !important",
+                ".MuiList-root": {
+                  // Targeting the root Paper component used by Menu
+                  backgroundColor: "var(--body-bg-color)",
+                  color: "var(--profile-text-color)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: "5px",
+                },
               }}
             >
               <ClickAwayListener onClickAway={handleClose}>
@@ -192,6 +200,14 @@ export default function MenuListComposition() {
                   aria-labelledby="composition-button"
                   className="dark:bg-gray-800"
                   sx={{
+                    ".MuiList-root": {
+                      // Targeting the root Paper component used by Menu
+                      backgroundColor: "var(--body-bg-color)",
+                      color: "var(--profile-text-color)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: "5px",
+                    },
+                    width: "180px !important",
                     py: 0,
                     borderRadius: "5px",
                     backgroundColor:

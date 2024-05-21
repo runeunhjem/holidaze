@@ -307,6 +307,6 @@
   .MuiPaper-root.MuiDialog-paper {
     margin: 0 auto !important;
 
-    background-color: var(--profile-text-color-inverted) !important;
+    background-color: var(--overlay-cards) !important;
   }
 }

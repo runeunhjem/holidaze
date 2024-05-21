@@ -109,12 +109,28 @@ export default function NavigationMenu() {
                     : "var(--sky-300)",
                 borderWidth: 1,
                 borderStyle: "solid",
+                width: "160px !important",
+                ".MuiList-root": {
+                  // Targeting the root Paper component used by Menu
+                  backgroundColor: "var(--body-bg-color)",
+                  color: "var(--profile-text-color)",
+                  border: "1px solid var(--border-color)",
+                  borderRadius: "5px",
+                },
               }}
             >
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList
                   sx={{
                     borderRadius: "5px",
+                    ".MuiList-root": {
+                      // Targeting the root Paper component used by Menu
+                      backgroundColor: "var(--body-bg-color)",
+                      color: "var(--profile-text-color)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: "5px",
+                    },
+                    width: "160px",
                     py: 0,
                     backgroundColor:
                       theme.palette.mode === "dark"
@@ -139,7 +155,7 @@ export default function NavigationMenu() {
                           theme.palette.mode === "dark"
                             ? "var(--yellow-200)"
                             : "var(--sky-200)",
-                            borderRadius: "5px",
+                        borderRadius: "5px",
                         color:
                           theme.palette.mode === "dark"
                             ? "var(--gray-900)"
@@ -157,7 +173,7 @@ export default function NavigationMenu() {
                           theme.palette.mode === "dark"
                             ? "var(--yellow-200)"
                             : "var(--sky-200)",
-                            borderRadius: "5px",
+                        borderRadius: "5px",
                         color:
                           theme.palette.mode === "dark"
                             ? "var(--gray-900)"
@@ -175,7 +191,7 @@ export default function NavigationMenu() {
                           theme.palette.mode === "dark"
                             ? "var(--yellow-200)"
                             : "var(--sky-200)",
-                            borderRadius: "5px",
+                        borderRadius: "5px",
                         color:
                           theme.palette.mode === "dark"
                             ? "var(--gray-900)"
@@ -193,7 +209,7 @@ export default function NavigationMenu() {
                           theme.palette.mode === "dark"
                             ? "var(--yellow-200)"
                             : "var(--sky-200)",
-                            borderRadius: "5px",
+                        borderRadius: "5px",
                         color:
                           theme.palette.mode === "dark"
                             ? "var(--gray-900)"

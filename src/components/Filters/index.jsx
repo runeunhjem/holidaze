@@ -45,6 +45,17 @@ const Filters = () => {
     hasBookings: "Has Bookings",
   };
 
+  const sortOptions = (options) => {
+    if (options.every((option) => typeof option === "number")) {
+      // Sort numerical options from low to high
+      return options.sort((a, b) => a - b);
+    } else if (options.every((option) => typeof option === "string")) {
+      // Sort string options alphabetically
+      return options.sort((a, b) => a.localeCompare(b));
+    }
+    return options;
+  };
+
   return (
     <Box
       className="custom-scrollbar"
@@ -70,7 +81,6 @@ const Filters = () => {
       }}
     >
       <AddMissingFormLabelsToMUI />{" "}
-      {/* Add this line to include the utility function */}
       <MdClose
         onClick={toggleFiltersOpen}
         style={{
@@ -101,7 +111,7 @@ const Filters = () => {
             onChange={handleFiltersChange(key, key === "amenities")}
             multiple={key === "amenities"}
           >
-            {options.map((option, index) => (
+            {sortOptions(options).map((option, index) => (
               <MenuItem key={index} value={option}>
                 {option != null ? option.toString() : "N/A"}
               </MenuItem>
