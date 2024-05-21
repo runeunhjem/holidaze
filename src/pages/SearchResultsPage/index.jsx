@@ -142,50 +142,57 @@ function SearchResultsPage() {
             backgroundColor: "var(--header-bg-color)",
             color: "var(--header-text-color)",
             borderRadius: "10px",
-            maxWidth: "1200px",
+            maxWidth: "100%",
+            width: "600px",
             border: "1px solid var(--border-color)",
             textAlign: "center",
+            // margin: "1rem",
+            padding: "1rem",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
           }}
-          className="info-box mb-4 rounded bg-gray-200 p-4"
+          className="info-box rounded"
         >
-          <p>
-            Showing {venues.length} results for{" "}
-            <strong>{query || "all venues"}</strong>{" "}
+          {venuesMeta.totalCount > 0 && (
+            <h1 className="">
+              A total of {venuesMeta.totalCount} venues include your query:{" "}
+              <strong> {query}</strong>.
+            </h1>
+          )}
+          <p className="flex w-full flex-wrap items-center justify-center">
+            We have {venues.length} available venues{" "}
             {dateFrom && (
-              <div>
+              <div className="ml-2 whitespace-nowrap">
                 with check-in{" "}
-                <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>{" "}
+                <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>
               </div>
             )}
             {dateTo && (
-              <div>
+              <div className="ml-2 whitespace-nowrap">
                 and check-out{" "}
                 <strong>{dayjs(dateTo).format("YYYY-MM-DD")}</strong>
               </div>
             )}
             {guests && (
-              <div>
-                {" "}
+              <div className="ml-2 whitespace-nowrap">
                 for <strong>{guests}</strong> guests
               </div>
-            ) }
+            )}
           </p>
+
           <p>
             {activeFilterCount > 0 && (
               <div>
                 {" "}
-                You also have <strong>{activeFilterCount}</strong> active filters
+                You also have <strong>{activeFilterCount}</strong> active
+                filters
               </div>
             )}
           </p>
         </div>
       )}
-      {venuesMeta.totalCount > 0 && (
-        <h1>
-          Total venues before filtering for your search criteria:{" "}
-          {venuesMeta.totalCount}
-        </h1>
-      )}
+
       <PaginationButtons
         count={venuesMeta.pageCount}
         page={venuesMeta.currentPage}

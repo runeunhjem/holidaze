@@ -90,6 +90,9 @@ function MyVenues() {
             </Button>
           )}
         </Typography>
+        <Typography variant="h5" align="center" gutterBottom>
+          ({venues.length})
+        </Typography>
       </div>
       <hr
         className="w-90 sm:w-3/4 md:w-2/3"
