@@ -358,26 +358,24 @@ function VenueDetailsPage() {
         </div>
 
         {userActiveBookings && userActiveBookings.length > 0 && (
-          <div
-            className="bookings-list manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
-          >
+          <div className="bookings-list manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around">
             <h2 className="my-0 py-0 text-2xl font-bold">
               My Active Bookings ({userActiveBookings.length})
             </h2>
             <div className="w-full px-4">
-              <ul className="w-full flex flex-wrap gap-2">
+              <ul className="flex w-full flex-wrap gap-2">
                 {userActiveBookings.map((booking, index) => (
                   <li
                     key={index}
-                    className="flex w-full flex-wrap items-start justify-between gap-2 p-2 md:flex-row md:items-center"
+                    className="flex w-full flex-wrap items-start justify-center gap-2 p-2 md:flex-row md:items-center"
                     style={{
                       outline: "1px solid var(--green-800)",
                     }}
                   >
-                    <div className="flex flex-col md:flex-row md:items-center gap-2">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
                       <Link
                         to={`/bookings/${booking.id}`}
-                        className="header-nav-links rounded flex flex-col md:flex-row items-start md:items-center md:gap-2"
+                        className="header-nav-links flex flex-col items-start rounded md:flex-row md:items-center md:gap-2"
                         style={{ color: "var(--link-color)" }}
                       >
                         <span>Your ref: {booking.id.slice(0, 4)}</span>
@@ -397,10 +395,12 @@ function VenueDetailsPage() {
                           },
                         )}`}
                       </Link>
-                      <span className="text-start">Guests: {booking.guests}</span>
+                      <span className="text-start">
+                        Guests: {booking.guests}
+                      </span>
                     </div>
-                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
-                      <span>
+                    <div className="me-3 flex flex-col items-start sm:me-0 md:flex-row md:items-center md:justify-between">
+                      <span className="flex justify-start text-start sm:w-40">
                         Ordered:{" "}
                         {new Date(booking.created).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -408,7 +408,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span>
+                      <span className="text-start sm:w-40">
                         Updated:{" "}
                         {new Date(booking.updated).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -416,9 +416,9 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="mt-2 flex justify-end md:mt-0">
-                        <FaEdit className="booked-icons ml-2 cursor-pointer" />
-                        <FaTrashAlt className="booked-icons ml-2 cursor-pointer" />
+                      <span className="mt-2 flex justify-end md:mt-0 w-14">
+                        <FaEdit className="booked-icons me-2 cursor-pointer sm:me-0 sm:ml-2" />
+                        <FaTrashAlt className="booked-icons me-2 cursor-pointer sm:me-0 sm:ml-2" />
                       </span>
                     </div>
                   </li>
