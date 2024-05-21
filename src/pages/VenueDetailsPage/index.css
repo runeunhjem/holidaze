@@ -187,10 +187,12 @@
   width: 100%;
 }
 
-.bookings-list {
+.active-bookings-container {
   background-color: var(--bookings-bg-color);
-  /* border: none; */
+  border: 1px solid var(--success-alert-border-color);
+
 }
+
 .booked-icons {
   color: var(--link-color);
 }
@@ -231,37 +233,6 @@
 .react-datepicker__navigation--next {
   color: var(--link-color-hover) !important;
 }
-
-/* .react-datepicker__navigation--previous:hover,
-.react-datepicker__navigation--next:hover {
-  border-color: var(--link-color);
-} */
-
-/* Navigation buttons (arrows) when disabled */
-/* .react-datepicker__navigation--previous--disabled,
-.react-datepicker__navigation--next--disabled {
-  border-color: var(--gray-500);
-} */
-
-/* Month and year dropdowns */
-/* .react-datepicker__month-dropdown,
-.react-datepicker__year-dropdown {
-  background-color: var(--body-bg-color);
-  color: var(--body-text-color);
-} */
-
-/* Selected month and year */
-/* .react-datepicker__month-dropdown .react-datepicker__month-option--selected,
-.react-datepicker__year-dropdown .react-datepicker__year-option--selected {
-  background-color: var(--blue-500);
-  color: var(--white);
-} */
-
-/* Time picker */
-/* .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box ul.react-datepicker__time-list li.react-datepicker__time-list-item--selected {
-  background-color: var(--blue-500);
-  color: var(--white);
-} */
 
 .react-datepicker__day--in-selecting-range:not(
     .react-datepicker__day--in-range,

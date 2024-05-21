@@ -105,7 +105,7 @@
   [data-theme="dark"] {
     --success-alert-bg-color: var(--green-800);
     --success-alert-text-color: var(--green-200);
-    --success-alert-border-color: var(--green-700);
+    --success-alert-border-color: var(--green-100);
     --bookings-bg-color: var(--green-950);
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);

@@ -3,7 +3,9 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import ImageGallery from "../../components/ImageGallery";
 import { getVenueById } from "../../utils/getVenueById";
 import { deleteVenue } from "../../utils/deleteVenue";
-import { createBooking } from "../../utils/createBooking"; // Import the createBooking function
+import { createBooking } from "../../utils/createBooking";
+import { updateBooking } from "../../utils/updateBooking"; // Import the updateBooking function
+import { deleteBooking } from "../../utils/deleteBooking"; // Import the deleteBooking function
 import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
@@ -18,6 +20,14 @@ import BookNowModal from "../../components/BookNowModal";
 import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
+import {
+  TextField,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+} from "@mui/material";
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -34,6 +44,9 @@ function VenueDetailsPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null); // State to track selected booking for editing/deleting
+  const [editBookingModalOpen, setEditBookingModalOpen] = useState(false); // State to track if edit modal is open
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false); // State to track if delete confirmation is open
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -172,6 +185,72 @@ function VenueDetailsPage() {
       }, 4000);
     } else {
       console.error("Booking failed:", error);
+    }
+  };
+
+  const handleEditBookingOpen = (booking) => {
+    setSelectedBooking(booking);
+    setEditBookingModalOpen(true);
+  };
+
+  const handleEditBookingClose = () => {
+    setSelectedBooking(null);
+    setEditBookingModalOpen(false);
+  };
+
+  const handleDeleteBookingOpen = (booking) => {
+    setSelectedBooking(booking);
+    setConfirmDeleteOpen(true);
+  };
+
+  const handleDeleteBookingClose = () => {
+    setSelectedBooking(null);
+    setConfirmDeleteOpen(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedBooking) return;
+
+    const { error } = await deleteBooking(selectedBooking.id, accessToken);
+
+    if (!error) {
+      setVenue((prevVenue) => ({
+        ...prevVenue,
+        bookings: prevVenue.bookings.filter(
+          (booking) => booking.id !== selectedBooking.id,
+        ),
+      }));
+      handleDeleteBookingClose();
+    } else {
+      console.error("Failed to delete booking:", error);
+    }
+  };
+
+  const handleUpdateBooking = async () => {
+    if (!selectedBooking) return;
+
+    const updatedDetails = {
+      dateFrom: selectedBooking.dateFrom,
+      dateTo: selectedBooking.dateTo,
+      guests: selectedBooking.guests,
+    };
+
+    const { data, error } = await updateBooking(
+      selectedBooking.id,
+      updatedDetails,
+      accessToken,
+    );
+
+    if (data) {
+      setVenue((prevVenue) => ({
+        ...prevVenue,
+        bookings: prevVenue.bookings.map((booking) =>
+          booking.id === selectedBooking.id ? data.data : booking,
+        ),
+      }));
+      handleEditBookingClose();
+    } else {
+      console.error("Failed to update booking:", error);
     }
   };
 
@@ -358,24 +437,26 @@ function VenueDetailsPage() {
         </div>
 
         {userActiveBookings && userActiveBookings.length > 0 && (
-          <div className="bookings-list manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around">
-            <h2 className="my-0 py-0 text-2xl font-bold">
+          <div className="active-bookings-container manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around">
+            <h2
+              className="my-0 py-0 text-2xl font-bold"
+              style={{
+                fontSize: "calc(1rem + 1vw)",
+              }}
+            >
               My Active Bookings ({userActiveBookings.length})
             </h2>
             <div className="w-full px-4">
-              <ul className="flex w-full flex-wrap gap-2">
+              <ul className="w-full flex flex-wrap gap-2">
                 {userActiveBookings.map((booking, index) => (
                   <li
                     key={index}
-                    className="flex w-full flex-wrap items-start justify-center gap-2 p-2 md:flex-row md:items-center"
-                    style={{
-                      outline: "1px solid var(--green-800)",
-                    }}
+                    className="bookings-list active-bookings-container flex w-full flex-col items-start justify-center md:justify-evenly p-2 md:flex-row md:items-center"
                   >
-                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                    <div className="flex flex-col md:flex-row md:items-center md:gap-8">
                       <Link
                         to={`/bookings/${booking.id}`}
-                        className="header-nav-links flex flex-col items-start rounded md:flex-row md:items-center md:gap-2"
+                        className="header-nav-links rounded"
                         style={{ color: "var(--link-color)" }}
                       >
                         <span>Your ref: {booking.id.slice(0, 4)}</span>
@@ -395,12 +476,10 @@ function VenueDetailsPage() {
                           },
                         )}`}
                       </Link>
-                      <span className="text-start">
-                        Guests: {booking.guests}
-                      </span>
+                      <span className="flex justify-start">Guests: {booking.guests}</span>
                     </div>
-                    <div className="me-3 flex flex-col items-start sm:me-0 md:flex-row md:items-center md:justify-between">
-                      <span className="flex justify-start text-start sm:w-40">
+                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
+                      <span className="w-40">
                         Ordered:{" "}
                         {new Date(booking.created).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -408,7 +487,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="text-start sm:w-40">
+                      <span className="w-40">
                         Updated:{" "}
                         {new Date(booking.updated).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -416,9 +495,15 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="mt-2 flex justify-end md:mt-0 w-14">
-                        <FaEdit className="booked-icons me-2 cursor-pointer sm:me-0 sm:ml-2" />
-                        <FaTrashAlt className="booked-icons me-2 cursor-pointer sm:me-0 sm:ml-2" />
+                      <span className="mt-2 flex md:mt-0">
+                        <FaEdit
+                          className="booked-icons ml-2 cursor-pointer"
+                          onClick={() => handleEditBookingOpen(booking)}
+                        />
+                        <FaTrashAlt
+                          className="booked-icons ml-2 cursor-pointer"
+                          onClick={() => handleDeleteBookingOpen(booking)}
+                        />
                       </span>
                     </div>
                   </li>
@@ -566,6 +651,59 @@ function VenueDetailsPage() {
           />
         </BookNowModal>
       )}
+
+      <Dialog open={editBookingModalOpen} onClose={handleEditBookingClose}>
+        <DialogTitle>Edit Booking</DialogTitle>
+        <DialogContent
+          sx={{
+            width: "minContent",
+            overflow: "hidden",
+          }}
+        >
+          <DatePicker
+            sx={{
+              maxWidth: "100%",
+            }}
+            selected={startDate}
+            onChange={handleDateChange}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+            minDate={new Date()}
+            filterDate={(date) => !isDateBooked(date)}
+            monthsShown={2}
+            renderDayContents={renderDayContents}
+          />
+          <TextField
+            margin="dense"
+            label="Guests"
+            type="number"
+            fullWidth
+            value={guests}
+            onChange={handleGuestsChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditBookingClose}>Cancel</Button>
+          <Button onClick={handleUpdateBooking} color="primary">
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={confirmDeleteOpen} onClose={handleDeleteBookingClose}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this booking?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteBookingClose}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="primary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
