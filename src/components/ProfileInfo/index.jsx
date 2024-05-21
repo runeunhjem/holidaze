@@ -17,7 +17,6 @@ const ProfileInfo = ({ viewedProfile }) => {
   const handleCloseModal = () => setIsModalOpen(false);
   return (
     <div className="profile-info container mx-auto w-full max-w-1200 px-4 pb-8 pt-20">
-      {/* Centered Heading */}
       <h1 className="text-center text-4xl font-bold capitalize">
         {viewedProfile.name}
       </h1>

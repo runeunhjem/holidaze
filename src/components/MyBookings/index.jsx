@@ -66,7 +66,7 @@ function MyBookings() {
 
   // Determine header text based on user ID comparison
   const isOwnProfile = userDetails.name === viewedProfile.name;
-  const headerText = isOwnProfile ? "My Bookings" : "Their Bookings";
+  const headerText = isOwnProfile ? "My active Bookings" : "Their active Bookings";
 
   return (
     <Box
@@ -83,7 +83,13 @@ function MyBookings() {
           {headerText}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
-          ({transformedBookings.length})
+          (
+          {
+            transformedBookings.filter(
+              (booking) => new Date(booking.dateTo) >= new Date(),
+            ).length
+          }
+          ){/* ({transformedBookings.length}) */}
         </Typography>
       </div>
       <hr
@@ -107,134 +113,137 @@ function MyBookings() {
             position: "relative",
           }}
         >
-          {transformedBookings.map((booking) => (
-            <div
-              key={booking.id}
-              className="booking-card-container flex justify-center"
-              style={{
-                borderRadius: "20px 0 0 20px",
-                height: "176px",
-                // position: "relative",
-              }}
-              onMouseLeave={handleClose}
-            >
+          {transformedBookings
+            .filter((booking) => new Date(booking.dateTo) >= new Date())
+            .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom))
+            .map((booking) => (
               <div
-                className="favorite-overlay"
-                onClick={() => toggleFavorite(booking.venue)}
-              >
-                {isFavorite(booking.venue.id) ? (
-                  <TbHeartFilled className="text-lg text-red-500" />
-                ) : (
-                  <TbHeart className="text-lg text-red-500" />
-                )}
-              </div>
-              <Card
-                className="booking-container"
+                key={booking.id}
+                className="booking-card-container flex justify-center"
                 style={{
-                  borderRadius: "5px 0 0 5px",
-                  width: "40%",
+                  borderRadius: "20px 0 0 20px",
+                  height: "176px",
                   // position: "relative",
                 }}
+                onMouseLeave={handleClose}
               >
-                <CardMedia
-                  onMouseLeave={handleClose}
-                  onMouseEnter={(e) => handleHover(e, booking)}
-                  onClick={() => navigate(`/venues/${booking.venue.id}`)}
-                  component="img"
-                  className="booking-image"
+                <div
+                  className="favorite-overlay"
+                  onClick={() => toggleFavorite(booking.venue)}
+                >
+                  {isFavorite(booking.venue.id) ? (
+                    <TbHeartFilled className="text-lg text-red-500" />
+                  ) : (
+                    <TbHeart className="text-lg text-red-500" />
+                  )}
+                </div>
+                <Card
+                  className="booking-container"
                   style={{
                     borderRadius: "5px 0 0 5px",
-                    height: "100%",
+                    width: "40%",
+                    // position: "relative",
                   }}
-                  image={booking.venue.media[0].url}
-                  alt={booking.venue.media[0].alt || booking.venue.name}
-                />
+                >
+                  <CardMedia
+                    onMouseLeave={handleClose}
+                    onMouseEnter={(e) => handleHover(e, booking)}
+                    onClick={() => navigate(`/venues/${booking.venue.id}`)}
+                    component="img"
+                    className="booking-image"
+                    style={{
+                      borderRadius: "5px 0 0 5px",
+                      height: "100%",
+                    }}
+                    image={booking.venue.media[0].url}
+                    alt={booking.venue.media[0].alt || booking.venue.name}
+                  />
 
-                <div className="id-overlay flex items-center justify-around py-1 text-xs">
-                  Your Ref: {booking.id.slice(0, 6)}
+                  <div className="id-overlay flex items-center justify-around py-1 text-xs">
+                    Your Ref: {booking.id.slice(0, 6)}
+                  </div>
+                </Card>
+                <div className="city-overlay flex items-center justify-between whitespace-nowrap px-3">
+                  <div className="truncate-bookings-on-small pe-2">
+                    {booking.venue.name || "Unspecified title"},{" "}
+                    {booking.venue.location.city || "Unspecified city"},{" "}
+                    {booking.venue.location.country || "Unspecified country"}
+                  </div>
+                  <span
+                    onMouseEnter={(e) => handleHover(e, booking)}
+                    className="flex cursor-pointer items-center justify-around whitespace-nowrap py-1 text-xs"
+                    onMouseLeave={handleClose}
+                  >
+                    {" "}
+                    [ Venue details ]
+                  </span>
                 </div>
-              </Card>
-              <div className="city-overlay flex items-center justify-between whitespace-nowrap px-3">
-                <div className="truncate-bookings-on-small pe-2">
-                  {booking.venue.name || "Unspecified title"},{" "}
-                  {booking.venue.location.city || "Unspecified city"},{" "}
-                  {booking.venue.location.country || "Unspecified country"}
-                </div>
-                <span
-                  onMouseEnter={(e) => handleHover(e, booking)}
-                  className="flex cursor-pointer items-center justify-around whitespace-nowrap py-1 text-xs"
-                  onMouseLeave={handleClose}
-                >
-                  {" "}
-                  [ Venue details ]
-                </span>
-              </div>
-              <div
-                className="my-booking-details items center flex flex-col justify-start"
-                style={{
-                  backgroundColor: "var(--menu-bg-color)",
-                  width: "60%",
-                  fontSize: "calc(14px + 0.2vmin)",
-                  borderRadius: "20px",
-                }}
-              >
-                <Typography
+                <div
+                  className="my-booking-details items center flex flex-col justify-start"
                   style={{
+                    backgroundColor: "var(--menu-bg-color)",
+                    width: "60%",
                     fontSize: "calc(14px + 0.2vmin)",
-                    textAlign: "left",
-                    paddingLeft: "10px",
-                    paddingTop: "28px",
-                    marginBottom: "0px",
+                    borderRadius: "20px",
                   }}
-                  variant="h6"
-                  align="center"
-                  gutterBottom
                 >
-                  Booked for {booking.guests} guests
-                </Typography>
-                <Typography
-                  style={{
-                    fontSize: "calc(14px + 0.2vmin)",
-                    textAlign: "left",
-                    paddingLeft: "10px",
-                    marginBottom: "0px",
-                  }}
-                  variant="h6"
-                  align="center"
-                  gutterBottom
-                >
-                  Check-in: {formatShortDate(booking.dateFrom)}
-                </Typography>
+                  <Typography
+                    style={{
+                      fontSize: "calc(14px + 0.2vmin)",
+                      textAlign: "left",
+                      paddingLeft: "10px",
+                      paddingTop: "28px",
+                      marginBottom: "0px",
+                    }}
+                    variant="h6"
+                    align="center"
+                    gutterBottom
+                  >
+                    Booked for {booking.guests} guests
+                  </Typography>
+                  <Typography
+                    style={{
+                      fontSize: "calc(14px + 0.2vmin)",
+                      textAlign: "left",
+                      paddingLeft: "10px",
+                      marginBottom: "0px",
+                    }}
+                    variant="h6"
+                    align="center"
+                    gutterBottom
+                  >
+                    Check-in: {formatShortDate(booking.dateFrom)}
+                  </Typography>
 
-                <Typography
-                  style={{
-                    fontSize: "calc(14px + 0.2vmin)",
-                    textAlign: "left",
-                    paddingLeft: "10px",
-                    marginBottom: "0px",
-                  }}
-                  variant="h6"
-                  align="center"
-                  gutterBottom
-                >
-                  Check-out: {formatShortDate(booking.dateTo)}
-                </Typography>
-                <Typography
-                  style={{
-                    fontSize: "calc(14px + 0.2vmin)",
-                    textAlign: "left",
-                    paddingLeft: "10px",
-                    marginTop: "2.5rem",
-                  }}
-                  variant="h6"
-                  align="center"
-                  gutterBottom
-                >
-                  <Link to={`/bookings/${booking.id}`}>View Booking</Link>
-                </Typography>
+                  <Typography
+                    style={{
+                      fontSize: "calc(14px + 0.2vmin)",
+                      textAlign: "left",
+                      paddingLeft: "10px",
+                      marginBottom: "0px",
+                    }}
+                    variant="h6"
+                    align="center"
+                    gutterBottom
+                  >
+                    Check-out: {formatShortDate(booking.dateTo)}
+                  </Typography>
+                  <Typography
+                    style={{
+                      fontSize: "calc(14px + 0.2vmin)",
+                      textAlign: "left",
+                      paddingLeft: "10px",
+                      marginTop: "2.5rem",
+                    }}
+                    variant="h6"
+                    align="center"
+                    gutterBottom
+                  >
+                    <Link to={`/bookings/${booking.id}`}>View Booking</Link>
+                  </Typography>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
       ) : (
         <Typography variant="body1" align="center">

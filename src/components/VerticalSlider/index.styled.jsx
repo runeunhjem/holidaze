@@ -23,7 +23,7 @@ export const StyledSlider = styled(Slider)`
   .slick-list {
     margin: 0 auto;
     padding: 0;
-    max-width: 800px;
+    /* max-width: 800px; */
     max-height: 300px; // Adjust based on your needs
   }
 

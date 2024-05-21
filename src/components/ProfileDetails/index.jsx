@@ -84,7 +84,11 @@ const ProfileDetails = ({
             Have {viewedProfile.venues?.length || 0} locations for you
           </div>
           <div className="min-w-300 w-full text-left">
-            Have {viewedProfile.bookings?.length || 0} upcoming stays
+            Have{" "}
+            {viewedProfile.bookings?.filter(
+              (booking) => new Date(booking.dateTo) >= new Date(),
+            ).length || 0}{" "}
+            upcoming stays
           </div>
         </div>
         <div className="min-w-300 mx-auto flex flex-wrap items-start text-left">

@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import ImageGallery from "../../components/ImageGallery";
 import { getVenueById } from "../../utils/getVenueById";
 import { deleteVenue } from "../../utils/deleteVenue";
+import { createBooking } from "../../utils/createBooking"; // Import the createBooking function
 import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
@@ -13,7 +14,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import EditVenueModal from "../../components/EditVenueModal";
 import useStore from "../../hooks/useStore";
+import BookNowModal from "../../components/BookNowModal";
 import "./index.css";
+import VerticalSlider from "../../components/VerticalSlider";
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -21,10 +24,15 @@ function VenueDetailsPage() {
   const { accessToken, userDetails } = useStore();
   const [venue, setVenue] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [venueOwner, setVenueOwner] = useState(false);
+  const [guests, setGuests] = useState(1);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [totalNights, setTotalNights] = useState(0);
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -105,11 +113,67 @@ function VenueDetailsPage() {
     if (isRangeBooked(start, end)) {
       setStartDate(null);
       setEndDate(null);
+      setTotalPrice(0);
+      setTotalNights(0);
     } else {
       setStartDate(start);
       setEndDate(end);
+      if (start && end) {
+        const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        setTotalPrice((nights * venue.price).toFixed(2));
+        setTotalNights(nights);
+        setDatePickerOpen(false); // Close the modal when both dates are selected
+      } else {
+        setTotalPrice(0);
+        setTotalNights(0);
+      }
     }
   };
+
+  const handleGuestsChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    if (value >= 1 && value <= venue.maxGuests) {
+      setGuests(value);
+    } else if (value > venue.maxGuests) {
+      setGuests(venue.maxGuests);
+    } else {
+      setGuests(1);
+    }
+  };
+
+  const handleBooking = async () => {
+    if (!startDate || !endDate) {
+      console.error("Please select both start and end dates.");
+      return;
+    }
+
+    const bookingDetails = {
+      dateFrom: startDate.toISOString(),
+      dateTo: endDate.toISOString(),
+      guests,
+      venueId: id,
+    };
+
+    const { data, error } = await createBooking(bookingDetails, accessToken);
+
+    if (data) {
+      setShowSuccessAlert(true); // Show success alert
+      const newBooking = {
+        ...data.data,
+        customer: { name: userDetails.name }, // Manually set the customer name
+      };
+      setVenue((prevVenue) => ({
+        ...prevVenue,
+        bookings: [...prevVenue.bookings, newBooking],
+      }));
+      setTimeout(() => {
+        setShowSuccessAlert(false); // Hide success alert after 4 seconds
+      }, 4000);
+    } else {
+      console.error("Booking failed:", error);
+    }
+  };
+
 
   const renderDayContents = (day, date) => {
     if (isDateBooked(date)) {
@@ -171,7 +235,7 @@ function VenueDetailsPage() {
               <li>
                 <strong>Max Guests:</strong> {venue.maxGuests || "N/A"}
               </li>
-              <li className="flex align-top whitespace-nowrap w-full">
+              <li className="flex w-full whitespace-nowrap align-top">
                 <strong>Rating:</strong>{" "}
                 <RiStarSFill className="mt-0.3 inline text-xl text-yellow-500" />
                 {venue.rating || "No rating"} stars
@@ -219,7 +283,73 @@ function VenueDetailsPage() {
           )}
         </div>
 
-        <div className="details-container">
+        <VerticalSlider />
+        <div
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--profile-text-color)",
+          }}
+          className="book-now-container manager-container !mt-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
+        >
+          <h2 className="my-0 py-0 text-2xl font-bold">Book Now</h2>
+          <div className="book-now-content flex flex-wrap items-end gap-4 md:w-full md:flex-nowrap">
+            <div className="book-now-dates mx-4 flex w-full flex-wrap items-end justify-between gap-4">
+              <div className="flex flex-col items-start">
+                <label htmlFor="checkin-date">Check-in / Check-out:</label>
+                <input
+                  type="text"
+                  id="checkin-date"
+                  value={
+                    startDate && endDate
+                      ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                      : "Select Dates"
+                  }
+                  readOnly
+                  onClick={() => setDatePickerOpen(true)}
+                  className="book-now-inputs cursor-pointer rounded border p-2"
+                />
+              </div>
+              <div className="flex flex-col items-start">
+                <label htmlFor="guests">Guests:</label>
+                <input
+                  id="guests"
+                  type="number"
+                  min="1"
+                  max={venue.maxGuests}
+                  value={guests}
+                  onChange={handleGuestsChange}
+                  className="book-now-inputs rounded border p-2"
+                />
+              </div>
+            </div>
+            <div className="book-now-bottom  mx-4 flex w-full flex-wrap justify-between gap-4 md:flex-nowrap">
+              <div className="flex flex-col items-start">
+                Nights:
+                <br />
+                <strong>
+                  <p className="mt-1 text-2xl">{totalNights}</p>
+                </strong>
+              </div>
+              <div className="flex flex-col items-start">
+                Price:
+                <br />
+                <strong>
+                  <p className="mt-1 text-2xl">${totalPrice}</p>
+                </strong>
+              </div>
+              <button className="book-now-button" onClick={handleBooking}>
+                Book Now
+              </button>
+            </div>
+          </div>
+          {showSuccessAlert && (
+            <div className="success-alert mt-4 p-2 text-green-700">
+              Booking successful!
+            </div>
+          )}
+        </div>
+
+        <div className="details-container !mt-4">
           <div className="booking-left">
             <p
               className="booking-title font-bold"
@@ -255,18 +385,25 @@ function VenueDetailsPage() {
             </p>
             {venue.bookings && venue.bookings.length > 0 ? (
               <ul className="booked-list">
-                {venue.bookings.map((booking, index) => (
-                  <li key={index}>
-                    {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-                    {new Date(booking.dateTo).toLocaleDateString()} by{" "}
-                    <Link
-                      className="header-nav-links rounded"
-                      to={`/profile/${encodeURIComponent(booking.customer.name)}`}
-                    >
-                      {booking.customer.name}
-                    </Link>
-                  </li>
-                ))}
+                {venue.bookings
+                  .filter((booking) => new Date(booking.dateTo) >= new Date())
+                  .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom))
+                  .map((booking, index) => (
+                    <li key={index}>
+                      {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
+                      {new Date(booking.dateTo).toLocaleDateString()} by{" "}
+                      {booking.customer && booking.customer.name ? (
+                        <Link
+                          className="header-nav-links rounded"
+                          to={`/profile/${encodeURIComponent(booking.customer.name)}`}
+                        >
+                          {booking.customer.name}
+                        </Link>
+                      ) : (
+                        "Unknown customer"
+                      )}
+                    </li>
+                  ))}
               </ul>
             ) : (
               <p>No bookings yet</p>
@@ -278,9 +415,9 @@ function VenueDetailsPage() {
             backgroundColor: "var(--header-bg-color)",
             color: "var(--profile-text-color)",
           }}
-          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-start gap-4 md:justify-around rounded-lg py-4"
+          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
         >
-          <div className="manager-avatar flex items-center ms-3">
+          <div className="manager-avatar ms-3 flex items-center">
             <img
               src={getAvatarUrl(venue?.owner?.avatar?.url)}
               alt="Illustration of the Manager's avatar"
@@ -302,7 +439,7 @@ function VenueDetailsPage() {
               </Link>
             </p>
           </div>
-          <div className="md:ms-3 flex flex-col">
+          <div className="flex flex-col md:ms-3">
             <span className="ms-3 flex justify-between">
               <strong className="me-2">Venue Added:</strong>{" "}
               {new Date(venue.created).toLocaleDateString()}
@@ -321,6 +458,23 @@ function VenueDetailsPage() {
         onVenueUpdated={handleVenueUpdated}
         currentVenue={venue}
       />
+
+      {datePickerOpen && (
+        <BookNowModal onClose={() => setDatePickerOpen(false)}>
+          <DatePicker
+            selected={startDate}
+            onChange={handleDateChange}
+            startDate={startDate}
+            endDate={endDate}
+            selectsRange
+            inline
+            minDate={new Date()}
+            filterDate={(date) => !isDateBooked(date)}
+            monthsShown={2}
+            renderDayContents={renderDayContents}
+          />
+        </BookNowModal>
+      )}
     </div>
   );
 }

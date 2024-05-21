@@ -7,7 +7,44 @@
 .details-container {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1rem;
+  margin-bottom: 1rem !important;
+}
+
+.book-now-content {
+  width: 400px;
+  max-width: 100%;
+}
+
+.book-now-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.book-now-button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  padding: 8px 1rem;
+  margin-bottom: 6px;
+  border: none;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.2s ease-in-out, color 0.3s ease-in-out;
+}
+
+.book-now-button:hover {
+  background-color: var(--button-bg-color-hover);
+  color: var(--button-text-color-hover);
+  outline: 1px solid var(--border-color);
+  transform: scale(1.05);
+}
+
+.book-now-inputs {
+  border: 1px solid var(--input-border-color);
+  color: var(--input-text-color);
+  background-color: var(--body-bg-color);
 }
 
 .booking-container {
@@ -140,6 +177,17 @@
   box-shadow: inset 0 -1px 0 var(--link-color-hover);
 }
 
+.success-alert {
+  background-color: var(--green-200);
+  color: var(--green-800);
+  border: 1px solid var(--green-200);
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+}
+
+
 /* Datepicker */
 
 /* Day cells */
@@ -174,7 +222,6 @@
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
   color: var(--link-color-hover) !important;
-
 }
 
 /* .react-datepicker__navigation--previous:hover,

@@ -24,9 +24,13 @@ function HomePage() {
   return (
     <S.HomeContainer>
       <TrendingCarousel />
-      <VerticalSlider />
+      <div className="max-w-800">
+        <VerticalSlider />
+      </div>
       <VisitNorway />
-      <VerticalSlider />
+      <div className="max-w-800">
+        <VerticalSlider />
+      </div>
       <TravelTips />
     </S.HomeContainer>
   );
