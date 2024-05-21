@@ -291,6 +291,7 @@ function VenueDetailsPage() {
         venueOwner={venueOwner}
       />
 
+      {/* Venue location-section */}
       <div className="mt-6 space-y-2">
         <div className="mb-3 flex align-middle">
           <MdLocationPin className="mr-2 text-2xl text-red-500" />
@@ -305,6 +306,7 @@ function VenueDetailsPage() {
           {venue.description || "No description provided."}
         </p>
 
+        {/* Venue details-section */}
         <div className="details-container">
           <div className="details-left">
             <p
@@ -371,6 +373,8 @@ function VenueDetailsPage() {
         </div>
 
         <VerticalSlider />
+
+        {/* Book now-section */}
         <div
           style={{
             backgroundColor: "var(--header-bg-color)",
@@ -436,30 +440,31 @@ function VenueDetailsPage() {
           )}
         </div>
 
+        {/* Active bookings-section */}
         {userActiveBookings && userActiveBookings.length > 0 && (
           <div className="active-bookings-container manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around">
             <h2
               className="my-0 py-0 text-2xl font-bold"
               style={{
-                fontSize: "calc(1rem + 1vw)",
+                fontSize: "calc(1rem + 0.6vw)",
               }}
             >
               My Active Bookings ({userActiveBookings.length})
             </h2>
             <div className="w-full px-4">
-              <ul className="w-full flex flex-wrap gap-2">
+              <ul className="flex w-full flex-wrap gap-2">
                 {userActiveBookings.map((booking, index) => (
                   <li
                     key={index}
-                    className="bookings-list active-bookings-container flex w-full flex-col items-start justify-center md:justify-evenly p-2 md:flex-row md:items-center"
+                    className="bookings-list active-bookings-container flex w-full flex-col items-start justify-center p-2 md:flex-row md:items-center md:justify-evenly"
                   >
                     <div className="flex flex-col md:flex-row md:items-center md:gap-8">
                       <Link
                         to={`/bookings/${booking.id}`}
-                        className="header-nav-links rounded"
+                        className="header-nav-links flex flex-wrap text-start rounded"
                         style={{ color: "var(--link-color)" }}
                       >
-                        <span>Your ref: {booking.id.slice(0, 4)}</span>
+                        <span className="me-4">Your ref: {booking.id.slice(0, 4)}</span>
                         {` ${new Date(booking.dateFrom).toLocaleDateString(
                           "en-GB",
                           {
@@ -476,10 +481,12 @@ function VenueDetailsPage() {
                           },
                         )}`}
                       </Link>
-                      <span className="flex justify-start">Guests: {booking.guests}</span>
+                      <span className="flex justify-start">
+                        Guests: {booking.guests}
+                      </span>
                     </div>
                     <div className="flex flex-col md:flex-row md:items-center md:gap-2">
-                      <span className="w-40">
+                      <span className="w-40 flex justify-start">
                         Ordered:{" "}
                         {new Date(booking.created).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -487,7 +494,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="w-40">
+                      <span className="w-40 flex justify-start">
                         Updated:{" "}
                         {new Date(booking.updated).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -495,7 +502,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="mt-2 flex md:mt-0">
+                      <span className="mt-2 flex md:mt-0 w-14 justify-between">
                         <FaEdit
                           className="booked-icons ml-2 cursor-pointer"
                           onClick={() => handleEditBookingOpen(booking)}
@@ -513,7 +520,9 @@ function VenueDetailsPage() {
           </div>
         )}
 
+        {/* Check availability-section */}
         <div className="details-container !mt-4">
+          {/* Booking left side -section */}
           <div className="booking-left">
             <p
               className="booking-title font-bold"
@@ -538,6 +547,8 @@ function VenueDetailsPage() {
               />
             </div>
           </div>
+
+          {/* Booking right side -section */}
           <div className="booking-right">
             <p
               className="booking-title font-bold"
@@ -586,6 +597,8 @@ function VenueDetailsPage() {
             )}
           </div>
         </div>
+
+        {/* Manager-section */}
         <div
           style={{
             backgroundColor: "var(--header-bg-color)",
