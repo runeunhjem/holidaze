@@ -96,7 +96,7 @@ function VenueListPage() {
       )}
       {loading && <p>Loading...</p>}
       <h1 className="span-info">
-        We have { venuesMeta.totalCount }{ " " } locations for you to choose from
+        We have {venuesMeta.totalCount} locations for you to choose from
       </h1>
       <div className="pagination-container flex justify-center">
         <PaginationButtons
@@ -129,11 +129,13 @@ function VenueListPage() {
           </div>
         </div>
       ) : (
-        <p>No venues found with the current filters.</p>
+        <p>
+          No venues found with the current filters. Please check the next page
+          or adjust your filters/options to show more.
+        </p>
       )}
     </div>
   );
-
 }
 
 export default VenueListPage;

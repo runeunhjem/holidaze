@@ -1,8 +1,18 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import NorwayImageGallery from "../NorwayImageGallery";
 import * as S from "./index.styled";
+import useStore from "../../hooks/useStore";
 
 function TravelTips() {
+  const { resetFilters, setFilter } = useStore();
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    resetFilters();
+    setFilter("country", "Norway");
+    navigate("/destinations");
+  };
+
   return (
     <S.StyledContainer>
       <div className="w-full max-w-800 md:px-4">
@@ -13,14 +23,14 @@ function TravelTips() {
         </S.StyledText>
       </div>
       <NorwayImageGallery />
-      <Link
-        to="/destinations"
-        className="mt-6 w-full max-w-800 ps-1 text-left underline-offset-4"
+      <div
+        onClick={handleClick}
+        className="mt-6 w-full max-w-800 cursor-pointer ps-1 text-left underline-offset-4"
       >
         <S.Link className="w-full max-w-800 px-2">
-          All norwegian destinations
+          All Norwegian destinations
         </S.Link>
-      </Link>
+      </div>
     </S.StyledContainer>
   );
 }
