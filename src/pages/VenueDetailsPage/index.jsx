@@ -494,10 +494,10 @@ function VenueDetailsPage() {
                       <Link
                         to={`/bookings/${booking.id}`}
                         className="header-nav-links flex flex-wrap rounded text-start"
-                        style={ {
+                        style={{
                           color: "var(--link-color)",
                           // width: "270px"
-                         }}
+                        }}
                       >
                         <span className="me-4">
                           Your ref: {booking.id.slice(0, 4)}

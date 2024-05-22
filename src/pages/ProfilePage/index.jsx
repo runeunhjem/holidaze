@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useStore from "../../hooks/useStore";
@@ -16,35 +16,59 @@ import MyFavoriteVenues from "../../components/MyFavoriteVenues";
 function ProfilePage() {
   const { username } = useParams();
   const { fetchUserProfile } = useProfile();
-  const { viewedProfile, favoriteProfiles, setViewedProfile, userDetails } =
-    useStore();
-  // console.log("Viewed profile:", viewedProfile);
+  const {
+    viewedProfile,
+    favoriteProfiles,
+    setViewedProfile,
+    userDetails,
+    // setUserDetails,
+  } = useStore();
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
   const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
   const [avatarUrl, setAvatarUrl] = useState(defaultAvatarImage);
+  const [loading, setLoading] = useState(true);
+
+  const loadProfile = useCallback(
+    async (username) => {
+      setLoading(true); // Start loading
+      const profileData = await fetchUserProfile(username);
+
+      if (profileData) {
+        console.log("Profile data entering profile page:", profileData);
+
+        const isFav = favoriteProfiles.some((p) => p.name === profileData.name);
+        setViewedProfile({ ...profileData, isFav });
+
+        setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
+        setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
+
+        // Update userDetails if it's the logged-in user
+        // if (profileData.name === userDetails.name) {
+        //   setUserDetails((prevDetails) => ({
+        //     ...prevDetails,
+        //     bookings: profileData.bookings,
+        //     avatar: profileData.avatar,
+        //     banner: profileData.banner,
+        //   }));
+        // }
+      }
+      setLoading(false); // End loading
+    },
+    [
+      fetchUserProfile,
+      favoriteProfiles,
+      setViewedProfile,
+      // setUserDetails,
+      // userDetails.name,
+    ],
+  );
 
   useEffect(() => {
-    if ((username && !viewedProfile) || viewedProfile.name !== username) {
-      fetchUserProfile(username).then((profileData) => {
-        if (profileData) {
-          const isFav = favoriteProfiles.some(
-            (p) => p.name === profileData.name,
-          );
-          setViewedProfile({ ...profileData, isFav });
-
-          setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
-          setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
-        }
-      });
+    if (username) {
+      loadProfile(username);
     }
-  }, [
-    username,
-    fetchUserProfile,
-    favoriteProfiles,
-    viewedProfile,
-    setViewedProfile,
-  ]);
+  }, [username, loadProfile]);
 
   useEffect(() => {
     document.title = `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`;
@@ -75,6 +99,10 @@ function ProfilePage() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [anchorEl]);
 
+  if (loading) {
+    return <div>Loading...</div>; // Render a loading state while fetching data
+  }
+
   return (
     <div
       style={{ color: "var(--profile-text-color)" }}
@@ -98,7 +126,9 @@ function ProfilePage() {
         handleClose={handleClose}
       />
       <MyVenues />
-      <MyBookings />
+      {viewedProfile && viewedProfile.bookings && (
+        <MyBookings viewedProfile={viewedProfile} />
+      )}
       <MyFavoriteVenues />
     </div>
   );

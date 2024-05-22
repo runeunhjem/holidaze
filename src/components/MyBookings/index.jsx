@@ -1,4 +1,5 @@
-import { useState, useMemo } from "react";
+import PropTypes from "prop-types";
+import { useState, useMemo, useEffect } from "react";
 import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,27 +8,23 @@ import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import { sanitizeVenue } from "../../utils/sanitizeVenue";
 import "./index.css";
 
-function MyBookings() {
-  const {
-    viewedProfile,
-    favorites,
-    addFavoriteVenue,
-    removeFavoriteVenue,
-    userDetails,
-    options,
-  } = useStore();
+function MyBookings({ viewedProfile }) {
+  const { favorites, addFavoriteVenue, removeFavoriteVenue, options } =
+    useStore();
+  const [bookings, setBookings] = useState(viewedProfile?.bookings || []);
 
-  const bookingsList = useMemo(
-    () => viewedProfile?.bookings || [],
-    [viewedProfile],
-  );
+  useEffect(() => {
+    setBookings(viewedProfile?.bookings || []);
+  }, [viewedProfile]);
+
+  console.log("Bookings:", bookings);
 
   const transformedBookings = useMemo(() => {
-    return bookingsList.map((booking) => ({
+    return bookings.map((booking) => ({
       ...booking,
       venue: sanitizeVenue(booking.venue || {}, options),
     }));
-  }, [bookingsList, options]);
+  }, [bookings, options]);
 
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,11 +61,7 @@ function MyBookings() {
     }
   };
 
-  // Determine header text based on user ID comparison
-  const isOwnProfile = userDetails.name === viewedProfile.name;
-  const headerText = isOwnProfile
-    ? "My Active Bookings"
-    : "Their Active Bookings";
+  const headerText = "My Active Bookings";
 
   return (
     <Box
@@ -91,7 +84,7 @@ function MyBookings() {
               (booking) => new Date(booking.dateTo) >= new Date(),
             ).length
           }
-          ){/* ({transformedBookings.length}) */}
+          )
         </Typography>
       </div>
       <hr
@@ -125,7 +118,6 @@ function MyBookings() {
                 style={{
                   borderRadius: "20px 0 0 20px",
                   height: "176px",
-                  // position: "relative",
                 }}
                 onMouseLeave={handleClose}
               >
@@ -144,7 +136,6 @@ function MyBookings() {
                   style={{
                     borderRadius: "5px 0 0 5px",
                     width: "40%",
-                    // position: "relative",
                   }}
                 >
                   <CardMedia
@@ -261,5 +252,9 @@ function MyBookings() {
     </Box>
   );
 }
+
+MyBookings.propTypes = {
+  viewedProfile: PropTypes.object.isRequired,
+};
 
 export default MyBookings;

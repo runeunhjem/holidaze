@@ -9,7 +9,6 @@ const useProfile = () => {
   const { username } = useParams();
 
   const fetchUserProfile = useCallback(async () => {
-    // Include necessary parameters to fetch venues and bookings
     const endpoint = `${ENDPOINTS.profiles}/${encodeURIComponent(username)}${PARAMS._venues}${PARAMS._bookings}`;
     console.log("Fetching user profile:", endpoint);
     try {

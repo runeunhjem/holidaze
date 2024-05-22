@@ -12,6 +12,8 @@ import Stack from "@mui/material/Stack";
 import { FiChevronDown, FiChevronUp, FiUser } from "react-icons/fi";
 import Avatar from "@mui/material/Avatar";
 import { useTheme } from "@emotion/react";
+import defaultAvatarImage from "../../../assets/images/default-profile-image.png";
+
 
 export default function MenuListComposition() {
   const userDetails = useStore((state) => state.userDetails);
@@ -66,6 +68,9 @@ export default function MenuListComposition() {
     prevOpen.current = open;
   }, [open]);
 
+  const avatarUrl = userDetails?.avatar?.url || defaultAvatarImage;
+  const userName = userDetails?.name || "User";
+
   return (
     <Stack
       direction="row"
@@ -109,43 +114,35 @@ export default function MenuListComposition() {
           px: 0,
         }}
       >
-        {isAuthenticated ? (
-          <Avatar
-            sx={{
-              px: 0,
-              mx: 0,
-              width: 24,
-              height: 24,
-              fontSize: 12,
-              alignItems: "center",
-            }}
-            src={userDetails.avatar.url}
-            alt="Profile picture"
-          />
-        ) : (
-          <Avatar
-            sx={{
-              width: 24,
-              height: 24,
-              fontSize: 12,
-              backgroundColor:
-                theme.palette.mode === "light"
+        <Avatar
+          sx={{
+            px: 0,
+            mx: 0,
+            width: 24,
+            height: 24,
+            fontSize: 12,
+            alignItems: "center",
+            backgroundColor:
+              isAuthenticated && userDetails?.avatar?.url
+                ? "transparent"
+                : theme.palette.mode === "light"
                   ? "var(--sky-100)"
                   : "var(--gray-100)",
-              color:
-                theme.palette.mode === "light"
-                  ? "var(--gray-900)"
-                  : "var(--gray-900)",
-              border: "1px solid",
-              borderColor:
-                theme.palette.mode === "light"
-                  ? "var(--gray-300)"
-                  : "var(--sky-100)",
-            }}
-          >
-            <FiUser />
-          </Avatar>
-        )}
+            color:
+              theme.palette.mode === "light"
+                ? "var(--gray-900)"
+                : "var(--gray-900)",
+            border: "1px solid",
+            borderColor:
+              theme.palette.mode === "light"
+                ? "var(--gray-300)"
+                : "var(--sky-100)",
+          }}
+          src={isAuthenticated ? avatarUrl : ""}
+          alt={userName}
+        >
+          {!isAuthenticated && <FiUser />}
+        </Avatar>
         <span className="hidden">User menu</span>
       </Button>
 
