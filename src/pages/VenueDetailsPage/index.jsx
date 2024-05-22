@@ -348,11 +348,13 @@ function VenueDetailsPage() {
               Details:
             </p>
             <ul className="details-list">
-              <li>
-                <strong>Price:</strong> ${venue.price || "N/A"} / night
+              <li className="flex w-full whitespace-nowrap align-top">
+                <strong className="me-1">Price:</strong> ${venue.price || "N/A"}{" "}
+                / night
               </li>
-              <li>
-                <strong>Max Guests:</strong> {venue.maxGuests || "N/A"}
+              <li className="flex w-full whitespace-nowrap align-top">
+                <strong className="me-1">Max Guests:</strong>{" "}
+                {venue.maxGuests || "N/A"}
               </li>
               <li className="flex w-full whitespace-nowrap align-top">
                 <strong>Rating:</strong>{" "}
@@ -712,7 +714,8 @@ function VenueDetailsPage() {
         handleDateChange={handleDateChange}
         handleGuestsChange={handleGuestsChange}
         handleUpdateBooking={handleUpdateBooking}
-        userDetails={userDetails}
+        userDetails={ userDetails }
+        venue={venue}
       />
 
       <Dialog open={confirmDeleteOpen} onClose={handleDeleteBookingClose}>

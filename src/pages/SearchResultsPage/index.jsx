@@ -163,31 +163,31 @@ function SearchResultsPage() {
           <p className="flex w-full flex-wrap items-center justify-center">
             We have {venues.length} available venues{" "}
             {dateFrom && (
-              <div className="ml-2 whitespace-nowrap">
+              <span className="ml-2 whitespace-nowrap">
                 with check-in{" "}
                 <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>
-              </div>
+              </span>
             )}
             {dateTo && (
-              <div className="ml-2 whitespace-nowrap">
+              <span className="ml-2 whitespace-nowrap">
                 and check-out{" "}
                 <strong>{dayjs(dateTo).format("YYYY-MM-DD")}</strong>
-              </div>
+              </span>
             )}
             {guests && (
-              <div className="ml-2 whitespace-nowrap">
+              <span className="ml-2 whitespace-nowrap">
                 for <strong>{guests}</strong> guests
-              </div>
+              </span>
             )}
           </p>
 
           <p>
             {activeFilterCount > 0 && (
-              <div>
+              <span>
                 {" "}
                 You also have <strong>{activeFilterCount}</strong> active
                 filters
-              </div>
+              </span>
             )}
           </p>
         </div>

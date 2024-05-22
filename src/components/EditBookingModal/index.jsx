@@ -21,6 +21,7 @@ function EditBookingModal({
   handleGuestsChange,
   handleUpdateBooking,
   userDetails,
+  venue,
 }) {
   const renderDayContents = (day, date) => {
     if (
@@ -44,12 +45,20 @@ function EditBookingModal({
     });
   };
 
+  const isDateBooked = (date) => {
+    return venue.bookings?.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return date >= fromDate && date <= toDate;
+    });
+  };
+
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Edit Booking</DialogTitle>
       <DialogContent
         sx={{
-          width: "minContent",
+          width: "min-content",
           overflow: "hidden",
         }}
       >
@@ -57,6 +66,7 @@ function EditBookingModal({
           sx={{
             maxWidth: "100%",
           }}
+
           selected={startDate}
           onChange={handleDateChange}
           startDate={startDate}
@@ -64,6 +74,9 @@ function EditBookingModal({
           selectsRange
           inline
           minDate={new Date()}
+          filterDate={(date) => !isDateBooked(date)}
+          monthsShown="2"
+          horizontal
           renderDayContents={renderDayContents}
         />
         <TextField
@@ -103,6 +116,7 @@ EditBookingModal.propTypes = {
   handleGuestsChange: PropTypes.func.isRequired,
   handleUpdateBooking: PropTypes.func.isRequired,
   userDetails: PropTypes.object.isRequired,
+  venue: PropTypes.object.isRequired,
 };
 
 export default EditBookingModal;

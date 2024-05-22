@@ -103,10 +103,10 @@
   }
 
   [data-theme="dark"] {
-    --success-alert-bg-color: var(--green-800);
-    --success-alert-text-color: var(--green-200);
-    --success-alert-border-color: var(--green-100);
-    --bookings-bg-color: var(--gray-800);
+    --success-alert-bg-color: var(--green-700);
+    --success-alert-text-color: var(--green-100);
+    --success-alert-border-color: var(--green-200);
+    --bookings-bg-color: var(--blue-900);
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);
     --overlay-cards: var(--stone-600);
