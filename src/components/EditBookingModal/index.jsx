@@ -35,10 +35,19 @@ function EditBookingModal({
   };
 
   const handleSave = () => {
-    const finalEndDate = endDate || startDate; // Set endDate to startDate if endDate is null
+    // Ensure both startDate and endDate are set and valid dates
+    const finalStartDate = startDate ? new Date(startDate) : new Date();
+    const finalEndDate = endDate ? new Date(endDate) : finalStartDate;
+
+    // Ensure dateFrom is in the future
+    const today = new Date();
+    if (finalStartDate < today) {
+      finalStartDate.setDate(today.getDate());
+    }
+
     handleUpdateBooking({
       ...booking,
-      dateFrom: startDate,
+      dateFrom: finalStartDate,
       dateTo: finalEndDate,
       guests,
       customer: { name: userDetails.name },
@@ -46,11 +55,23 @@ function EditBookingModal({
   };
 
   const isDateBooked = (date) => {
-    return venue.bookings?.some((booking) => {
-      const fromDate = new Date(booking.dateFrom);
-      const toDate = new Date(booking.dateTo);
+    return venue.bookings?.some((b) => {
+      if (booking && b.id === booking.id) return false; // Ignore the current booking
+      const fromDate = new Date(b.dateFrom);
+      const toDate = new Date(b.dateTo);
       return date >= fromDate && date <= toDate;
     });
+  };
+
+  const filterDate = (date) => {
+    const today = new Date();
+    return (
+      date >= today &&
+      (!isDateBooked(date) ||
+        (booking &&
+          new Date(booking.dateFrom) <= date &&
+          date <= new Date(booking.dateTo)))
+    );
   };
 
   return (
@@ -66,7 +87,6 @@ function EditBookingModal({
           sx={{
             maxWidth: "100%",
           }}
-
           selected={startDate}
           onChange={handleDateChange}
           startDate={startDate}
@@ -74,9 +94,8 @@ function EditBookingModal({
           selectsRange
           inline
           minDate={new Date()}
-          filterDate={(date) => !isDateBooked(date)}
-          monthsShown="2"
-          horizontal
+          filterDate={filterDate}
+          monthsShown={2}
           renderDayContents={renderDayContents}
         />
         <TextField

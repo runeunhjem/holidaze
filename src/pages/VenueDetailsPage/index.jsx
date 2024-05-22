@@ -22,7 +22,6 @@ import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import {
-  // TextField,
   Button,
   Dialog,
   DialogActions,
@@ -47,6 +46,7 @@ function VenueDetailsPage() {
   const [endDate, setEndDate] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [venueOwner, setVenueOwner] = useState(false);
+  const [guestsInput, setGuestsInput] = useState("1"); // Use string to handle input
   const [guests, setGuests] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
@@ -140,7 +140,9 @@ function VenueDetailsPage() {
 
   const handleDateChange = (dates) => {
     const [start, end] = dates;
-    if (isRangeBooked(start, end)) {
+    const today = new Date();
+
+    if (start < today || (end && end < today) || isRangeBooked(start, end)) {
       setStartDate(null);
       setEndDate(null);
       setTotalPrice(0);
@@ -161,14 +163,22 @@ function VenueDetailsPage() {
   };
 
   const handleGuestsChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    if (value >= 1 && value <= venue.maxGuests) {
-      setGuests(value);
-    } else if (value > venue.maxGuests) {
-      setGuests(venue.maxGuests);
-    } else {
-      setGuests(1);
+    const value = e.target.value;
+    if (
+      value === "" ||
+      (parseInt(value, 10) >= 1 && parseInt(value, 10) <= venue.maxGuests)
+    ) {
+      setGuestsInput(value);
     }
+  };
+
+  const handleGuestsBlur = () => {
+    let finalGuests = parseInt(guestsInput, 10);
+    if (isNaN(finalGuests) || finalGuests < 1) {
+      finalGuests = 1;
+    }
+    setGuests(finalGuests);
+    setGuestsInput(finalGuests.toString());
   };
 
   const handleBooking = async () => {
@@ -211,6 +221,7 @@ function VenueDetailsPage() {
     setStartDate(new Date(booking.dateFrom));
     setEndDate(new Date(booking.dateTo));
     setGuests(booking.guests);
+    setGuestsInput(booking.guests.toString());
     setEditBookingModalOpen(true);
   };
 
@@ -251,11 +262,20 @@ function VenueDetailsPage() {
 
   const handleUpdateBooking = async (updatedBooking) => {
     const { dateFrom, dateTo, guests, customer } = updatedBooking;
-    const finalEndDate = dateTo || dateFrom; // Set endDate to startDate if endDate is null
+
+    // Ensure dateFrom and dateTo are valid Date objects and in the future
+    const today = new Date();
+    const finalDateFrom =
+      dateFrom instanceof Date ? dateFrom : new Date(dateFrom);
+    const finalDateTo = dateTo instanceof Date ? dateTo : new Date(dateTo);
+
+    if (finalDateFrom < today) {
+      finalDateFrom.setDate(today.getDate());
+    }
 
     const updatedDetails = {
-      dateFrom: dateFrom.toISOString(),
-      dateTo: finalEndDate.toISOString(),
+      dateFrom: finalDateFrom.toISOString(),
+      dateTo: finalDateTo.toISOString(),
       guests,
     };
 
@@ -440,8 +460,9 @@ function VenueDetailsPage() {
                     type="number"
                     min="1"
                     max={venue.maxGuests}
-                    value={guests}
+                    value={guestsInput}
                     onChange={handleGuestsChange}
+                    onBlur={handleGuestsBlur}
                     className="book-now-inputs rounded border p-2"
                   />
                 </div>
@@ -467,9 +488,7 @@ function VenueDetailsPage() {
               </div>
             </div>
             {showSuccessAlert && (
-              <div className="success-alert mt-4 p-2 text-green-700">
-                Booking successful!
-              </div>
+              <div className="success-alert">Booking successful!</div>
             )}
           </div>
         )}
@@ -580,8 +599,8 @@ function VenueDetailsPage() {
                 selectsRange
                 inline
                 minDate={new Date()}
-                filterDate={(date) => !isDateBooked(date)}
-                monthsShown={windowWidth >= 768 ? 2 : 2}
+                filterDate={(date) => date >= new Date() && !isDateBooked(date)}
+                monthsShown={windowWidth >= 768 ? 2 : 1}
                 renderDayContents={renderDayContents}
               />
             </div>
@@ -697,7 +716,7 @@ function VenueDetailsPage() {
             selectsRange
             inline
             minDate={new Date()}
-            filterDate={(date) => !isDateBooked(date)}
+            filterDate={(date) => date >= new Date() && !isDateBooked(date)}
             monthsShown={2}
             renderDayContents={renderDayContents}
           />
@@ -714,7 +733,7 @@ function VenueDetailsPage() {
         handleDateChange={handleDateChange}
         handleGuestsChange={handleGuestsChange}
         handleUpdateBooking={handleUpdateBooking}
-        userDetails={ userDetails }
+        userDetails={userDetails}
         venue={venue}
       />
 
