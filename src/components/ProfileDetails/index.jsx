@@ -1,4 +1,3 @@
-// ProfileDetails.js
 import PropTypes from "prop-types";
 import { Popover, Typography } from "@mui/material";
 import useStore from "../../hooks/useStore";
@@ -11,7 +10,17 @@ const ProfileDetails = ({
   handleClose,
 }) => {
   const { favorites } = useStore();
-  // console.log("Viewed Profile: ", viewedProfile);
+
+  // Function to format the bio with line breaks
+  const formatBio = (bio) => {
+    if (!bio) return "No biography provided.";
+    return (
+      bio
+        .split(". ")
+        .map((sentence) => sentence.trim())
+        .join(".<br />") + "."
+    );
+  };
 
   return (
     <div className="relative">
@@ -23,7 +32,6 @@ const ProfileDetails = ({
           borderTop: "2px solid var(--profile-text-color)",
           backgroundColor: "transparent",
           height: "0px",
-          // maxWidth: "60%",
           margin: "30px auto 20px auto",
         }}
       />
@@ -68,10 +76,10 @@ const ProfileDetails = ({
             border: "1px solid var(--profile-text-color)",
             borderRadius: "5px",
             padding: "20px",
+            whiteSpace: "pre-line", // This preserves whitespace and line breaks
           }}
-        >
-          {viewedProfile.bio || "No biography provided."}
-        </Typography>
+          dangerouslySetInnerHTML={{ __html: formatBio(viewedProfile.bio) }}
+        />
       </Popover>
       <div
         className="mx-auto flex max-w-300 flex-col items-center pt-6"

@@ -13,7 +13,7 @@ import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
 
-const ProfileEditModal = ({ open, handleClose }) => {
+const EditProfileModal = ({ open, handleClose }) => {
   const { setUserDetails, viewedProfile, accessToken } = useStore();
   const [formData, setFormData] = useState({
     bio: viewedProfile.bio || "",
@@ -204,9 +204,9 @@ const ProfileEditModal = ({ open, handleClose }) => {
   );
 };
 
-ProfileEditModal.propTypes = {
+EditProfileModal.propTypes = {
   open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
 };
 
-export default ProfileEditModal;
+export default EditProfileModal;
