@@ -4,8 +4,8 @@ import ImageGallery from "../../components/ImageGallery";
 import { getVenueById } from "../../utils/getVenueById";
 import { deleteVenue } from "../../utils/deleteVenue";
 import { createBooking } from "../../utils/createBooking";
-import { updateBooking } from "../../utils/updateBooking"; // Import the updateBooking function
-import { deleteBooking } from "../../utils/deleteBooking"; // Import the deleteBooking function
+import { updateBooking } from "../../utils/updateBooking";
+import { deleteBooking } from "../../utils/deleteBooking";
 import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
 import { RiStarSFill } from "react-icons/ri";
 import { FiWifi } from "react-icons/fi";
@@ -17,11 +17,12 @@ import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import EditVenueModal from "../../components/EditVenueModal";
 import useStore from "../../hooks/useStore";
 import BookNowModal from "../../components/BookNowModal";
+import EditBookingModal from "../../components/EditBookingModal";
 import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import {
-  TextField,
+  // TextField,
   Button,
   Dialog,
   DialogActions,
@@ -32,7 +33,13 @@ import {
 function VenueDetailsPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { accessToken, userDetails } = useStore();
+  const {
+    accessToken,
+    userDetails,
+    isAuthenticated,
+    viewedProfile,
+    setViewedProfile,
+  } = useStore();
   const [venue, setVenue] = useState(null);
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [datePickerOpen, setDatePickerOpen] = useState(false);
@@ -44,9 +51,9 @@ function VenueDetailsPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-  const [selectedBooking, setSelectedBooking] = useState(null); // State to track selected booking for editing/deleting
-  const [editBookingModalOpen, setEditBookingModalOpen] = useState(false); // State to track if edit modal is open
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false); // State to track if delete confirmation is open
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [editBookingModalOpen, setEditBookingModalOpen] = useState(false);
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   useEffect(() => {
     const fetchVenueDetails = async () => {
@@ -92,9 +99,18 @@ function VenueDetailsPage() {
   const handleDelete = async () => {
     try {
       await deleteVenue(id, accessToken);
-      navigate(`/profile/${encodeURIComponent(venue.owner?.name)}`); // Redirect to the home page or another page after deletion
+      navigate(`/profile/${encodeURIComponent(venue.owner?.name)}`);
     } catch (error) {
       console.error("Failed to delete venue:", error);
+    }
+  };
+
+  const updateViewedProfileBookings = (updatedBookings) => {
+    if (viewedProfile && viewedProfile.bookings) {
+      setViewedProfile({
+        ...viewedProfile,
+        bookings: updatedBookings,
+      });
     }
   };
 
@@ -136,7 +152,7 @@ function VenueDetailsPage() {
         const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
         setTotalPrice((nights * venue.price).toFixed(2));
         setTotalNights(nights);
-        setDatePickerOpen(false); // Close the modal when both dates are selected
+        setDatePickerOpen(false);
       } else {
         setTotalPrice(0);
         setTotalNights(0);
@@ -171,17 +187,19 @@ function VenueDetailsPage() {
     const { data, error } = await createBooking(bookingDetails, accessToken);
 
     if (data) {
-      setShowSuccessAlert(true); // Show success alert
+      setShowSuccessAlert(true);
       const newBooking = {
         ...data.data,
-        customer: { name: userDetails.name }, // Manually set the customer name
+        customer: { name: userDetails.name },
       };
+      const updatedBookings = [...venue.bookings, newBooking];
       setVenue((prevVenue) => ({
         ...prevVenue,
-        bookings: [...prevVenue.bookings, newBooking],
+        bookings: updatedBookings,
       }));
+      updateViewedProfileBookings(updatedBookings);
       setTimeout(() => {
-        setShowSuccessAlert(false); // Hide success alert after 4 seconds
+        setShowSuccessAlert(false);
       }, 4000);
     } else {
       console.error("Booking failed:", error);
@@ -190,6 +208,9 @@ function VenueDetailsPage() {
 
   const handleEditBookingOpen = (booking) => {
     setSelectedBooking(booking);
+    setStartDate(new Date(booking.dateFrom));
+    setEndDate(new Date(booking.dateTo));
+    setGuests(booking.guests);
     setEditBookingModalOpen(true);
   };
 
@@ -214,25 +235,28 @@ function VenueDetailsPage() {
     const { error } = await deleteBooking(selectedBooking.id, accessToken);
 
     if (!error) {
+      const updatedBookings = venue.bookings.filter(
+        (booking) => booking.id !== selectedBooking.id,
+      );
       setVenue((prevVenue) => ({
         ...prevVenue,
-        bookings: prevVenue.bookings.filter(
-          (booking) => booking.id !== selectedBooking.id,
-        ),
+        bookings: updatedBookings,
       }));
+      updateViewedProfileBookings(updatedBookings);
       handleDeleteBookingClose();
     } else {
       console.error("Failed to delete booking:", error);
     }
   };
 
-  const handleUpdateBooking = async () => {
-    if (!selectedBooking) return;
+  const handleUpdateBooking = async (updatedBooking) => {
+    const { dateFrom, dateTo, guests, customer } = updatedBooking;
+    const finalEndDate = dateTo || dateFrom; // Set endDate to startDate if endDate is null
 
     const updatedDetails = {
-      dateFrom: selectedBooking.dateFrom,
-      dateTo: selectedBooking.dateTo,
-      guests: selectedBooking.guests,
+      dateFrom: dateFrom.toISOString(),
+      dateTo: finalEndDate.toISOString(),
+      guests,
     };
 
     const { data, error } = await updateBooking(
@@ -242,12 +266,16 @@ function VenueDetailsPage() {
     );
 
     if (data) {
+      const updatedBookings = venue.bookings.map((booking) =>
+        booking.id === selectedBooking.id
+          ? { ...data.data, customer }
+          : booking,
+      );
       setVenue((prevVenue) => ({
         ...prevVenue,
-        bookings: prevVenue.bookings.map((booking) =>
-          booking.id === selectedBooking.id ? data.data : booking,
-        ),
+        bookings: updatedBookings,
       }));
+      updateViewedProfileBookings(updatedBookings);
       handleEditBookingClose();
     } else {
       console.error("Failed to update booking:", error);
@@ -255,11 +283,13 @@ function VenueDetailsPage() {
   };
 
   const userActiveBookings = venue.bookings
-    ? venue.bookings.filter(
-        (booking) =>
-          booking.customer?.name === userDetails.name &&
-          new Date(booking.dateTo) >= new Date(),
-      )
+    ? venue.bookings
+        .filter(
+          (booking) =>
+            booking.customer?.name === userDetails.name &&
+            new Date(booking.dateTo) >= new Date(),
+        )
+        .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)) // Sort by oldest check-in date
     : [];
 
   const renderDayContents = (day, date) => {
@@ -375,70 +405,72 @@ function VenueDetailsPage() {
         <VerticalSlider />
 
         {/* Book now-section */}
-        <div
-          style={{
-            backgroundColor: "var(--header-bg-color)",
-            color: "var(--profile-text-color)",
-          }}
-          className="book-now-container manager-container !mt-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
-        >
-          <h2 className="my-0 py-0 text-2xl font-bold">Book Now</h2>
-          <div className="book-now-content flex flex-wrap items-end gap-4 md:w-full md:flex-nowrap">
-            <div className="book-now-dates mx-4 flex w-full flex-wrap items-end justify-between gap-4">
-              <div className="flex flex-col items-start">
-                <label htmlFor="checkin-date">Check-in / Check-out:</label>
-                <input
-                  type="text"
-                  id="checkin-date"
-                  value={
-                    startDate && endDate
-                      ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
-                      : "Select Dates"
-                  }
-                  readOnly
-                  onClick={() => setDatePickerOpen(true)}
-                  className="book-now-inputs cursor-pointer rounded border p-2"
-                />
+        {isAuthenticated && (
+          <div
+            style={{
+              backgroundColor: "var(--header-bg-color)",
+              color: "var(--profile-text-color)",
+            }}
+            className="book-now-container manager-container !mt-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
+          >
+            <h2 className="my-0 py-0 text-2xl font-bold">Book Now</h2>
+            <div className="book-now-content flex flex-wrap items-end gap-4 md:w-full md:flex-nowrap">
+              <div className="book-now-dates mx-4 flex w-full flex-wrap items-end justify-between gap-4">
+                <div className="flex flex-col items-start">
+                  <label htmlFor="checkin-date">Check-in / Check-out:</label>
+                  <input
+                    type="text"
+                    id="checkin-date"
+                    value={
+                      startDate && endDate
+                        ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+                        : "Select Dates"
+                    }
+                    readOnly
+                    onClick={() => setDatePickerOpen(true)}
+                    className="book-now-inputs cursor-pointer rounded border p-2"
+                  />
+                </div>
+                <div className="flex flex-col items-start">
+                  <label htmlFor="guests">Guests:</label>
+                  <input
+                    id="guests"
+                    type="number"
+                    min="1"
+                    max={venue.maxGuests}
+                    value={guests}
+                    onChange={handleGuestsChange}
+                    className="book-now-inputs rounded border p-2"
+                  />
+                </div>
               </div>
-              <div className="flex flex-col items-start">
-                <label htmlFor="guests">Guests:</label>
-                <input
-                  id="guests"
-                  type="number"
-                  min="1"
-                  max={venue.maxGuests}
-                  value={guests}
-                  onChange={handleGuestsChange}
-                  className="book-now-inputs rounded border p-2"
-                />
+              <div className="book-now-bottom mx-4 flex w-full flex-wrap justify-between gap-4 md:flex-nowrap">
+                <div className="flex flex-col items-start">
+                  Nights:
+                  <br />
+                  <strong>
+                    <p className="mt-1 text-2xl">{totalNights}</p>
+                  </strong>
+                </div>
+                <div className="flex flex-col items-start">
+                  Price:
+                  <br />
+                  <strong>
+                    <p className="mt-1 text-2xl">${totalPrice}</p>
+                  </strong>
+                </div>
+                <button className="book-now-button" onClick={handleBooking}>
+                  Book Now
+                </button>
               </div>
             </div>
-            <div className="book-now-bottom mx-4 flex w-full flex-wrap justify-between gap-4 md:flex-nowrap">
-              <div className="flex flex-col items-start">
-                Nights:
-                <br />
-                <strong>
-                  <p className="mt-1 text-2xl">{totalNights}</p>
-                </strong>
+            {showSuccessAlert && (
+              <div className="success-alert mt-4 p-2 text-green-700">
+                Booking successful!
               </div>
-              <div className="flex flex-col items-start">
-                Price:
-                <br />
-                <strong>
-                  <p className="mt-1 text-2xl">${totalPrice}</p>
-                </strong>
-              </div>
-              <button className="book-now-button" onClick={handleBooking}>
-                Book Now
-              </button>
-            </div>
+            )}
           </div>
-          {showSuccessAlert && (
-            <div className="success-alert mt-4 p-2 text-green-700">
-              Booking successful!
-            </div>
-          )}
-        </div>
+        )}
 
         {/* Active bookings-section */}
         {userActiveBookings && userActiveBookings.length > 0 && (
@@ -458,13 +490,18 @@ function VenueDetailsPage() {
                     key={index}
                     className="bookings-list active-bookings-container flex w-full flex-col items-start justify-center p-2 md:flex-row md:items-center md:justify-evenly"
                   >
-                    <div className="flex flex-col md:flex-row md:items-center md:gap-8">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:gap-8">
                       <Link
                         to={`/bookings/${booking.id}`}
-                        className="header-nav-links flex flex-wrap text-start rounded"
-                        style={{ color: "var(--link-color)" }}
+                        className="header-nav-links flex flex-wrap rounded text-start"
+                        style={ {
+                          color: "var(--link-color)",
+                          // width: "270px"
+                         }}
                       >
-                        <span className="me-4">Your ref: {booking.id.slice(0, 4)}</span>
+                        <span className="me-4">
+                          Your ref: {booking.id.slice(0, 4)}
+                        </span>
                         {` ${new Date(booking.dateFrom).toLocaleDateString(
                           "en-GB",
                           {
@@ -485,8 +522,8 @@ function VenueDetailsPage() {
                         Guests: {booking.guests}
                       </span>
                     </div>
-                    <div className="flex flex-col md:flex-row md:items-center md:gap-2">
-                      <span className="w-40 flex justify-start">
+                    <div className="flex flex-col sm:flex-row md:items-center md:gap-2">
+                      <span className="flex w-40 justify-start">
                         Ordered:{" "}
                         {new Date(booking.created).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -494,7 +531,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="w-40 flex justify-start">
+                      <span className="flex w-40 justify-start">
                         Updated:{" "}
                         {new Date(booking.updated).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -502,7 +539,7 @@ function VenueDetailsPage() {
                           year: "2-digit",
                         })}
                       </span>
-                      <span className="mt-2 flex md:mt-0 w-14 justify-between">
+                      <span className="mt-2 flex w-14 justify-between md:mt-0">
                         <FaEdit
                           className="booked-icons ml-2 cursor-pointer"
                           onClick={() => handleEditBookingOpen(booking)}
@@ -665,45 +702,18 @@ function VenueDetailsPage() {
         </BookNowModal>
       )}
 
-      <Dialog open={editBookingModalOpen} onClose={handleEditBookingClose}>
-        <DialogTitle>Edit Booking</DialogTitle>
-        <DialogContent
-          sx={{
-            width: "minContent",
-            overflow: "hidden",
-          }}
-        >
-          <DatePicker
-            sx={{
-              maxWidth: "100%",
-            }}
-            selected={startDate}
-            onChange={handleDateChange}
-            startDate={startDate}
-            endDate={endDate}
-            selectsRange
-            inline
-            minDate={new Date()}
-            filterDate={(date) => !isDateBooked(date)}
-            monthsShown={2}
-            renderDayContents={renderDayContents}
-          />
-          <TextField
-            margin="dense"
-            label="Guests"
-            type="number"
-            fullWidth
-            value={guests}
-            onChange={handleGuestsChange}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleEditBookingClose}>Cancel</Button>
-          <Button onClick={handleUpdateBooking} color="primary">
-            Save
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <EditBookingModal
+        open={editBookingModalOpen}
+        onClose={handleEditBookingClose}
+        booking={selectedBooking}
+        startDate={startDate}
+        endDate={endDate}
+        guests={guests}
+        handleDateChange={handleDateChange}
+        handleGuestsChange={handleGuestsChange}
+        handleUpdateBooking={handleUpdateBooking}
+        userDetails={userDetails}
+      />
 
       <Dialog open={confirmDeleteOpen} onClose={handleDeleteBookingClose}>
         <DialogTitle>Confirm Delete</DialogTitle>

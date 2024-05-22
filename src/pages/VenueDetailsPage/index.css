@@ -292,19 +292,19 @@
 }
 
 @media (max-width: 579px) {
-  .MuiPaper-root {
+  .edit-booking-modal .MuiPaper-root {
     width: min-content !important;
     margin: 0 0 !important;
   }
 }
 @media (min-width: 580px) {
-  .MuiPaper-root {
+  .edit-booking-modal .MuiPaper-root {
     width: 536px !important;
     max-width: 90% !important;
     margin: 0 1rem !important;
   }
 
-  .MuiPaper-root.MuiDialog-paper {
+  .edit-booking-modal .MuiPaper-root.MuiDialog-paper {
     margin: 0 auto !important;
 
     background-color: var(--overlay-cards) !important;

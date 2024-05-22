@@ -52,8 +52,25 @@ function LoginPage() {
           alignItems: "center",
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography
+          component="h1"
+          variant="h1"
+          style={{
+            fontSize: "calc(1.5rem + 0.6vw)",
+          }}
+        >
           Login
+        </Typography>
+        <Typography
+          component="h1"
+          variant="h5"
+          style={ {
+            marginTop: "1rem",
+            fontSize: "calc(1rem + 0.4vw)",
+            textAlign: "center",
+          }}
+        >
+          Some features are only available for logged in users.
         </Typography>
         <Box
           component="form"
