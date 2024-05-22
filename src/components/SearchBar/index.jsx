@@ -22,6 +22,7 @@ function SearchBar({ onClose }) {
     guests: "",
   });
   const [lookaheadResults, setLookaheadResults] = useState([]);
+  const [isDatepickerOpen, setIsDatepickerOpen] = useState(false);
   const debouncedFetchRef = useRef();
 
   const isRangeBooked = useCallback((venue, start, end) => {
@@ -95,6 +96,11 @@ function SearchBar({ onClose }) {
     console.log(`Date ${name} changed:`, newValue);
   };
 
+  const handleDatepickerClose = () => {
+    setIsDatepickerOpen(false);
+    console.log("Datepicker open status:", isDatepickerOpen);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const params = new URLSearchParams();
@@ -140,6 +146,7 @@ function SearchBar({ onClose }) {
         setDateFrom={(newValue) => handleDateChange("dateFrom", newValue)}
         dateTo={searchParams.dateTo}
         setDateTo={(newValue) => handleDateChange("dateTo", newValue)}
+        onCloseDatepicker={handleDatepickerClose}
       />
       <Stack
         spacing={2}

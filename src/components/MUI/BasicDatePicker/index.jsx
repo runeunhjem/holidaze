@@ -13,6 +13,7 @@ export default function BasicDatePickers({
   setDateFrom,
   dateTo,
   setDateTo,
+  onCloseDatepicker,
 }) {
   const today = dayjs();
 
@@ -21,10 +22,12 @@ export default function BasicDatePickers({
     if (date && dateTo && date.isAfter(dateTo, "day")) {
       setDateTo(null);
     }
+    onCloseDatepicker();
   };
 
   const handleDateToChange = (date) => {
     setDateTo(date);
+    onCloseDatepicker();
   };
 
   return (
@@ -58,4 +61,5 @@ BasicDatePickers.propTypes = {
   setDateFrom: PropTypes.func,
   dateTo: PropTypes.object,
   setDateTo: PropTypes.func,
+  onCloseDatepicker: PropTypes.func,
 };

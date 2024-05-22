@@ -8,6 +8,7 @@ import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS, PARAMS } from "../../constants/api";
 import dayjs from "dayjs";
 import useStore from "../../hooks/useStore";
+import { ClipLoader } from "react-spinners";
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -135,7 +136,11 @@ function SearchResultsPage() {
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <div className="flex h-full w-full items-center justify-center">
+          <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        </div>
+      )}
       {(query || dateFrom || dateTo || guests || activeFilterCount > 0) && (
         <div
           style={{
@@ -146,7 +151,6 @@ function SearchResultsPage() {
             width: "600px",
             border: "1px solid var(--border-color)",
             textAlign: "center",
-            // margin: "1rem",
             padding: "1rem",
             display: "flex",
             flexWrap: "wrap",
@@ -198,14 +202,14 @@ function SearchResultsPage() {
         page={venuesMeta.currentPage}
         onChange={handlePageChange}
       />
-      {venues.length > 0 ? (
+      {!loading && venues.length > 0 ? (
         <div className="flex flex-wrap justify-center gap-4 px-5">
           {venues.map((venue) => (
             <VenueCard key={venue.id} venue={venue} />
           ))}
         </div>
       ) : (
-        <p>No venues found with the current filters.</p>
+        !loading && <p>No venues found with the current filters.</p>
       )}
       <PaginationButtons
         count={venuesMeta.pageCount}
