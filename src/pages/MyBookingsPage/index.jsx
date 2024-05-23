@@ -1,23 +1,29 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
 import MyBookings from "../../components/MyBookings";
+import { ClipLoader } from "react-spinners"; // Import the spinner
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function MyBookingsPage() {
   const { viewedProfile } = useStore();
+  const [loading, setLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
-    document.title = "Holidaze - Your Bookings";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
+    setTitleAndMeta(
+      "Holidaze - Your Bookings",
       "Explore your booked destinations from around the world and look forward to your stay in that special place.",
     );
+    setLoading(false); // Set loading to false after the initial setup
   }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-full w-full flex-col items-center justify-center">
+        <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        <p className="mt-4">Loading your bookings...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="about-section p-4 md:p-8">

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
 import useAccessToken from "../../hooks/useAccessToken";
 import ImageGallery from "../../components/ImageGallery";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "../VenueDetailsPage/index.css"; // Import the CSS from VenueDetailsPage
 
 function BookingDetailsPage() {
@@ -17,6 +18,10 @@ function BookingDetailsPage() {
         console.error("Failed to fetch booking details:", error);
       } else {
         setBooking(data.data);
+        setTitleAndMeta(
+          `Booking for ${data.data.venue?.name || "Venue"}`,
+          `Details of your booking at ${data.data.venue?.name || "the venue"}.`,
+        );
       }
     };
 
@@ -36,8 +41,8 @@ function BookingDetailsPage() {
       </h1>
       <ImageGallery
         media={venue.media || []}
-        countryName={venue.location?.country ?? "Unspecified"}
-        continent={venue.location?.continent ?? "Unspecified"}
+        countryName={venue.location?.country ?? "Unspecified Country"}
+        continent={venue.location?.continent ?? "Unspecified Continent"}
         venue={venue}
       />
 
@@ -63,7 +68,8 @@ function BookingDetailsPage() {
         </p>
 
         <p>
-          <strong>Booked by:</strong> {booking.customer?.name || "Unspecified"}
+          <strong>Booked by:</strong>{" "}
+          {booking.customer?.name || "Unspecified name"}
         </p>
 
         <div>

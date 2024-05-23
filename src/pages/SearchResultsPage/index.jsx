@@ -9,6 +9,7 @@ import { ENDPOINTS, PARAMS } from "../../constants/api";
 import dayjs from "dayjs";
 import useStore from "../../hooks/useStore";
 import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -102,6 +103,15 @@ function SearchResultsPage() {
     fetchVenues();
   }, [location.search, fetchVenues]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("q");
+    setTitleAndMeta(
+      `Holidaze - Search Results${query ? ` for "${query}"` : ""}`,
+      "Explore the search results for your desired venues and find your perfect stay.",
+    );
+  }, [location.search]);
+
   const handlePageChange = (event, value) => {
     setVenuesMeta((prevMeta) => ({ ...prevMeta, currentPage: value }));
     fetchVenues(value);
@@ -137,8 +147,9 @@ function SearchResultsPage() {
         </Stack>
       )}
       {loading && (
-        <div className="flex h-full w-full items-center justify-center">
+        <div className="flex h-full w-full flex-col items-center justify-center">
           <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+          <p className="mt-4">Finding venues for you...</p>
         </div>
       )}
       {(query || dateFrom || dateTo || guests || activeFilterCount > 0) && (

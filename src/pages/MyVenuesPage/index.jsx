@@ -1,25 +1,30 @@
-// MyVenuesPage.jsx
 import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
 import MyVenues from "../../components/MyVenues";
+import { ClipLoader } from "react-spinners"; // Import the spinner
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function MyVenuesPage() {
   const { viewedProfile } = useStore();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [loading, setLoading] = useState(true); // Add a loading state
 
   useEffect(() => {
-    document.title = "Holidaze - Your Beautiful Venues";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
+    setTitleAndMeta(
+      "Holidaze - Your Beautiful Venues",
       "Quick overview of all the beautiful venues you have created.",
     );
+    setLoading(false); // Set loading to false after the initial setup
   }, []);
+
+  if (loading) {
+    return (
+      <div className="mt-12 flex h-full w-full flex-col items-center justify-center">
+        <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        <p className="mt-4">Loading your venues...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="about-section p-4 md:p-8">

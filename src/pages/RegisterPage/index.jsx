@@ -14,6 +14,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Link, useNavigate } from "react-router-dom";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "./index.css";
 
 function RequiredLabel({ label, required }) {
@@ -43,16 +44,9 @@ function RegisterPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Holidaze - Register for an account";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
-      "Explore our wide range of destinations from around the world to find your special place.",
+    setTitleAndMeta(
+      "Holidaze - Register for an account",
+      "Register for full access to all our features and destinations from around the world.",
     );
   }, []);
 

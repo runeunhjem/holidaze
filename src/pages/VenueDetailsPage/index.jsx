@@ -18,6 +18,7 @@ import EditVenueModal from "../../components/EditVenueModal";
 import useStore from "../../hooks/useStore";
 import BookNowModal from "../../components/BookNowModal";
 import EditBookingModal from "../../components/EditBookingModal";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
@@ -85,6 +86,15 @@ function VenueDetailsPage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (venue) {
+      setTitleAndMeta(
+        `Holidaze - ${venue.name || "Venue Details"}`,
+        venue.description || "Explore this beautiful venue on Holidaze.",
+      );
+    }
+  }, [venue]);
 
   const handleEditOpen = () => {
     setEditModalOpen(true);
@@ -197,7 +207,6 @@ function VenueDetailsPage() {
       setGuests(parseInt(value, 10));
     }
   };
-
 
   const handleBooking = async () => {
     if (!startDate || !endDate) {

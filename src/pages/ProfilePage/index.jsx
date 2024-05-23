@@ -1,9 +1,8 @@
-// ProfilePage.jsx
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useStore from "../../hooks/useStore";
-import { setMetaDescription } from "../../utils/setMetaDescription";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import BannerAndAvatar from "../../components/BannerAndAvatar";
 import ProfileInfo from "../../components/ProfileInfo";
 import ProfileDetails from "../../components/ProfileDetails";
@@ -13,6 +12,7 @@ import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import MyVenues from "../../components/MyVenues";
 import MyBookings from "../../components/MyBookings";
 import MyFavoriteVenues from "../../components/MyFavoriteVenues";
+import { ClipLoader } from "react-spinners"; // Import the spinner
 
 function ProfilePage() {
   const { username } = useParams();
@@ -46,11 +46,7 @@ function ProfilePage() {
       }
       setLoading(false); // End loading
     },
-    [
-      fetchUserProfile,
-      favoriteProfiles,
-      setViewedProfile,
-    ],
+    [fetchUserProfile, favoriteProfiles, setViewedProfile],
   );
 
   useEffect(() => {
@@ -60,9 +56,9 @@ function ProfilePage() {
   }, [username, loadProfile]);
 
   useEffect(() => {
-    document.title = `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`;
-    setMetaDescription(
-      "Explore our wide range of destinations from around the world to find your special place.",
+    setTitleAndMeta(
+      `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`,
+      "Overview and shortcuts to all your favorite things in one place."
     );
   }, [viewedProfile.name]);
 
@@ -89,7 +85,12 @@ function ProfilePage() {
   }, [anchorEl]);
 
   if (loading) {
-    return <div>Loading...</div>; // Render a loading state while fetching data
+    return (
+      <div className="flex h-full mt-12 w-full flex-col items-center justify-center">
+        <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        <p className="mt-4">Loading profile...</p>
+      </div>
+    ); // Render a loading state while fetching data
   }
 
   return (

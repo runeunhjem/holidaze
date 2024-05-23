@@ -1,4 +1,3 @@
-// CreateVenueModal.jsx
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import {
@@ -74,13 +73,14 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     }));
   };
 
+  // Guests, price, and rating need to have their respective min-max values as top as well as no negative or text or other characters
   const handleNumericInput = (field, value, validator) => {
-    if (value === "" || value === "-") {
+    if (value === "") {
       setVenueData((prev) => ({ ...prev, [field]: value }));
       return;
     }
 
-    const regex = /^-?\d*\.?\d*$/;
+    const regex = /^[0-9]*\.?[0-9]*$/;
     if (!regex.test(value)) {
       return;
     }
@@ -88,14 +88,14 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     const numericValue = parseFloat(value);
     if (!isNaN(numericValue) && validator(numericValue)) {
       setVenueData((prev) => ({ ...prev, [field]: numericValue }));
-    } else {
-      setVenueData((prev) => ({ ...prev, [field]: value }));
     }
   };
 
   const isValidLatitude = (value) => value >= -90 && value <= 90;
   const isValidLongitude = (value) => value >= -180 && value <= 180;
-  const isValidRating = (value) => value >= 0 && value <= 5;
+  const isValidPrice = (value) => value >= 1;
+  const isValidMaxGuests = (value) => value >= 1;
+  const isValidRating = (value) => value >= 1 && value <= 5;
 
   const handleZipChange = (e) => {
     const value = e.target.value;
@@ -247,7 +247,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                         handleNumericInput(
                           "price",
                           e.target.value,
-                          (value) => value >= 0,
+                          isValidPrice,
                         )
                       }
                       fullWidth
@@ -265,7 +265,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                         handleNumericInput(
                           "maxGuests",
                           e.target.value,
-                          (value) => value >= 0,
+                          isValidMaxGuests,
                         )
                       }
                       fullWidth

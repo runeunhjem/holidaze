@@ -1,20 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import MyFavoriteVenues from "../../components/MyFavoriteVenues";
+import { ClipLoader } from "react-spinners"; // Import the spinner
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function MyFavoritesPage() {
+  const [loading, setLoading] = useState(true); // Add a loading state
+
   useEffect(() => {
-    document.title = "Holidaze - Your Favorite Destinations";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
+    setTitleAndMeta(
+      "Holidaze - Your Favorite Destinations",
       "Explore your favorite picks of destinations from around the world and choose your special place.",
     );
+    setLoading(false); // Set loading to false after the initial setup
   }, []);
+
+  if (loading) {
+    return (
+      <div className="mt-12 flex h-full w-full flex-col items-center justify-center">
+        <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        <p className="mt-4">Loading your favorite venues...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="about-section p-4 md:p-8">

@@ -8,8 +8,9 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAuth } from "../../hooks/useAuth";
-import "./index.css";
 import { Link } from "react-router-dom";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import "./index.css";
 
 function LoginPage() {
   const {
@@ -21,16 +22,9 @@ function LoginPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    document.title = "Holidaze - Login";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
-      "Explore our wide range of destinations from around the world to find your special place.",
+    setTitleAndMeta(
+      "Holidaze - Login",
+      "Log in to get full access to all our features and destinations from around the world to find your special place.",
     );
   }, []);
 
@@ -64,7 +58,7 @@ function LoginPage() {
         <Typography
           component="h1"
           variant="h5"
-          style={ {
+          style={{
             marginTop: "1rem",
             fontSize: "calc(1rem + 0.4vw)",
             textAlign: "center",
@@ -125,7 +119,6 @@ function LoginPage() {
           )}
         </Box>
       </Box>
-      {/* <Box sx={ { mt: 8 } }> */}
       <Typography variant="body2" color="textSecondary" align="center">
         <span>Don&apos;t have an account yet?</span>
         <br />
