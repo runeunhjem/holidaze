@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { getBookingById } from "../../utils/getBookingById";
 import useAccessToken from "../../hooks/useAccessToken";
 import ImageGallery from "../../components/ImageGallery";
+import "../VenueDetailsPage/index.css"; // Import the CSS from VenueDetailsPage
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
@@ -83,26 +82,6 @@ function BookingDetailsPage() {
             {venue.location?.address ?? ""}, {venue.location?.city ?? ""},{" "}
             {venue.location?.zip ?? ""}, {venue.location?.country ?? ""}
           </p>
-        </div>
-
-        <div className="mt-6" style={{ height: "350px" }}>
-          <h2 className="text-2xl font-bold">Check Availability</h2>
-          <DatePicker
-            inline
-            monthsShown={2}
-            highlightDates={[
-              {
-                start: new Date(booking.dateFrom),
-                end: new Date(booking.dateTo),
-              },
-            ]}
-            dayClassName={(date) =>
-              date >= new Date(booking.dateFrom) &&
-              date <= new Date(booking.dateTo)
-                ? "react-datepicker__day--highlighted"
-                : ""
-            }
-          />
         </div>
       </div>
     </div>

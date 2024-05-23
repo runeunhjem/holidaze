@@ -99,12 +99,13 @@ function EditBookingModal({
           renderDayContents={renderDayContents}
         />
         <TextField
-          margin="dense"
           label="Guests"
           type="number"
-          fullWidth
           value={guests}
           onChange={handleGuestsChange}
+          inputProps={{ min: 1, max: venue.maxGuests }}
+          fullWidth
+          margin="normal"
         />
       </DialogContent>
       <DialogActions>
@@ -121,7 +122,6 @@ EditBookingModal.defaultProps = {
   booking: null,
   startDate: new Date(),
   endDate: new Date(),
-  guests: 0,
 };
 
 EditBookingModal.propTypes = {
@@ -130,7 +130,7 @@ EditBookingModal.propTypes = {
   booking: PropTypes.object,
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
-  guests: PropTypes.number,
+  guests: PropTypes.number.isRequired,
   handleDateChange: PropTypes.func.isRequired,
   handleGuestsChange: PropTypes.func.isRequired,
   handleUpdateBooking: PropTypes.func.isRequired,

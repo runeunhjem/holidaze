@@ -187,6 +187,18 @@ function VenueDetailsPage() {
     setGuestsInput(finalGuests.toString());
   };
 
+  const handleGuestsChangeInModal = (e) => {
+    const value = e.target.value;
+    if (
+      value === "" ||
+      (parseInt(value, 10) >= 1 && parseInt(value, 10) <= venue.maxGuests)
+    ) {
+      setGuestsInput(value);
+      setGuests(parseInt(value, 10));
+    }
+  };
+
+
   const handleBooking = async () => {
     if (!startDate || !endDate) {
       console.error("Please select both start and end dates.");
@@ -753,7 +765,7 @@ function VenueDetailsPage() {
         endDate={endDate}
         guests={guests}
         handleDateChange={handleDateChange}
-        handleGuestsChange={handleGuestsChange}
+        handleGuestsChange={handleGuestsChangeInModal}
         handleUpdateBooking={handleUpdateBooking}
         userDetails={userDetails}
         venue={venue}
