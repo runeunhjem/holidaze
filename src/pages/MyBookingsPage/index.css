@@ -1,0 +1,331 @@
+.venue-details {
+  /* max-width: 90%; */
+  max-width: 100%;
+  margin: auto;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem !important;
+}
+
+.book-now-content {
+  width: 400px;
+  max-width: 100%;
+}
+
+.book-now-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.book-now-button {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+  padding: 8px 1rem;
+  margin-bottom: 6px;
+  border: none;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.2s ease-in-out, color 0.3s ease-in-out;
+}
+
+.book-now-button:hover {
+  background-color: var(--button-bg-color-hover);
+  color: var(--button-text-color-hover);
+  outline: 1px solid var(--border-color);
+  transform: scale(1.05);
+}
+
+.book-now-inputs {
+  border: 1px solid var(--input-border-color);
+  color: var(--input-text-color);
+  background-color: var(--body-bg-color);
+}
+
+.booking-container {
+  /* display: flex;
+  flex-direction: row; */
+  gap: 2rem;
+  width: 100%;
+}
+
+.booking-title {
+  margin: 0 0 1rem 0;
+}
+
+.details-left,
+.details-right,
+.booking-left,
+.booking-right {
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--menu-bg-color);
+  width: 100%;
+}
+.booking-left,
+.booking-right {
+  /* padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--menu-bg-color); */
+  /* width: 100%; */
+}
+
+.details-left p,
+.booking-left p {
+  display: inline;
+  width: 170px;
+}
+
+.details-list,
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+.booked-list {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+
+.details-list li,
+.amenities-list li {
+  display: inline-flex;
+  align-items: center;
+  width: 180px;
+}
+
+.datepicker-container {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .datepicker-container,
+  .react-datepicker__month-container {
+    width: min-content;
+  }
+}
+
+@media (max-width: 564px) {
+  .datepicker-container,
+  .react-datepicker__month-container {
+    width: min-content;
+  }
+}
+
+.booked-date {
+  text-decoration: line-through;
+  border-radius: 50%;
+  color: var(--booked-dates-color);
+}
+
+.amenities {
+  color: var(--link-color);
+}
+
+@media (min-width: 768px) {
+  .details-container,
+  .booking-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .details-left,
+  .details-right {
+    width: 48%;
+  }
+  .booking-left,
+  .booking-right {
+    width: 100%;
+  }
+}
+@media (min-width: 768px) {
+  .details-container,
+  .booking-container {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .details-left,
+  .details-right,
+  .booking-left,
+  .booking-right {
+    width: 48%;
+  }
+}
+
+.header-nav-links {
+  transition: all 0.3s ease;
+}
+
+.header-nav-links:hover {
+  transform: color 0.3s ease;
+  /* background-color: var(--menu-items-bg-color-hover) !important; */
+  color: var(--menu-items-text-color-hover) !important;
+  box-shadow: inset 0 -1px 0 var(--link-color-hover);
+}
+
+.success-alert, .bookings-list {
+  background-color: var(--success-alert-bg-color);
+  color: var(--success-alert-text-color);
+  border: 1px solid var(--success-alert-border-color);
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.overlay-success-alert {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  background-color: var(--success-alert-bg-color);
+  color: var(--success-alert-text-color);
+  border: 1px solid var(--success-alert-border-color);
+  border-radius: 4px;
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 1rem;
+  width: auto;
+  margin-top: 1rem;
+}
+
+
+.active-bookings-container {
+  background-color: var(--bookings-bg-color);
+  border: 1px solid var(--success-alert-border-color);
+
+}
+
+.booked-icons {
+  color: var(--link-color);
+}
+
+
+/* Datepicker */
+
+/* Day cells */
+.react-datepicker__day {
+  color: var(--body-text-color);
+  background-color: var(--body-bg-color);
+  border-radius: 4px;
+}
+
+/* Selected day */
+.react-datepicker__day--selected,
+.react-datepicker__day--selected:hover {
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+}
+
+/* Today highlight */
+.react-datepicker__day--today {
+  border: 1px solid var(--link-color);
+}
+
+/* Hovered day */
+.react-datepicker__day:hover {
+  background-color: var(--menu-hover-bg-color);
+  color: var(--button-text-color);
+}
+
+/* Navigation buttons (arrows) */
+.react-datepicker__navigation-icon::before,
+.react-datepicker__navigation-icon::after,
+.react-datepicker__navigation-icon--next::after,
+.react-datepicker__navigation--previous,
+.react-datepicker__navigation--next {
+  color: var(--link-color-hover) !important;
+}
+
+.react-datepicker__day--in-selecting-range:not(
+    .react-datepicker__day--in-range,
+    .react-datepicker__month-text--in-range,
+    .react-datepicker__quarter-text--in-range,
+    .react-datepicker__year-text--in-range
+  ) {
+  background-color: var(--green-200);
+  color: var(--button-text-color);
+}
+
+/* Calendar header */
+.react-datepicker__current-month,
+.react-datepicker__header {
+  background-color: var(--header-bg-color);
+  color: var(--body-text-color);
+}
+
+/* Calendar container */
+.react-datepicker {
+  background-color: var(--body-bg-color);
+  border: 1px solid var(--border-color);
+}
+
+/* Input field */
+.react-datepicker__input-container input {
+  border: 1px solid var(--input-border-color);
+  color: var(--input-text-color);
+  background-color: var(--input-bg-color);
+}
+
+/* .react-datepicker__input-container input:focus {
+  border-color: var(--input-border-color-focus);
+  outline: none;
+} */
+
+/* Weekday header */
+.react-datepicker__day-name {
+  color: var(--link-color-hover);
+}
+
+/* Disable days */
+.react-datepicker__day--disabled,
+.react-datepicker__month-text--disabled,
+.react-datepicker__quarter-text--disabled,
+.react-datepicker__year-text--disabled {
+  cursor: default;
+  color: var(--profile-text-color);
+}
+.react-datepicker__day--disabled:hover,
+.react-datepicker__month-text--disabled:hover,
+.react-datepicker__quarter-text--disabled:hover,
+.react-datepicker__year-text--disabled:hover {
+  cursor: default;
+  color: var(--profile-text-color) !important;
+  background-color: transparent !important;
+}
+
+@media (max-width: 579px) {
+  .edit-booking-modal .MuiPaper-root {
+    width: min-content !important;
+    margin: 0 0 !important;
+  }
+}
+@media (min-width: 580px) {
+  .edit-booking-modal .MuiPaper-root {
+    width: 536px !important;
+    max-width: 90% !important;
+    margin: 0 1rem !important;
+  }
+
+  .edit-booking-modal .MuiPaper-root.MuiDialog-paper {
+    margin: 0 auto !important;
+
+    background-color: var(--overlay-cards) !important;
+  }
+}

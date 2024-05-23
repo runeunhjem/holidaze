@@ -8,7 +8,7 @@ function MyVenuesPage() {
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
-    document.title = "Holidaze - Your Venues";
+    document.title = "Holidaze - Your Beautiful Venues";
     let metaDescription = document.querySelector("meta[name='description']");
     if (!metaDescription) {
       metaDescription = document.createElement("meta");
@@ -24,7 +24,7 @@ function MyVenuesPage() {
   return (
     <div className="about-section p-4 md:p-8">
       <h1 className="mb-4 text-center text-2xl font-bold md:text-4xl">
-        Summary of your beautiful venues
+        Your Beautiful Venues
       </h1>
       <MyVenues
         viewedProfile={viewedProfile}

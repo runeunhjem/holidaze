@@ -22,7 +22,7 @@ function MyBookingsPage() {
   return (
     <div className="about-section p-4 md:p-8">
       <h1 className="mb-4 text-center text-2xl font-bold md:text-4xl">
-        Your upcoming stays
+        Your Upcoming Stays
       </h1>
       <MyBookings viewedProfile={viewedProfile} />{" "}
       {/* Pass the viewedProfile prop */}
