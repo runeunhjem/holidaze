@@ -1,3 +1,4 @@
+// ProfilePage.jsx
 import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
@@ -42,16 +43,6 @@ function ProfilePage() {
 
         setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
         setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
-
-        // Update userDetails if it's the logged-in user
-        // if (profileData.name === userDetails.name) {
-        //   setUserDetails((prevDetails) => ({
-        //     ...prevDetails,
-        //     bookings: profileData.bookings,
-        //     avatar: profileData.avatar,
-        //     banner: profileData.banner,
-        //   }));
-        // }
       }
       setLoading(false); // End loading
     },
@@ -59,8 +50,6 @@ function ProfilePage() {
       fetchUserProfile,
       favoriteProfiles,
       setViewedProfile,
-      // setUserDetails,
-      // userDetails.name,
     ],
   );
 
@@ -125,7 +114,7 @@ function ProfilePage() {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      <MyVenues />
+      <MyVenues loadProfile={loadProfile} /> {/* Pass loadProfile here */}
       {viewedProfile && viewedProfile.bookings && (
         <MyBookings viewedProfile={viewedProfile} />
       )}

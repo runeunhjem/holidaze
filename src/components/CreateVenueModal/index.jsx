@@ -1,3 +1,4 @@
+// CreateVenueModal.jsx
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import {
@@ -13,9 +14,10 @@ import {
 import { createNewVenue } from "../../utils/createNewVenue";
 import useStore from "../../hooks/useStore";
 import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
+import { useNavigate } from "react-router-dom";
 
-const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
-  const { accessToken } = useStore();
+const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
+  const { accessToken, userDetails } = useStore();
   const [venueData, setVenueData] = useState({
     name: "",
     description: "",
@@ -40,6 +42,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
     },
   });
 
+  const navigate = useNavigate(); // Use the useNavigate hook
   const handleChange = (field, value) => {
     setVenueData((prev) => ({ ...prev, [field]: value }));
   };
@@ -105,8 +108,12 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated }) => {
     try {
       const newVenue = await createNewVenue(venueData, accessToken);
       onVenueCreated(newVenue);
+      if (loadProfile) {
+        await loadProfile(userDetails.name); // Load the updated profile if loadProfile is provided
+      }
       onClose();
-      
+      navigate(`/profile/${userDetails.name}`); // Navigate to the profile page
+      console.log("Venue created:", newVenue);
     } catch (error) {
       console.error("Failed to create venue:", error);
     }
@@ -464,6 +471,7 @@ CreateVenueModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onVenueCreated: PropTypes.func.isRequired,
+  loadProfile: PropTypes.func,
 };
 
 export default CreateVenueModal;

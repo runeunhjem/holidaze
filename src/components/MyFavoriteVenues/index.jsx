@@ -26,10 +26,21 @@ function MyFavoriteVenues() {
 
   const open = Boolean(anchorEl);
 
+  // Sort favorites by country
+  const sortedFavorites = useMemo(() => {
+    return [...favorites].sort((a, b) => {
+      const countryA = a.location.country.toLowerCase();
+      const countryB = b.location.country.toLowerCase();
+      if (countryA < countryB) return -1;
+      if (countryA > countryB) return 1;
+      return 0;
+    });
+  }, [favorites]);
+
   // Memoize sanitized favorites to avoid unnecessary re-renders
   const favoriteDisplay = useMemo(
-    () => favorites.map((venue) => sanitizeVenue(venue, options)),
-    [favorites, options],
+    () => sortedFavorites.map((venue) => sanitizeVenue(venue, options)),
+    [sortedFavorites, options],
   );
 
   const isFavorite = (venueId) =>

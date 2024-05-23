@@ -1,6 +1,11 @@
-import { useEffect } from "react";
+// MyVenuesPage.jsx
+import { useEffect, useState } from "react";
+import useStore from "../../hooks/useStore";
+import MyVenues from "../../components/MyVenues";
 
 function MyVenuesPage() {
+  const { viewedProfile } = useStore();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     document.title = "Holidaze - Your Venues";
@@ -12,15 +17,20 @@ function MyVenuesPage() {
     }
     metaDescription.setAttribute(
       "content",
-      "Explore our wide range of destinations from around the world to find your special place."
+      "Quick overview of all the beautiful venues you have created.",
     );
   }, []);
 
   return (
     <div className="about-section p-4 md:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold mb-4">My Venues overview</h1>
-      <p className="mb-4">Venues here</p>
-      <p>With images and details</p>
+      <h1 className="mb-4 text-center text-2xl font-bold md:text-4xl">
+        Summary of your beautiful venues
+      </h1>
+      <MyVenues
+        viewedProfile={viewedProfile}
+        refreshKey={refreshKey}
+        setRefreshKey={setRefreshKey}
+      />
     </div>
   );
 }

@@ -28,9 +28,8 @@ import {
   DialogContent,
   DialogTitle,
   Snackbar,
-  Alert,
+  // Alert,
 } from "@mui/material";
-// import VenueOptionsDropdown from "../../components/VenueOptionsDropdown"; // Ensure correct import
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -338,15 +337,31 @@ function VenueDetailsPage() {
       <h1 className="mb-4 text-center text-3xl font-bold">
         {venue.name || "Venue name not provided"}
       </h1>
-      <ImageGallery
-        media={venue.media || []}
-        countryName={venue.location.country || "Unspecified country"}
-        continent={venue.location.continent || "Unspecified continent"}
-        venue={venue}
-        onEdit={handleEditOpen}
-        onDelete={handleDelete}
-        venueOwner={venueOwner}
-      />
+      <div className="relative">
+        {" "}
+        {/* Added this div to position the Snackbar */}
+        <ImageGallery
+          media={venue.media || []}
+          countryName={venue.location.country || "Unspecified country"}
+          continent={venue.location.continent || "Unspecified continent"}
+          venue={venue}
+          onEdit={handleEditOpen}
+          onDelete={handleDelete}
+          venueOwner={venueOwner}
+        />
+        <Snackbar
+          open={showSuccessAlert}
+          autoHideDuration={3000}
+          onClose={() => setShowSuccessAlert(false)}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }} // Centering the Snackbar at the top
+        >
+          <div className="overlay-success-alert">
+            {" "}
+            {/* Applying the new CSS class */}
+            Venue deleted successfully!
+          </div>
+        </Snackbar>
+      </div>
 
       {/* Venue location-section */}
       <div className="mt-6 space-y-2">
@@ -756,16 +771,6 @@ function VenueDetailsPage() {
           </Button>
         </DialogActions>
       </Dialog>
-
-      <Snackbar
-        open={showSuccessAlert}
-        autoHideDuration={3000}
-        onClose={() => setShowSuccessAlert(false)}
-      >
-        <Alert severity="success" sx={{ width: "100%" }}>
-          Venue deleted successfully!
-        </Alert>
-      </Snackbar>
     </div>
   );
 }

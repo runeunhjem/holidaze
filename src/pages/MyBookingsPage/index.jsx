@@ -1,6 +1,9 @@
 import { useEffect } from "react";
+import useStore from "../../hooks/useStore";
+import MyBookings from "../../components/MyBookings";
 
 function MyBookingsPage() {
+  const { viewedProfile } = useStore();
 
   useEffect(() => {
     document.title = "Holidaze - Your Bookings";
@@ -12,19 +15,17 @@ function MyBookingsPage() {
     }
     metaDescription.setAttribute(
       "content",
-      "Explore our wide range of destinations from around the world to find your special place."
+      "Explore your booked destinations from around the world and look forward to your stay in that special place.",
     );
   }, []);
 
   return (
     <div className="about-section p-4 md:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold mb-4">My bookings overview</h1>
-      <p className="mb-4">
-        Bookings here
-      </p>
-      <p>
-        With images and details
-      </p>
+      <h1 className="mb-4 text-center text-2xl font-bold md:text-4xl">
+        Your upcoming stays
+      </h1>
+      <MyBookings viewedProfile={viewedProfile} />{" "}
+      {/* Pass the viewedProfile prop */}
     </div>
   );
 }

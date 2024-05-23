@@ -1,9 +1,9 @@
 import { useEffect } from "react";
+import MyFavoriteVenues from "../../components/MyFavoriteVenues";
 
 function MyFavoritesPage() {
-
   useEffect(() => {
-    document.title = "Holidaze - Your Favorites";
+    document.title = "Holidaze - Your Favorite Destinations";
     let metaDescription = document.querySelector("meta[name='description']");
     if (!metaDescription) {
       metaDescription = document.createElement("meta");
@@ -12,16 +12,16 @@ function MyFavoritesPage() {
     }
     metaDescription.setAttribute(
       "content",
-      "Explore our wide range of destinations from around the world to find your special place."
+      "Explore your favorite picks of destinations from around the world and choose your special place.",
     );
   }, []);
 
-
   return (
     <div className="about-section p-4 md:p-8">
-      <h1 className="text-2xl md:text-4xl font-bold mb-4">My favorites overview</h1>
-      <p className="mb-4">Favorites here</p>
-      <p>With images and details</p>
+      <h1 className="mb-4 text-center text-2xl font-bold md:text-4xl">
+        Your Dream Destinations
+      </h1>
+      <MyFavoriteVenues />
     </div>
   );
 }

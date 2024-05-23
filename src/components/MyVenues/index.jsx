@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +10,7 @@ import CreateVenueModal from "../CreateVenueModal";
 import { sanitizeVenue } from "../../utils/sanitizeVenue";
 import useStore from "../../hooks/useStore";
 
-function MyVenues() {
+function MyVenues({ loadProfile }) {
   const {
     viewedProfile,
     setViewedProfile,
@@ -41,9 +42,19 @@ function MyVenues() {
 
   const modalOpen = Boolean(anchorEl);
 
+  const sortedVenues = useMemo(() => {
+    return [...venues].sort((a, b) => {
+      const countryA = a.location.country.toLowerCase();
+      const countryB = b.location.country.toLowerCase();
+      if (countryA < countryB) return -1;
+      if (countryA > countryB) return 1;
+      return 0;
+    });
+  }, [venues]);
+
   const venueDisplay = useMemo(
-    () => venues.map((venue) => sanitizeVenue(venue, options)),
-    [venues, options],
+    () => sortedVenues.map((venue) => sanitizeVenue(venue, options)),
+    [sortedVenues, options],
   );
 
   const isFavorite = (venueId) =>
@@ -183,6 +194,7 @@ function MyVenues() {
         open={isModalOpen}
         onClose={handleCloseModal}
         onVenueCreated={handleVenueCreated}
+        loadProfile={loadProfile} // Pass loadProfile here
       />
 
       <VenuePopover
@@ -194,5 +206,9 @@ function MyVenues() {
     </Box>
   );
 }
+
+MyVenues.propTypes = {
+  loadProfile: PropTypes.func,
+};
 
 export default MyVenues;
