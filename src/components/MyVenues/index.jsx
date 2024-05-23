@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
@@ -23,6 +23,7 @@ function MyVenues() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [venues, setVenues] = useState(viewedProfile?.venues || []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setVenues(viewedProfile?.venues || []);
@@ -59,18 +60,19 @@ function MyVenues() {
   const isOwnProfile = userDetails.name === viewedProfile.name;
   const headerText = isOwnProfile ? "My Venues" : "Their Venues";
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleVenueCreated = (newVenue) => {
-    setViewedProfile((prevProfile) => ({
-      ...prevProfile,
-      venues: [...(prevProfile.venues || []), newVenue],
-    }));
-    setIsModalOpen(false);
-  };
+  const handleVenueCreated = useCallback(
+    (newVenue) => {
+      setViewedProfile((prevProfile) => ({
+        ...prevProfile,
+        venues: [...(prevProfile.venues || []), newVenue],
+      }));
+      setVenues((prevVenues) => [...prevVenues, newVenue]); // Update the local state
+    },
+    [setViewedProfile, setVenues],
+  );
 
   return (
     <Box

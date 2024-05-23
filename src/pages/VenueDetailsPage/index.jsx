@@ -27,7 +27,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Snackbar,
+  Alert,
 } from "@mui/material";
+// import VenueOptionsDropdown from "../../components/VenueOptionsDropdown"; // Ensure correct import
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -99,7 +102,11 @@ function VenueDetailsPage() {
   const handleDelete = async () => {
     try {
       await deleteVenue(id, accessToken);
-      navigate(`/profile/${encodeURIComponent(venue.owner?.name)}`);
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        navigate(`/profile/${encodeURIComponent(userDetails?.name)}`);
+      }, 3000);
     } catch (error) {
       console.error("Failed to delete venue:", error);
     }
@@ -749,6 +756,16 @@ function VenueDetailsPage() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Snackbar
+        open={showSuccessAlert}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccessAlert(false)}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          Venue deleted successfully!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { editVenue } from "../../utils/editVenue";
 import useStore from "../../hooks/useStore";
+import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
 
 const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
   const { accessToken, setViewedProfile } = useStore();
@@ -132,7 +133,9 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={ open } onClose={ onClose }>
+      <div>
+        <AddMissingFormLabelsToMUI />
       <Box
         className="custom-scrollbar"
         sx={{
@@ -490,7 +493,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
             Cancel
           </Button>
         </Box>
-      </Box>
+        </Box>
+        </div>
     </Modal>
   );
 };

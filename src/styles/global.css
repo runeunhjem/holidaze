@@ -37,6 +37,7 @@
     --blue-300: #93c5fd;
     --blue-400: #60a5fa;
     --blue-500: #3b82f6;
+    --blue-600: #2563eb;
     --blue-800: #1e40af;
     --blue-900: #1e3a8a;
     --stone-400: #a8a29e;
@@ -81,7 +82,7 @@
     --button-text-color-cancel: var(--gray-100);
     --button-text-color-hover: var(--gray-900);
     --button-text-color-hover-cancel: var(--black);
-    --link-color: var(--blue-500);
+    --link-color: var(--blue-600);
     --link-color-hover: var(--blue-800);
     --link-color-carousel-hover: var(--blue-500);
     --input-text-color: var(--gray-500);
@@ -97,7 +98,7 @@
     --cards-sections-bg-color: var(--sky-200);
     --menu-items-text-color-hover: var(--blue-800);
     --menu-items-bg-color-hover: var(--sky-200);
-    --booked-dates-color: var(--red-700);
+    --booked-dates-color: var(--rose-800);
     --top-rated-color: var(--yellow-700);
     --popular-color: var(--blue-800);
   }
@@ -141,7 +142,7 @@
     --cards-sections-bg-color: var(--gray-800);
     --menu-items-bg-color-hover: var(--stone-600);
     --menu-items-text-color-hover: var(--gray-300);
-    --booked-dates-color: var(--red-400);
+    --booked-dates-color: var(--red-300);
     --top-rated-color: var(--yellow-400);
     --popular-color: var(--sky-300);
   }

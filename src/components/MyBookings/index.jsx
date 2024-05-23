@@ -17,7 +17,7 @@ function MyBookings({ viewedProfile }) {
     setBookings(viewedProfile?.bookings || []);
   }, [viewedProfile]);
 
-  console.log("Bookings:", bookings);
+  // console.log("Bookings:", bookings);
 
   const transformedBookings = useMemo(() => {
     return bookings.map((booking) => ({

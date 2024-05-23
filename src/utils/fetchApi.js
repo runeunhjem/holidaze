@@ -15,14 +15,11 @@ export const fetchApi = async (url, options = {}, accessToken) => {
   };
 
   const response = await fetch(`${API_BASE_URL_V2}${url}`, fetchOptions);
-  if (response.status === 204) {
-    return { data: null, error: null };
-  }
-  
-  if (!response.ok) {
-    const errorBody = await response.json();
-    const errorMessage = errorBody.message || `Status code: ${response.status}`;
-    throw new Error(`API request failed: ${errorMessage}`);
-  }
-  return response.json();
+  const responseData = response.status !== 204 ? await response.json() : null;
+
+  return {
+    status: response.status,
+    data: responseData,
+    error: response.ok ? null : responseData,
+  };
 };
