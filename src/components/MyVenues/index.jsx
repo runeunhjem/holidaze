@@ -44,13 +44,14 @@ function MyVenues({ loadProfile }) {
 
   const sortedVenues = useMemo(() => {
     return [...venues].sort((a, b) => {
-      const countryA = a.location.country.toLowerCase();
-      const countryB = b.location.country.toLowerCase();
+      const countryA = a.location?.country?.toLowerCase() || "";
+      const countryB = b.location?.country?.toLowerCase() || "";
       if (countryA < countryB) return -1;
       if (countryA > countryB) return 1;
       return 0;
     });
   }, [venues]);
+
 
   const venueDisplay = useMemo(
     () => sortedVenues.map((venue) => sanitizeVenue(venue, options)),

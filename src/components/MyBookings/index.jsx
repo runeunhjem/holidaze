@@ -9,7 +9,7 @@ import { sanitizeVenue } from "../../utils/sanitizeVenue";
 import "./index.css";
 
 function MyBookings({ viewedProfile }) {
-  const { favorites, addFavoriteVenue, removeFavoriteVenue, options } =
+  const { favorites, addFavoriteVenue, removeFavoriteVenue, options, userDetails } =
     useStore();
   const [bookings, setBookings] = useState(viewedProfile?.bookings || []);
 
@@ -61,7 +61,8 @@ function MyBookings({ viewedProfile }) {
     }
   };
 
-  const headerText = "My Active Bookings";
+  const isOwnProfile = userDetails.name === viewedProfile.name;
+  const headerText = isOwnProfile ? "My Venues" : "Their Venues";
 
   return (
     <Box
