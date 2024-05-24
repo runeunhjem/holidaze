@@ -62,7 +62,7 @@ function MyBookings({ viewedProfile }) {
   };
 
   const isOwnProfile = userDetails.name === viewedProfile.name;
-  const headerText = isOwnProfile ? "My Venues" : "Their Venues";
+  const headerText = isOwnProfile ? "My Venues" : "Their Bookings";
 
   return (
     <Box

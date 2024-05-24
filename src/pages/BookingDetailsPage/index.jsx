@@ -3,8 +3,11 @@ import { useParams } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
 import useAccessToken from "../../hooks/useAccessToken";
 import ImageGallery from "../../components/ImageGallery";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
-import "../VenueDetailsPage/index.css"; // Import the CSS from VenueDetailsPage
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
+import "../VenueDetailsPage/index.css";
+import VenueLocationSection from "../../components/VenueLocationSection";
+import VenueDetailsSection from "../../components/VenueDetailsSection";
+import VenueManagerSection from "../../components/VenueManagerSection";
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
@@ -46,21 +49,13 @@ function BookingDetailsPage() {
         venue={venue}
       />
 
-      <div className="mt-6 space-y-2">
-        <p>
-          <strong>Description:</strong>{" "}
-          {venue.description || "Description not available."}
-        </p>
-        <p>
-          <strong>Price:</strong> ${venue.price ?? "N/A"}
-        </p>
-        <p>
-          <strong>Max Guests:</strong> {venue.maxGuests ?? "N/A"}
-        </p>
-        <p>
-          <strong>Rating:</strong> {venue.rating ?? 0} stars
-        </p>
+      <VenueLocationSection
+        location={venue.location}
+        description={venue.description}
+      />
+      <VenueDetailsSection venue={venue} />
 
+      <div className="mt-6 space-y-2">
         <p>
           <strong>Booked from:</strong>{" "}
           {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
@@ -71,25 +66,12 @@ function BookingDetailsPage() {
           <strong>Booked by:</strong>{" "}
           {booking.customer?.name || "Unspecified name"}
         </p>
-
-        <div>
-          <strong>Amenities:</strong>
-          <ul>
-            {venue.meta?.wifi && <li>Wi-Fi</li>}
-            {venue.meta?.parking && <li>Parking</li>}
-            {venue.meta?.breakfast && <li>Breakfast</li>}
-            {venue.meta?.pets && <li>Pets Allowed</li>}
-          </ul>
-        </div>
-
-        <div>
-          <strong>Location:</strong>
-          <p>
-            {venue.location?.address ?? ""}, {venue.location?.city ?? ""},{" "}
-            {venue.location?.zip ?? ""}, {venue.location?.country ?? ""}
-          </p>
-        </div>
       </div>
+      <VenueManagerSection
+        owner={venue.owner}
+        created={venue.created}
+        updated={venue.updated}
+      />
     </div>
   );
 }

@@ -6,15 +6,20 @@ import { deleteVenue } from "../../utils/deleteVenue";
 import { createBooking } from "../../utils/createBooking";
 import { updateBooking } from "../../utils/updateBooking";
 import { deleteBooking } from "../../utils/deleteBooking";
+import { MdLocationPin } from "react-icons/md";
+// import { MdFastfood, MdLocationPin, MdPets } from "react-icons/md";
+// import { RiStarSFill } from "react-icons/ri";
+// import { FiWifi } from "react-icons/fi";
+// import { TbParking } from "react-icons/tb";
 import { sanitizeFields } from "../../utils/options";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-
+import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import EditVenueModal from "../../components/EditVenueModal";
 import useStore from "../../hooks/useStore";
 import BookNowModal from "../../components/BookNowModal";
 import EditBookingModal from "../../components/EditBookingModal";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "./index.css";
 import VerticalSlider from "../../components/VerticalSlider";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
@@ -25,10 +30,9 @@ import {
   DialogContent,
   DialogTitle,
   Snackbar,
+  // Alert,
 } from "@mui/material";
-import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
-import VenueManagerSection from "../../components/VenueManagerSection";
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -47,7 +51,7 @@ function VenueDetailsPage() {
   const [endDate, setEndDate] = useState(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [venueOwner, setVenueOwner] = useState(false);
-  const [guestsInput, setGuestsInput] = useState("1");
+  const [guestsInput, setGuestsInput] = useState("1"); // Use string to handle input
   const [guests, setGuests] = useState(1);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
@@ -344,6 +348,13 @@ function VenueDetailsPage() {
     return day;
   };
 
+  const getAvatarUrl = (avatarUrl) => {
+    if (!avatarUrl || avatarUrl === "https://url.com/image.jpg") {
+      return defaultAvatarImage;
+    }
+    return avatarUrl;
+  };
+
   return (
     <div className="venue-details mx-auto max-w-4xl p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
@@ -377,12 +388,86 @@ function VenueDetailsPage() {
 
       {/* Venue location-section */}
       <div className="mt-6 space-y-2">
-        <VenueLocationSection
-          location={venue.location}
-          description={venue.description}
-        />
+        <div className="mb-3 flex align-middle">
+          <MdLocationPin className="mr-2 text-2xl text-red-500" />
+          <p className="font-bold tracking-wide">
+            {venue.location.address}, {venue.location.zip}{" "}
+            {venue.location.city || "Unspecified city"},{" "}
+            {venue.location.country || "Unspecified country"}
+          </p>
+        </div>
+        <hr />
+        <p className="py-3 tracking-wider">
+          {venue.description || "No description provided."}
+        </p>
 
         {/* Venue details-section */}
+        {/* <div className="details-container">
+          <div className="details-left">
+            <p
+              className="font-bold"
+              style={{
+                color: "var(--profile-text-color)",
+              }}
+            >
+              Details:
+            </p>
+            <ul className="details-list">
+              <li className="flex w-full whitespace-nowrap align-top">
+                <strong className="me-1">Price:</strong> ${venue.price || "N/A"}{" "}
+                / night
+              </li>
+              <li className="flex w-full whitespace-nowrap align-top">
+                <strong className="me-1">Max Guests:</strong>{" "}
+                {venue.maxGuests || "N/A"}
+              </li>
+              <li className="flex w-full whitespace-nowrap align-top">
+                <strong>Rating:</strong>{" "}
+                <RiStarSFill className="mt-0.3 inline text-xl text-yellow-500" />
+                {venue.rating || "No rating"} stars
+              </li>
+            </ul>
+          </div>
+
+          {venue.meta && (
+            <div className="details-right">
+              <p
+                className="font-bold"
+                style={{
+                  color: "var(--profile-text-color)",
+                }}
+              >
+                Amenities:
+              </p>
+              <ul className="amenities-list">
+                {venue.meta.wifi && (
+                  <li className="flex">
+                    <FiWifi className="amenities me-3 text-xl" />
+                    Free Wi-Fi
+                  </li>
+                )}
+                {venue.meta.parking && (
+                  <li className="flex">
+                    <TbParking className="amenities me-3 text-xl" />
+                    Free Parking
+                  </li>
+                )}
+                {venue.meta.breakfast && (
+                  <li className="flex">
+                    <MdFastfood className="amenities me-3 text-xl" />
+                    Breakfast included
+                  </li>
+                )}
+                {venue.meta.pets && (
+                  <li className="flex">
+                    <MdPets className="amenities me-3 text-xl" />
+                    Pets Allowed
+                  </li>
+                )}
+              </ul>
+            </div>
+          )}
+        </div> */}
         <VenueDetailsSection venue={venue} />
 
         <VerticalSlider />
@@ -618,11 +703,46 @@ function VenueDetailsPage() {
         </div>
 
         {/* Manager-section */}
-        <VenueManagerSection
-          owner={venue.owner}
-          created={venue.created}
-          updated={venue.updated}
-        />
+        <div
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--profile-text-color)",
+          }}
+          className="manager-container flex w-full max-w-1200 flex-wrap items-center justify-start gap-4 rounded-lg py-4 md:justify-around"
+        >
+          <div className="manager-avatar ms-3 flex items-center">
+            <img
+              src={getAvatarUrl(venue?.owner?.avatar?.url)}
+              alt="Illustration of the Manager's avatar"
+              style={{
+                width: "50px",
+                height: "50px",
+                borderRadius: "50%",
+                objectFit: "cover",
+                boxShadow: "1px 2px 4px var(--link-color)",
+              }}
+            />
+            <p className="ms-3 flex flex-col">
+              <strong>Venue is managed by</strong>{" "}
+              <Link
+                className="header-nav-links rounded"
+                to={`/profile/${encodeURIComponent(venue?.owner?.name)}`}
+              >
+                {venue?.owner?.name}
+              </Link>
+            </p>
+          </div>
+          <div className="flex flex-col md:ms-3">
+            <span className="ms-3 flex justify-between">
+              <strong className="me-2">Venue Added:</strong>{" "}
+              {new Date(venue.created).toLocaleDateString()}
+            </span>
+            <span className="ms-3 flex justify-between">
+              <strong className="me-2">Venue Updated:</strong>{" "}
+              {new Date(venue.updated).toLocaleDateString()}
+            </span>
+          </div>
+        </div>
       </div>
 
       <EditVenueModal
