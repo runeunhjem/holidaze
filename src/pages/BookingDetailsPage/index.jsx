@@ -1,3 +1,4 @@
+// src/pages/BookingDetailsPage.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
@@ -9,9 +10,10 @@ import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
 import VenueManagerSection from "../../components/VenueManagerSection";
 import EditVenueModal from "../../components/EditVenueModal";
-import { deleteVenue } from "../../utils/deleteVenue.js";
+import { deleteVenue } from "../../utils/deleteVenue";
 import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
 import useStore from "../../hooks/useStore";
+import GoogleMap from "../../components/GoogleMap";
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
@@ -51,14 +53,6 @@ function BookingDetailsPage() {
     setEditModalOpen(true);
   };
 
-  // const handleDelete = async () => {
-  //   try {
-  //     await deleteVenue(venue.id, accessToken);
-  //     navigate(`/profile/${encodeURIComponent(venue.owner.name)}`);
-  //   } catch (error) {
-  //     console.error("Failed to delete venue:", error);
-  //   }
-  // };
   const handleDelete = async () => {
     try {
       await deleteVenue(id, accessToken);
