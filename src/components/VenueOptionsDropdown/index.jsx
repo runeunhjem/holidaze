@@ -35,7 +35,6 @@ const VenueOptionsDropdown = ({ onEdit, onDelete, venueOwner = false }) => {
     handleClose();
   };
 
-  // Close the menu if a click occurs outside of it
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (buttonRef.current && !buttonRef.current.contains(event.target)) {

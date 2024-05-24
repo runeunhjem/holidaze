@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
 import useAccessToken from "../../hooks/useAccessToken";
 import ImageGallery from "../../components/ImageGallery";
@@ -8,19 +8,28 @@ import "../VenueDetailsPage/index.css";
 import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
 import VenueManagerSection from "../../components/VenueManagerSection";
+import EditVenueModal from "../../components/EditVenueModal";
+import { deleteVenue } from "../../utils/deleteVenue.js";
+import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
+import useStore from "../../hooks/useStore";
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
-  const [booking, setBooking] = useState(null); // State to store booking details
+  const [booking, setBooking] = useState(null);
+  const [editModalOpen, setEditModalOpen] = useState(false);
   const accessToken = useAccessToken(); // Retrieve accessToken securely
+  const navigate = useNavigate();
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const { userDetails } = useStore();
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
-      const { data, error } = await getBookingById(id, accessToken); // Explicitly pass token
+      const { data, error } = await getBookingById(id, accessToken);
       if (error) {
         console.error("Failed to fetch booking details:", error);
       } else {
         setBooking(data.data);
+        console.log("Booking details:", data.data);
         setTitleAndMeta(
           `Booking for ${data.data.venue?.name || "Venue"}`,
           `Details of your booking at ${data.data.venue?.name || "the venue"}.`,
@@ -36,6 +45,43 @@ function BookingDetailsPage() {
   }
 
   const venue = booking.venue || {};
+  const isOwner = booking.customer?.name === venue.owner?.name;
+
+  const handleEditOpen = () => {
+    setEditModalOpen(true);
+  };
+
+  // const handleDelete = async () => {
+  //   try {
+  //     await deleteVenue(venue.id, accessToken);
+  //     navigate(`/profile/${encodeURIComponent(venue.owner.name)}`);
+  //   } catch (error) {
+  //     console.error("Failed to delete venue:", error);
+  //   }
+  // };
+  const handleDelete = async () => {
+    try {
+      await deleteVenue(id, accessToken);
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        navigate(`/profile/${encodeURIComponent(userDetails?.name)}`);
+      }, 3000);
+    } catch (error) {
+      console.error("Failed to delete venue:", error);
+    }
+  };
+
+  const handleEditClose = () => {
+    setEditModalOpen(false);
+  };
+
+  const handleVenueUpdated = (updatedVenue) => {
+    setBooking((prevBooking) => ({
+      ...prevBooking,
+      venue: updatedVenue,
+    }));
+  };
 
   return (
     <div className="mx-auto max-w-4xl p-4">
@@ -44,9 +90,17 @@ function BookingDetailsPage() {
       </h1>
       <ImageGallery
         media={venue.media || []}
-        countryName={venue.location?.country ?? "Unspecified Country"}
-        continent={venue.location?.continent ?? "Unspecified Continent"}
+        countryName={venue.location.country || "Unspecified country"}
+        continent={venue.location.continent || "Unspecified continent"}
         venue={venue}
+        onEdit={handleEditOpen}
+        onDelete={handleDelete}
+        venueOwner={isOwner}
+      />
+      <VenueDeletedSnackbar
+        open={showSuccessAlert}
+        message="Venue deleted successfully!"
+        onClose={() => setShowSuccessAlert(false)}
       />
 
       <VenueLocationSection
@@ -71,6 +125,13 @@ function BookingDetailsPage() {
         owner={venue.owner}
         created={venue.created}
         updated={venue.updated}
+      />
+
+      <EditVenueModal
+        open={editModalOpen}
+        onClose={handleEditClose}
+        onVenueUpdated={handleVenueUpdated}
+        currentVenue={venue}
       />
     </div>
   );

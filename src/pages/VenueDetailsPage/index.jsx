@@ -24,11 +24,12 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Snackbar,
+  // Snackbar,
 } from "@mui/material";
 import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
 import VenueManagerSection from "../../components/VenueManagerSection";
+import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
 
 function VenueDetailsPage() {
   const { id } = useParams();
@@ -52,6 +53,7 @@ function VenueDetailsPage() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalNights, setTotalNights] = useState(0);
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [showBookingSuccessAlert, setShowBookingSuccessAlert] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [editBookingModalOpen, setEditBookingModalOpen] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -222,7 +224,7 @@ function VenueDetailsPage() {
     const { data, error } = await createBooking(bookingDetails, accessToken);
 
     if (data) {
-      setShowSuccessAlert(true);
+      setShowBookingSuccessAlert(true);
       const newBooking = {
         ...data.data,
         customer: { name: userDetails.name },
@@ -234,7 +236,7 @@ function VenueDetailsPage() {
       }));
       updateViewedProfileBookings(updatedBookings);
       setTimeout(() => {
-        setShowSuccessAlert(false);
+        setShowBookingSuccessAlert(false);
       }, 4000);
     } else {
       console.error("Booking failed:", error);
@@ -361,18 +363,22 @@ function VenueDetailsPage() {
           onDelete={handleDelete}
           venueOwner={venueOwner}
         />
-        <Snackbar
+        {/* <Snackbar
           open={showSuccessAlert}
           autoHideDuration={3000}
           onClose={() => setShowSuccessAlert(false)}
-          anchorOrigin={{ vertical: "top", horizontal: "center" }} // Centering the Snackbar at the top
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
         >
           <div className="overlay-success-alert">
             {" "}
-            {/* Applying the new CSS class */}
             Venue deleted successfully!
           </div>
-        </Snackbar>
+        </Snackbar> */}
+        <VenueDeletedSnackbar
+          open={showSuccessAlert}
+          message="Venue deleted successfully!"
+          onClose={() => setShowSuccessAlert(false)}
+        />
       </div>
 
       {/* Venue location-section */}
@@ -448,13 +454,14 @@ function VenueDetailsPage() {
                 </button>
               </div>
             </div>
-            {showSuccessAlert && (
+            {showBookingSuccessAlert && (
               <div className="success-alert">Booking successful!</div>
             )}
           </div>
         )}
 
         {/* Active bookings-section */}
+
         {userActiveBookings && userActiveBookings.length > 0 && (
           <div className="active-bookings-container manager-container !my-4 flex w-full max-w-1200 flex-col items-center justify-start gap-4 rounded-lg py-4 md:justify-around">
             <h2
