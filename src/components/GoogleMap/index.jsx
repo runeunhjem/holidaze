@@ -82,7 +82,7 @@ const GoogleMap = ({ location }) => {
       ref={mapRef}
       style={{
         width: "99%",
-        maxWidth: "90%",
+        maxWidth: "99%",
         minHeight: "150px",
         height: "100%",
         borderRadius: "15px",
@@ -105,5 +105,4 @@ GoogleMap.propTypes = {
 };
 
 export default GoogleMap;
-
 

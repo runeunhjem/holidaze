@@ -104,8 +104,8 @@
   }
 
   [data-theme="dark"] {
-    --success-alert-bg-color: var(--green-700);
-    --success-alert-text-color: var(--green-100);
+    --success-alert-bg-color: var(--green-950);
+    --success-alert-text-color: var(--stone-400);
     --success-alert-border-color: var(--green-200);
     --bookings-bg-color: var(--gray-900);
     --overlay-color: var(--overlay-color-dark);

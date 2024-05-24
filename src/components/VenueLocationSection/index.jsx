@@ -5,6 +5,17 @@ import GoogleMap from "../GoogleMap";
 const VenueLocationSection = ({ location, description }) => {
   return (
     <div className="mt-6 space-y-2">
+          <p className="py-3 tracking-wider">
+            {description || "No description provided."}
+          </p>
+      <hr
+        style={{
+          borderTop: "0px solid var(--border-color)",
+          width: "75%",
+          margin: "0 auto",
+          marginBottom: "3rem",
+        }}
+      />
       <div className="location mb-3 flex w-full flex-col !justify-between gap-4 sm:flex-row">
         <div
           className="mb-3 w-full flex-col items-start p-4 sm:flex sm:w-1/2 md:w-1/4 md:items-end"
@@ -48,10 +59,6 @@ const VenueLocationSection = ({ location, description }) => {
           <GoogleMap location={location} />
         </div>
       </div>
-      <hr />
-      <p className="py-3 tracking-wider">
-        {description || "No description provided."}
-      </p>
     </div>
   );
 };

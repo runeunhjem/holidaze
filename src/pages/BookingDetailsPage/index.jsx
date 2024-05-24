@@ -9,16 +9,17 @@ import "../VenueDetailsPage/index.css";
 import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
 import VenueManagerSection from "../../components/VenueManagerSection";
-import EditVenueModal from "../../components/EditVenueModal";
-import { deleteVenue } from "../../utils/deleteVenue";
+import { deleteBooking } from "../../utils/deleteBooking";
 import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
 import useStore from "../../hooks/useStore";
 import GoogleMap from "../../components/GoogleMap";
+import BookingInfo from "../../components/BookingInfo";
+import EditBookingDetailsPage from "../../components/EditBookingDetailsPage";
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
   const [booking, setBooking] = useState(null);
-  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const accessToken = useAccessToken(); // Retrieve accessToken securely
   const navigate = useNavigate();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
@@ -31,7 +32,6 @@ function BookingDetailsPage() {
         console.error("Failed to fetch booking details:", error);
       } else {
         setBooking(data.data);
-        console.log("Booking details:", data.data);
         setTitleAndMeta(
           `Booking for ${data.data.venue?.name || "Venue"}`,
           `Details of your booking at ${data.data.venue?.name || "the venue"}.`,
@@ -49,36 +49,40 @@ function BookingDetailsPage() {
   const venue = booking.venue || {};
   const isOwner = booking.customer?.name === venue.owner?.name;
 
-  const handleEditOpen = () => {
-    setEditModalOpen(true);
+  const handleEditBookingOpen = () => {
+    setIsEditing(true);
   };
 
-  const handleDelete = async () => {
+  const handleDeleteBookingOpen = async () => {
     try {
-      await deleteVenue(id, accessToken);
+      await deleteBooking(booking.id, accessToken);
       setShowSuccessAlert(true);
       setTimeout(() => {
         setShowSuccessAlert(false);
         navigate(`/profile/${encodeURIComponent(userDetails?.name)}`);
       }, 3000);
     } catch (error) {
-      console.error("Failed to delete venue:", error);
+      console.error("Failed to delete booking:", error);
     }
   };
 
-  const handleEditClose = () => {
-    setEditModalOpen(false);
+  const handleEditBookingSave = (updatedBooking) => {
+    setBooking(updatedBooking);
+    setIsEditing(false);
   };
 
-  const handleVenueUpdated = (updatedVenue) => {
-    setBooking((prevBooking) => ({
-      ...prevBooking,
-      venue: updatedVenue,
-    }));
+  const handleEditBookingCancel = () => {
+    setIsEditing(false);
   };
+
+  const nights = Math.ceil(
+    (new Date(booking.dateTo) - new Date(booking.dateFrom)) /
+      (1000 * 60 * 60 * 24),
+  );
+  const totalPrice = booking.venue.price * nights;
 
   return (
-    <div className="mx-auto max-w-4xl p-4">
+    <div className="mx-auto max-w-4xl space-y-8 p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
         Booking for {venue.name || "N/A"}
       </h1>
@@ -87,13 +91,10 @@ function BookingDetailsPage() {
         countryName={venue.location.country || "Unspecified country"}
         continent={venue.location.continent || "Unspecified continent"}
         venue={venue}
-        onEdit={handleEditOpen}
-        onDelete={handleDelete}
-        venueOwner={isOwner}
       />
       <VenueDeletedSnackbar
         open={showSuccessAlert}
-        message="Venue deleted successfully!"
+        message="Booking deleted successfully!"
         onClose={() => setShowSuccessAlert(false)}
       />
 
@@ -102,30 +103,27 @@ function BookingDetailsPage() {
         description={venue.description}
       />
       <VenueDetailsSection venue={venue} />
-
-      <div className="mt-6 space-y-2">
-        <p>
-          <strong>Booked from:</strong>{" "}
-          {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-          {new Date(booking.dateTo).toLocaleDateString()}
-        </p>
-
-        <p>
-          <strong>Booked by:</strong>{" "}
-          {booking.customer?.name || "Unspecified name"}
-        </p>
-      </div>
+      {isEditing ? (
+        <EditBookingDetailsPage
+          booking={booking}
+          nights={nights}
+          totalPrice={totalPrice}
+          onSave={handleEditBookingSave}
+          onCancel={handleEditBookingCancel}
+        />
+      ) : (
+        <BookingInfo
+          booking={booking}
+          nights={nights}
+          totalPrice={totalPrice}
+          onEdit={handleEditBookingOpen}
+          onDelete={handleDeleteBookingOpen}
+        />
+      )}
       <VenueManagerSection
         owner={venue.owner}
         created={venue.created}
         updated={venue.updated}
-      />
-
-      <EditVenueModal
-        open={editModalOpen}
-        onClose={handleEditClose}
-        onVenueUpdated={handleVenueUpdated}
-        currentVenue={venue}
       />
     </div>
   );
