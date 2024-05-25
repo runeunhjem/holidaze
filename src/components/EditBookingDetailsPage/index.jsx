@@ -98,6 +98,7 @@ const EditBookingDetailsPage = ({
             dateFormat="dd/MM/yyyy"
             className="book-now-inputs cursor-pointer rounded border p-2"
             filterDate={filterDate}
+            minDate={startDate} // Ensure end date is not before start date
           />
         </div>
         <div className="flex w-full justify-between">
