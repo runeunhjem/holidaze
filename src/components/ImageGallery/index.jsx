@@ -5,7 +5,7 @@ import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
-import { FaFire } from "react-icons/fa"; // Importing the popular icon
+import { FaFire } from "react-icons/fa";
 import useStore from "../../hooks/useStore";
 import { sanitizeFields } from "../../utils/options";
 import VenueOptionsDropdown from "../VenueOptionsDropdown";
@@ -18,7 +18,7 @@ function ImageGallery({
   venue,
   onEdit,
   onDelete,
-  venueOwner, // Add venueOwner prop
+  venueOwner,
 }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
@@ -41,7 +41,7 @@ function ImageGallery({
 
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
-    const sanitizedContinent = sanitizeFields(continent); // Sanitize and translate the continent name
+    const sanitizedContinent = sanitizeFields(continent);
     setOverlayData({
       countryCode: fetchedCountryCode,
       continentText: sanitizedContinent,
@@ -70,7 +70,7 @@ function ImageGallery({
       <VenueOptionsDropdown
         onEdit={onEdit}
         onDelete={onDelete}
-        venueOwner={venueOwner} // Pass the venueOwner prop
+        venueOwner={venueOwner}
       />
       <div className="gallery-wrapper">
         <S.Gallery>
@@ -117,7 +117,7 @@ function ImageGallery({
                       }}
                     >
                       <FaFire />
-                      <span className="ml-1">Popular</span>
+                      <span className="hide-on-mobile ml-1">Popular</span>
                     </div>
                   )}
                   {venue.rating > 4 && (
@@ -191,9 +191,9 @@ ImageGallery.propTypes = {
   venue: PropTypes.object.isRequired,
   countryName: PropTypes.string.isRequired,
   continent: PropTypes.string.isRequired,
-  onEdit: PropTypes.func.isRequired, // Ensure the handler is passed down
-  onDelete: PropTypes.func.isRequired, // Ensure the handler is passed down
-  venueOwner: PropTypes.bool.isRequired, // Add prop type validation for venueOwner
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  venueOwner: PropTypes.bool.isRequired,
 };
 
 export default ImageGallery;
