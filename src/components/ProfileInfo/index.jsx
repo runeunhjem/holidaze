@@ -6,7 +6,7 @@ import { MdOutlineMarkEmailRead } from "react-icons/md";
 import { Link } from "react-router-dom";
 import useStore from "../../hooks/useStore";
 import { useState } from "react";
-import ProfileEditModal from "../ProfileEditModal";
+import EditProfileModal from "../EditProfileModal";
 import "./index.css";
 
 const ProfileInfo = ({ viewedProfile }) => {
@@ -17,7 +17,6 @@ const ProfileInfo = ({ viewedProfile }) => {
   const handleCloseModal = () => setIsModalOpen(false);
   return (
     <div className="profile-info container mx-auto w-full max-w-1200 px-4 pb-8 pt-20">
-      {/* Centered Heading */}
       <h1 className="text-center text-4xl font-bold capitalize">
         {viewedProfile.name}
       </h1>
@@ -27,7 +26,7 @@ const ProfileInfo = ({ viewedProfile }) => {
         <div className="mt-2 flex items-center justify-center">
           <TbHomeEdit className="me-2 text-2xl" />
           <h2 className="text-2xl font-bold">Venue Manager</h2>
-          <ProfileEditModal
+          <EditProfileModal
             open={isModalOpen}
             handleClose={handleCloseModal}
             userDetails={userDetails}
@@ -55,7 +54,7 @@ const ProfileInfo = ({ viewedProfile }) => {
       {/* Email information */}
       <div className="mt-2 flex items-center justify-center">
         <MdOutlineMarkEmailRead className="text-1xl me-2" />
-        <h3 className="text-1xl rounded header-nav-links text-center font-bold">
+        <h3 className="text-1xl header-nav-links rounded text-center font-bold">
           <Link to={`mailto:${viewedProfile.email}`}>
             {viewedProfile.email}
           </Link>

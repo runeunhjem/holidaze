@@ -40,30 +40,32 @@ function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
         }}
       >
         <Typography
-          variant="h5"
+          variant="h6"
           style={{
             color: "var(--profile-text-color)",
-            // minWidth: "250px",
+            fontSize: "1rem",
+            fontWeight: "bold",
           }}
         >
-          {/* {selectedVenue.name || "Unknown Venue"} */}
+          {/* {selectedVenue.name || "Unspecified Venue Title"} */}
           {selectedVenue.name
             ? selectedVenue.name.split(" ").slice(0, 3).join(" ") +
               (selectedVenue.name.split(" ").length > 3 ? "..." : "")
             : "Title has not been specified"}
         </Typography>
         <Typography
-          variant="h5"
+          variant="h6"
           style={{
-            // whiteSpace: "nowrap",
             color: "var(--profile-text-color)",
+            fontSize: "1rem",
+            fontWeight: "bold",
           }}
         >
           {selectedVenue.location &&
           selectedVenue.location.country &&
           selectedVenue.location.continent
             ? `${selectedVenue.location.country}, ${selectedVenue.location.continent}`
-            : "Location Unknown"}
+            : "Location Unspecified"}
         </Typography>
         <Typography
           variant="body2"

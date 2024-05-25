@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import contact1 from "../../assets/images/contact-1.png";
 import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function ContactPage() {
   const {
@@ -26,7 +27,10 @@ function ContactPage() {
   const [submitSuccess, setSubmitSuccess] = React.useState(false);
 
   useEffect(() => {
-    document.title = "Holidaze - Contact";
+    setTitleAndMeta(
+      "Holidaze - Contact us",
+      "Get in touch with us for any inquiries or assistance.",
+    );
   }, []);
 
   const onSubmit = async (data) => {

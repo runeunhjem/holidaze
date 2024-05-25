@@ -7,11 +7,8 @@ export const getBookingById = async (id, accessToken = {}) => {
     encodeURIComponent(id),
   );
 
-  // Manually add the necessary parameters
   const queryParams = `${PARAMS._venue}${PARAMS._customer}`;
-  // const queryParams = `?_venue=true&_customer=true`;
 
-  // Form the complete URL directly
   const url = `${endpoint}${queryParams}`;
 
   try {

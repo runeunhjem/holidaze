@@ -6,9 +6,14 @@ import Stack from "@mui/material/Stack";
 import PaginationButtons from "../../components/MUI/Pagination";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS, PARAMS } from "../../constants/api";
+import dayjs from "dayjs";
+import useStore from "../../hooks/useStore";
+import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function SearchResultsPage() {
   const location = useLocation();
+  const { filters } = useStore();
   const [venues, setVenues] = useState([]);
   const [venuesMeta, setVenuesMeta] = useState({
     pageCount: 1,
@@ -18,11 +23,28 @@ function SearchResultsPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const isRangeBooked = (venue, start, end) => {
+    return venue.bookings?.some((booking) => {
+      const fromDate = new Date(booking.dateFrom);
+      const toDate = new Date(booking.dateTo);
+      return (
+        (start <= fromDate && end >= fromDate) ||
+        (start >= fromDate && start <= toDate) ||
+        (start <= fromDate && end >= toDate)
+      );
+    });
+  };
+
   const fetchVenues = useCallback(async () => {
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get("q");
-
-    if (!query) return;
+    const dateFrom = searchParams.get("dateFrom")
+      ? new Date(searchParams.get("dateFrom"))
+      : null;
+    const dateTo = searchParams.get("dateTo")
+      ? new Date(searchParams.get("dateTo"))
+      : null;
+    const guests = searchParams.get("guests");
 
     setLoading(true);
     setError(null);
@@ -33,9 +55,16 @@ function SearchResultsPage() {
 
     try {
       while (page <= totalPages) {
-        const response = await fetchApi(
-          `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}`,
-        );
+        let response;
+        if (query) {
+          response = await fetchApi(
+            `${ENDPOINTS.venues}/search?q=${encodeURIComponent(query)}&page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}${PARAMS._bookings}`,
+          );
+        } else {
+          response = await fetchApi(
+            `${ENDPOINTS.venues}?page=${page}${PARAMS.sortBy}${PARAMS.sortOrder}${PARAMS._bookings}`,
+          );
+        }
 
         if (response && Array.isArray(response.data)) {
           allVenues = [...allVenues, ...response.data];
@@ -52,6 +81,16 @@ function SearchResultsPage() {
         }
       }
 
+      if (dateFrom && dateTo) {
+        allVenues = allVenues.filter(
+          (venue) => !isRangeBooked(venue, dateFrom, dateTo),
+        );
+      }
+
+      if (guests) {
+        allVenues = allVenues.filter((venue) => venue.maxGuests >= guests);
+      }
+
       setVenues(allVenues);
     } catch (error) {
       setError(`Error searching venues: ${error.message}`);
@@ -64,10 +103,41 @@ function SearchResultsPage() {
     fetchVenues();
   }, [location.search, fetchVenues]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const query = searchParams.get("q");
+    setTitleAndMeta(
+      `Holidaze - Search Results${query ? ` for "${query}"` : ""}`,
+      "Explore the search results for your desired venues and find your perfect stay.",
+    );
+  }, [location.search]);
+
   const handlePageChange = (event, value) => {
     setVenuesMeta((prevMeta) => ({ ...prevMeta, currentPage: value }));
     fetchVenues(value);
   };
+
+  const searchParams = new URLSearchParams(location.search);
+  const query = searchParams.get("q");
+  const dateFrom = searchParams.get("dateFrom");
+  const dateTo = searchParams.get("dateTo");
+  const guests = searchParams.get("guests");
+
+  // Function to count active filters
+  const countActiveFilters = () => {
+    return Object.values(filters).reduce((count, value) => {
+      if (
+        value &&
+        value !== "" &&
+        !(Array.isArray(value) && value.length === 0)
+      ) {
+        count += 1;
+      }
+      return count;
+    }, 0);
+  };
+
+  const activeFilterCount = countActiveFilters();
 
   return (
     <div className="venue-list-container mx-auto mt-8 flex flex-col items-center gap-4 overflow-x-hidden pb-4">
@@ -76,23 +146,81 @@ function SearchResultsPage() {
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
-      {loading && <p>Loading...</p>}
-      {venuesMeta.totalCount > 0 && (
-        <h1>Total venues before filtering: {venuesMeta.totalCount}</h1>
+      {loading && (
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+          <p className="mt-4">Finding venues for you...</p>
+        </div>
       )}
+      {(query || dateFrom || dateTo || guests || activeFilterCount > 0) && (
+        <div
+          style={{
+            backgroundColor: "var(--header-bg-color)",
+            color: "var(--header-text-color)",
+            borderRadius: "10px",
+            maxWidth: "100%",
+            width: "600px",
+            border: "1px solid var(--border-color)",
+            textAlign: "center",
+            padding: "1rem",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+          }}
+          className="info-box rounded"
+        >
+          {venuesMeta.totalCount > 0 && (
+            <h1 className="">
+              A total of {venuesMeta.totalCount} venues include your query:{" "}
+              <strong> {query}</strong>.
+            </h1>
+          )}
+          <p className="flex w-full flex-wrap items-center justify-center">
+            We have {venues.length} available venues{" "}
+            {dateFrom && (
+              <span className="ml-2 whitespace-nowrap">
+                with check-in{" "}
+                <strong>{dayjs(dateFrom).format("YYYY-MM-DD")}</strong>
+              </span>
+            )}
+            {dateTo && (
+              <span className="ml-2 whitespace-nowrap">
+                and check-out{" "}
+                <strong>{dayjs(dateTo).format("YYYY-MM-DD")}</strong>
+              </span>
+            )}
+            {guests && (
+              <span className="ml-2 whitespace-nowrap">
+                for <strong>{guests}</strong> guests
+              </span>
+            )}
+          </p>
+
+          <p>
+            {activeFilterCount > 0 && (
+              <span>
+                {" "}
+                You also have <strong>{activeFilterCount}</strong> active
+                filters
+              </span>
+            )}
+          </p>
+        </div>
+      )}
+
       <PaginationButtons
         count={venuesMeta.pageCount}
         page={venuesMeta.currentPage}
         onChange={handlePageChange}
       />
-      {venues.length > 0 ? (
+      {!loading && venues.length > 0 ? (
         <div className="flex flex-wrap justify-center gap-4 px-5">
           {venues.map((venue) => (
             <VenueCard key={venue.id} venue={venue} />
           ))}
         </div>
       ) : (
-        <p>No venues found with the current filters.</p>
+        !loading && <p>No venues found with the current filters.</p>
       )}
       <PaginationButtons
         count={venuesMeta.pageCount}

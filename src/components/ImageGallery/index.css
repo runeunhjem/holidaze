@@ -1,4 +1,15 @@
 /* index.css */
+.gallery-container {
+  position: relative;
+}
+
+.dropdown-container {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  z-index: 10; /* Ensure the dropdown is above other elements */
+}
+
 .fade-effect {
   position: absolute;
   width: 100%;
@@ -18,4 +29,10 @@
 
 .hidden1 {
   opacity: 0;
+}
+
+@media (max-width: 468px) {
+  .hide-on-mobile {
+    display: none;
+  }
 }

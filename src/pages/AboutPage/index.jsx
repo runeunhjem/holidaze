@@ -2,20 +2,14 @@ import { useEffect } from "react";
 import bannerImage1 from "../../assets/images/about-banner-1.png";
 import bannerImage2 from "../../assets/images/about-banner-2.png";
 import bannerImage3 from "../../assets/images/about-banner-3.png";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "./index.css";
 
 function AboutPage() {
   useEffect(() => {
-    document.title = "Holidaze - About";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
-      "Explore our wide range of destinations from around the world to find your special place.",
+    setTitleAndMeta(
+      "Holidaze - About us",
+      "Read a little about us. What our goals are and what we aim to achieve",
     );
   }, []);
 
@@ -26,8 +20,7 @@ function AboutPage() {
           <img
             src={bannerImage1}
             alt="Illustrated Holidaze banner #3"
-            className="w-full bg-500-black"
-
+            className="bg-500-black w-full"
           />
           <h1
             style={{

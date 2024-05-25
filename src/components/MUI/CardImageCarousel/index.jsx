@@ -106,7 +106,7 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
                   {capitalizedCountry}, {capitalizedContinent}
                 </span>
               </div>
-              {countryCode && countryCode !== "Unknown" && (
+              {countryCode && countryCode !== "Unspecified" && (
                 <CountryFlag countryCode={countryCode} />
               )}
             </div>

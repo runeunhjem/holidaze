@@ -7,6 +7,8 @@ import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
 import { Link } from "react-router-dom";
+import { ClipLoader } from "react-spinners"; // Import the spinner
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import "./index.css";
 
 function VenueListPage() {
@@ -67,6 +69,13 @@ function VenueListPage() {
     updateFilterOptions,
   ]);
 
+  useEffect(() => {
+    setTitleAndMeta(
+      "Holidaze - Venues List",
+      "Explore our wide range of venues from around the world to find your perfect stay.",
+    );
+  }, []);
+
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -94,36 +103,54 @@ function VenueListPage() {
           <Alert severity="error">{error}</Alert>
         </Stack>
       )}
-      {loading && <p>Loading...</p>}
-      <h1 className="span-info">Total venues before filtering: {venuesMeta.totalCount}</h1>
-      <PaginationButtons
-        count={venuesMeta.pageCount}
-        page={currentPage}
-        onChange={handlePageChange}
-      />
-      {activeFilterCount > 0 && (
-        <span className="span-info">
-          You have {activeFilterCount} active filters{" "}
-          <Link onClick={resetFilters} className="reset-link">
-            [reset]
-          </Link>
-        </span>
+      {loading && (
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+          <p className="mt-4">Finding venues for you...</p>
+        </div>
       )}
-      {venues.length > 0 ? (
+      {!loading && (
         <>
-          <div className="flex flex-wrap justify-center gap-4 px-5">
-            {venues.map((venue) => (
-              <VenueCard key={venue.id} venue={venue} />
-            ))}
+          <h1 className="span-info">
+            We have {venuesMeta.totalCount} locations for you to choose from
+          </h1>
+          <div className="pagination-container flex justify-center">
+            <PaginationButtons
+              count={venuesMeta.pageCount}
+              page={currentPage}
+              onChange={handlePageChange}
+            />
           </div>
-          <PaginationButtons
-            count={venuesMeta.pageCount}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
+          {activeFilterCount > 0 && (
+            <span className="span-info">
+              You have {activeFilterCount} active filters{" "}
+              <Link onClick={resetFilters} className="reset-link">
+                [reset]
+              </Link>
+            </span>
+          )}
+          {venues.length > 0 ? (
+            <div>
+              <div className="flex flex-wrap justify-center gap-4 px-5">
+                {venues.map((venue) => (
+                  <VenueCard key={venue.id} venue={venue} />
+                ))}
+              </div>
+              <div className="pagination-bottom-container flex justify-center">
+                <PaginationButtons
+                  count={venuesMeta.pageCount}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                />
+              </div>
+            </div>
+          ) : (
+            <p>
+              No venues found with the current filters. Please check the next
+              page or adjust your filters/options to show more.
+            </p>
+          )}
         </>
-      ) : (
-        <p>No venues found with the current filters.</p>
       )}
     </div>
   );

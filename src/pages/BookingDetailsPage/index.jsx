@@ -1,23 +1,41 @@
+// src/pages/BookingDetailsPage.jsx
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { useParams, useNavigate } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
 import useAccessToken from "../../hooks/useAccessToken";
 import ImageGallery from "../../components/ImageGallery";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
+import "../VenueDetailsPage/index.css";
+import VenueLocationSection from "../../components/VenueLocationSection";
+import VenueDetailsSection from "../../components/VenueDetailsSection";
+import VenueManagerSection from "../../components/VenueManagerSection";
+import { deleteBooking } from "../../utils/deleteBooking";
+import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
+import useStore from "../../hooks/useStore";
+import GoogleMap from "../../components/GoogleMap";
+import BookingInfo from "../../components/BookingInfo";
+import EditBookingDetailsPage from "../../components/EditBookingDetailsPage";
 
 function BookingDetailsPage() {
   const { id } = useParams(); // Booking ID from URL
-  const [booking, setBooking] = useState(null); // State to store booking details
+  const [booking, setBooking] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const accessToken = useAccessToken(); // Retrieve accessToken securely
+  const navigate = useNavigate();
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const { userDetails } = useStore();
 
   useEffect(() => {
     const fetchBookingDetails = async () => {
-      const { data, error } = await getBookingById(id, accessToken); // Explicitly pass token
+      const { data, error } = await getBookingById(id, accessToken);
       if (error) {
         console.error("Failed to fetch booking details:", error);
       } else {
         setBooking(data.data);
+        setTitleAndMeta(
+          `Booking for ${data.data.venue?.name || "Venue"}`,
+          `Details of your booking at ${data.data.venue?.name || "the venue"}.`,
+        );
       }
     };
 
@@ -29,82 +47,84 @@ function BookingDetailsPage() {
   }
 
   const venue = booking.venue || {};
+  const isOwner = booking.customer?.name === venue.owner?.name;
+
+  const handleEditBookingOpen = () => {
+    setIsEditing(true);
+  };
+
+  const handleDeleteBookingOpen = async () => {
+    try {
+      await deleteBooking(booking.id, accessToken);
+      setShowSuccessAlert(true);
+      setTimeout(() => {
+        setShowSuccessAlert(false);
+        navigate(`/profile/${encodeURIComponent(userDetails?.name)}`);
+      }, 3000);
+    } catch (error) {
+      console.error("Failed to delete booking:", error);
+    }
+  };
+
+  const handleEditBookingSave = (updatedBooking) => {
+    setBooking(updatedBooking);
+    setIsEditing(false);
+  };
+
+  const handleEditBookingCancel = () => {
+    setIsEditing(false);
+  };
+
+  const nights = Math.ceil(
+    (new Date(booking.dateTo) - new Date(booking.dateFrom)) /
+      (1000 * 60 * 60 * 24),
+  );
+  const totalPrice = booking.venue.price * nights;
 
   return (
-    <div className="mx-auto max-w-4xl p-4">
+    <div className="mx-auto max-w-4xl space-y-8 p-4">
       <h1 className="mb-4 text-center text-3xl font-bold">
         Booking for {venue.name || "N/A"}
       </h1>
       <ImageGallery
         media={venue.media || []}
-        countryName={venue.location?.country ?? "Unknown"}
-        continent={venue.location?.continent ?? "Unknown"}
+        countryName={venue.location.country || "Unspecified country"}
+        continent={venue.location.continent || "Unspecified continent"}
         venue={venue}
       />
+      <VenueDeletedSnackbar
+        open={showSuccessAlert}
+        message="Booking deleted successfully!"
+        onClose={() => setShowSuccessAlert(false)}
+      />
 
-      <div className="mt-6 space-y-2">
-        <p>
-          <strong>Description:</strong>{" "}
-          {venue.description || "Description not available."}
-        </p>
-        <p>
-          <strong>Price:</strong> ${venue.price ?? "N/A"}
-        </p>
-        <p>
-          <strong>Max Guests:</strong> {venue.maxGuests ?? "N/A"}
-        </p>
-        <p>
-          <strong>Rating:</strong> {venue.rating ?? 0} stars
-        </p>
-
-        <p>
-          <strong>Booked from:</strong>{" "}
-          {new Date(booking.dateFrom).toLocaleDateString()} to{" "}
-          {new Date(booking.dateTo).toLocaleDateString()}
-        </p>
-
-        <p>
-          <strong>Booked by:</strong> {booking.customer?.name || "Unknown"}
-        </p>
-
-        <div>
-          <strong>Amenities:</strong>
-          <ul>
-            {venue.meta?.wifi && <li>Wi-Fi</li>}
-            {venue.meta?.parking && <li>Parking</li>}
-            {venue.meta?.breakfast && <li>Breakfast</li>}
-            {venue.meta?.pets && <li>Pets Allowed</li>}
-          </ul>
-        </div>
-
-        <div>
-          <strong>Location:</strong>
-          <p>
-            {venue.location?.address ?? ""}, {venue.location?.city ?? ""},{" "}
-            {venue.location?.zip ?? ""}, {venue.location?.country ?? ""}
-          </p>
-        </div>
-
-        <div className="mt-6" style={{ height: "350px" }}>
-          <h2 className="text-2xl font-bold">Check Availability</h2>
-          <DatePicker
-            inline
-            monthsShown={2}
-            highlightDates={[
-              {
-                start: new Date(booking.dateFrom),
-                end: new Date(booking.dateTo),
-              },
-            ]}
-            dayClassName={(date) =>
-              date >= new Date(booking.dateFrom) &&
-              date <= new Date(booking.dateTo)
-                ? "react-datepicker__day--highlighted"
-                : ""
-            }
-          />
-        </div>
-      </div>
+      <VenueLocationSection
+        location={venue.location}
+        description={venue.description}
+      />
+      <VenueDetailsSection venue={venue} />
+      {isEditing ? (
+        <EditBookingDetailsPage
+          booking={booking}
+          nights={nights}
+          totalPrice={totalPrice}
+          onSave={handleEditBookingSave}
+          onCancel={handleEditBookingCancel}
+        />
+      ) : (
+        <BookingInfo
+          booking={booking}
+          nights={nights}
+          totalPrice={totalPrice}
+          onEdit={handleEditBookingOpen}
+          onDelete={handleDeleteBookingOpen}
+        />
+      )}
+      <VenueManagerSection
+        owner={venue.owner}
+        created={venue.created}
+        updated={venue.updated}
+      />
     </div>
   );
 }

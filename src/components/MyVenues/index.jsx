@@ -1,5 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import useStore from "../../hooks/useStore";
+import PropTypes from "prop-types";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Card, CardMedia, Typography, Box, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
@@ -7,8 +7,10 @@ import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
 import { MdOutlineAddCircleOutline } from "react-icons/md";
 import CreateVenueModal from "../CreateVenueModal";
+import { sanitizeVenue } from "../../utils/sanitizeVenue";
+import useStore from "../../hooks/useStore";
 
-function MyVenues() {
+function MyVenues({ loadProfile }) {
   const {
     viewedProfile,
     setViewedProfile,
@@ -16,11 +18,13 @@ function MyVenues() {
     favorites,
     addFavoriteVenue,
     removeFavoriteVenue,
+    options,
   } = useStore();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
   const [venues, setVenues] = useState(viewedProfile?.venues || []);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     setVenues(viewedProfile?.venues || []);
@@ -38,8 +42,21 @@ function MyVenues() {
 
   const modalOpen = Boolean(anchorEl);
 
-  // Memoize venues to avoid unnecessary re-renders
-  const venueDisplay = useMemo(() => venues, [venues]);
+  const sortedVenues = useMemo(() => {
+    return [...venues].sort((a, b) => {
+      const countryA = a.location?.country?.toLowerCase() || "";
+      const countryB = b.location?.country?.toLowerCase() || "";
+      if (countryA < countryB) return -1;
+      if (countryA > countryB) return 1;
+      return 0;
+    });
+  }, [venues]);
+
+
+  const venueDisplay = useMemo(
+    () => sortedVenues.map((venue) => sanitizeVenue(venue, options)),
+    [sortedVenues, options],
+  );
 
   const isFavorite = (venueId) =>
     favorites.some((venue) => venue.id === venueId);
@@ -52,32 +69,27 @@ function MyVenues() {
     }
   };
 
-  // Determine header text based on user ID comparison
   const isOwnProfile = userDetails.name === viewedProfile.name;
   const headerText = isOwnProfile ? "My Venues" : "Their Venues";
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
-  const handleVenueCreated = (newVenue) => {
-    setVenues((prevVenues) => [...prevVenues, newVenue]);
-    setViewedProfile((prevProfile) => ({
-      ...prevProfile,
-      venues: [...(prevProfile.venues || []), newVenue],
-    }));
-    setIsModalOpen(false);
-  };
+  const handleVenueCreated = useCallback(
+    (newVenue) => {
+      setViewedProfile((prevProfile) => ({
+        ...prevProfile,
+        venues: [...(prevProfile.venues || []), newVenue],
+      }));
+      setVenues((prevVenues) => [...prevVenues, newVenue]); // Update the local state
+    },
+    [setViewedProfile, setVenues],
+  );
 
   return (
     <Box
       className="my-venues-container"
-      style={{
-        padding: "16px 8px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
+      style={{ padding: "16px 8px", maxWidth: "1200px", margin: "0 auto" }}
     >
       <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
@@ -86,11 +98,10 @@ function MyVenues() {
             <Button
               startIcon={<MdOutlineAddCircleOutline />}
               onClick={handleOpenModal}
+              style={{ color: "var(--link-color)" }}
             >
-              <span className="visually-hidden">
-            Add new venue
-              </span>
-              </Button>
+              <span className="visually-hidden">Add new venue</span>
+            </Button>
           )}
         </Typography>
         <Typography variant="h5" align="center" gutterBottom>
@@ -122,10 +133,7 @@ function MyVenues() {
             >
               <Card
                 className="venue-container"
-                style={{
-                  borderRadius: "20px",
-                  position: "relative",
-                }}
+                style={{ borderRadius: "20px", position: "relative" }}
                 onMouseLeave={handleClose}
               >
                 <CardMedia
@@ -133,12 +141,23 @@ function MyVenues() {
                   onMouseEnter={(e) => handleHover(e, venue)}
                   component="img"
                   className="venue-image"
-                  image={venue.media[0].url}
-                  alt={venue.media[0].alt || venue.name}
+                  image={
+                    venue.media && venue.media.length > 0
+                      ? venue.media[0].url
+                      : "default_image_url.jpg"
+                  }
+                  alt={
+                    venue.media && venue.media.length > 0
+                      ? venue.media[0].alt || venue.name
+                      : "Default Alt Text"
+                  }
                 />
 
                 <div className="city-overlay flex items-center justify-between px-3">
-                  {venue.location.city}, {venue.location.country}
+                  <span className="truncate-venues-on-small">
+                    {venue.location.city || "Unspecified city"},{" "}
+                    {venue.location.country || "Unspecified country"}
+                  </span>
                   <span
                     onClick={(e) => handleHover(e, venue)}
                     onMouseEnter={(e) => handleHover(e, venue)}
@@ -176,6 +195,7 @@ function MyVenues() {
         open={isModalOpen}
         onClose={handleCloseModal}
         onVenueCreated={handleVenueCreated}
+        loadProfile={loadProfile} // Pass loadProfile here
       />
 
       <VenuePopover
@@ -187,5 +207,9 @@ function MyVenues() {
     </Box>
   );
 }
+
+MyVenues.propTypes = {
+  loadProfile: PropTypes.func,
+};
 
 export default MyVenues;

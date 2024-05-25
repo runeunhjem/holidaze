@@ -1,6 +1,5 @@
 import getCountryCode from "./getCountryCode";
 
-
 export const hasValidImages = (media, options) => {
   if (!options.checkImage) return true;
   return (
@@ -33,20 +32,25 @@ export const hasValidContinent = (continent, options) => {
   );
 };
 
-
 export const hasValidTitle = (title, options) => {
   if (!options.checkTitle) return true;
-  const undesiredKeywords = ["unknown", "string", "aaa", "asdf", "3"]; // Extend this list as needed
+  const undesiredKeywords = [
+    "unknown",
+    "unspecified",
+    "string",
+    "aaa",
+    "asdf",
+    "3",
+  ]; // Extend this list as needed
   return !undesiredKeywords.some((keyword) =>
     title.toLowerCase().includes(keyword),
   );
 };
 
-
 export const hasValidCountry = (country, options) => {
   if (!options.checkCountry) return true;
   const validCountryCode = getCountryCode(country); // Assuming getCountryCode is a valid imported function
-  return validCountryCode !== "Unknown";
+  return validCountryCode !== "Unspecified";
 };
 
 export const sanitizeFields = (
@@ -56,6 +60,7 @@ export const sanitizeFields = (
     undefined,
     "",
     "unknown",
+    "unspecified",
     "string",
     "slide",
     "asdf",
@@ -74,7 +79,8 @@ export const sanitizeFields = (
     danmark: "Denmark",
     sverige: "Sweden",
     sweeden: "Sweden",
-    // "united arab emirates": "UAE",
+    usa: "United States",
+    suomi: "Finland",
   },
 ) => {
   // Check if value is null or undefined and return "Unspecified" right away
@@ -92,6 +98,4 @@ export const sanitizeFields = (
   return undesiredValues.includes(valueLowerCase)
     ? "Unspecified"
     : translatedValue;
-
 };
-

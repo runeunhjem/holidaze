@@ -8,7 +8,6 @@ const useStore = create(
   devtools(
     persist(
       (set, get) => ({
-        // Initial states and functions definitions
         options: {
           checkImage: false,
           checkTitle: false,
@@ -85,7 +84,6 @@ const useStore = create(
           venues.forEach((venue) => {
             Object.keys(venue.meta || {}).forEach((key) => {
               if (venue.meta[key]) {
-                // Assuming meta contains boolean values for amenities
                 amenities.add(key);
               }
             });
@@ -159,7 +157,13 @@ const useStore = create(
         setAccessToken: (accessToken) =>
           set({ accessToken, isAuthenticated: true }),
         setUserDetails: (details) => set({ userDetails: details }),
-        setViewedProfile: (details) => set({ viewedProfile: details }),
+        setViewedProfile: (details) =>
+          set((state) => ({
+            viewedProfile: {
+              ...state.viewedProfile,
+              ...details,
+            },
+          })),
         clearUser: () => {
           set({
             accessToken: null,
@@ -201,6 +205,23 @@ const useStore = create(
           }
         },
         resetJustLoggedIn: () => set({ justLoggedIn: false }),
+        countActiveOptions: () => {
+          const { options } = get();
+          return Object.values(options).filter((value) => value).length;
+        },
+        countActiveFilters: () => {
+          const { filters } = get();
+          return Object.values(filters).reduce((count, value) => {
+            if (
+              value &&
+              value !== "" &&
+              !(Array.isArray(value) && value.length === 0)
+            ) {
+              count += 1;
+            }
+            return count;
+          }, 0);
+        },
       }),
       {
         name: "user-info-and-favs",

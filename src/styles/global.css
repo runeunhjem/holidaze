@@ -14,14 +14,21 @@
     --white: #ffffff;
     --black: #000000;
     --red-200: #fecaca;
+    --red-300: #fca5a5;
+    --red-400: #f87171;
     --red-500: #ef4444;
     --red-700: #b91c1c;
+    --rose-800: #9f1239;
     --orange-200: #fed7aa;
+    --green-100: #dcfce7;
     --green-200: #bbf7d0;
+    --green-700: #15803d;
     --green-800: #166534;
+    --green-950: #052e16;
     --yellow-200: #fef08a;
     --yellow-400: #facc15;
     --yellow-500: #eab308;
+    --yellow-700: #a16207;
     --sky-50: #f0f9ff;
     --sky-100: #e0f2fe;
     --sky-200: #bae6fd;
@@ -30,6 +37,7 @@
     --blue-300: #93c5fd;
     --blue-400: #60a5fa;
     --blue-500: #3b82f6;
+    --blue-600: #2563eb;
     --blue-800: #1e40af;
     --blue-900: #1e3a8a;
     --stone-400: #a8a29e;
@@ -52,6 +60,10 @@
   }
 
   [data-theme="light"] {
+    --success-alert-bg-color: var(--green-200);
+    --success-alert-text-color: var(--green-800);
+    --success-alert-border-color: var(--green-700);
+    --bookings-bg-color: var(--green-100);
     --overlay-color: var(--overlay-color-light);
     --overlay-color-carousel: var(--overlay-color-carousel-light);
     --overlay-cards: var(--sky-200);
@@ -65,12 +77,12 @@
     --button-bg-color: var(--sky-300);
     --button-bg-color-cancel: var(--red-700);
     --button-bg-color-hover: var(--sky-200);
-    --button-bg-color-hover-cancel: var(--red-500);
+    --button-bg-color-hover-cancel: var(--rose-800);
     --button-text-color: var(--gray-900);
     --button-text-color-cancel: var(--gray-100);
     --button-text-color-hover: var(--gray-900);
     --button-text-color-hover-cancel: var(--black);
-    --link-color: var(--blue-500);
+    --link-color: var(--blue-600);
     --link-color-hover: var(--blue-800);
     --link-color-carousel-hover: var(--blue-500);
     --input-text-color: var(--gray-500);
@@ -86,9 +98,16 @@
     --cards-sections-bg-color: var(--sky-200);
     --menu-items-text-color-hover: var(--blue-800);
     --menu-items-bg-color-hover: var(--sky-200);
+    --booked-dates-color: var(--rose-800);
+    --top-rated-color: var(--yellow-700);
+    --popular-color: var(--blue-800);
   }
 
   [data-theme="dark"] {
+    --success-alert-bg-color: var(--green-950);
+    --success-alert-text-color: var(--stone-400);
+    --success-alert-border-color: var(--green-200);
+    --bookings-bg-color: var(--gray-900);
     --overlay-color: var(--overlay-color-dark);
     --overlay-color-carousel: var(--overlay-color-carousel-dark);
     --overlay-cards: var(--stone-600);
@@ -123,6 +142,9 @@
     --cards-sections-bg-color: var(--gray-800);
     --menu-items-bg-color-hover: var(--stone-600);
     --menu-items-text-color-hover: var(--gray-300);
+    --booked-dates-color: var(--red-300);
+    --top-rated-color: var(--yellow-400);
+    --popular-color: var(--sky-300);
   }
 
   body {
@@ -162,11 +184,11 @@
     flex: 1;
   }
 
-  @media (max-width: 530px) {
+  /* @media (max-width: 530px) {
     .react-datepicker {
       width: min-content !important;
     }
-  }
+  } */
 
   .visually-hidden {
     position: absolute;
@@ -204,4 +226,6 @@
     border-radius: 1rem;
     border: 1px solid var(--button-bg-color);
   }
+
+
 }

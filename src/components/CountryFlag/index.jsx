@@ -3,7 +3,7 @@ import ReactCountryFlag from "react-country-flag";
 import unknownFlag from "../../assets/images/unknown-flag.svg";
 
 function CountryFlag({ countryCode }) {
-  if (countryCode === "Unknown") {
+  if (countryCode === "Unspecified") {
     return (
       <img
         src={unknownFlag}

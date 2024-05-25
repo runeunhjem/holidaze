@@ -11,4 +11,11 @@
 
 .span-info {
   font-size: 1.3rem;
+  text-align: center;
+}
+
+.pagination-bottom-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
 }

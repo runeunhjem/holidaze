@@ -3,13 +3,14 @@ import useStore from "../../hooks/useStore";
 import { Card, CardMedia, Typography, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import VenuePopover from "../VenuePopover";
-import "./index.css";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { sanitizeVenue } from "../../utils/sanitizeVenue";
+import "./index.css";
 
 function MyFavoriteVenues() {
-  const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore(); // Get favorite venues and actions from the global store
+  const { favorites, addFavoriteVenue, removeFavoriteVenue, options } =
+    useStore();
   const navigate = useNavigate();
-
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedVenue, setSelectedVenue] = useState(null);
 
@@ -25,8 +26,22 @@ function MyFavoriteVenues() {
 
   const open = Boolean(anchorEl);
 
-  // Memoize favorites to avoid unnecessary re-renders
-  const favoriteDisplay = useMemo(() => favorites, [favorites]);
+  // Sort favorites by country
+  const sortedFavorites = useMemo(() => {
+    return [...favorites].sort((a, b) => {
+      const countryA = a.location.country.toLowerCase();
+      const countryB = b.location.country.toLowerCase();
+      if (countryA < countryB) return -1;
+      if (countryA > countryB) return 1;
+      return 0;
+    });
+  }, [favorites]);
+
+  // Memoize sanitized favorites to avoid unnecessary re-renders
+  const favoriteDisplay = useMemo(
+    () => sortedFavorites.map((venue) => sanitizeVenue(venue, options)),
+    [sortedFavorites, options],
+  );
 
   const isFavorite = (venueId) =>
     favorites.some((venue) => venue.id === venueId);
@@ -53,11 +68,7 @@ function MyFavoriteVenues() {
   return (
     <Box
       className="my-favorite-venues-container"
-      style={{
-        padding: "16px 8px",
-        maxWidth: "1200px",
-        margin: "0 auto",
-      }}
+      style={{ padding: "16px 8px", maxWidth: "1200px", margin: "0 auto" }}
     >
       <div className="mt-6 flex items-center justify-around px-6">
         <Typography variant="h4" align="center" gutterBottom>
@@ -100,12 +111,25 @@ function MyFavoriteVenues() {
                   onMouseEnter={(e) => handleHover(e, venue)}
                   component="img"
                   className="venue-image"
-                  image={venue.media[0].url}
-                  alt={venue.media[0].alt || venue.name}
+                  image={
+                    (venue.media &&
+                      venue.media.length > 0 &&
+                      venue.media[0].url) ||
+                    "default_image_url.jpg"
+                  }
+                  alt={
+                    (venue.media &&
+                      venue.media.length > 0 &&
+                      venue.media[0].alt) ||
+                    venue.name
+                  }
                 />
 
-                <div className="city-overlay flex items-center justify-around">
-                  {venue.location.city}
+                <div className="city-overlay flex w-full items-center justify-between px-3">
+                  <span className="truncate-favorites-on-small">
+                    {venue.location.city || "Unspecified city"},{" "}
+                    {venue.location.country || "Unspecified country"}
+                  </span>
                   <span
                     onClick={(e) => handleHover(e, venue)}
                     onMouseEnter={(e) => handleHover(e, venue)}
@@ -139,7 +163,6 @@ function MyFavoriteVenues() {
         </Typography>
       )}
 
-      {/* VenuePopover */}
       {selectedVenue && document.body.contains(anchorEl) && (
         <VenuePopover
           selectedVenue={selectedVenue}

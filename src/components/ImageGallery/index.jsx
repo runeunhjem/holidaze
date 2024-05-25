@@ -5,12 +5,21 @@ import CountryFlag from "../CountryFlag";
 import getCountryCode from "../../utils/getCountryCode";
 import { BsStars } from "react-icons/bs";
 import { TbHeart, TbHeartFilled } from "react-icons/tb";
+import { FaFire } from "react-icons/fa";
 import useStore from "../../hooks/useStore";
 import { sanitizeFields } from "../../utils/options";
-
+import VenueOptionsDropdown from "../VenueOptionsDropdown";
 import "./index.css";
 
-function ImageGallery({ media, countryName, continent, venue }) {
+function ImageGallery({
+  media,
+  countryName,
+  continent,
+  venue,
+  onEdit,
+  onDelete,
+  venueOwner,
+}) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isImageVisible, setImageVisible] = useState(true);
   const { favorites, addFavoriteVenue, removeFavoriteVenue } = useStore();
@@ -32,7 +41,7 @@ function ImageGallery({ media, countryName, continent, venue }) {
 
   useEffect(() => {
     const fetchedCountryCode = getCountryCode(countryName);
-    const sanitizedContinent = sanitizeFields(continent); // Sanitize and translate the continent name
+    const sanitizedContinent = sanitizeFields(continent);
     setOverlayData({
       countryCode: fetchedCountryCode,
       continentText: sanitizedContinent,
@@ -57,84 +66,117 @@ function ImageGallery({ media, countryName, continent, venue }) {
   const placeholderImage = "https://picsum.photos/400/600";
 
   return (
-    <div className="gallery-wrapper">
-      <S.Gallery>
-        {media.map((img, index) => (
-          <div
-            key={index}
-            className={`fade-effect ${isImageVisible && index === selectedImageIndex ? "visible" : "hidden"}`}
-            style={{
-              width: "100%",
-              maxWidth: "100%",
-              margin: "0 auto",
-              overflow: "hidden",
-              padding: 0,
-              borderRadius: "20px",
-            }}
-          >
-            <S.StyledImg
-              src={img.url || placeholderImage}
-              alt={img.alt || "Illustration from the venue"}
-            />
-            <S.ImageOverlay>
-              {img.alt || "Illustration from the venue"}
-            </S.ImageOverlay>
-            <S.TopOverlay>
-              <S.OverlaySection>
-                <CountryFlag countryCode={overlayData.countryCode} />
-                {overlayData.continentText}
-              </S.OverlaySection>
-              <S.OverlaySection className="top-rated me-3 flex w-full items-center justify-end text-yellow-700 dark:text-yellow-400">
-                {venue.rating > 4 && (
-                  <>
-                    <BsStars />
-                    Top Rated
-                  </>
+    <div className="gallery-container">
+      <VenueOptionsDropdown
+        onEdit={onEdit}
+        onDelete={onDelete}
+        venueOwner={venueOwner}
+      />
+      <div className="gallery-wrapper">
+        <S.Gallery>
+          {media.map((img, index) => (
+            <div
+              key={index}
+              className={`fade-effect ${
+                isImageVisible && index === selectedImageIndex
+                  ? "visible"
+                  : "hidden1"
+              }`}
+              style={{
+                width: "100%",
+                maxWidth: "100%",
+                margin: "0 auto",
+                overflow: "hidden",
+                padding: 0,
+                borderRadius: "20px",
+              }}
+            >
+              <S.StyledImg
+                src={img.url || placeholderImage}
+                alt={img.alt || "Illustration from the venue"}
+              />
+              <S.ImageOverlay>
+                {img.alt || "Illustration from the venue"}
+              </S.ImageOverlay>
+              <S.TopOverlay>
+                <S.OverlaySection>
+                  <CountryFlag countryCode={overlayData.countryCode} />
+                  {overlayData.continentText}
+                </S.OverlaySection>
+                <S.OverlaySection
+                  className="top-rated me-12 flex w-full items-center justify-end"
+                  style={{
+                    color: "var(--top-rated-color)",
+                  }}
+                >
+                  {venue.bookings?.length > 5 && (
+                    <div
+                      className="mr-3 flex items-center"
+                      style={{
+                        color: "var(--popular-color)",
+                      }}
+                    >
+                      <FaFire />
+                      <span className="hide-on-mobile ml-1">Popular</span>
+                    </div>
+                  )}
+                  {venue.rating > 4 && (
+                    <div className="flex whitespace-nowrap">
+                      <BsStars />
+                      Top Rated
+                    </div>
+                  )}
+                </S.OverlaySection>
+              </S.TopOverlay>
+              <div
+                className="favorite-overlay bg-none"
+                onClick={toggleFavorite}
+              >
+                {isFavorite(venue.id) ? (
+                  <TbHeartFilled className="text-lg text-red-500" />
+                ) : (
+                  <TbHeart className="text-lg text-red-500" />
                 )}
-              </S.OverlaySection>
-              <S.OverlaySection className="options-icon">
-                <S.OptionsIcon />
-              </S.OverlaySection>
-            </S.TopOverlay>
-            <div className="favorite-overlay bg-none" onClick={toggleFavorite}>
-              {isFavorite(venue.id) ? (
-                <TbHeartFilled className="text-lg text-red-500" />
-              ) : (
-                <TbHeart className="text-lg text-red-500" />
-              )}
+              </div>
             </div>
-          </div>
-        ))}
-        <S.NavButton
-          direction="left"
-          onClick={() =>
-            setSelectedImageIndex((prevIndex) =>
-              prevIndex > 0 ? prevIndex - 1 : media.length - 1,
-            )
-          }
-        >
-          &#10094;
-        </S.NavButton>
-        <S.NavButton
-          direction="right"
-          onClick={() =>
-            setSelectedImageIndex((prevIndex) => (prevIndex + 1) % media.length)
-          }
-        >
-          &#10095;
-        </S.NavButton>
-      </S.Gallery>
-      <S.Thumbnails>
-        {media.map((image, index) => (
-          <S.ThumbnailImg
-            key={index}
-            src={image.url || placeholderImage}
-            alt={image.alt || "Thumbnail"}
-            className={selectedImageIndex === index ? "selected" : ""}
-            onClick={() => setSelectedImageIndex(index)}
-          />
-        ))}
-      </S.Thumbnails>
+          ))}
+          {media.length > 1 && (
+            <div>
+              <S.NavButton
+                direction="left"
+                onClick={() =>
+                  setSelectedImageIndex((prevIndex) =>
+                    prevIndex > 0 ? prevIndex - 1 : media.length - 1,
+                  )
+                }
+              >
+                &#10094;
+              </S.NavButton>
+              <S.NavButton
+                direction="right"
+                onClick={() =>
+                  setSelectedImageIndex(
+                    (prevIndex) => (prevIndex + 1) % media.length,
+                  )
+                }
+              >
+                &#10095;
+              </S.NavButton>
+            </div>
+          )}
+        </S.Gallery>
+        <S.Thumbnails>
+          {media.map((image, index) => (
+            <S.ThumbnailImg
+              key={index}
+              src={image.url || placeholderImage}
+              alt={image.alt || "Thumbnail"}
+              className={selectedImageIndex === index ? "selected" : ""}
+              onClick={() => setSelectedImageIndex(index)}
+            />
+          ))}
+        </S.Thumbnails>
+      </div>
     </div>
   );
 }
@@ -149,6 +191,9 @@ ImageGallery.propTypes = {
   venue: PropTypes.object.isRequired,
   countryName: PropTypes.string.isRequired,
   continent: PropTypes.string.isRequired,
+  onEdit: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  venueOwner: PropTypes.bool.isRequired,
 };
 
 export default ImageGallery;

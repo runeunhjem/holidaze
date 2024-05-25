@@ -4,19 +4,12 @@ import TrendingCarousel from "../../components/TrendingCarousel";
 import VerticalSlider from "../../components/VerticalSlider";
 import VisitNorway from "../../components/VisitNorway";
 import TravelTips from "../../components/TravelTips";
-// import useStore from "../../hooks/useStore";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 
 function HomePage() {
   useEffect(() => {
-    document.title = "Holidaze - Home";
-    let metaDescription = document.querySelector("meta[name='description']");
-    if (!metaDescription) {
-      metaDescription = document.createElement("meta");
-      metaDescription.setAttribute("name", "description");
-      document.getElementsByTagName("head")[0].appendChild(metaDescription);
-    }
-    metaDescription.setAttribute(
-      "content",
+    setTitleAndMeta(
+      "Holidaze - Home",
       "Explore our wide range of destinations from around the world to find your special place.",
     );
   }, []);
@@ -24,9 +17,13 @@ function HomePage() {
   return (
     <S.HomeContainer>
       <TrendingCarousel />
-      <VerticalSlider />
+      <div className="max-w-800">
+        <VerticalSlider />
+      </div>
       <VisitNorway />
-      <VerticalSlider />
+      <div className="max-w-800">
+        <VerticalSlider />
+      </div>
       <TravelTips />
     </S.HomeContainer>
   );

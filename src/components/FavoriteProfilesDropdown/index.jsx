@@ -18,11 +18,6 @@ const FavoriteProfilesDropdown = () => {
   useEffect(() => {
     const defaultFavorites = [
       { id: "HolidazeManager", name: "HolidazeManager" },
-      { id: "Spooky", name: "Spooky" },
-      { id: "kyrre", name: "kyrre" },
-      { id: "ninuskaninus", name: "ninuskaninus" },
-      { id: "mrgold", name: "mrgold" },
-      { id: "vaz01", name: "vaz01" },
     ];
     defaultFavorites.forEach((profile) => {
       if (!favoriteProfiles.some((p) => p.name === profile.name)) {
@@ -78,12 +73,13 @@ const FavoriteProfilesDropdown = () => {
             border: "1px solid var(--border-color)",
             borderRadius: "5px",
           },
+          maxWidth: "230px",
         }}
       >
         {favoriteProfiles.length > 0 ? (
           favoriteProfiles.map((profile) => (
             <MenuItem
-              key={profile.id}
+              key={profile.name}
               onClick={() => handleNavigation(profile.name)}
               sx={{
                 justifyContent: "space-between",
@@ -96,7 +92,7 @@ const FavoriteProfilesDropdown = () => {
             >
               {profile.name}
               <RiDeleteBin6Line
-                onClick={(e) => handleRemove(profile.id, e)}
+                onClick={(e) => handleRemove(profile.name, e)}
                 className="ms-3 cursor-pointer text-red-500 hover:text-red-700"
               />
             </MenuItem>

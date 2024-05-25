@@ -136,6 +136,9 @@ export const ThumbnailImg = styled.img`
 `;
 
 export const OptionsIcon = styled(CgMoreVertical)`
+position: absolute;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
   font-size: 20px;

@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useStore from "../../hooks/useStore";
-import { setMetaDescription } from "../../utils/setMetaDescription";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
 import BannerAndAvatar from "../../components/BannerAndAvatar";
 import ProfileInfo from "../../components/ProfileInfo";
 import ProfileDetails from "../../components/ProfileDetails";
@@ -12,44 +12,53 @@ import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import MyVenues from "../../components/MyVenues";
 import MyBookings from "../../components/MyBookings";
 import MyFavoriteVenues from "../../components/MyFavoriteVenues";
+import { ClipLoader } from "react-spinners"; // Import the spinner
 
 function ProfilePage() {
   const { username } = useParams();
   const { fetchUserProfile } = useProfile();
-  const { viewedProfile, favoriteProfiles, setViewedProfile, userDetails } =
-    useStore();
-  // console.log("Viewed profile:", viewedProfile);
+  const {
+    viewedProfile,
+    favoriteProfiles,
+    setViewedProfile,
+    userDetails,
+    // setUserDetails,
+  } = useStore();
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
   const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
   const [avatarUrl, setAvatarUrl] = useState(defaultAvatarImage);
+  const [loading, setLoading] = useState(true);
+
+  const loadProfile = useCallback(
+    async (username) => {
+      setLoading(true); // Start loading
+      const profileData = await fetchUserProfile(username);
+
+      if (profileData) {
+        console.log("Profile data entering profile page:", profileData);
+
+        const isFav = favoriteProfiles.some((p) => p.name === profileData.name);
+        setViewedProfile({ ...profileData, isFav });
+
+        setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
+        setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
+      }
+      setLoading(false); // End loading
+    },
+    [fetchUserProfile, favoriteProfiles, setViewedProfile],
+  );
 
   useEffect(() => {
-    if ((username && !viewedProfile) || viewedProfile.name !== username) {
-      fetchUserProfile(username).then((profileData) => {
-        if (profileData) {
-          const isFav = favoriteProfiles.some(
-            (p) => p.name === profileData.name,
-          );
-          setViewedProfile({ ...profileData, isFav });
-
-          setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
-          setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
-        }
-      });
+    if (username) {
+      loadProfile(username);
     }
-  }, [
-    username,
-    fetchUserProfile,
-    favoriteProfiles,
-    viewedProfile,
-    setViewedProfile,
-  ]);
+  }, [username, loadProfile]);
 
   useEffect(() => {
-    document.title = `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`;
-    setMetaDescription(
-      "Explore our wide range of destinations from around the world to find your special place.",
+    setTitleAndMeta(
+      `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`,
+      "Overview and shortcuts to all your favorite things in one place."
     );
   }, [viewedProfile.name]);
 
@@ -75,6 +84,15 @@ function ProfilePage() {
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, [anchorEl]);
 
+  if (loading) {
+    return (
+      <div className="flex h-full mt-12 w-full flex-col items-center justify-center">
+        <ClipLoader color="var(--link-color)" loading={loading} size={50} />
+        <p className="mt-4">Loading profile...</p>
+      </div>
+    ); // Render a loading state while fetching data
+  }
+
   return (
     <div
       style={{ color: "var(--profile-text-color)" }}
@@ -97,8 +115,10 @@ function ProfilePage() {
         anchorEl={anchorEl}
         handleClose={handleClose}
       />
-      <MyVenues />
-      <MyBookings />
+      <MyVenues loadProfile={loadProfile} /> {/* Pass loadProfile here */}
+      {viewedProfile && viewedProfile.bookings && (
+        <MyBookings viewedProfile={viewedProfile} />
+      )}
       <MyFavoriteVenues />
     </div>
   );
