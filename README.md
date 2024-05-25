@@ -64,7 +64,7 @@ The project is responsive and works on all devices.
 
 
 <br />
-<a href="https://github.com/runeunhjem/javascript-frameworks-ca-react"><strong>Explore the docs »</strong></a>
+<a href="https://github.com/runeunhjem/holidaze"><strong>Explore the docs »</strong></a>
 <br />
 <br />
 
@@ -100,9 +100,10 @@ The project is responsive and works on all devices.
 
 ## About The Project
 
-[![Holidaze Screen Shot][product-screenshot]](https://github.com/runeunhjem/holidaze/tree/main/src/assets/images/holidaze-home.jpg)
+[![Holidaze Screen Shot](src/assets/images/holidaze-home.jpg)](https://github.com/runeunhjem/holidaze)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ### Tools used in the projects
 
@@ -131,7 +132,7 @@ In order to edit and work with the site locally, you need a code editor.
 1. Install VSC and desired plugins
 2. Clone the repo
    ```sh
-   git clone https://github.com/runeunhjem/javascript-frameworks-ca-react.git
+   git clone https://github.com/runeunhjem/holidaze.git
    ```
 3. Install NPM packages
    ```sh
@@ -153,7 +154,7 @@ In order to edit and work with the site locally, you need a code editor.
 
 An online E-com site. The site is responsive and works on all devices.
 
-Find the latest and greatest version of the site at [https://javascript-frameworks-ca-react.netlify.app/](https://javascript-frameworks-ca-react.netlify.app/)
+Find the latest and greatest version of the site at [https://rundev-holidaze.netlify.app/](https://rundev-holidaze.netlify.app/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -161,16 +162,20 @@ Find the latest and greatest version of the site at [https://javascript-framewor
 
 ## Roadmap to this project
 
-- [ ] Make the Header
-- [ ] Make the Footer
-- [ ] Added Layout component
-- [ ] Added Homepage
-- [ ] Added Product page
-- [ ] Added Cart page
-- [ ] Added Checkout success
-- [ ] Added Contact
+- [x] Make the Header
+- [x] Make the Footer
+- [x] Added Layout component
+- [x] Added Homepage
+- [x] Added Destinations page
+- [x] Added Venue details page
+- [x] Added Profile page
+- [x] Added Contact
+- [x] Added About
+- [x] Added Booking functionalities
+- [x] Added edit and delete functionalities
+- [x] Testing and debugging
 
-See the [open issues](https://github.com/runeunhjem/javascript-frameworks-ca-react/issues) for a full list of proposed features (and known issues).
+See the [open issues](https://github.com/runeunhjem/holidaze/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -195,13 +200,13 @@ Don't forget to give the project a star! Thanks again!
 
 ## Contact
 
-Project Link: [https://github.com/runeunhjem/javascript-frameworks-ca-react](https://github.com/runeunhjem/javascript-frameworks-ca-react)
+Project Link: [https://github.com/runeunhjem/holidaze](https://github.com/runeunhjem/holidaze)
 
 Call me - [+47 93 26 76 11](tel:+4793267611)
 
 Email - [runeunhjem@gmail.com](mailto:runeunhjem@gmail.com)
 
-Web (Portfolio) - [Rune Unhjem](https://runeunhjem.com)
+Web (Portfolio) - [Rune Unhjem](https://portfolio1-ca.netlify.app/)
 
 GitHub - [runeunhjem](https://github.com/runeunhjem)
 
@@ -231,16 +236,16 @@ My music project on Spotify - [Rune Unhjem | -=ThE rUnIcOrN=-](https://open.spot
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/runeunhjem/javascript-frameworks-ca-react.svg?style=for-the-badge
-[contributors-url]: https://github.com/runeunhjem/javascript-frameworks-ca-react/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/runeunhjem/javascript-frameworks-ca-react.svg?style=for-the-badge
-[forks-url]: https://github.com/runeunhjem/javascript-frameworks-ca-react/network/members
-[stars-shield]: https://img.shields.io/github/stars/runeunhjem/javascript-frameworks-ca-react.svg?style=for-the-badge
-[stars-url]: https://github.com/runeunhjem/javascript-frameworks-ca-react/stargazers
-[issues-shield]: https://img.shields.io/github/issues/runeunhjem/javascript-frameworks-ca-react.svg?style=for-the-badge
-[issues-url]: https://github.com/runeunhjem/javascript-frameworks-ca-react/issues
-[license-shield]: https://img.shields.io/github/license/runeunhjem/javascript-frameworks-ca-react.svg?style=for-the-badge
-[license-url]: https://github.com/runeunhjem/javascript-frameworks-ca-react/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/runeunhjem/holidaze.svg?style=for-the-badge
+[contributors-url]: https://github.com/runeunhjem/holidaze/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/runeunhjem/holidaze.svg?style=for-the-badge
+[forks-url]: https://github.com/runeunhjem/holidaze/network/members
+[stars-shield]: https://img.shields.io/github/stars/runeunhjem/holidaze.svg?style=for-the-badge
+[stars-url]: https://github.com/runeunhjem/holidaze/stargazers
+[issues-shield]: https://img.shields.io/github/issues/runeunhjem/holidaze.svg?style=for-the-badge
+[issues-url]: https://github.com/runeunhjem/holidaze/issues
+[license-shield]: https://img.shields.io/github/license/runeunhjem/holidaze.svg?style=for-the-badge
+[license-url]: https://github.com/runeunhjem/holidaze/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/runeunhjem
-[product-screenshot]: ./public/javascript-frameworks-ca-react.png
+[product-screenshot]: ./public/holidaze.png
