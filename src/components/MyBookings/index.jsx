@@ -9,15 +9,18 @@ import { sanitizeVenue } from "../../utils/sanitizeVenue";
 import "./index.css";
 
 function MyBookings({ viewedProfile }) {
-  const { favorites, addFavoriteVenue, removeFavoriteVenue, options, userDetails } =
-    useStore();
+  const {
+    favorites,
+    addFavoriteVenue,
+    removeFavoriteVenue,
+    options,
+    userDetails,
+  } = useStore();
   const [bookings, setBookings] = useState(viewedProfile?.bookings || []);
 
   useEffect(() => {
     setBookings(viewedProfile?.bookings || []);
   }, [viewedProfile]);
-
-  // console.log("Bookings:", bookings);
 
   const transformedBookings = useMemo(() => {
     return bookings.map((booking) => ({
@@ -149,8 +152,15 @@ function MyBookings({ viewedProfile }) {
                       borderRadius: "5px 0 0 5px",
                       height: "100%",
                     }}
-                    image={booking.venue.media[0].url}
-                    alt={booking.venue.media[0].alt || booking.venue.name}
+                    image={
+                      booking.venue.media?.[0]?.url ||
+                      "/path/to/default-image.jpg"
+                    }
+                    alt={
+                      booking.venue.media?.[0]?.alt ||
+                      booking.venue.name ||
+                      "Venue Image"
+                    }
                   />
 
                   <div className="id-overlay flex items-center justify-around py-1 text-xs">
