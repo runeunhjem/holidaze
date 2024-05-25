@@ -100,7 +100,7 @@ The project is responsive and works on all devices.
 
 ## About The Project
 
-[![Holidaze Screen Shot][product-screenshot]](./src/assets/images/holidaze-home.jpg)
+[![Holidaze Screen Shot][product-screenshot]](https://github.com/runeunhjem/holidaze/tree/main/src/assets/images/holidaze-home.jpg)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
