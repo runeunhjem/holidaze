@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 import CardImageCarousel from "../MUI/CardImageCarousel";
 import RatingStar from "../RatingStar";
 import { TbHeartPlus, TbHeartFilled } from "react-icons/tb";
+import { FiWifi } from "react-icons/fi";
+import { TbParking } from "react-icons/tb";
+import { MdFastfood, MdPets } from "react-icons/md";
 import useStore from "../../hooks/useStore";
 import {
   hasValidImages,
@@ -36,53 +39,49 @@ function VenueCard({ venue }) {
     };
 
     const normalizeMeta = (meta) => {
-    if (Array.isArray(meta)) {
-      return meta;
-    } else if (typeof meta === "object") {
-      return Object.keys(meta).filter((key) => meta[key]); // Converts object keys to an array if their values are truthy
-    }
-    return []; // Return empty array as fallback
-  };
+      if (Array.isArray(meta)) {
+        return meta;
+      } else if (typeof meta === "object") {
+        return Object.keys(meta).filter((key) => meta[key]);
+      }
+      return [];
+    };
 
     const checkFilters = () => {
-  const meetsAmenities =
-    filters.amenities.length === 0 ||
-    filters.amenities.every((amenity) =>
-      normalizeMeta(venue.meta).includes(amenity),
-    );
+      const meetsAmenities =
+        filters.amenities.length === 0 ||
+        filters.amenities.every((amenity) =>
+          normalizeMeta(venue.meta).includes(amenity),
+        );
 
-  // Normalizing strings to lowercase for a case-insensitive comparison
-  const managerNameMatch =
-    !filters.manager ||
-    (venue.owner &&
-      venue.owner.name.toLowerCase() === filters.manager.toLowerCase());
+      const managerNameMatch =
+        !filters.manager ||
+        (venue.owner &&
+          venue.owner.name.toLowerCase() === filters.manager.toLowerCase());
 
-  // Check if venue has bookings based on filters.hasBookings being true and bookings existing
-  const hasBookingsMatch = !filters.hasBookings || (venue.bookings && venue.bookings.length > 0);
+      const hasBookingsMatch =
+        !filters.hasBookings || (venue.bookings && venue.bookings.length > 0);
 
-  return (
-    (!filters.rating || venue.rating >= filters.rating) &&
-    (!filters.maxPrice || venue.price <= filters.maxPrice) &&
-    (!filters.minPrice || venue.price >= filters.minPrice) &&
-    (!filters.city || venue.location.city === filters.city) &&
-    managerNameMatch &&
-    (!filters.country || venue.location.country === filters.country) &&
-    (!filters.continent || venue.location.continent === filters.continent) &&
-    (!filters.maxGuests || venue.maxGuests <= filters.maxGuests) &&
-    hasBookingsMatch &&
-    meetsAmenities
-  );
-};
-
-
-
+      return (
+        (!filters.rating || venue.rating >= filters.rating) &&
+        (!filters.maxPrice || venue.price <= filters.maxPrice) &&
+        (!filters.minPrice || venue.price >= filters.minPrice) &&
+        (!filters.city || venue.location.city === filters.city) &&
+        managerNameMatch &&
+        (!filters.country || venue.location.country === filters.country) &&
+        (!filters.continent ||
+          venue.location.continent === filters.continent) &&
+        (!filters.maxGuests || venue.maxGuests <= filters.maxGuests) &&
+        hasBookingsMatch &&
+        meetsAmenities
+      );
+    };
 
     const isOptionValid = checkOptions();
     const isFilterValid = checkFilters();
     setIsVisible(isOptionValid && isFilterValid);
     setIsFavorite(favorites.some((fav) => fav.id === venue.id));
   }, [favorites, venue, options, filters]);
-
 
   const toggleFavorite = () => {
     if (isFavorite) {
@@ -103,9 +102,6 @@ function VenueCard({ venue }) {
     price: sanitizeFields(`${venue.price}`),
   };
 
-
-
-
   return (
     <div
       className="wrapper relative my-2 flex flex-col overflow-hidden rounded pb-4 shadow-lg"
@@ -125,14 +121,23 @@ function VenueCard({ venue }) {
       />
       <div className="card-info">
         <div
-          className="flex w-full items-center px-4"
+          className="flex w-full px-4"
           style={{ height: "40px", alignItems: "flex-start" }}
         >
           <div className="font-bold">{sanitizedVenue.name}</div>
         </div>
         <div
-          className="h-50px flex w-full items-center justify-between px-4"
-          style={{ height: "50px", transition: "transform 0.3s" }}
+          className="flex w-full justify-start items-end px-4"
+          style={{ gap: "10px", height: "30px" }}
+        >
+          {venue.meta.wifi && <FiWifi className="amenities text-xl" />}
+          {venue.meta.parking && <TbParking className="amenities text-xl" />}
+          {venue.meta.breakfast && <MdFastfood className="amenities text-xl" />}
+          {venue.meta.pets && <MdPets className="amenities text-xl" />}
+        </div>
+        <div
+          className="flex w-full items-center justify-between px-4 pb-6"
+          style={{ height: "20px", transition: "transform 0.3s" }}
         >
           <div className="flex items-center justify-start pt-8">
             <span className="me-1">{venue.rating.toFixed(1)}</span>
@@ -146,10 +151,8 @@ function VenueCard({ venue }) {
               <TbHeartFilled className="text-xl transition-transform hover:scale-125" />
             ) : (
               <TbHeartPlus className="text-xl transition-transform hover:scale-125" />
-            ) }
-            <span className="visually-hidden">
-              Toggle favorite
-            </span>
+            )}
+            <span className="visually-hidden">Toggle favorite</span>
           </button>
         </div>
         <div
@@ -194,7 +197,7 @@ VenueCard.propTypes = {
       PropTypes.arrayOf(PropTypes.string),
       PropTypes.object,
     ]),
-    bookings: PropTypes.array, // Define the shape more specifically if needed
+    bookings: PropTypes.array,
     rating: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
     id: PropTypes.string.isRequired,
