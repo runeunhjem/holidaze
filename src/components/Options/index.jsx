@@ -92,9 +92,12 @@ const Options = () => {
         }}
       />
       <Typography className="flex items-center" variant="h5" gutterBottom>
-        <RiSettings4Line className="text-3xl me-4" style={ {
-          color: "var(--link-color)",
-        } } />
+        <RiSettings4Line
+          className="me-4 text-3xl"
+          style={{
+            color: "var(--link-color)",
+          }}
+        />
         Options
       </Typography>
       <Grid container spacing={1}>

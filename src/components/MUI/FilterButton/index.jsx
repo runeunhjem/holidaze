@@ -11,7 +11,12 @@ function FilterButton() {
     filtersMenuIsOpen,
     toggleOptionsOpen,
     toggleFiltersOpen,
+    countActiveOptions,
+    countActiveFilters,
   } = useStore();
+
+  const activeOptionsCount = countActiveOptions();
+  const activeFiltersCount = countActiveFilters();
 
   // Close both options and filters when certain conditions are met or on page reload
   useEffect(() => {
@@ -22,11 +27,27 @@ function FilterButton() {
 
   return (
     <ButtonContainer>
-      <FilterButtonStyled onClick={toggleFiltersOpen}>
-        Filters
+      <FilterButtonStyled
+        onClick={toggleFiltersOpen}
+        activeCount={activeFiltersCount}
+        style={{
+          backgroundColor: activeFiltersCount > 0 ? "green" : undefined,
+          color: activeFiltersCount > 0 ? "white" : undefined,
+          width: activeFiltersCount > 0 ? "150px" : "120px",
+        }}
+      >
+        Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
       </FilterButtonStyled>
-      <FilterButtonStyled onClick={toggleOptionsOpen}>
-        Options
+      <FilterButtonStyled
+        onClick={toggleOptionsOpen}
+        activeCount={activeOptionsCount}
+        style={{
+          backgroundColor: activeOptionsCount > 0 ? "green" : undefined,
+          color: activeOptionsCount > 0 ? "white" : undefined,
+          width: activeOptionsCount > 0 ? "150px" : "120px",
+        }}
+      >
+        Options {activeOptionsCount > 0 && `(${activeOptionsCount})`}
       </FilterButtonStyled>
 
       <Options

@@ -8,7 +8,7 @@ export const ButtonContainer = styled("div")({
 
   maxWidth: "100%",
   boxSizing: "border-box",
-  width: "87px",
+  // width: "120px",
   height: "20px",
   position: "absolute",
   bottom: "-20px",
@@ -21,17 +21,26 @@ export const FilterButtonStyled = styled(Button)(({ theme }) => ({
   borderRadius: "0 0 5px 5px",
   fontSize: "0.9rem",
   border: "1px solid",
-  borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
-  backgroundColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+  borderColor:
+    theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
+  backgroundColor:
+    theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300)",
   color: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--gray-900)",
   "&:hover": {
-    backgroundColor: theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--sky-200)",
-    borderColor: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-300) !important",
+    backgroundColor:
+      theme.palette.mode === "dark" ? "var(--gray-900)" : "var(--sky-200)",
+    borderColor:
+      theme.palette.mode === "dark"
+        ? "var(--yellow-400)"
+        : "var(--sky-300) !important",
 
-    color: theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-900)",
+    color:
+      theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-900)",
     border: "1px solid",
   },
   outline: "none",
   boxShadow: "none",
   textTransform: "none",
+  width: "120px", // Default width
+  transition: "width 0.3s ease-in-out",
 }));

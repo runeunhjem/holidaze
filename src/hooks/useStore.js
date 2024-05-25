@@ -1,4 +1,3 @@
-// useStore.js
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { ENDPOINTS, PARAMS } from "../constants/api";
@@ -206,6 +205,23 @@ const useStore = create(
           }
         },
         resetJustLoggedIn: () => set({ justLoggedIn: false }),
+        countActiveOptions: () => {
+          const { options } = get();
+          return Object.values(options).filter((value) => value).length;
+        },
+        countActiveFilters: () => {
+          const { filters } = get();
+          return Object.values(filters).reduce((count, value) => {
+            if (
+              value &&
+              value !== "" &&
+              !(Array.isArray(value) && value.length === 0)
+            ) {
+              count += 1;
+            }
+            return count;
+          }, 0);
+        },
       }),
       {
         name: "user-info-and-favs",
