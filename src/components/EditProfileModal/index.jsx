@@ -9,6 +9,7 @@ import {
   Checkbox,
   Typography,
 } from "@mui/material";
+import { MdClose } from "react-icons/md"; // Import the close icon
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
@@ -105,6 +106,17 @@ const EditProfileModal = ({ open, handleClose }) => {
             borderRadius: 5,
           }}
         >
+          <MdClose
+            onClick={handleClose}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              cursor: "pointer",
+              color: "gray",
+              fontSize: "24px",
+            }}
+          />
           <Typography
             variant="h6"
             component="h2"

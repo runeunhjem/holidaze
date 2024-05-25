@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
+import { MdClose } from "react-icons/md"; // Import the close icon
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -18,7 +19,6 @@ function EditBookingModal({
   endDate,
   guests,
   handleDateChange,
-
   handleUpdateBooking,
   userDetails,
   venue,
@@ -76,7 +76,20 @@ function EditBookingModal({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Edit Booking</DialogTitle>
+      <DialogTitle>
+        Edit Booking
+        <MdClose
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "10px",
+            right: "10px",
+            cursor: "pointer",
+            color: "gray",
+            fontSize: "24px",
+          }}
+        />
+      </DialogTitle>
       <DialogContent
         sx={{
           width: "min-content",
@@ -98,7 +111,6 @@ function EditBookingModal({
           monthsShown={2}
           renderDayContents={renderDayContents}
         />
-
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Cancel</Button>
@@ -114,7 +126,6 @@ EditBookingModal.defaultProps = {
   booking: null,
   startDate: new Date(),
   endDate: new Date(),
-
 };
 
 EditBookingModal.propTypes = {
@@ -123,9 +134,7 @@ EditBookingModal.propTypes = {
   booking: PropTypes.object,
   startDate: PropTypes.instanceOf(Date),
   endDate: PropTypes.instanceOf(Date),
-
   handleDateChange: PropTypes.func.isRequired,
-
   handleUpdateBooking: PropTypes.func.isRequired,
   userDetails: PropTypes.object.isRequired,
   venue: PropTypes.object.isRequired,

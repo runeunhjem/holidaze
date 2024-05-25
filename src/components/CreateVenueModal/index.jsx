@@ -10,6 +10,7 @@ import {
   Typography,
   Grid,
 } from "@mui/material";
+import { MdClose } from "react-icons/md";
 import { createNewVenue } from "../../utils/createNewVenue";
 import useStore from "../../hooks/useStore";
 import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
@@ -41,7 +42,7 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     },
   });
 
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigate = useNavigate();
   const handleChange = (field, value) => {
     setVenueData((prev) => ({ ...prev, [field]: value }));
   };
@@ -73,7 +74,6 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     }));
   };
 
-  // Guests, price, and rating need to have their respective min-max values as top as well as no negative or text or other characters
   const handleNumericInput = (field, value, validator) => {
     if (value === "") {
       setVenueData((prev) => ({ ...prev, [field]: value }));
@@ -109,10 +109,10 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
       const newVenue = await createNewVenue(venueData, accessToken);
       onVenueCreated(newVenue);
       if (loadProfile) {
-        await loadProfile(userDetails.name); // Load the updated profile if loadProfile is provided
+        await loadProfile(userDetails.name);
       }
       onClose();
-      navigate(`/profile/${userDetails.name}`); // Navigate to the profile page
+      navigate(`/profile/${userDetails.name}`);
       console.log("Venue created:", newVenue);
     } catch (error) {
       console.error("Failed to create venue:", error);
@@ -138,6 +138,17 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
             overflowY: "auto",
           }}
         >
+          <MdClose
+            onClick={onClose}
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              cursor: "pointer",
+              color: "gray",
+              fontSize: "24px",
+            }}
+          />
           <Typography variant="h6" gutterBottom>
             Create New Venue
           </Typography>
