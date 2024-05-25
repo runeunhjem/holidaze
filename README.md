@@ -8,13 +8,17 @@
 
 ## Deploy instructions
 
-##### Add environment variable: VITE_API_KEY with the value of the API key
+##### Add environment variables: VITE_API_KEY & VITE_GOOGLE_MAPS_API_KEY with their respective values of the API keys
 
 ## Description
 
-Holidaze is a project that was created as a part of the final exam in the course Frontend Development 2 at Noroff. The project is a fictional venue booking site where users can book hotels, send inquiries, and read more about the venues or add their own venues for other users to look at or book. The project is built with Vite, React and MUI, and the data is fetched from Noroff's Holidaze API. The project is responsive and works on all devices.
+Holidaze is a project that was created as a part of the final exam in the course Frontend Development 2 at Noroff.
 
+The project is a fictional venue booking site where users can book hotels, send inquiries, and read more about the venues or add their own venues for other users to look at or book.
 
+The project is built with Vite, React and MUI, and the data is fetched from Noroff's Holidaze API.
+
+The project is responsive and works on all devices.
 
 <a name="readme-top"></a>
 
@@ -27,43 +31,38 @@ Holidaze is a project that was created as a part of the final exam in the course
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/runeunhjem/javascript-frameworks-ca-react/">
-    <img src="public/header-logo-cgg.svg" alt="CGG Logo">
+  <a href="https://github.com/runeunhjem/holidaze">
+    <img src="./src/assets/logo/holidaze.png" alt="Holidaze Logo">
   </a>
 
-  <h3 align="center">JS Frameworks CA - React with Vite</h3>
+  <h3 align="center">Project Exam 2 - Holidaze - Built with React</h3>
 
   <p align="left">
-    You are tasked with build out the following pages for an eCom store:
-      * Homepage
-      * Individual product page
-      * Cart page
-      * Checkout success page
-    The Homepage should have a list of all the products. There should be a look-ahead search bar that filters products when typing in a product name. Clicking on a product should take a user to an individual product page.
-
-    You pages should use a <Layout> component that contains a header and footer. The header should contain a nav bar as well as a Cart icon component that acts as a button as well as displays the current number of items in the cart.
-
+    A newly launched accommodation booking site called Holidaze has approached you to develop a brand new front end for their application.
   </p>
 
-  <p align="left">The individual product page should display data for a single product. There should be an Add to cart button which, upon clicking, adds the product to   the cart. The product page should display the title of the product, the description and the image. There should also be reviews listed for the product, if there are any. You should use the discountedPrice property to display the price of the product. If there is a difference between the discountedPrice and price properties then that means there is a discount for that product. Calculate what this discount is and display it on the page.</p>
+  <p align="left">
+    While they have a list of required features, the design and user experience has not been specified.
+  </p>
 
-  <p align="left">Clicking on the Cart icon will load the Cart page, which will list all of the products as well as a total. The Cart page will have a Checkout button. Clicking this Checkout button then goes to a Checkout success page.</p>
+  <p align="left">
+    Working with the official API documentation, plan, design and build a modern front end accommodation booking application.
+  </p>
 
-  <p align="left">The Checkout success page will display a message to the user notifying them that their order was successful. There should also be a link that lets a user go back to the store. The cart must be cleared if the user gets to the Checkout success page.</p>
+  <p align="left">
+    There are two aspects to this brief: the customer-facing side of the website where users can book holidays at a venue,
+    and an admin-facing side of the website where users can register and manage venues and bookings at those venues.
+  </p>
 
-  <p align="left">here will be a contact page which will contain a contact form with the following fields. There must be form validation:
-    * Full name (Minimum number of characters is 3, required)
-    * Subject (Minimum number of characters is 3, required)
-    * Email (Must be a valid email address, required)
-    * Body (Minimum number of characters is 3, required)</p>
+  <p align="left">
+    All API functionality is managed by an existing application.
+  </p>
+  <p align="left">
+    This project only covers the front-end application for the API.
+  </p>
 
-  <p align="left">You will be using React Router to switch between pages.
 
-Your design should be responsive. You are welcome to use a CSS Framework, however, you’re encouraged to design from scratch and use styled-components or CSS Modules.
 
-You are not required to use TypeScript.
-
-Your code is expected to be clean and well-formatted.</p>
 <br />
 <a href="https://github.com/runeunhjem/javascript-frameworks-ca-react"><strong>Explore the docs »</strong></a>
 <br />
@@ -101,7 +100,7 @@ Your code is expected to be clean and well-formatted.</p>
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://javascript-frameworks-ca-react.netlify.app/)
+[![Holidaze Screen Shot][product-screenshot]](./src/assets/images/holidaze-home.jpg)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -137,11 +136,11 @@ In order to edit and work with the site locally, you need a code editor.
 3. Install NPM packages
    ```sh
     npm install
-    ```
+   ```
 4. Run the script to go live locally
-    ```sh
-    npm run dev
-    ```
+   ```sh
+   npm run dev
+   ```
 5. Open your browser and follow the link to the local server
 
 6. Start working
@@ -208,7 +207,6 @@ GitHub - [runeunhjem](https://github.com/runeunhjem)
 
 LinkedIn - [Rune Unhjem](https://www.linkedin.com/in/runeunhjem/)
 
-
 ##### Other projects
 
 My music project on Spotify - [Rune Unhjem | -=ThE rUnIcOrN=-](https://open.spotify.com/user/1116127880?si=8e9e9e8f3b5c4e9d)
@@ -246,4 +244,3 @@ My music project on Spotify - [Rune Unhjem | -=ThE rUnIcOrN=-](https://open.spot
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/runeunhjem
 [product-screenshot]: ./public/javascript-frameworks-ca-react.png
-
