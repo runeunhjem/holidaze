@@ -105,11 +105,19 @@ const EditProfileModal = ({ open, handleClose }) => {
             borderRadius: 5,
           }}
         >
-          <Typography variant="h6" component="h2" mb={2} className="flex">
+          <Typography
+            variant="h6"
+            component="h2"
+            mb={2}
+            className="flex items-center"
+          >
             <img
               src={formData.avatarUrl}
               alt={formData.avatarAlt}
               className="me-5 w-10 rounded-full"
+              style={{
+                boxShadow: "0 4px 6px 0 rgba(0, 0, 0, 0.6)",
+              }}
             />
             Edit Profile
           </Typography>
