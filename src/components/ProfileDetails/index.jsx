@@ -11,7 +11,6 @@ const ProfileDetails = ({
 }) => {
   const { favorites } = useStore();
 
-  // Function to format the bio with line breaks
   const formatBio = (bio) => {
     if (!bio) return "No biography provided.";
     return (
@@ -76,7 +75,7 @@ const ProfileDetails = ({
             border: "1px solid var(--profile-text-color)",
             borderRadius: "5px",
             padding: "20px",
-            whiteSpace: "pre-line", // This preserves whitespace and line breaks
+            whiteSpace: "pre-line",
           }}
           dangerouslySetInnerHTML={{ __html: formatBio(viewedProfile.bio) }}
         />

@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import contact1 from "../../assets/images/contact-1.png";
 import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 
 function ContactPage() {
   const {
@@ -35,14 +35,12 @@ function ContactPage() {
 
   const onSubmit = async (data) => {
     try {
-      // Simulate API call
-      console.log("Form Data Submitted:", data);
       setSubmitSuccess(true);
       setSubmitError("");
       setTimeout(() => {
         setSubmitSuccess(false);
         reset();
-      }, 4000); // Dismiss success message after 4 seconds
+      }, 4000);
     } catch (error) {
       setSubmitError("Failed to send message. Please try again.");
       setSubmitSuccess(false);
@@ -52,7 +50,6 @@ function ContactPage() {
   return (
     <Container maxWidth="lg">
       <AddMissingFormLabelsToMUI />{" "}
-      {/* Add this line to include the utility function */}
       <Box
         sx={{
           marginTop: 4,

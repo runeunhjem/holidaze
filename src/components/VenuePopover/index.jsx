@@ -3,7 +3,7 @@ import { Popover, CardContent, Typography } from "@mui/material";
 
 function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
   if (!selectedVenue) {
-    return null; // Don't render if no venue is selected
+    return null;
   }
 
   const id = open ? "venue-popover" : false;
@@ -156,7 +156,7 @@ function VenuePopover({ selectedVenue, anchorEl, open = false, onClose }) {
 VenuePopover.propTypes = {
   selectedVenue: PropTypes.object,
   anchorEl: PropTypes.object,
-  open: PropTypes.bool, // Open prop is now marked as optional
+  open: PropTypes.bool,
   onClose: PropTypes.func,
 };
 

@@ -74,7 +74,7 @@ function SearchBar({ onClose }) {
         console.error("Error fetching lookahead results:", error);
         setLookaheadResults([]);
       }
-    }, 700); // Adjust the delay as needed (700ms in this case)
+    }, 700);
 
     return () => {
       debouncedFetchRef.current.cancel();
@@ -88,17 +88,14 @@ function SearchBar({ onClose }) {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setSearchParams((prev) => ({ ...prev, [name]: value }));
-    console.log(`Input ${name} changed:`, value);
   };
 
   const handleDateChange = (name, newValue) => {
     setSearchParams((prev) => ({ ...prev, [name]: newValue }));
-    console.log(`Date ${name} changed:`, newValue);
   };
 
   const handleDatepickerClose = () => {
     setIsDatepickerOpen(false);
-    console.log("Datepicker open status:", isDatepickerOpen);
   };
 
   const handleSubmit = (e) => {

@@ -9,7 +9,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { useAuth } from "../../hooks/useAuth";
 import { Link } from "react-router-dom";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 import "./index.css";
 
 function LoginPage() {
@@ -18,7 +18,7 @@ function LoginPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { logIn } = useAuth(); // Destructure logIn directly from useAuth
+  const { logIn } = useAuth();
   const [error, setError] = useState("");
 
   useEffect(() => {

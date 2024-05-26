@@ -1,4 +1,3 @@
-// utilities.js
 export function setMetaDescription(description) {
   let metaDescription = document.querySelector("meta[name='description']");
   if (!metaDescription) {

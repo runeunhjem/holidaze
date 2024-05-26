@@ -16,11 +16,11 @@ function useHeartToggle(viewedProfile) {
 
   const toggleHeart = () => {
     if (isFavorite) {
-      removeFavoriteProfile(viewedProfile.name); // Remove by name
+      removeFavoriteProfile(viewedProfile.name);
     } else {
-      addFavoriteProfile(viewedProfile); // Directly add to favorites
+      addFavoriteProfile(viewedProfile);
     }
-    setIsFavorite(!isFavorite); // Toggle internal state
+    setIsFavorite(!isFavorite);
   };
 
   return { isFavorite, toggleHeart };

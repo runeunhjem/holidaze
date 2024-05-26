@@ -3,11 +3,11 @@ import styled from "styled-components";
 
 export const StyledSlider = styled(Slider)`
   .slick-slide {
-    display: flex; // Ensure this is set to flex and not inline-flex if having issues
+    display: flex;
     flex-direction: row;
     align-items: center !important;
     min-height: 70px;
-    justify-content: center; // Align content to the start to keep text next to the icon
+    justify-content: center;
     padding: 10px;
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
@@ -16,7 +16,7 @@ export const StyledSlider = styled(Slider)`
     svg {
       color: var(--border-color);
       margin-right: 10px;
-      font-size: 32px; // Adjust icon size as needed
+      font-size: 32px;
     }
   }
 
@@ -24,11 +24,11 @@ export const StyledSlider = styled(Slider)`
     margin: 0 auto;
     padding: 0;
     /* max-width: 800px; */
-    max-height: 300px; // Adjust based on your needs
+    max-height: 300px;
   }
 
   .slick-track {
-    align-items: center; // Ensure items within the track are also centered vertically
+    align-items: center;
   }
 
   .slide-item {

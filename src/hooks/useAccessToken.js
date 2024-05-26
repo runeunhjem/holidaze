@@ -1,7 +1,7 @@
 import useStore from "../hooks/useStore";
 
 const useAccessToken = () => {
-  const { accessToken } = useStore(); // Retrieve accessToken directly
+  const { accessToken } = useStore();
   return accessToken;
 };
 

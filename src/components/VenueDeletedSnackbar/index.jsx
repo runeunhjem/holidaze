@@ -1,4 +1,3 @@
-// src/components/CustomSnackbar.jsx
 import PropTypes from "prop-types";
 import Snackbar from "@mui/material/Snackbar";
 import "../../pages/VenueDetailsPage/index.css";

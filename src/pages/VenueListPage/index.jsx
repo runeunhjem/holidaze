@@ -7,8 +7,8 @@ import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
 import { Link } from "react-router-dom";
-import { ClipLoader } from "react-spinners"; // Import the spinner
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 import "./index.css";
 
 function VenueListPage() {
@@ -25,7 +25,7 @@ function VenueListPage() {
     setLoading,
     setError,
     updateFilterOptions,
-    resetFilters, // Add resetFilters function from the store
+    resetFilters,
   } = useStore();
 
   useEffect(() => {
@@ -80,7 +80,6 @@ function VenueListPage() {
     setCurrentPage(value);
   };
 
-  // Function to count active filters
   const countActiveFilters = () => {
     return Object.values(filters).reduce((count, value) => {
       if (

@@ -30,7 +30,6 @@ const Options = () => {
     setVenuesPerPage(event.target.value);
   };
 
-  // Define the order of the options here
   const optionOrder = [
     "checkImage",
     "minImagesCount",

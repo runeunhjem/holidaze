@@ -113,7 +113,6 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
       }
       onClose();
       navigate(`/profile/${userDetails.name}`);
-      console.log("Venue created:", newVenue);
     } catch (error) {
       console.error("Failed to create venue:", error);
     }

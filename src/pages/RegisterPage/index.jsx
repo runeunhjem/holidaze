@@ -14,7 +14,7 @@ import {
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Link, useNavigate } from "react-router-dom";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 import "./index.css";
 
 function RequiredLabel({ label, required }) {

@@ -24,7 +24,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  // Snackbar,
 } from "@mui/material";
 import VenueLocationSection from "../../components/VenueLocationSection";
 import VenueDetailsSection from "../../components/VenueDetailsSection";
@@ -290,7 +289,6 @@ function VenueDetailsPage() {
   const handleUpdateBooking = async (updatedBooking) => {
     const { dateFrom, dateTo, guests, customer } = updatedBooking;
 
-    // Ensure dateFrom and dateTo are valid Date objects and in the future
     const today = new Date();
     const finalDateFrom =
       dateFrom instanceof Date ? dateFrom : new Date(dateFrom);
@@ -336,7 +334,7 @@ function VenueDetailsPage() {
             booking.customer?.name === userDetails.name &&
             new Date(booking.dateTo) >= new Date(),
         )
-        .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom)) // Sort by oldest check-in date
+        .sort((a, b) => new Date(a.dateFrom) - new Date(b.dateFrom))
     : [];
 
   const renderDayContents = (day, date) => {
@@ -485,7 +483,6 @@ function VenueDetailsPage() {
                         className="header-nav-links flex flex-wrap rounded text-start"
                         style={{
                           color: "var(--link-color)",
-                          // width: "270px"
                         }}
                       >
                         <span className="me-4">

@@ -1,4 +1,3 @@
-// ProfileInfo.js
 import PropTypes from "prop-types";
 import { TbHomeEdit, TbUserEdit } from "react-icons/tb";
 import { HiOutlineUser } from "react-icons/hi";
@@ -21,7 +20,6 @@ const ProfileInfo = ({ viewedProfile }) => {
         {viewedProfile.name}
       </h1>
 
-      {/* Conditional rendering for profile type */}
       {viewedProfile.venueManager ? (
         <div className="mt-2 flex items-center justify-center">
           <TbHomeEdit className="me-2 text-2xl" />
@@ -39,7 +37,6 @@ const ProfileInfo = ({ viewedProfile }) => {
         </div>
       )}
 
-      {/* Edit profile */}
       <div className="mt-2 flex items-center justify-center">
         <TbUserEdit className="me-2 text-2xl" />
 
@@ -51,7 +48,6 @@ const ProfileInfo = ({ viewedProfile }) => {
         </h2>
       </div>
 
-      {/* Email information */}
       <div className="mt-2 flex items-center justify-center">
         <MdOutlineMarkEmailRead className="text-1xl me-2" />
         <h3 className="text-1xl header-nav-links rounded text-center font-bold">

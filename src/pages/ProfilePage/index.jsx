@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import useProfile from "../../hooks/useProfile";
 import useStore from "../../hooks/useStore";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 import BannerAndAvatar from "../../components/BannerAndAvatar";
 import ProfileInfo from "../../components/ProfileInfo";
 import ProfileDetails from "../../components/ProfileDetails";
@@ -12,18 +12,13 @@ import defaultAvatarImage from "../../assets/images/default-profile-image.png";
 import MyVenues from "../../components/MyVenues";
 import MyBookings from "../../components/MyBookings";
 import MyFavoriteVenues from "../../components/MyFavoriteVenues";
-import { ClipLoader } from "react-spinners"; // Import the spinner
+import { ClipLoader } from "react-spinners";
 
 function ProfilePage() {
   const { username } = useParams();
   const { fetchUserProfile } = useProfile();
-  const {
-    viewedProfile,
-    favoriteProfiles,
-    setViewedProfile,
-    userDetails,
-    // setUserDetails,
-  } = useStore();
+  const { viewedProfile, favoriteProfiles, setViewedProfile, userDetails } =
+    useStore();
   const { isFavorite, toggleHeart } = useHeartToggle(viewedProfile);
 
   const [bannerUrl, setBannerUrl] = useState(defaultProfileBanner);
@@ -32,19 +27,17 @@ function ProfilePage() {
 
   const loadProfile = useCallback(
     async (username) => {
-      setLoading(true); // Start loading
+      setLoading(true);
       const profileData = await fetchUserProfile(username);
 
       if (profileData) {
-        console.log("Profile data entering profile page:", profileData);
-
         const isFav = favoriteProfiles.some((p) => p.name === profileData.name);
         setViewedProfile({ ...profileData, isFav });
 
         setBannerUrl(profileData.banner?.url ?? defaultProfileBanner);
         setAvatarUrl(profileData.avatar?.url ?? defaultAvatarImage);
       }
-      setLoading(false); // End loading
+      setLoading(false);
     },
     [fetchUserProfile, favoriteProfiles, setViewedProfile],
   );
@@ -58,7 +51,7 @@ function ProfilePage() {
   useEffect(() => {
     setTitleAndMeta(
       `Holidaze - ${viewedProfile.name || "Profile"}'s Profile`,
-      "Overview and shortcuts to all your favorite things in one place."
+      "Overview and shortcuts to all your favorite things in one place.",
     );
   }, [viewedProfile.name]);
 
@@ -86,11 +79,11 @@ function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex h-full mt-12 w-full flex-col items-center justify-center">
+      <div className="mt-12 flex h-full w-full flex-col items-center justify-center">
         <ClipLoader color="var(--link-color)" loading={loading} size={50} />
         <p className="mt-4">Loading profile...</p>
       </div>
-    ); // Render a loading state while fetching data
+    );
   }
 
   return (

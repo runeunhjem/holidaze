@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import MyFavoriteVenues from "../../components/MyFavoriteVenues";
-import { ClipLoader } from "react-spinners"; // Import the spinner
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 
 function MyFavoritesPage() {
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTitleAndMeta(
       "Holidaze - Your Favorite Destinations",
       "Explore your favorite picks of destinations from around the world and choose your special place.",
     );
-    setLoading(false); // Set loading to false after the initial setup
+    setLoading(false);
   }, []);
 
   if (loading) {

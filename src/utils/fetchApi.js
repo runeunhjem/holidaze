@@ -1,4 +1,3 @@
-// src/utils/fetchApi.js
 import { API_BASE_URL_V2 } from "../constants/api";
 
 export const fetchApi = async (url, options = {}, accessToken) => {

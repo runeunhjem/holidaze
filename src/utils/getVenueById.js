@@ -2,7 +2,6 @@ import { fetchApi } from "./fetchApi";
 import { ENDPOINTS } from "../constants/api";
 
 export const getVenueById = async (id, extraParams = {}) => {
-  // Default parameters that you always want to include
   const defaultParams = {
     _owner: true,
     _bookings: true,

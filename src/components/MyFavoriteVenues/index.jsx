@@ -26,7 +26,6 @@ function MyFavoriteVenues() {
 
   const open = Boolean(anchorEl);
 
-  // Sort favorites by country
   const sortedFavorites = useMemo(() => {
     return [...favorites].sort((a, b) => {
       const countryA = a.location.country.toLowerCase();
@@ -37,7 +36,6 @@ function MyFavoriteVenues() {
     });
   }, [favorites]);
 
-  // Memoize sanitized favorites to avoid unnecessary re-renders
   const favoriteDisplay = useMemo(
     () => sortedFavorites.map((venue) => sanitizeVenue(venue, options)),
     [sortedFavorites, options],
@@ -51,7 +49,7 @@ function MyFavoriteVenues() {
       handleClose();
       setTimeout(() => {
         performToggle(venue);
-      }, 300); // Wait for the popover to fully close before modifying the favorites
+      }, 300);
     } else {
       performToggle(venue);
     }

@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
 import MyBookings from "../../components/MyBookings";
-import { ClipLoader } from "react-spinners"; // Import the spinner
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 
 function MyBookingsPage() {
   const { viewedProfile } = useStore();
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTitleAndMeta(
       "Holidaze - Your Bookings",
       "Explore your booked destinations from around the world and look forward to your stay in that special place.",
     );
-    setLoading(false); // Set loading to false after the initial setup
+    setLoading(false);
   }, []);
 
   if (loading) {
@@ -31,7 +31,6 @@ function MyBookingsPage() {
         Your Upcoming Stays
       </h1>
       <MyBookings viewedProfile={viewedProfile} />{" "}
-      {/* Pass the viewedProfile prop */}
     </div>
   );
 }

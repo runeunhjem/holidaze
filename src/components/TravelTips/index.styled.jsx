@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-// Styled container
 export const StyledContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -11,7 +10,6 @@ export const StyledContainer = styled.div`
   margin-top: 2em;
 `;
 
-// Styled heading
 export const StyledHeading = styled.h1`
   color: var(--body-text-color);
   font-size: calc(24px + (40 - 24) * ((100vw - 320px) / (768 - 320)));
@@ -22,7 +20,6 @@ export const StyledHeading = styled.h1`
   }
 `;
 
-// Example of an additional styled component for text if needed
 export const StyledText = styled.p`
   color: var(--body-text-color);
   font-size: calc(16px + (20 - 16) * ((100vw - 320px) / (768 - 320)));

@@ -57,9 +57,7 @@ function TrendingCarousel() {
 
   const handleSlideClick = (filters) => {
     resetFilters();
-    // Set the filters
     Object.entries(filters).forEach(([key, value]) => setFilter(key, value));
-    // Navigate to the destinations page
     navigate("/destinations");
   };
 

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import bannerImage1 from "../../assets/images/about-banner-1.png";
 import bannerImage2 from "../../assets/images/about-banner-2.png";
 import bannerImage3 from "../../assets/images/about-banner-3.png";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 import "./index.css";
 
 function AboutPage() {

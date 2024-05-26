@@ -1,4 +1,3 @@
-// src/utils/getVenues.js
 import { ENDPOINTS } from "../constants/api";
 import { fetchApi } from "./fetchApi";
 

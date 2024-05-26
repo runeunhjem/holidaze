@@ -4,7 +4,7 @@ import TrendingCarousel from "../../components/TrendingCarousel";
 import VerticalSlider from "../../components/VerticalSlider";
 import VisitNorway from "../../components/VisitNorway";
 import TravelTips from "../../components/TravelTips";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; 
 
 function HomePage() {
   useEffect(() => {

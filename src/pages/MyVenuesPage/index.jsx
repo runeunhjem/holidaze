@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import useStore from "../../hooks/useStore";
 import MyVenues from "../../components/MyVenues";
-import { ClipLoader } from "react-spinners"; // Import the spinner
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { ClipLoader } from "react-spinners";
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 
 function MyVenuesPage() {
   const { viewedProfile } = useStore();
   const [refreshKey, setRefreshKey] = useState(0);
-  const [loading, setLoading] = useState(true); // Add a loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setTitleAndMeta(
       "Holidaze - Your Beautiful Venues",
       "Quick overview of all the beautiful venues you have created.",
     );
-    setLoading(false); // Set loading to false after the initial setup
+    setLoading(false);
   }, []);
 
   if (loading) {

@@ -1,4 +1,3 @@
-// utilities.js
 export function isValidURL(url) {
   const pattern = new RegExp(
     "^(https?:\\/\\/)?" + // protocol
@@ -8,6 +7,6 @@ export function isValidURL(url) {
       "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
       "(\\#[-a-z\\d_]*)?$",
     "i",
-  ); // fragment locator
+  ); 
   return !!pattern.test(url);
 }

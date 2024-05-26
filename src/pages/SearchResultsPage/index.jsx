@@ -9,7 +9,7 @@ import { ENDPOINTS, PARAMS } from "../../constants/api";
 import dayjs from "dayjs";
 import useStore from "../../hooks/useStore";
 import { ClipLoader } from "react-spinners";
-import { setTitleAndMeta } from "../../utils/setTitleAndMeta"; // Import the utility function
+import { setTitleAndMeta } from "../../utils/setTitleAndMeta";
 
 function SearchResultsPage() {
   const location = useLocation();
@@ -123,7 +123,6 @@ function SearchResultsPage() {
   const dateTo = searchParams.get("dateTo");
   const guests = searchParams.get("guests");
 
-  // Function to count active filters
   const countActiveFilters = () => {
     return Object.values(filters).reduce((count, value) => {
       if (

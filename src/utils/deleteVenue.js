@@ -1,4 +1,3 @@
-// utils/deleteVenue.js
 import { fetchApi } from "../utils/fetchApi";
 import { ENDPOINTS } from "../constants/api";
 
@@ -13,8 +12,7 @@ export const deleteVenue = async (venueId, accessToken) => {
     });
 
     if (response.status === 204) {
-      console.log("Successfully deleted venue");
-      return { status: 204 }; // Return an object indicating success
+      return { status: 204 };
     }
 
     const errorData = await response.json();

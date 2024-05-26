@@ -1,4 +1,3 @@
-// utils/updateBooking.js
 import { fetchApi } from "./fetchApi";
 import { ENDPOINTS } from "../constants/api";
 

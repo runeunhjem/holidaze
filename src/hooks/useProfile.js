@@ -10,7 +10,7 @@ const useProfile = () => {
 
   const fetchUserProfile = useCallback(async () => {
     const endpoint = `${ENDPOINTS.profiles}/${encodeURIComponent(username)}${PARAMS._venues}${PARAMS._bookings}`;
-    console.log("Fetching user profile:", endpoint);
+
     try {
       const response = await fetchApi(endpoint, {
         method: "GET",
@@ -22,7 +22,7 @@ const useProfile = () => {
 
       if (response && response.data) {
         setViewedProfile(response.data);
-        console.log("User profile fetched successfully:", response.data);
+
         return response.data;
       }
     } catch (error) {

@@ -17,7 +17,7 @@ function SearchVenueCard({ venue, onClose }) {
   }, [favorites, venue.id]);
 
   const toggleFavorite = (e) => {
-    e.stopPropagation(); // Prevent the search bar from closing
+    e.stopPropagation();
     if (isFavorite) {
       removeFavoriteVenue(venue.id);
     } else {
@@ -36,9 +36,7 @@ function SearchVenueCard({ venue, onClose }) {
           onClick={onClose}
         />
         <div className="search-venue-info">
-          <div className="search-venue-name truncate">
-            {venue.name}
-          </div>
+          <div className="search-venue-name truncate">{venue.name}</div>
           <div className="search-venue-details">
             <div className="search-venue-rating">
               <span className="me-1">{venue.rating.toFixed(1)}</span>

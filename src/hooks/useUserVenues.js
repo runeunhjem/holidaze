@@ -20,17 +20,13 @@ const useUserVenues = (username) => {
       });
 
       if (response.data) {
-        console.log("Fetched data:", response.data);
-
-        // Filter the venues based on the username
         const userVenues = response.data.filter((venue) => {
           const owner = venue.owner;
-          console.log("Owner:", owner);
+
           return owner && owner.name === username;
         });
 
         setVenues(userVenues);
-        console.log("User venues fetched successfully:", userVenues);
       } else {
         setVenues([]);
       }

@@ -81,7 +81,7 @@ function MyVenues({ loadProfile }) {
         ...prevProfile,
         venues: [...(prevProfile.venues || []), newVenue],
       }));
-      setVenues((prevVenues) => [...prevVenues, newVenue]); // Update the local state
+      setVenues((prevVenues) => [...prevVenues, newVenue]);
     },
     [setViewedProfile, setVenues],
   );
@@ -195,7 +195,7 @@ function MyVenues({ loadProfile }) {
         open={isModalOpen}
         onClose={handleCloseModal}
         onVenueCreated={handleVenueCreated}
-        loadProfile={loadProfile} // Pass loadProfile here
+        loadProfile={loadProfile}
       />
 
       <VenuePopover

@@ -1,4 +1,3 @@
-// src/pages/BookingDetailsPage.jsx
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getBookingById } from "../../utils/getBookingById";
@@ -17,10 +16,10 @@ import BookingInfo from "../../components/BookingInfo";
 import EditBookingDetailsPage from "../../components/EditBookingDetailsPage";
 
 function BookingDetailsPage() {
-  const { id } = useParams(); // Booking ID from URL
+  const { id } = useParams();
   const [booking, setBooking] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const accessToken = useAccessToken(); // Retrieve accessToken securely
+  const accessToken = useAccessToken();
   const navigate = useNavigate();
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const { userDetails } = useStore();

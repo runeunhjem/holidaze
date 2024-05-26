@@ -1,4 +1,3 @@
-// getCountryCode.js
 import { getCode } from "country-list";
 
 function getCountryCode(countryName) {
