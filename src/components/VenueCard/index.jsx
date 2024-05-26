@@ -130,10 +130,10 @@ function VenueCard({ venue }) {
           className="flex w-full justify-start items-end px-4"
           style={{ gap: "10px", height: "30px" }}
         >
-          {venue.meta.wifi && <FiWifi className="amenities text-xl" />}
-          {venue.meta.parking && <TbParking className="amenities text-xl" />}
-          {venue.meta.breakfast && <MdFastfood className="amenities text-xl" />}
-          {venue.meta.pets && <MdPets className="amenities text-xl" />}
+          {venue.meta.wifi && <FiWifi className="text-stone-400 text-xl" />}
+          {venue.meta.parking && <TbParking className="text-stone-400 text-xl" />}
+          {venue.meta.breakfast && <MdFastfood className="text-stone-400 text-xl" />}
+          {venue.meta.pets && <MdPets className="text-stone-400 text-xl" />}
         </div>
         <div
           className="flex w-full items-center justify-between px-4 pb-6"

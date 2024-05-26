@@ -17,16 +17,16 @@ function Footer() {
   const logo = isDarkMode ? logoDark : logoLight;
 
   return (
-    <S.StyledFooter theme={isDarkMode ? "dark" : "light"}>
+    <S.StyledFooter theme={isDarkMode ? "dark" : "light"} className="flex-col sm:flex-row">
       <div className="footer-section footer-left">
-        <Link className="header-nav-links flex w-full ms-8" to="/">Home</Link>
-        <Link className="header-nav-links flex w-full ms-8" to="/about">About Us</Link>
-        <Link className="header-nav-links flex w-full ms-8" to="/contact">Contact Us</Link>
-        <Link className="header-nav-links flex w-full ms-8" to="/destinations">Destinations</Link>
+        <Link className="header-nav-links flex sm:ms-8 text-center" to="/">Home</Link>
+        <Link className="header-nav-links flex sm:ms-8 text-center" to="/about">About Us</Link>
+        <Link className="header-nav-links flex sm:ms-8 text-center" to="/contact">Contact Us</Link>
+        <Link className="header-nav-links flex sm:ms-8 text-center" to="/destinations">Destinations</Link>
       </div>
       <div className="footer-section footer-middle">
-        <h4>Follow us on</h4>
-        <h5>Social media</h5>
+        <h4 className="flex justify-center text-center w-full">Follow us on</h4>
+        <h5 className="flex justify-center text-center w-full mb-4">social media</h5>
         <div className="social-icons">
           <a
             href="https://www.snapchat.com"
@@ -34,6 +34,7 @@ function Footer() {
             rel="noopener noreferrer"
           >
             <FaSnapchat className="social-icon" />
+            <span className="visually-hidden">Snapchat</span>
           </a>
           <a
             href="https://www.facebook.com"
@@ -41,6 +42,7 @@ function Footer() {
             rel="noopener noreferrer"
           >
             <FaFacebook className="social-icon" />
+            <span className="visually-hidden">Facebook</span>
           </a>
           <a
             href="https://www.instagram.com"
@@ -48,6 +50,7 @@ function Footer() {
             rel="noopener noreferrer"
           >
             <FaInstagram className="social-icon" />
+            <span className="visually-hidden">Instagram</span>
           </a>
           <a
             href="https://www.youtube.com"
@@ -55,18 +58,19 @@ function Footer() {
             rel="noopener noreferrer"
           >
             <FaYoutube className="social-icon" />
+            <span className="visually-hidden">YouTube</span>
           </a>
         </div>
       </div>
       <div className="footer-section footer-right">
-        <div className="back-to-top">
+        <div className="back-to-top w-full">
           <FaChevronUp
-            className="back-to-top-icon"
+            className="back-to-top-icon w-full"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           />
         </div>
-        <Link to="/">
-          <img src={logo} alt="Holidaze Logo" className="footer-logo" />
+        <Link to="/" className="logo w-full flex justify-center">
+          <img src={logo} alt="Holidaze Logo" className="footer-logo sm:ps-6" />
         </Link>
       </div>
       <S.FooterText>

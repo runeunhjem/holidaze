@@ -5,10 +5,8 @@ export const ButtonContainer = styled("div")({
   display: "flex",
   justifyContent: "center",
   gap: "16px",
-
   maxWidth: "100%",
   boxSizing: "border-box",
-  // width: "120px",
   height: "20px",
   position: "absolute",
   bottom: "-20px",
@@ -16,8 +14,10 @@ export const ButtonContainer = styled("div")({
   transform: "translateX(-50%)",
 });
 
-
-export const FilterButtonStyled = styled(Button)(({ theme }) => ({
+// Filtering out the activeCount prop before passing the remaining props to the Button component
+export const FilterButtonStyled = styled(({ activeCount, ...other }) => (
+  <Button {...other} />
+))(({ theme, activeCount }) => ({
   borderRadius: "0 0 5px 5px",
   fontSize: "0.9rem",
   border: "1px solid",
@@ -33,7 +33,6 @@ export const FilterButtonStyled = styled(Button)(({ theme }) => ({
       theme.palette.mode === "dark"
         ? "var(--yellow-400)"
         : "var(--sky-300) !important",
-
     color:
       theme.palette.mode === "dark" ? "var(--yellow-400)" : "var(--sky-900)",
     border: "1px solid",
@@ -41,6 +40,6 @@ export const FilterButtonStyled = styled(Button)(({ theme }) => ({
   outline: "none",
   boxShadow: "none",
   textTransform: "none",
-  width: "120px", // Default width
+  width: activeCount > 0 ? "150px" : "120px",
   transition: "width 0.3s ease-in-out",
 }));

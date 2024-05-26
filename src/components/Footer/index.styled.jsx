@@ -50,12 +50,13 @@ export const StyledFooter = styled.footer`
       &.footer-middle {
         flex: 1;
         gap: 12px;
+        justify-content: center;
       }
       &.footer-right {
         flex: 1;
         gap: 12px;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         align-items: flex-end;
       }
     }
@@ -81,7 +82,7 @@ export const StyledFooter = styled.footer`
     flex-direction: row;
     align-items: center;
     margin-bottom: 10px;
-    margin-right: 3rem;
+    /* margin-right: 3rem; */
   }
 
   .back-to-top-icon {

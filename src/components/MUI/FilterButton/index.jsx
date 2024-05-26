@@ -33,7 +33,6 @@ function FilterButton() {
         style={{
           backgroundColor: activeFiltersCount > 0 ? "green" : undefined,
           color: activeFiltersCount > 0 ? "white" : undefined,
-          width: activeFiltersCount > 0 ? "150px" : "120px",
         }}
       >
         Filters {activeFiltersCount > 0 && `(${activeFiltersCount})`}
@@ -44,7 +43,6 @@ function FilterButton() {
         style={{
           backgroundColor: activeOptionsCount > 0 ? "green" : undefined,
           color: activeOptionsCount > 0 ? "white" : undefined,
-          width: activeOptionsCount > 0 ? "150px" : "120px",
         }}
       >
         Options {activeOptionsCount > 0 && `(${activeOptionsCount})`}
@@ -54,12 +52,7 @@ function FilterButton() {
         optionsMenuIsOpen={optionsMenuIsOpen}
         onClose={toggleOptionsOpen}
       />
-      <Filters
-        open={filtersMenuIsOpen}
-        onClose={toggleFiltersOpen}
-        // continents={continents}
-        // countries={countries}
-      />
+      <Filters open={filtersMenuIsOpen} onClose={toggleFiltersOpen} />
     </ButtonContainer>
   );
 }
