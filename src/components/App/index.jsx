@@ -40,7 +40,6 @@ function App() {
 
   const theme = React.useMemo(() => getTheme(isDarkMode), [isDarkMode]);
 
-  // console.log("Is Authenticated in App:", isAuthenticated);
   return (
     <Router>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -97,7 +96,7 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/myFavorites" element={<MyFavoritesPage />} />
               <Route path="/myBookings" element={<MyBookingsPage />} />
-              <Route path="/myVenues" element={ <MyVenuesPage /> } />
+              <Route path="/myVenues" element={<MyVenuesPage />} />
               <Route path="/searchResults" element={<SearchResultsPage />} />
             </Routes>
           </Layout>

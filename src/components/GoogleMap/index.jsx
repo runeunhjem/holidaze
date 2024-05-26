@@ -1,4 +1,3 @@
-// src/components/GoogleMap/index.jsx
 import { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import useStore from "../../hooks/useStore";

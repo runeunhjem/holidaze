@@ -14,7 +14,6 @@ import Avatar from "@mui/material/Avatar";
 import { useTheme } from "@emotion/react";
 import defaultAvatarImage from "../../../assets/images/default-profile-image.png";
 
-
 export default function MenuListComposition() {
   const userDetails = useStore((state) => state.userDetails);
   const theme = useTheme();
@@ -24,7 +23,7 @@ export default function MenuListComposition() {
   const navigate = useNavigate();
   const { isAuthenticated, clearUser } = useStore((state) => ({
     isAuthenticated: state.isAuthenticated,
-    // logOut: state.logOut,
+
     clearUser: state.clearUser,
   }));
 
@@ -57,9 +56,7 @@ export default function MenuListComposition() {
     setOpen(false);
   };
 
-  React.useEffect(() => {
-    // console.log("Authentication status changed:", isAuthenticated);
-  }, [isAuthenticated]); // Correct dependency
+  React.useEffect(() => {}, [isAuthenticated]);
 
   React.useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -157,7 +154,7 @@ export default function MenuListComposition() {
           {
             name: "offset",
             options: {
-              offset: [-14, 12], // Moves the menu 16px to the left; adjust as needed
+              offset: [-14, 12],
             },
           },
         ]}
@@ -174,15 +171,8 @@ export default function MenuListComposition() {
             <Paper
               sx={{
                 borderRadius: "5px",
-                // borderColor:
-                //   theme.palette.mode === "dark"
-                //     ? "var(--yellow-400)"
-                //     : "var(--sky-300)",
-                // borderWidth: "1px",
-                // borderStyle: "solid",
                 width: "180px !important",
                 ".MuiList-root": {
-                  // Targeting the root Paper component used by Menu
                   backgroundColor: "var(--body-bg-color)",
                   color: "var(--profile-text-color)",
                   border: "1px solid var(--border-color)",
@@ -198,7 +188,6 @@ export default function MenuListComposition() {
                   className="dark:bg-gray-800"
                   sx={{
                     ".MuiList-root": {
-                      // Targeting the root Paper component used by Menu
                       backgroundColor: "var(--body-bg-color)",
                       color: "var(--profile-text-color)",
                       border: "1px solid var(--border-color)",

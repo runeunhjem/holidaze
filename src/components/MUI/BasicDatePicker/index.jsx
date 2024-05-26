@@ -40,7 +40,7 @@ export default function BasicDatePickers({
             value={dateFrom}
             onChange={handleDateFromChange}
             minDate={today}
-            slots={{ textField: TextField }} // Use the textField slot
+            slots={{ textField: TextField }}
           />
           <DatePicker
             className="w-full md:w-1/2"
@@ -48,7 +48,7 @@ export default function BasicDatePickers({
             value={dateTo}
             onChange={handleDateToChange}
             minDate={dateFrom ? dateFrom.add(1, "day") : today}
-            slots={{ textField: TextField }} // Use the textField slot
+            slots={{ textField: TextField }}
           />
         </div>
       </LocalizationProvider>

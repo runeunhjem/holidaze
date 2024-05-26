@@ -1,17 +1,9 @@
-// src/components/BookingInfo/index.jsx
 import PropTypes from "prop-types";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
 const BookingInfo = ({ booking, nights, totalPrice, onEdit, onDelete }) => {
   return (
-    <div
-      className="success-alert mt-8 space-y-4"
-      style={
-        {
-          // backgroundColor: "var(--header-bg-color)",
-        }
-      }
-    >
+    <div className="success-alert mt-8 space-y-4">
       <p className="flex flex-col">
         <span
           className="text-lg font-bold"

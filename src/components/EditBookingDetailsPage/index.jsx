@@ -20,7 +20,7 @@ const EditBookingDetailsPage = ({
 
   const isDateBooked = (date) => {
     return booking.venue.bookings?.some((b) => {
-      if (booking && b.id === booking.id) return false; // Ignore the current booking
+      if (booking && b.id === booking.id) return false;
       const fromDate = new Date(b.dateFrom);
       const toDate = new Date(b.dateTo);
       return date >= fromDate && date <= toDate;
@@ -98,7 +98,7 @@ const EditBookingDetailsPage = ({
             dateFormat="dd/MM/yyyy"
             className="book-now-inputs cursor-pointer rounded border p-2"
             filterDate={filterDate}
-            minDate={startDate} // Ensure end date is not before start date
+            minDate={startDate}
           />
         </div>
         <div className="flex w-full justify-between">

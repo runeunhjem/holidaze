@@ -15,7 +15,7 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
   const theme = useTheme();
   const maxSteps = images.length;
   const [activeStep, setActiveStep] = useState(0);
-  const [loadedIndices, setLoadedIndices] = useState([0]); // Start with the first image loaded
+  const [loadedIndices, setLoadedIndices] = useState([0]);
 
   const handleNext = useCallback(() => {
     if (maxSteps > 0) {
@@ -37,10 +37,10 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
     if (maxSteps > 0) {
       const interval = setInterval(() => {
         handleNext();
-      }, 3000); // Auto-play functionality
+      }, 3000);
       return () => clearInterval(interval);
     }
-  }, [handleNext, maxSteps]); // `maxSteps` added to dependencies to handle empty or changed image arrays
+  }, [handleNext, maxSteps]);
 
   const updateLoadedIndices = (nextStep) => {
     setLoadedIndices((prev) => [...new Set([...prev, nextStep])]);
@@ -62,7 +62,6 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
       : sanitizedCountry,
   );
   const capitalizedContinent = capitalizeFirstLetter(sanitizedContinent);
-  // const capitalizedCountry = capitalizeFirstLetter(sanitizedCountry);
 
   return (
     <div className="image-carousel">
@@ -84,8 +83,8 @@ function CardImageCarousel({ images, countryName, venueId, continent }) {
                   maxWidth: "100%",
                   overflow: "hidden",
                   width: "100%",
-                  height: "100%", // Ensure images fit the container
-                  objectFit: "cover", // Cover ensures the image fills the area without being stretched
+                  height: "100%",
+                  objectFit: "cover",
                 }}
                 src={
                   loadedIndices.includes(index)

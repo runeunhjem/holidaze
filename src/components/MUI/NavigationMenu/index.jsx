@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-// import useStore from "../../../hooks/useStore";
 import Button from "@mui/material/Button";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grow from "@mui/material/Grow";
@@ -8,7 +7,6 @@ import Paper from "@mui/material/Paper";
 import Popper from "@mui/material/Popper";
 import MenuItem from "@mui/material/MenuItem";
 import MenuList from "@mui/material/MenuList";
-// import Stack from "@mui/material/Stack";
 import { FiMenu, FiX } from "react-icons/fi";
 import { useTheme } from "@emotion/react";
 
@@ -16,7 +14,6 @@ export default function NavigationMenu() {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const navigate = useNavigate();
-  // const { isAuthenticated } = useStore((state) => ({ isAuthenticated: state.isAuthenticated }));
   const theme = useTheme();
 
   const handleToggle = () => {
@@ -41,14 +38,6 @@ export default function NavigationMenu() {
     navigate(path);
     setOpen(false);
   };
-
-  // React.useEffect(() => {
-  //   if (prevOpen.current === true && open === false) {
-  //     anchorRef.current.focus();
-  //   }
-  //   prevOpen.current = open;
-  // }, [open]);
-
   return (
     <div className="md:hidden">
       <Button
@@ -86,7 +75,7 @@ export default function NavigationMenu() {
           {
             name: "offset",
             options: {
-              offset: [-12, 8], // Moves the menu 16px to the left; adjust as needed
+              offset: [-12, 8],
             },
           },
         ]}
@@ -111,7 +100,6 @@ export default function NavigationMenu() {
                 borderStyle: "solid",
                 width: "160px !important",
                 ".MuiList-root": {
-                  // Targeting the root Paper component used by Menu
                   backgroundColor: "var(--body-bg-color)",
                   color: "var(--profile-text-color)",
                   border: "1px solid var(--border-color)",
@@ -124,7 +112,6 @@ export default function NavigationMenu() {
                   sx={{
                     borderRadius: "5px",
                     ".MuiList-root": {
-                      // Targeting the root Paper component used by Menu
                       backgroundColor: "var(--body-bg-color)",
                       color: "var(--profile-text-color)",
                       border: "1px solid var(--border-color)",
@@ -136,9 +123,6 @@ export default function NavigationMenu() {
                       theme.palette.mode === "dark"
                         ? "var(--gray-800)"
                         : "var(--sky-50)",
-                    // "&:hover": {
-                    //   backgroundColor: "var(--sky-300)", // Custom hover color
-                    // },
                   }}
                   autoFocusItem={open}
                   id="burger-menu"
@@ -146,8 +130,6 @@ export default function NavigationMenu() {
                   className="dark:bg-gray-800"
                   onKeyDown={handleListKeyDown}
                 >
-                  {/* {isAuthenticated ? (
-                    <div> */}
                   <MenuItem
                     sx={{
                       "&:hover": {
@@ -220,15 +202,6 @@ export default function NavigationMenu() {
                   >
                     Contact Us
                   </MenuItem>
-                  {/* </div>
-                  ) : (
-                    <div>
-                      <MenuItem onClick={() => handleNavigate("/")}>Home</MenuItem>
-                      <MenuItem onClick={() => handleNavigate("/destinations")}>Destinations</MenuItem>
-                      <MenuItem onClick={() => handleNavigate("/about")}>About Us</MenuItem>
-                      <MenuItem onClick={() => handleNavigate("/contact")}>Contact Us</MenuItem>
-                    </div>
-                  )} */}
                 </MenuList>
               </ClickAwayListener>
             </Paper>

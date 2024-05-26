@@ -7,7 +7,7 @@ import {
   TextField,
   Button,
 } from "@mui/material";
-import { MdClose } from "react-icons/md"; // Import the close icon
+import { MdClose } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -56,7 +56,7 @@ function EditBookingModal({
 
   const isDateBooked = (date) => {
     return venue.bookings?.some((b) => {
-      if (booking && b.id === booking.id) return false; // Ignore the current booking
+      if (booking && b.id === booking.id) return false;
       const fromDate = new Date(b.dateFrom);
       const toDate = new Date(b.dateTo);
       return date >= fromDate && date <= toDate;

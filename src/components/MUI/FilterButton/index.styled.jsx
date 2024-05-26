@@ -14,7 +14,6 @@ export const ButtonContainer = styled("div")({
   transform: "translateX(-50%)",
 });
 
-// Filtering out the activeCount prop before passing the remaining props to the Button component
 export const FilterButtonStyled = styled(({ activeCount, ...other }) => (
   <Button {...other} />
 ))(({ theme, activeCount }) => ({

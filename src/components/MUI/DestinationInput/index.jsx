@@ -49,7 +49,6 @@ const StyledInput = styled("input")(({ theme }) => ({
   borderRadius: "5px",
   lineHeight: 1.5,
   color: theme.palette.mode === "dark" ? "var(--gray-400)" : "var(--gray-700)",
-  // color: theme.palette.mode === "dark" ? grey[300] : grey[500],
   backgroundColor: theme.palette.mode === "dark" ? grey[900] : "transparent",
   border: "1px solid",
   borderColor: theme.palette.mode === "dark" ? grey[700] : grey[100],
@@ -67,7 +66,6 @@ const StyledInput = styled("input")(({ theme }) => ({
   },
   "&:not(:focus):placeholder-shown + label": {
     color: "var(--input-text-color)",
-    // color: theme.palette.mode === "dark" ? grey[500] : grey[500],
   },
   "&:focus + label, &:not(:placeholder-shown) + label": {
     transform: "scale(0.75) translateY(-10px) translateX(16px)",

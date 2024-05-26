@@ -9,7 +9,7 @@ import {
   Checkbox,
   Typography,
 } from "@mui/material";
-import { MdClose } from "react-icons/md"; // Import the close icon
+import { MdClose } from "react-icons/md";
 import useStore from "../../hooks/useStore";
 import { fetchApi } from "../../utils/fetchApi";
 import { ENDPOINTS } from "../../constants/api";
@@ -167,10 +167,10 @@ const EditProfileModal = ({ open, handleClose }) => {
             margin="normal"
           />
           <TextField
-            id="bio-textfield" // Add a unique ID
-            label="Profile Bio" // More descriptive label
+            id="bio-textfield"
+            label="Profile Bio"
             name="bio"
-            aria-label="Profile Bio" // Optional: Direct label for screen readers
+            aria-label="Profile Bio"
             multiline
             rows={3}
             fullWidth
@@ -215,7 +215,6 @@ const EditProfileModal = ({ open, handleClose }) => {
               fontWeight: "bold",
               "&:hover": {
                 bgcolor: "var(--button-bg-color-hover-cancel)",
-                // outline: "1px solid var(--border-color)",
                 color: "var(--button-text-color)",
               },
               mt: 2,

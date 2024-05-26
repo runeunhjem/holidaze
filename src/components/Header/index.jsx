@@ -28,7 +28,6 @@ function Header() {
   }, [toggleOptionsOpen, toggleFiltersOpen]);
 
   useEffect(() => {
-    // This function handles closing the menu when clicking outside of the header container
     const handleDocumentClick = (event) => {
       if (
         !event.target.closest(
@@ -42,14 +41,12 @@ function Header() {
       }
     };
 
-    // Add the event listener when the component mounts
     document.addEventListener("click", handleDocumentClick);
 
-    // Clean up the event listener when the component unmounts or the dependency changes
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, [isOpen]); // Only re-run the effect if isOpen changes
+  }, [isOpen]);
 
   return (
     <StyledHeader

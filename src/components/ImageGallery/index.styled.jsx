@@ -4,7 +4,7 @@ import { CgMoreVertical } from "react-icons/cg";
 export const Gallery = styled.div`
   position: relative;
   width: 100%;
-  max-width: 100%; // Adjust as needed
+  max-width: 100%;
   height: 400px;
   margin: 0 auto;
   overflow: hidden;
@@ -61,8 +61,8 @@ export const TopOverlay = styled.div`
   /* background-color: var(--overlay-cards); */
   color: var(--body-text-color);
   padding: 10px 10px;
-transition: all 0.3s ease-in-out;
-border-radius: 10px 10px 0 0;
+  transition: all 0.3s ease-in-out;
+  border-radius: 10px 10px 0 0;
 `;
 
 export const OverlaySection = styled.div`
@@ -81,11 +81,10 @@ export const NavButton = styled.button`
   color: var(--gray-400);
   box-shadow: 0 0 8px 1px var(--overlay-color);
   border-radius: 50%;
-  font-size: 24px; // Default size for large screens
-  padding: 4px 14px; // Default padding for large screens
-  z-index: 2; // Ensure it's above the image
+  font-size: 24px;
+  padding: 4px 14px;
+  z-index: 2;
 
-  // Left or right positioning
   ${(props) => props.direction === "left" && `left: 20px;`}
   ${(props) => props.direction === "right" && `right: 20px;`}
 
@@ -94,24 +93,19 @@ export const NavButton = styled.button`
     background-color: var(--header-bg-color);
   }
 
-  // Responsive adjustments
   @media (max-width: 768px) {
-    // Tablets and below
-    font-size: 20px; // Smaller font size for smaller screens
-    padding: 4px 10px; // Adjust padding for size
+    font-size: 20px;
+    padding: 4px 10px;
   }
 
   @media (max-width: 468px) {
-    // Mobile devices
-    font-size: 16px; // Even smaller font size for very small screens
-    padding: 3px 8px; // Reduce padding to fit small screens
+    font-size: 16px;
+    padding: 3px 8px;
     top: 50% !important;
   }
 `;
 
 export const Thumbnails = styled.div`
-/* position: absolute; */
-
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
@@ -136,7 +130,7 @@ export const ThumbnailImg = styled.img`
 `;
 
 export const OptionsIcon = styled(CgMoreVertical)`
-position: absolute;
+  position: absolute;
   top: 10px;
   right: 10px;
   cursor: pointer;

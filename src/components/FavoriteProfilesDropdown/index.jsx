@@ -67,7 +67,6 @@ const FavoriteProfilesDropdown = () => {
         onClose={handleClose}
         sx={{
           ".MuiList-root": {
-            // Targeting the root Paper component used by Menu
             backgroundColor: "var(--body-bg-color)",
             color: "var(--profile-text-color)",
             border: "1px solid var(--border-color)",

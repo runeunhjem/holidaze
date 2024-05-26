@@ -18,9 +18,7 @@ function FilterButton() {
   const activeOptionsCount = countActiveOptions();
   const activeFiltersCount = countActiveFilters();
 
-  // Close both options and filters when certain conditions are met or on page reload
   useEffect(() => {
-    // Example to auto-close, adjust logic as needed
     toggleOptionsOpen();
     toggleFiltersOpen();
   }, [toggleOptionsOpen, toggleFiltersOpen]);

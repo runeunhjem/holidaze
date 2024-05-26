@@ -104,7 +104,6 @@ function GuestsInput({ label, value, onChange }) {
 
   const handleChange = (e) => {
     const val = e.target.value;
-    // Check if the input is a number and greater than or equal to 1
     if (val === "" || (/^\d+$/.test(val) && Number(val) >= 1)) {
       onChange({ target: { name: "guests", value: val } });
     } else {

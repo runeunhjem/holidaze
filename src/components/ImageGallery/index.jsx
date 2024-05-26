@@ -53,7 +53,7 @@ function ImageGallery({
     const timer = setTimeout(() => {
       setSelectedImageIndex(
         (prevIndex) => (prevIndex + 1) % (media.length || 1),
-      ); // Avoid division by zero
+      );
       setImageVisible(true);
     }, 5000);
     return () => clearTimeout(timer);

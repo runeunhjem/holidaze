@@ -1,4 +1,3 @@
-// src/components/GoogleMap/mapStyles.js
 export const nightModeStyles = [
   { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
   {

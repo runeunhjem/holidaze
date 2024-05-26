@@ -24,7 +24,7 @@ const Filters = () => {
   } = useStore();
 
   useEffect(() => {
-    updateFilterOptions(); // Ensure options are updated on component mount
+    updateFilterOptions();
   }, [updateFilterOptions]);
 
   const handleFiltersChange = (field, isMultiple) => (event) => {
@@ -47,10 +47,8 @@ const Filters = () => {
 
   const sortOptions = (options) => {
     if (options.every((option) => typeof option === "number")) {
-      // Sort numerical options from low to high
       return options.sort((a, b) => a - b);
     } else if (options.every((option) => typeof option === "string")) {
-      // Sort string options alphabetically
       return options.sort((a, b) => a.localeCompare(b));
     }
     return options;
@@ -143,7 +141,7 @@ const Filters = () => {
         <Button
           onClick={() => {
             setFilter("resetFilters", true);
-            useStore.getState().resetFilters(); // Resets filters and then triggers re-fetch
+            useStore.getState().resetFilters();
           }}
           variant="outlined"
           sx={{
