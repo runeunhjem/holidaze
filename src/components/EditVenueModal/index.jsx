@@ -40,6 +40,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
     },
   });
 
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
     if (currentVenue) {
       setVenueData(currentVenue);
@@ -48,6 +50,13 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
 
   const handleChange = (field, value) => {
     setVenueData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleMetaChange = (field, value) => {
@@ -62,12 +71,26 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
       ...prev,
       location: { ...prev.location, [field]: value },
     }));
+    if (errors[field]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleMediaChange = (index, field, value) => {
     const updatedMedia = [...venueData.media];
     updatedMedia[index][field] = value;
     setVenueData((prev) => ({ ...prev, media: updatedMedia }));
+    if (errors.mediaUrl && field === "url") {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors.mediaUrl;
+        return newErrors;
+      });
+    }
   };
 
   const handleAddMedia = () => {
@@ -91,6 +114,13 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
     const numericValue = parseFloat(value);
     if (!isNaN(numericValue) && validator(numericValue)) {
       setVenueData((prev) => ({ ...prev, [field]: numericValue }));
+      if (errors[field]) {
+        setErrors((prevErrors) => {
+          const newErrors = { ...prevErrors };
+          delete newErrors[field];
+          return newErrors;
+        });
+      }
     } else {
       setVenueData((prev) => ({ ...prev, [field]: value }));
     }
@@ -108,6 +138,25 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
   };
 
   const handleSubmit = async () => {
+    const newErrors = {};
+
+    if (!venueData.name) newErrors.name = "Name is required";
+    if (!venueData.description)
+      newErrors.description = "Description is required";
+    if (!venueData.media[0].url) newErrors.mediaUrl = "Media URL is required";
+    if (!venueData.price) newErrors.price = "Price is required";
+    if (!venueData.maxGuests) newErrors.maxGuests = "Max Guests is required";
+    if (!venueData.location.city) newErrors.city = "City is required";
+    if (!venueData.location.country) newErrors.country = "Country is required";
+    if (!venueData.location.continent)
+      newErrors.continent = "Continent is required";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
     const originalOwner = currentVenue.owner;
     try {
       const updatedVenue = await editVenue(
@@ -173,6 +222,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                   onChange={(e) => handleChange("name", e.target.value)}
                   fullWidth
                   margin="normal"
+                  error={!!errors.name}
+                  helperText={errors.name}
                   required
                 />
 
@@ -183,6 +234,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                   fullWidth
                   margin="normal"
                   multiline
+                  error={!!errors.description}
+                  helperText={errors.description}
                   required
                 />
               </Box>
@@ -210,6 +263,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                           }
                           fullWidth
                           margin="normal"
+                          error={!!errors.mediaUrl}
+                          helperText={errors.mediaUrl}
                           required
                         />
                       </Grid>
@@ -272,6 +327,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                       }
                       fullWidth
                       margin="normal"
+                      error={!!errors.price}
+                      helperText={errors.price}
                       required
                     />
                   </Grid>
@@ -291,6 +348,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                       }
                       fullWidth
                       margin="normal"
+                      error={!!errors.maxGuests}
+                      helperText={errors.maxGuests}
                       required
                     />
                   </Grid>
@@ -343,6 +402,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                   onChange={(e) => handleLocationChange("city", e.target.value)}
                   fullWidth
                   margin="normal"
+                  error={!!errors.city}
+                  helperText={errors.city}
                   required
                 />
 
@@ -362,6 +423,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                   }
                   fullWidth
                   margin="normal"
+                  error={!!errors.country}
+                  helperText={errors.country}
                   required
                 />
 
@@ -373,6 +436,8 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
                   }
                   fullWidth
                   margin="normal"
+                  error={!!errors.continent}
+                  helperText={errors.continent}
                   required
                 />
 
@@ -468,18 +533,30 @@ const EditVenueModal = ({ open, onClose, onVenueUpdated, currentVenue }) => {
             <Button
               onClick={handleSubmit}
               sx={{
-                bgcolor: "var(--button-bg-color)",
-                color: "var(--button-text-color)",
+                bgcolor:
+                  Object.keys(errors).length > 0
+                    ? "var(--button-bg-color-hover-cancel)"
+                    : "var(--button-bg-color)",
+                color:
+                  Object.keys(errors).length > 0
+                    ? "var(--button-text-color-cancel)"
+                    : "var(--button-text-color)",
                 width: "45%",
                 "&:hover": {
                   outline: "1px solid var(--border-color)",
-                  backgroundColor: "var(--button-bg-color-hover)",
-                  color: "var(--button-text-color-hover)",
+                  backgroundColor:
+                    Object.keys(errors).length > 0
+                      ? "var(--button-bg-color-hover-cancel)"
+                      : "var(--button-bg-color-hover)",
+                  color:
+                    Object.keys(errors).length > 0
+                      ? "var(--button-text-color-cancel)"
+                      : "var(--button-text-color-hover)",
                 },
                 mt: 2,
               }}
             >
-              Save
+              {Object.keys(errors).length > 0 ? "Check errors" : "Save"}
             </Button>
             <Button
               onClick={onClose}

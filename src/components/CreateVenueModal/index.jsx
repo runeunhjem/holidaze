@@ -42,9 +42,18 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     },
   });
 
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+
   const handleChange = (field, value) => {
     setVenueData((prev) => ({ ...prev, [field]: value }));
+    if (errors[field]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleMetaChange = (field, value) => {
@@ -59,12 +68,26 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
       ...prev,
       location: { ...prev.location, [field]: value },
     }));
+    if (errors[field]) {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors[field];
+        return newErrors;
+      });
+    }
   };
 
   const handleMediaChange = (index, field, value) => {
     const updatedMedia = [...venueData.media];
     updatedMedia[index][field] = value;
     setVenueData((prev) => ({ ...prev, media: updatedMedia }));
+    if (errors.mediaUrl && field === "url") {
+      setErrors((prevErrors) => {
+        const newErrors = { ...prevErrors };
+        delete newErrors.mediaUrl;
+        return newErrors;
+      });
+    }
   };
 
   const handleAddMedia = () => {
@@ -88,6 +111,13 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
     const numericValue = parseFloat(value);
     if (!isNaN(numericValue) && validator(numericValue)) {
       setVenueData((prev) => ({ ...prev, [field]: numericValue }));
+      if (errors[field]) {
+        setErrors((prevErrors) => {
+          const newErrors = { ...prevErrors };
+          delete newErrors[field];
+          return newErrors;
+        });
+      }
     }
   };
 
@@ -105,6 +135,25 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
   };
 
   const handleSubmit = async () => {
+    const newErrors = {};
+
+    if (!venueData.name) newErrors.name = "Name is required";
+    if (!venueData.description)
+      newErrors.description = "Description is required";
+    if (!venueData.media[0].url) newErrors.mediaUrl = "Media URL is required";
+    if (!venueData.price) newErrors.price = "Price is required";
+    if (!venueData.maxGuests) newErrors.maxGuests = "Max Guests is required";
+    if (!venueData.location.city) newErrors.city = "City is required";
+    if (!venueData.location.country) newErrors.country = "Country is required";
+    if (!venueData.location.continent)
+      newErrors.continent = "Continent is required";
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      return;
+    }
+
     try {
       const newVenue = await createNewVenue(venueData, accessToken);
       onVenueCreated(newVenue);
@@ -168,6 +217,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                   onChange={(e) => handleChange("name", e.target.value)}
                   fullWidth
                   margin="normal"
+                  error={!!errors.name}
+                  helperText={errors.name}
                   required
                 />
                 <TextField
@@ -177,6 +228,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                   fullWidth
                   margin="normal"
                   multiline
+                  error={!!errors.description}
+                  helperText={errors.description}
                   required
                 />
               </Box>
@@ -203,6 +256,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                           }
                           fullWidth
                           margin="normal"
+                          error={!!errors.mediaUrl}
+                          helperText={errors.mediaUrl}
                           required
                         />
                       </Grid>
@@ -262,6 +317,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                       }
                       fullWidth
                       margin="normal"
+                      error={!!errors.price}
+                      helperText={errors.price}
                       required
                     />
                   </Grid>
@@ -280,6 +337,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                       }
                       fullWidth
                       margin="normal"
+                      error={!!errors.maxGuests}
+                      helperText={errors.maxGuests}
                       required
                     />
                   </Grid>
@@ -328,6 +387,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                   onChange={(e) => handleLocationChange("city", e.target.value)}
                   fullWidth
                   margin="normal"
+                  error={!!errors.city}
+                  helperText={errors.city}
                   required
                 />
                 <TextField
@@ -345,6 +406,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                   }
                   fullWidth
                   margin="normal"
+                  error={!!errors.country}
+                  helperText={errors.country}
                   required
                 />
                 <TextField
@@ -355,6 +418,8 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
                   }
                   fullWidth
                   margin="normal"
+                  error={!!errors.continent}
+                  helperText={errors.continent}
                   required
                 />
                 <TextField
@@ -442,18 +507,30 @@ const CreateVenueModal = ({ open, onClose, onVenueCreated, loadProfile }) => {
             <Button
               onClick={handleSubmit}
               sx={{
-                bgcolor: "var(--button-bg-color)",
-                color: "var(--button-text-color)",
+                bgcolor:
+                  Object.keys(errors).length > 0
+                    ? "var(--button-bg-color-hover-cancel)"
+                    : "var(--button-bg-color)",
+                color:
+                  Object.keys(errors).length > 0
+                    ? "var(--button-text-color-cancel)"
+                    : "var(--button-text-color)",
                 width: "45%",
                 "&:hover": {
                   outline: "1px solid var(--border-color)",
-                  backgroundColor: "var(--button-bg-color-hover)",
-                  color: "var(--button-text-color-hover)",
+                  backgroundColor:
+                    Object.keys(errors).length > 0
+                      ? "var(--button-bg-color-hover-cancel)"
+                      : "var(--button-bg-color-hover)",
+                  color:
+                    Object.keys(errors).length > 0
+                      ? "var(--button-text-color-cancel)"
+                      : "var(--button-text-color-hover)",
                 },
                 mt: 2,
               }}
             >
-              Create
+              {Object.keys(errors).length > 0 ? "Check errors" : "Create"}
             </Button>
             <Button
               onClick={onClose}
