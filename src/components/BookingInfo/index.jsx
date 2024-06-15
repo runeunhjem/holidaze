@@ -9,6 +9,7 @@ const BookingInfo = ({
   onDelete,
   isOwner,
 }) => {
+  console.log("BookingInfo -> booking", booking);
   return (
     <div className="success-alert mt-8 space-y-4">
       <p className="flex flex-col">
@@ -18,7 +19,7 @@ const BookingInfo = ({
             color: "var(--link-color)",
           }}
         >
-          Dear HolidazeManager,
+          Dear {booking.customer?.name || "Guest"},
         </span>
         <span
           className="text-lg font-bold"
