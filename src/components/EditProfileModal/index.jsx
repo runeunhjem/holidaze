@@ -50,16 +50,22 @@ const EditProfileModal = ({ open, handleClose }) => {
       formData;
     const updatedProfile = {
       bio,
-      avatar: {
-        url: avatarUrl,
-        alt: avatarAlt,
-      },
-      banner: {
-        url: bannerUrl,
-        alt: bannerAlt,
-      },
       venueManager,
     };
+
+    if (avatarUrl.trim() !== "") {
+      updatedProfile.avatar = {
+        url: avatarUrl,
+        alt: avatarAlt,
+      };
+    }
+
+    if (bannerUrl.trim() !== "") {
+      updatedProfile.banner = {
+        url: bannerUrl,
+        alt: bannerAlt,
+      };
+    }
 
     try {
       const response = await fetchApi(
