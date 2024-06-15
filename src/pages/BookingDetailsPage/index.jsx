@@ -11,7 +11,6 @@ import VenueManagerSection from "../../components/VenueManagerSection";
 import { deleteBooking } from "../../utils/deleteBooking";
 import VenueDeletedSnackbar from "../../components/VenueDeletedSnackbar";
 import useStore from "../../hooks/useStore";
-import GoogleMap from "../../components/GoogleMap";
 import BookingInfo from "../../components/BookingInfo";
 import EditBookingDetailsPage from "../../components/EditBookingDetailsPage";
 
@@ -46,7 +45,7 @@ function BookingDetailsPage() {
   }
 
   const venue = booking.venue || {};
-  const isOwner = booking.customer?.name === venue.owner?.name;
+  const isOwner = booking.customer?.name === userDetails?.name;
 
   const handleEditBookingOpen = () => {
     setIsEditing(true);
@@ -117,6 +116,7 @@ function BookingDetailsPage() {
           totalPrice={totalPrice}
           onEdit={handleEditBookingOpen}
           onDelete={handleDeleteBookingOpen}
+          isOwner={isOwner}
         />
       )}
       <VenueManagerSection

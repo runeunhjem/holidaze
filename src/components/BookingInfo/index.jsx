@@ -1,7 +1,14 @@
 import PropTypes from "prop-types";
 import { FaEdit, FaTrashAlt } from "react-icons/fa";
 
-const BookingInfo = ({ booking, nights, totalPrice, onEdit, onDelete }) => {
+const BookingInfo = ({
+  booking,
+  nights,
+  totalPrice,
+  onEdit,
+  onDelete,
+  isOwner,
+}) => {
   return (
     <div className="success-alert mt-8 space-y-4">
       <p className="flex flex-col">
@@ -65,32 +72,34 @@ const BookingInfo = ({ booking, nights, totalPrice, onEdit, onDelete }) => {
           </div>
         </div>
       </div>
-      <div className="mt-4 flex justify-around">
-        <div
-          className="header-nav-links flex cursor-pointer gap-2 whitespace-nowrap"
-          onClick={onEdit}
-        >
-          <FaEdit
-            className="text-lg"
-            style={{
-              color: "var(--link-color)",
-            }}
-          />{" "}
-          Edit
+      {isOwner && (
+        <div className="mt-4 flex justify-around">
+          <div
+            className="header-nav-links flex cursor-pointer gap-2 whitespace-nowrap"
+            onClick={onEdit}
+          >
+            <FaEdit
+              className="text-lg"
+              style={{
+                color: "var(--link-color)",
+              }}
+            />{" "}
+            Edit
+          </div>
+          <div
+            className="header-nav-links flex cursor-pointer gap-2 whitespace-nowrap"
+            onClick={onDelete}
+          >
+            <FaTrashAlt
+              className="text-lg"
+              style={{
+                color: "var(--link-color)",
+              }}
+            />{" "}
+            Delete
+          </div>
         </div>
-        <div
-          className="header-nav-links flex cursor-pointer gap-2 whitespace-nowrap"
-          onClick={onDelete}
-        >
-          <FaTrashAlt
-            className="text-lg"
-            style={{
-              color: "var(--link-color)",
-            }}
-          />{" "}
-          Delete
-        </div>
-      </div>
+      )}
     </div>
   );
 };
@@ -101,6 +110,7 @@ BookingInfo.propTypes = {
   totalPrice: PropTypes.number.isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default BookingInfo;
