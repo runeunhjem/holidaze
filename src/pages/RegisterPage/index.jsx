@@ -63,18 +63,25 @@ function RegisterPage() {
       email: data.email,
       password: data.password,
       bio: data.bio,
-      avatar: {
-        url: data.avatarUrl,
-        alt: data.avatarAlt,
-      },
-      banner: {
-        url: data.bannerUrl,
-        alt: data.bannerAlt,
-      },
       venueManager: data.venueManager || false,
     };
+
+    if (data.avatarUrl) {
+      requestData.avatar = {
+        url: data.avatarUrl,
+        alt: data.avatarAlt,
+      };
+    }
+
+    if (data.bannerUrl) {
+      requestData.banner = {
+        url: data.bannerUrl,
+        alt: data.bannerAlt,
+      };
+    }
+
     try {
-      await fetchApi("register", {
+      await fetchApi("/auth/register", {
         method: "POST",
         body: JSON.stringify(requestData),
       });
@@ -138,7 +145,10 @@ function RegisterPage() {
             autoComplete="email"
             {...register("email", {
               required: "Email is required",
-              pattern: /^[a-zA-Z0-9._%+-]+@(stud\.noroff\.no|noroff\.no)$/,
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@(stud\.noroff\.no|noroff\.no)$/,
+                message: "Must be a valid Noroff email",
+              },
             })}
             error={!!errors.email}
             helperText={errors.email?.message}
@@ -151,7 +161,10 @@ function RegisterPage() {
             autoComplete="new-password"
             {...register("password", {
               required: "Password is required",
-              minLength: 8,
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters long",
+              },
             })}
             error={!!errors.password}
             helperText={errors.password?.message}
