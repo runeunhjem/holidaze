@@ -16,7 +16,8 @@ import { ENDPOINTS } from "../../constants/api";
 import AddMissingFormLabelsToMUI from "../../utils/addMissingFormLabelsToMUI";
 
 const EditProfileModal = ({ open, handleClose }) => {
-  const { setUserDetails, viewedProfile, accessToken } = useStore();
+  const { setUserDetails, viewedProfile, accessToken, userDetails } =
+    useStore();
   const [formData, setFormData] = useState({
     bio: viewedProfile.bio || "",
     avatarUrl: viewedProfile.avatar?.url || "",
@@ -25,6 +26,8 @@ const EditProfileModal = ({ open, handleClose }) => {
     bannerAlt: viewedProfile.banner?.alt || "",
     venueManager: Boolean(viewedProfile.venueManager),
   });
+
+  const isCurrentUser = userDetails.name === viewedProfile.name;
 
   useEffect(() => {
     setFormData({
@@ -147,6 +150,7 @@ const EditProfileModal = ({ open, handleClose }) => {
             value={formData.avatarUrl}
             onChange={handleInputChange}
             margin="normal"
+            disabled={!isCurrentUser}
           />
           <TextField
             label="Avatar Alt Text"
@@ -155,6 +159,7 @@ const EditProfileModal = ({ open, handleClose }) => {
             value={formData.avatarAlt}
             onChange={handleInputChange}
             margin="normal"
+            disabled={!isCurrentUser}
           />
           <TextField
             label="Banner URL"
@@ -163,6 +168,7 @@ const EditProfileModal = ({ open, handleClose }) => {
             value={formData.bannerUrl}
             onChange={handleInputChange}
             margin="normal"
+            disabled={!isCurrentUser}
           />
           <TextField
             label="Banner Alt Text"
@@ -171,6 +177,7 @@ const EditProfileModal = ({ open, handleClose }) => {
             value={formData.bannerAlt}
             onChange={handleInputChange}
             margin="normal"
+            disabled={!isCurrentUser}
           />
           <TextField
             id="bio-textfield"
@@ -183,6 +190,7 @@ const EditProfileModal = ({ open, handleClose }) => {
             value={formData.bio}
             onChange={handleInputChange}
             margin="normal"
+            disabled={!isCurrentUser}
           />
           <FormControlLabel
             control={
@@ -190,6 +198,7 @@ const EditProfileModal = ({ open, handleClose }) => {
                 checked={formData.venueManager}
                 name="venueManager"
                 onChange={handleInputChange}
+                disabled={!isCurrentUser}
               />
             }
             label="Venue Manager"
@@ -198,19 +207,30 @@ const EditProfileModal = ({ open, handleClose }) => {
             fullWidth
             variant="contained"
             sx={{
-              bgcolor: "var(--button-bg-color)",
-              color: "var(--button-text-color)",
+              bgcolor: isCurrentUser
+                ? "var(--button-bg-color)"
+                : "var(--button-bg-color-hover-cancel)",
+              color: isCurrentUser
+                ? "var(--button-text-color)"
+                : "var(--button-text-color-cancel)",
               fontWeight: "bold",
               "&:hover": {
-                outline: "1px solid var(--border-color)",
-                backgroundColor: "var(--button-bg-color-hover)",
-                color: "var(--button-text-color-hover)",
+                outline: isCurrentUser
+                  ? "1px solid var(--border-color)"
+                  : "none",
+                backgroundColor: isCurrentUser
+                  ? "var(--button-bg-color-hover)"
+                  : "var(--button-bg-color-hover-cancel)",
+                color: isCurrentUser
+                  ? "var(--button-text-color-hover)"
+                  : "var(--button-text-color-cancel)",
               },
               mt: 2,
             }}
             onClick={handleSubmit}
+            disabled={!isCurrentUser}
           >
-            Submit
+            {isCurrentUser ? "Submit" : "Can not edit - Not you"}
           </Button>
           <Button
             fullWidth
