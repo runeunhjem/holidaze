@@ -41,7 +41,7 @@ function Footer() {
         </Link>
       </div>
       <div className="footer-section footer-middle">
-        <h4 className="flex w-full mb-4 sm:mb-12 justify-center text-center">
+        <h4 className="flex w-full mb-4 sm:mt-6 justify-center text-center">
           Follow us on social media
         </h4>
         <h5 className="mb-2 hidden w-full justify-center text-center">
