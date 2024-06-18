@@ -14,6 +14,7 @@ const ProfileInfo = ({ viewedProfile }) => {
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
+
   return (
     <div className="profile-info container mx-auto w-full max-w-1200 px-4 pb-8 pt-20">
       <h1 className="text-center text-4xl font-bold capitalize">
@@ -24,11 +25,6 @@ const ProfileInfo = ({ viewedProfile }) => {
         <div className="mt-2 flex items-center justify-center">
           <TbHomeEdit className="me-2 text-2xl" />
           <h2 className="text-2xl font-bold">Venue Manager</h2>
-          <EditProfileModal
-            open={isModalOpen}
-            handleClose={handleCloseModal}
-            userDetails={userDetails}
-          />
         </div>
       ) : (
         <div className="mt-2 flex items-center justify-center">
@@ -39,7 +35,6 @@ const ProfileInfo = ({ viewedProfile }) => {
 
       <div className="mt-2 flex items-center justify-center">
         <TbUserEdit className="me-2 text-2xl" />
-
         <h2
           onClick={handleOpenModal}
           className="header-nav-links cursor-pointer rounded px-2 text-2xl font-bold"
@@ -56,6 +51,12 @@ const ProfileInfo = ({ viewedProfile }) => {
           </Link>
         </h3>
       </div>
+
+      <EditProfileModal
+        open={isModalOpen}
+        handleClose={handleCloseModal}
+        userDetails={userDetails}
+      />
     </div>
   );
 };
