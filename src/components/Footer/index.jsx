@@ -21,28 +21,30 @@ function Footer() {
       className="flex-col sm:flex-row"
     >
       <div className="footer-section footer-left">
-        <Link className="header-nav-links flex text-center sm:ms-8" to="/">
+        <Link className="header-nav-links flex text-center sm:ms-0" to="/">
           Home
         </Link>
-        <Link className="header-nav-links flex text-center sm:ms-8" to="/about">
+        <Link className="header-nav-links flex text-center sm:ms-0" to="/about">
           About Us
         </Link>
         <Link
-          className="header-nav-links flex text-center sm:ms-8"
+          className="header-nav-links flex text-center sm:ms-0"
           to="/contact"
         >
           Contact Us
         </Link>
         <Link
-          className="header-nav-links flex text-center sm:ms-8"
+          className="header-nav-links flex text-center sm:ms-0"
           to="/destinations"
         >
           Destinations
         </Link>
       </div>
       <div className="footer-section footer-middle">
-        <h4 className="flex w-full justify-center text-center">Follow us on</h4>
-        <h5 className="mb-4 flex w-full justify-center text-center">
+        <h4 className="flex w-full mb-4 sm:mb-12 justify-center text-center">
+          Follow us on social media
+        </h4>
+        <h5 className="mb-2 hidden w-full justify-center text-center">
           social media
         </h5>
         <div className="social-icons">
@@ -87,16 +89,27 @@ function Footer() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           />
         </div>
-        <Link to="/" className="logo flex w-full justify-center">
-          <img src={logo} alt="Holidaze Logo" className="footer-logo sm:ps-6" />
+        <Link to="/" className="logo flex w-full justify-center ">
+          <img
+            src={logo}
+            alt="Holidaze Logo"
+            className="footer-logo hover:!bg-none sm:me-2"
+          />
         </Link>
       </div>
-      <S.FooterText>
+      <S.FooterText className="text-xs">
         &copy; {new Date().getFullYear()} Holidaze. All rights reserved.
       </S.FooterText>
-      <S.FooterText className="credits">
+      <S.FooterText className="credits -mt-4 text-xs">
         Design and development by{" "}
-        <Link to="https://portfolio1-ca.netlify.app/" target="_new">
+        <Link
+          className="text-xs"
+          style={{
+            color: "var(--link-color)",
+          }}
+          to="https://portfolio1-ca.netlify.app/"
+          target="_new"
+        >
           Rune Unhjem
         </Link>
       </S.FooterText>

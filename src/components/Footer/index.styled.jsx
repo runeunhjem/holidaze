@@ -66,6 +66,8 @@ export const StyledFooter = styled.footer`
   .social-icons {
     display: flex;
     gap: 10px;
+    justify-content: space-evenly;
+    width: 100%;
   }
 
   .social-icon {
@@ -98,7 +100,7 @@ export const StyledFooter = styled.footer`
 
   .footer-logo {
     height: 50px;
-    margin-right: 2rem;
+    /* margin-right: 2rem; */
   }
 `;
 
