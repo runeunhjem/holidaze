@@ -22,7 +22,7 @@ function VerticalSlider() {
   return (
     <StyledSlider
       {...settings}
-      className="vertical-slider mx-auto mb-3 mt-6 w-full overflow-hidden px-0"
+      className="vertical-slider mx-auto mb-3 mt-6 overflow-hidden px-0"
     >
       <div className="slide-item">
         <FaCalendarAlt className="text-2xl" />

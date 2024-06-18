@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   FaFacebook,
@@ -17,16 +16,35 @@ function Footer() {
   const logo = isDarkMode ? logoDark : logoLight;
 
   return (
-    <S.StyledFooter theme={isDarkMode ? "dark" : "light"} className="flex-col sm:flex-row">
+    <S.StyledFooter
+      theme={isDarkMode ? "dark" : "light"}
+      className="flex-col sm:flex-row"
+    >
       <div className="footer-section footer-left">
-        <Link className="header-nav-links flex sm:ms-8 text-center" to="/">Home</Link>
-        <Link className="header-nav-links flex sm:ms-8 text-center" to="/about">About Us</Link>
-        <Link className="header-nav-links flex sm:ms-8 text-center" to="/contact">Contact Us</Link>
-        <Link className="header-nav-links flex sm:ms-8 text-center" to="/destinations">Destinations</Link>
+        <Link className="header-nav-links flex text-center sm:ms-8" to="/">
+          Home
+        </Link>
+        <Link className="header-nav-links flex text-center sm:ms-8" to="/about">
+          About Us
+        </Link>
+        <Link
+          className="header-nav-links flex text-center sm:ms-8"
+          to="/contact"
+        >
+          Contact Us
+        </Link>
+        <Link
+          className="header-nav-links flex text-center sm:ms-8"
+          to="/destinations"
+        >
+          Destinations
+        </Link>
       </div>
       <div className="footer-section footer-middle">
-        <h4 className="flex justify-center text-center w-full">Follow us on</h4>
-        <h5 className="flex justify-center text-center w-full mb-4">social media</h5>
+        <h4 className="flex w-full justify-center text-center">Follow us on</h4>
+        <h5 className="mb-4 flex w-full justify-center text-center">
+          social media
+        </h5>
         <div className="social-icons">
           <a
             href="https://www.snapchat.com"
@@ -69,7 +87,7 @@ function Footer() {
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           />
         </div>
-        <Link to="/" className="logo w-full flex justify-center">
+        <Link to="/" className="logo flex w-full justify-center">
           <img src={logo} alt="Holidaze Logo" className="footer-logo sm:ps-6" />
         </Link>
       </div>

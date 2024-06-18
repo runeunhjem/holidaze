@@ -7,6 +7,7 @@ export const StyledSlider = styled(Slider)`
     flex-direction: row;
     align-items: center !important;
     min-height: 70px;
+    width: 100% !important;
     justify-content: center;
     padding: 10px;
     border-top: 1px solid var(--border-color);

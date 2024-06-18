@@ -11,6 +11,7 @@ export const StyledFooter = styled.footer`
   align-items: center;
   flex-wrap: wrap;
   gap: 20px;
+  overflow: hidden !important;
   background-color: var(
     ${({ theme }) =>
       theme === "dark" ? "--footer-bg-color-dark" : "--footer-bg-color-light"}
