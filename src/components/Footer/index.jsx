@@ -107,7 +107,7 @@ function Footer() {
           style={{
             color: "var(--link-color)",
           }}
-          to="https://portfolio1-ca.netlify.app/"
+          to="https://rundev-portfolio.netlify.app/"
           target="_new"
         >
           Rune Unhjem
